@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">        
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="contract_type_tab" data-toggle="tab" href="#contract_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="contract_subtype_tab" data-toggle="tab" href="#contract_subtype" role="tab"
+                        aria-controls="country" aria-selected="false">Subtype</a>
+                    <a class="nav-item nav-link st" id="contract_period_tab" data-toggle="tab" href="#contract_period"
+                        role="tab" aria-controls="state" aria-selected="true">Period</a>  
+                    <a class="nav-item nav-link st" id="contract_documents_tab" data-toggle="tab" href="#contract_documents"
+                        role="tab" aria-controls="state" aria-selected="true">Documents</a>
+                    <a class="nav-item nav-link st" id="contract_terms_tab" data-toggle="tab" href="#contract_terms"
+                        role="tab" aria-controls="state" aria-selected="true">Terms and Conditions</a> 
+                                    
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<app-contracts-type [operator]="testing()"></app-contracts-type>
+<app-contracts-subtype [operator]="testing()"></app-contracts-subtype>
+<app-contracts-terms [operator]="testing()"></app-contracts-terms>
+<app-contracts-period [operator]="testing()"></app-contracts-period>
+<app-contracts-documents [operator]="testing()"></app-contracts-documents>

@@ -1,0 +1,272 @@
+
+
+<!-- Services Modal Add Appointment-->
+<div class="pr-modal pr-web-modal">
+    <div class="modal right fade" id="addAppointmentModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAppointmentModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:550px;">
+        <div class="modal-content">
+
+            <div class="modal-header pr-modal-header web-modal-header">
+                <h4 class="modal-title" id="addAppointmentModalLabel">Services Appointment</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                <div class="service-card">
+                    <div class="service-card-body">
+                        <div class="media">
+                            <div class="media-body">
+                              <h4 class="ttl p p-13 loc">Fast & secure Service</h4>
+                              <p class="p p-13 loc">Available at Your Location</p>
+                              <p class="p p-13 stj">                            
+                                <button class="btn bttn-text st"  ><a [routerLink]="[ '/utility/configuration']" style="color:MediumSeaGreen;"><fa-icon [icon]="faPlus"></fa-icon>Add Work Order</a></button>
+                                </p>
+                              
+                            </div>
+                            <div class="img-blk">
+                                <img class="st" src="../../assets/images/graphic2.png" alt="img">
+                            </div>
+                        </div>
+                    </div>               
+                </div>
+            </div>
+
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body web-modal-body-wrap no-footer">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form web-modal-body">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="dtls-block">
+                                        <div class="info-block">
+                                            <div class="applicant-data">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="sb-ttl">Available Services</h6>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-9">
+                                                        <ng-select class="ng-select-search" [searchable]="true" [clearable]="false" [items]="workOrderTemplateList" bindLabel="name" placeholder="Select Service"  (keyup)="onSearch($event.target.value)"
+                                                        name="" >
+                                                        </ng-select>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="avlbl-service-card-wrap">
+                                                            <div class="row" *ngIf="workOrderTemplates != 0 ">
+                                                                <div class="col-6" *ngFor="let service of workOrderTemplates">
+                                                                    <div class="avlbl-service-card colr1" role="button" data-dismiss="modal" data-toggle="modal"  data-target="#plumberServicesModal" (click)="addWorkOrderModule(service)">
+                                                                        <div class="avlbl-service-card-img">
+                                                                            <img class="st" src="../../assets/images/service-card-bg4.png" alt="bg">
+                                                                        </div>
+                                                                        <p class="p fw-500 text-dark nm">{{service.name}}</p>
+                                                                        <div class="rtng-blk-wrap">
+                                                                            <div class="rtng-blk">
+                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                <fa-icon [icon]="faStar"></fa-icon>
+                                                                            </div>
+                                                                        </div>
+                                                                        <p class="p fw-500 text-dark rt">4.2</p>                                    
+                                                                    </div>
+                                                                </div>                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar> 
+
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Plumber Service Modal Add Appointment -->
+<div class="pr-modal pr-web-modal">
+    <div class="modal right fade" id="plumberServicesModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="plumberServicesModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:550px;">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header web-modal-header">
+                <button class="btn bttn-back st" data-dismiss="modal" aria-label="Close" role="button" data-toggle="modal" data-target="#servicesModal"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body web-modal-body-wrap pt-0 full-length">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form web-modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="dtls-block">
+
+                                        <div class="srvc-info-graphic colr1">
+                                            <img class="st" src="../../../../assets/images/service-card-plumber-bg1.png" alt="img">
+                                        </div>
+
+                                        <div class="srvc-name-blk pb-0">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h4 class="ttl">{{detailViewServiceAdd?.name}}</h4>                                                  
+                                                </div>
+                                                
+                                            </div>                                            
+                                        </div>                                    
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <hr class="hr">
+                                            </div>
+                                        </div>
+
+                                        <div class="info-block" >
+                                            <div class="applicant-data py-0">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="sb-ttl mb-0">Request Service</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <ng-container > 
+                                            <div class="form-row">
+                                                <input type="text" id="service_obj"  style="display: none;"/>
+                                                <div class="col pl-1">
+                                                    <div class="col">
+                                                        <label>Consumer No. </label>
+                                                        <!-- <ng-select *ngIf="consumerLists" class="ng-select-search" [searchable]="true" [clearable]="false"  bindLabel="consumer_no" placeholder="Select Consumer No." (keyup)="onConsumerSearch($event.target.value)"
+                                                         name="consumer_no" [items]="consumerLists" [(ngModel)]="serviceAppointmentObj.consumer" [ngClass]="{ 'is-invalid': consumerInvalid && serviceAppointmentObj.consumer == 'undefined'}">
+                                                        </ng-select> -->
+
+                                                        <ng-select [items]="consumerLists" bindLabel="consumer_no" 
+                                                            placeholder="Search by email,consumer no,mobile" clearAllText="Clear" [searchFn]="customSearchFn" [(ngModel)]="serviceAppointmentObj.consumer">
+
+                                                              <ng-template ng-label-tmp let-item="item">
+                                                                <span [ngOptionHighlight]="search">{{ item?.consumer_id?.first_name }}&nbsp;{{ item?.consumer_id?.last_name }}&nbsp;&nbsp;({{ item?.consumer_id?.consumer_no }})</span>
+                                                              </ng-template>
+
+                                                              <ng-template ng-option-tmp let-item="item" let-search="searchTerm" let-index="index">
+                                                                <span [ngOptionHighlight]="search">{{ item?.consumer_id?.first_name }}&nbsp;{{ item?.consumer_id?.last_name }}&nbsp;&nbsp;({{ item?.consumer_id?.consumer_no }})</span>
+                                                              </ng-template>
+
+                                                        </ng-select>
+
+                                                        <div *ngIf="consumerInvalid">
+                                                            <div style="color: red;">Please Select Consumer No.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="form-row">
+                                                <div class="col pl-1">
+                                                    <div class="col">
+                                                        <label>Asset</label>
+                                                        <ng-select class="ng-select-search" [searchable]="true" [clearable]="false" [items]="assetData" bindLabel="name" placeholder="Select Asset"
+                                                          name="name" [(ngModel)]="serviceAppointmentObj.asset">
+                                                        </ng-select>
+                                                    </div>  
+                                                </div>
+                                            </div>      
+                                            <div class="form-row">
+                                                <div class="col pl-1">
+                                                    <div class="col">
+                                                        <label>Rules</label>
+                                                        <ng-select class="ng-select-search" [multiple]="true" [searchable]="true" [clearable]="false" [items]="ruleList" bindLabel="rule" placeholder="Select Rule" 
+                                                        name="rule"  [(ngModel)]="serviceAppointmentObj.rule">
+                                                        </ng-select>
+                                                        <div *ngIf="rulesInvalid">
+                                                            <div style="color: red;">Please Select Rules.</div>
+                                                        </div>
+                                                    </div>  
+                                                </div>
+                                            </div>                                
+                                            <div class="form-row">
+                                                <div class="col pl-1">
+                                                    <div class="col">
+                                                        <label>Appointment Date</label>
+                                                            <!-- <input type="text" class="form-control" placeholder="" name="dp"  ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" [(ngModel)]="serviceAppointmentObj.appointmentDate" container="body">
+                                                            <div class="input-group-append">
+                                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                                            </div> -->
+                                                            &nbsp;&nbsp;<div class="row">
+                                                                <input type="text" class="form-control outageDateField" [owlDateTime]="dt1" [(ngModel)]="serviceAppointmentObj.appointmentDate"
+                                                                [owlDateTimeTrigger]="dt1" placeholder="Date Time">
+                                                                <owl-date-time #dt1></owl-date-time>
+                                                            <div *ngIf="dateInvalid">
+                                                                <div style="color: red;">Please Select Date & Time</div>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                </div> 
+                                            </div> 
+                                            <div class="form-row">
+                                                <div class="col pl-1">
+                                                    <div class="col">
+                                                        <!-- <label>Appointment Date</label>
+                                                        <div class="input-group">
+                                                            <owl-date-time-inline 
+                                                                [(ngModel)]="test"
+                                                                [selectMode]="'range'" 
+                                                                [hour12Timer]="true" 
+                                                                #dt10></owl-date-time-inline>
+                                                        </div> -->
+                                                    </div>
+                                                </div> 
+                                            </div> 
+                                            <div class="form-row">
+                                                <div class="col pl-1">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="col pl-1">
+                                                </div>
+                                            </div>
+
+                                        </ng-container>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer  web-modal-footer">
+                <div class="row w-100 justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close" >Cancel</button>
+                    </div>                   
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st"  (click)="proceedreqsrvc()">Submit</button>
+                    </div>
+                </div>
+            </div>  
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- Add SUCCESS  POPUP-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="showtoast = false; autohide = true">
+            <div>Service Appointment Successfully Created!!</div><br><br>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div>Service Appointment already exists !</div><br><br>
+        </ngb-toast>
+    </div>
+</div>

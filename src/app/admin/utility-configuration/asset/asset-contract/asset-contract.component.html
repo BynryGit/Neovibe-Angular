@@ -1,0 +1,223 @@
+<div class="tab-pane fade" id="asset_contract" role="tabpanel" aria-labelledby="asset_contract_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_asset_amc">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataSet">
+                            <!-- <td class="showOnHover">{{item.registrationNo}}
+                                <span class="show">
+                                    <span class="enqry-no-blk">{{item.registrationNo}}</span>
+                                    <span class="enqry-name-blk">{{item.name}}</span>
+                                    <div class="enqry-sts-blk" [ngSwitch]="item.status">
+                                        <div *ngSwitchCase="'Approved'">
+                                          <div class="badge badge-label-success">Approved</div>
+                                        </div>
+                                        <div *ngSwitchCase="'Pending'">
+                                          <div class="badge badge-label-warning">Pending</div>
+                                        </div>
+                                        <div *ngSwitchCase="'Rejected'">
+                                          <div class="badge badge-label-danger">Rejected</div>
+                                        </div>
+                                    </div>
+                                    <div class="list-blk">
+                                        <p><span>Old Alwal</span><span>Sub Area</span></p>
+                                        <p><span>Venkatesh</span><span>Vendor</span></p>
+                                        <p><span>Venkatesh.co</span><span>Agency</span></p>
+                                    </div>
+                                </span>
+                            </td> -->
+                            <td>{{item.contract_name}}</td>
+                            <td>{{item.provider}}</td>
+                            <td>{{item.services}}</td>
+                            <td>{{item.frequency}}</td>
+                            <td>{{item.cost}}</td>
+                            <td>{{item.start_date | date : 'dd MMM yyyy'}}</td>
+                            <td>{{item.end_date | date : 'dd MMM yyyy'}}</td>
+                            <td>{{item.active}}</td>
+                            <td>{{item.created_by}}</td>
+                            <td>{{item.created_date | date : 'dd MMM yyyy'}}</td>
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_asset_amc">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                  
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Asset AMC Contract add start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_asset_amc" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add AMC Contract</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Contract name</label>
+                                    <input type="text" class="form-control" placeholder="" />        
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Provider</label>
+                                    <input type="text" class="form-control" placeholder="" />        
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Cost</label>
+                                    <input type="text" class="form-control" placeholder="" />        
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Services</label>
+                                    <input type="text" class="form-control" placeholder="" />        
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Frequency</label>
+                                    <input type="text" class="form-control" placeholder="" />        
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Start date</label>
+                                    <input type="text" class="form-control" placeholder="" />        
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>End date</label>
+                                    <input type="text" class="form-control" placeholder="" />        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Asset AMC contract add end-->
+
+<!--Asset Amc edit start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_asset_amc" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="editSubTypeModalLabel">Edit Asset Amc</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Contract name </label>
+                                    <input type="text" class="form-control" placeholder="" name = "region"/>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Provider</label>
+                                    <input type="text" class="form-control" placeholder="" name = "region"/>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Cost</label>
+                                    <input type="text" class="form-control" placeholder="" name = "region"/>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Services</label>
+                                    <input type="text" class="form-control" placeholder="" name = "region"/>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Frequency</label>
+                                    <input type="text" class="form-control" placeholder="" name = "region"/>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Start date</label>
+                                    <input type="text" class="form-control" placeholder="" name = "region"/>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>End date</label>
+                                    <input type="text" class="form-control" placeholder="" name = "region"/>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Asset Amc edit end-->

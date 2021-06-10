@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link st active" id="work-status-tab" data-toggle="tab" href="#work_status" role="tab"
+                     aria-selected="false">Work Order Type</a>
+                <a class="nav-item nav-link st" id="work-subtype-tab" data-toggle="tab" href="#work_subtype"
+                    role="tab" aria-selected="false">Work Order Subtype</a>             
+                <a class="nav-item nav-link st" id="work-type-tab" data-toggle="tab" href="#work_type"
+                    role="tab" aria-selected="false">Work Order Details</a> 
+                </div>
+                
+            </nav>
+        </div>
+    </div>
+</div>
+<app-work-orders-status [operator]="testing()"></app-work-orders-status>
+<app-work-orders-subtype [operator]="testing()"></app-work-orders-subtype>
+<app-wor-orders-type [operator]="testing()"></app-wor-orders-type>
+
+
+

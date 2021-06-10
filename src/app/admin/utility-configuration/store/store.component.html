@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">            
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="store_type_tab" data-toggle="tab" href="#store_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="store_location_tab" data-toggle="tab" href="#store_location" role="tab"
+                        aria-controls="country" aria-selected="false">Location</a>
+                    <a class="nav-item nav-link st" id="store_receipt_tab" data-toggle="tab" href="#store_receipt"
+                        role="tab" aria-controls="state" aria-selected="true">Store Receipt</a>               
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<app-store-type [operator]="testing()"></app-store-type>
+<app-store-receipt [operator]="testing()"></app-store-receipt>
+<app-store-location [operator]="testing()"></app-store-location>
+

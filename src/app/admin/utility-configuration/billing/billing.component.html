@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="billingtypetab" data-toggle="tab" href="#billingtype"
+                        role="tab" aria-controls="billingtype" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="billinginstructionstab" data-toggle="tab" href="#billinginstructions" role="tab"
+                        aria-controls="billinginstructions" aria-selected="false">Instructions</a>
+                    <a class="nav-item nav-link st" id="billingtemplatetab" data-toggle="tab" href="#billingtemplate"
+                        role="tab" aria-controls="billingtemplate" aria-selected="true">Template</a>    
+                    <a class="nav-item nav-link st" id="billingadvertisementtab" data-toggle="tab" href="#billingadvertisement"
+                        role="tab" aria-controls="billingadvertisement" aria-selected="true">Advertisement</a>    
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-billing-type [operator]="testing()"></app-billing-type>
+<app-billing-advertisement [operator]="testing()"></app-billing-advertisement>
+<app-billing-instructions [operator]="testing()"></app-billing-instructions>
+<app-billing-template [operator]="testing()"></app-billing-template>

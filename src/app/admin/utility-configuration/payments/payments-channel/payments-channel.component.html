@@ -1,0 +1,102 @@
+<div class="tab-pane fade" id="paymentchannel" role="tabpanel" aria-labelledby="payment-channel-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Payment Channel" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_payment_channel">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table *ngIf="showTable" datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet  | filter:searchText">
+                            <td>{{item.utility}}</td>
+                            <td>{{item.name}}</td> 
+                            <td>Admin</td>
+                            <td>{{item.created_date | date : 'dd MMM, yyyy'}}</td> 
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Add Payment Channel start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_payment_channel" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addStateModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Channel</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Channel</label>
+                                        <ng-select appendTo="body" [items]="payment_channel.results" [multiple]="true" bindLabel="name" bindvalue="id_string" placeholder="Select Payment Channel" name="doctp" formControlName="paymentChannelControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.paymentChannelControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.paymentChannelControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.paymentChannelControl.errors.required">{{message.paymentChannelCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddPaymentChanneldata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Add Payment Channel end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Payment Channel successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Payment Channel Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

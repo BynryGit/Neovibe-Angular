@@ -1,0 +1,297 @@
+
+<div fxLayout="row wrap" *ngIf = "loginUser == 'Tenant'" fxLayout.xs="column" fxLayoutGap="20px"> 
+    <div class="admin-utility-card" (click)="onUtilityCardClick(data)"  role="button" style="width:280px;" *ngFor="let data of dataSet | filter:searchText">
+        <div class="col-12">
+            <input type="hidden" value="{{data.id_string}}"/>
+        </div>
+        <div class="utility-card-header">
+            <div class="logo-blk">
+                <img class="st img-fluid" src="{{data.document_generated_name}}" alt="img">
+            </div>
+            <h4 class="ttl">{{data.short_name}}</h4>
+            <!-- <p class="p">{{dataSet.tenant.name}}</p> -->
+            <p class="p fw-500 text-dark"></p>                    
+        </div>
+        <div class="utility-card-body">
+            <hr class="hr dashed-br">
+            <div class="row">
+                <div class="col-sm">
+                    <p class="p p-13 mb-1">Company ID</p>
+                    <h6 class="h6">{{data.company_id}}</h6>
+                </div>
+                <div class="col-sm">
+                    <p class="p p-13 mb-1">Pan No.</p>
+                    <h6 class="h6">{{data.pan_no}}</h6>
+                </div>
+                <div class="col-sm">
+                    <p class="p p-13 mb-1">Tax ID.</p>
+                    <h6 class="h6">{{data.tax_id}}</h6>
+                </div>
+                <!-- <div class="col-sm">
+                    <p class="p p-13 mb-1">Mobile No.</p>
+                    <h6 class="h6">{{data.phone_no}}</h6>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div fxLayout="row wrap" *ngIf = "loginUser == 'Utility'" fxLayout.xs="column" fxLayoutGap="20px"> 
+    <div class="admin-utility-card" (click)="onUtilityCardClick(data)" role="button" style="width:280px;" *ngFor="let data of dataSet | filter:searchText">
+        <div class="col-12">
+            <input type="hidden" value="{{data.id_string}}"/>
+        </div>
+        <div class="utility-card-header">
+            <div class="logo-blk" *ngIf="loginUser == 'Tenant'">
+                <img class="st img-fluid" src="{{data.document_generated_name}}" alt="img">
+            </div>
+            <div class="logo-blk" *ngIf="loginUser == 'Utility'">
+                <img class="st img-fluid" src="{{data.utility.document_generated_name}}" alt="img">
+            </div>
+            <h4 class="ttl">{{data.utility.short_name}}</h4>
+             <p class="p"></p>
+            <p class="p fw-500 text-dark"></p>                    
+        </div>
+        <div class="utility-card-body">
+            <hr class="hr dashed-br">
+            <div class="row">
+                <div class="col-sm">
+                    <p class="p p-13 mb-1">Company ID</p>
+                    <h6 class="h6">{{data.utility.company_id}}</h6>
+                </div>
+                <div class="col-sm">
+                    <p class="p p-13 mb-1">Pan No.</p>
+                    <h6 class="h6">{{data.utility.pan_no}}</h6>
+                </div>
+                <div class="col-sm">
+                    <p class="p p-13 mb-1">Tax ID.</p>
+                    <h6 class="h6">{{data.utility.tax_id}}</h6>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+
+<!--Add Utility Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_utility" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Utility Details</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Utility Name</label>
+                                        <input type="text" autocomplete="no" class="form-control" placeholder="Enter Utility Name" name="add_utility_name" formControlName="utilityNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityNameControl.errors }">
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityNameControl.errors.required">{{message.utilityNameRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityNameControl.errors.maxlength">{{message.utilityNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityNameControl.errors.pattern">{{message.invalidUtilityName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityNameControl.errors.whitespace && !ad.utilityNameControl.errors.required">Enter a Valid Utility Name.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Utility Short Name</label>
+                                        <input type="text" autocomplete="no" class="form-control" placeholder="Enter Utility Short Name" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityShortName.errors }" formControlName="utilityShortName" name = "add_utility_short_name"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityShortName.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityShortName.errors.required">{{message.utilityShortNameRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityShortName.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityShortName.errors.maxlength">{{message.utilityShortNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityShortName.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityShortName.errors.pattern">{{message.invalidUtilityShortName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityShortName.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityShortName.errors.whitespace && !ad.utilityShortName.errors.required">Enter a Valid Utility Short Name.</div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Email ID</label>
+                                        <input type="email" autocomplete="no" class="form-control" placeholder="Enter Email ID" formControlName="utilityEmailID" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityEmailID.errors }" name = "add_utility_email"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityEmailID.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityEmailID.errors.required">{{message.utilityEmailRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityEmailID.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityEmailID.errors.pattern">{{message.correctEmailAddress}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityEmailID.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityEmailID.errors.whitespace && !ad.utilityEmailID.errors.required">Enter a Valid Utility Email ID.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Mobile Number</label>
+                                        <input type="text" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" autocomplete="no" class="form-control" placeholder="Enter Mobile Number" formControlName="utilityPhoneNo" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityPhoneNo.errors }" name = "add_utility_phone_no"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityPhoneNo.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityPhoneNo.errors.required">{{message.utilityPhoneNoRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityPhoneNo.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityPhoneNo.errors.maxlength">{{message.phoneMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityPhoneNo.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityPhoneNo.errors.minlength">{{message.phoneMaxLength}}</div>
+                                        </div>   
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityPhoneNo.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityPhoneNo.errors.whitespace && !ad.utilityPhoneNo.errors.required">Enter a Valid Phone No..</div>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="form-row" class="col-md-12">
+                                    <div class="col">
+                                        <label class="required">Address</label>
+                                            <textarea  class="form-control big-textarea" autocomplete="no" id="enter_utility_address" formControlName="utilityAddress" placeholder="Enter Address" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityAddress.errors }"></textarea>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityAddress.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityAddress.errors.required">{{message.utilityAddressRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityAddress.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityAddress.errors.whitespace && !ad.utilityAddress.errors.required">Enter a Valid Utility Address.</div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">PAN Number</label>
+                                        <input type="text" autocomplete="no" class="form-control" placeholder="Enter Pan Card Number" formControlName="utilityPanNo" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityPanNo.errors }" name = "add_utility_pan_no"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityPanNo.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityPanNo.errors.required">{{message.utilityPANRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityPanNo.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityPanNo.errors.pattern">{{message.panNumber}}</div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Tax ID</label>
+                                        <input type="text" autocomplete="no" class="form-control" placeholder="Enter Tax ID" formControlName="utilityTaxID" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityTaxID.errors }" name = "add_utility_tax_id"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityTaxID.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityTaxID.errors.required">{{message.utilityTaxIDRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityTaxID.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityTaxID.errors.whitespace && !ad.utilityTaxID.errors.required">Enter a Valid Tax ID.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Currency</label>
+                                        <ng-select [items]="currencyList.results" bindLabel="name"  bindvalue="id_string" placeholder="Select Currency" formControlName="currencyNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.currencyNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.currencyNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.currencyNameControl.errors.required">{{message.currencyNameRequired}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-row"> 
+                                    <div class="col-12">
+                                        <label>Upload Logo</label>
+                                        <div class="upload-wrapper custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)" webkitdirectory>
+                                            <div class="upload-inner">
+                                                <div class="media">
+                                                    <div class="media-body">
+                                                        <ngx-dropzone-label>
+                                                            <div class="drag-drop">
+                                                                <img class="st img-fluid" src="../../assets/images/icons/upload-icon.png" alt="upload">
+                                                                <p class="p p-13">Drag & Drop files here</p>
+                                                                <p class="p p-13 font-weight-normal">Or</p>
+                                                                <button class="btn bttn-uplaod bttn-txt st">Browse Files</button>
+                                                            </div>
+                                                        </ngx-dropzone-label>
+                                                    </div>
+                                                </div>                                           
+                                            </div>
+                                        </div>
+                                        <div class="uploaded-items">
+                                            <ul class="list-group list-group-horizontal-sm">
+                                                <ngx-dropzone-image-preview class="list-group-item" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)"><br><br>
+                                                    <ngx-dropzone-label class="p p-12 file-name">{{ f.name }}</ngx-dropzone-label>
+                                                </ngx-dropzone-image-preview>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Short Logo</label>
+                                        <br>
+                                        <div class="main">
+                                            <input (change)="onFilePicked($event)" placeholder="Upload File" type="file" accept="image/*" #inputFile/>
+                                            <!-- <button class="btn btn-outline-secondary st" style="min-width: 175px;"(click)="onFileUpload()" class="myButton">Upload File</button> -->
+                                            <p *ngIf="errorMsg" style="color: red;"> Please Select file</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Long Logo</label>
+                                        <br>
+                                        <div class="main">
+                                            <input (change)="onFilePicked($event)" placeholder="Upload File" type="file" accept="image/*" #inputFile1/>
+                                            <!-- <button class="btn btn-outline-secondary st" style="min-width: 175px;"(click)="onFileUpload()" class="myButton">Upload File</button> -->
+                                            <p *ngIf="errorMsg" style="color: red;"> Please Select file</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="close" (click)="onCancelClick()">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddUtilityObjdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Utility successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Utility Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!--Add Utility Ends-->
+
+<!--View Utility Starts-->
+<!--  -->
+<!--View Utility Ends-->
+
+
+
+

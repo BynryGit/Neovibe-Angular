@@ -1,0 +1,229 @@
+<div class="tab-pane fade show active" id="division" role="tabpanel" aria-labelledby="integration-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_integration_details">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:320px;" *ngFor="let item of integration_masterList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span  class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_integration_details" (click)="onCardClickEvent(item)"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Module</p>
+                        <h6 class="h6 mb-3">{{item.utility_module.label}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Integration Type</p>
+                        <h6 class="h6 mb-3">{{item.integration_sub_type.integration_type.name}}</h6>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Integration Sub Type</p>
+                        <h6 class="h6 mb-3">{{item.integration_sub_type.name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">5 Feb 21</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<!-- Add division modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_integration_details" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Integration Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" placeholder="Add Name" [(ngModel)]="integration_Obj.name" name = "integration_name"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Description</label>
+                                    <input type="text" class="form-control big-textarea" placeholder="Enter Description" [(ngModel)]="integration_Obj.description" name = "integration_description"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Module</label>
+                                    <ng-select appendTo="body" [items]="utility_moduleList.results" [(ngModel)]="integration_Obj.module" bindLabel="label" placeholder="Select Module" name="add_integration_module">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Integration Type</label>
+                                    <ng-select appendTo="body" [items]="integration_typeList.results" [(ngModel)]="integration_Obj.integration_type" bindLabel="name" placeholder="Select Integration Type" name="add_integration_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Integration Subtype</label>
+                                    <ng-select appendTo="body" [items]="integration_subtypeList.results" [(ngModel)]="integration_Obj.integration_sub_type" bindLabel="name" placeholder="Select Integration Subtype" name="add_integration_subtype">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Devlopment API URL</label>
+                                    <input type="text" class="form-control" [(ngModel)]="integration_Obj.develop_url" placeholder="Enter Development API URL" name = "add_api_url"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Test API URL</label>
+                                    <input type="text" class="form-control" [(ngModel)]="integration_Obj.test_url" placeholder="Enter Testing API URL" name = "add_api_url"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Auth Key</label>
+                                    <input type="text" class="form-control" [(ngModel)]="integration_Obj.auth_key" placeholder="Enter Auth Key" name = "add_key"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onAddIntegrationData()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Add division modal end -->
+
+
+<!-- edit division modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_integration_details" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Integration Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" placeholder="Add Name" [(ngModel)]="integration_Obj_edit.name" name = "integration_name"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Description</label>
+                                    <input type="text" class="form-control big-textarea" placeholder="Enter Description" [(ngModel)]="integration_Obj_edit.description" name = "integration_description"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Module</label>
+                                    <ng-select appendTo="body" [items]="utility_moduleList.results" [(ngModel)]="integration_Obj_edit.module" bindLabel="label" placeholder="Select Module" name="add_integration_module">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Integration Type</label>
+                                    <ng-select appendTo="body" [items]="integration_typeList.results" [(ngModel)]="integration_Obj_edit.integration_type" bindLabel="name" placeholder="Select Integration Type" name="add_integration_type">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Integration Subtype</label>
+                                    <ng-select appendTo="body" [items]="integration_subtypeList.results" [(ngModel)]="integration_Obj_edit.integration_sub_type" bindLabel="name" placeholder="Select Integration Subtype" name="add_integration_subtype">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Devlopment API URL</label>
+                                    <input type="text" class="form-control" [(ngModel)]="integration_Obj_edit.develop_url" placeholder="Enter Development API URL" name = "edit_develop_api_url"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Test API URL</label>
+                                    <input type="text" class="form-control" [(ngModel)]="integration_Obj_edit.test_url" placeholder="Enter Testing API URL" name = "edit_test_api_url"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Auth Key</label>
+                                    <input type="text" class="form-control" [(ngModel)]="integration_Obj_edit.auth_key" placeholder="Enter Auth Key" name = "edit_key"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onEditIntegrationData()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- edit division modal end -->
+

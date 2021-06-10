@@ -1,0 +1,91 @@
+<div class="row">
+        <div class="col">
+            <div class="listview-table-wrap">
+              <label class="p p-12">Showing Last 6 month records</label>
+              <table datatable [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="chbx-col">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="checkAll">
+                                  <label class="custom-control-label" for="checkAll"></label>
+                                </div>
+                            </th>
+                            <th scope="col"><span>Asset ID</span></th>
+                            <th scope="col"><span>Asset Name</span></th>
+                            <th scope="col"><span>Category</span></th>
+                            <th scope="col"><span>Sub Category</span></th>
+                            <th scope="col"><span>Status</span></th>
+                            <th scope="col"><span>Make No</span></th>
+                            <th scope="col"><span>Vendor</span></th>
+                            <th scope="col"><span>Created On</span></th>
+                            <th scope="col" class="action-col"><span>Action</span></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of collection.data">
+                            <th scope="row" class="chbx-col">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" [attr.id]="item.id">
+                                  <label class="custom-control-label" [attr.for]="item.id"></label>
+                                </div>
+                            </th>
+                            <td class="showOnHover" (click)="renderDetail(item.id)">{{item.assetId}}
+                                <span class="show">
+                                    <div><span>{{item.assetId}}</span></div>
+                                    <div style="float: right;margin-top: 0px;">{{item.assetName}}</div>
+                                  <div class="enqry-sts-blk" [ngSwitch]="item.status">
+                                    <div *ngSwitchCase="'success'">
+                                      <div class="badge badge-label-success">Approved</div>
+                                    </div>
+                                    <div *ngSwitchCase="'warning'">
+                                      <div class="badge badge-label-warning">New</div>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                      <div class="badge badge-label-danger">Rejected</div>
+                                    </div>
+                                  </div>
+                                  <div class="list-blk">
+                                    LoreumipsumLoreumipsumLoreumipsum<br>LoreumipsumLoreumipsum
+                                  </div>
+                                  <div class="list-blk">
+                                      <p><span>{{item.make}}</span><span>Make</span></p>
+                                      <p><span>{{item.model}}</span><span>Model</span></p>
+                                  </div>
+                                </span>
+                              </td>
+                              <td>{{item.assetName}}</td>
+                            
+                              <td>{{item.category}}</td>
+                              <td>{{item.sub_category}}</td>
+                              <td>
+                                <div [ngSwitch]="item.status">
+                                  <div *ngSwitchCase="'success'">
+                                    <div class="badge badge-label-success">Approved</div>
+                                  </div>
+                                  <div *ngSwitchCase="'warning'">
+                                    <div class="badge badge-label-warning">New</div>
+                                  </div>
+                                  <div *ngSwitchDefault>
+                                    <div class="badge badge-label-danger">Rejected</div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td >{{item.make}}</td>
+                              <td >{{item.vendor}}</td>
+                              <td >{{item.installationDate | date : 'dd MMM yy'}}</td>
+                              <td class="action-col" (click)="renderDetail(item.id)">
+                                <span class="show ">
+                                  <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st" [routerLink]="'/asset/detail-view'" tooltipClass="pr-tooltip" placement="top" ngbTooltip="View" [openDelay]="300" [closeDelay]="500"><i class="icons8 icons8-eye"></i></li>
+                                    <li></li>
+                                  </ul>
+                                </span>
+                              </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>

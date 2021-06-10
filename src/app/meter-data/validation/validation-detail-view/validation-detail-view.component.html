@@ -1,0 +1,526 @@
+<section class="pr-section applicant-details-sec">
+    <div class="row justify-content-start">
+        <div class="col-auto pr-0 align-self-center">
+            <div class="bck-bttn-width">
+                <button class="btn bttn-transparent bttn-back d-inline-block" [routerLink]="['/meter-data/validation']">Validation details</button>
+            </div>            
+        </div>
+        <div class="col align-self-center">
+            <div class="row">
+                <div class="col align-self-center">
+                    <h4 class="h4 mb-0">Meter Reading Details</h4>
+                </div>
+                <div class="col-auto align-self-center">
+                    <div class="inner-page-pagination">
+                        <nav class="">
+                            <ul class="pagination">
+                                <li class="{{item.listClass}}" *ngFor="let item of buttons">
+                                    <a class="page-link" href="{{item.href}}">{{item.name}}<button class="btn bttn-prev"><fa-icon [icon]="item.icon"></fa-icon></button></a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto pr-0">
+            <div class="applicant-block-lt inner-wrap">
+                <div class="aplicant-block-filter-wrap">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <label class="p p-13">Read Cycle</label>
+                                    <ng-select appendTo="body" [items]="read_cycle_list" bindLabel="label" placeholder="Select Read Cycle" [(ngModel)]="read_cycle_obj.read_cycle" name="" (change)='onReadCycleChange()'>
+                                    </ng-select>
+                                </div>
+                                <div class="col-6">
+                                    <label class="p p-13">Route</label>
+                                    <ng-select appendTo="body" [items]="route_list" bindLabel="name" placeholder="Select Route" [(ngModel)]="route_obj.route" name="">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="applicant-block-lt-header">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <div class="badge badge-label-finished">{{validation_details?.user_details?.consumer_status}}</div>
+                        </div>
+                        <div class="col-auto align-self-center">
+                            <h4 class="sh-ttl">CRN: {{validation_details?.user_details?.consumer_no}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="dtls-block">
+                    <div class="block-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="profile-card st">
+                                    <div class="media">
+                                        <div class="img-blk">
+                                            {{validation_details?.user_details?.first_name | slice:0:1}} {{validation_details?.user_details?.last_name | slice:0:1}}
+                                        </div>
+                                        <div class="media-body">
+                                            <h5>{{validation_details?.user_details?.first_name}} {{validation_details?.user_details?.last_name}}</h5>
+                                            <p class="p eml mb-2">{{validation_details?.user_details?.consumer_email}}</p>
+                                            <p class="p mb-0 d-inline-block mr-2">{{validation_details?.user_details?.consumer_phone_mobile}}</p>
+                                            <button class="btn upd-bttn" (click)="ContactModal(contact)">update</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-block">
+                    <div class="applicant-data">            
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="bttn-toggle">
+                                    <div class="toggle-button-wrap mt-0">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="profl-tab" data-toggle="tab" href="#profl" role="tab"
+                                                    aria-controls="profl" aria-selected="true">Profile</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="mr-tab" data-toggle="tab" href="#mr"
+                                                    role="tab" aria-controls="mr" aria-selected="false">MR</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="validator-tab" data-toggle="tab" href="#validator" role="tab"
+                                                    aria-controls="validator" aria-selected="false">Validator</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>            
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="custom-tab-pane tab-pane fade show active" id="profl" role="tabpanel" aria-labelledby="profl-tab">         
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            <div class="col-6" *ngFor="let item of user_summary; let i = index">
+                                                                <p class="p p-13 d-inline-block">{{item.name}}</p>
+                                                                <button *ngIf="i==3" class="btn upd-bttn" (click)="RouteModal(route)">update</button>
+                                                                <h6 class="h6">{{item.value}}</h6>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="title-divider">Meter Details</div>
+                                            </div>
+                                        </div>            
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter No.</p> <button class="btn upd-bttn" (click)="MeterNoModal(meter_no)">update</button>
+                                                <h6 class="h6">{{validation_details?.meter_details?.meter_no}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter Make</p>
+                                                <h6 class="h6">{{validation_details?.meter_details?.meter_make}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter Digit</p>
+                                                <h6 class="h6">{{validation_details?.meter_details?.meter_digit}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Install Date</p>
+                                                <h6 class="h6">{{validation_details?.meter_details?.install_date | date : 'dd MMM yy'}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter Status</p> <button class="btn upd-bttn" (click)="MeterStatusModal(meter_status)">update</button>
+                                                <h6 class="h6">{{validation_details?.additional_details?.meter_status_name}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Reader Status</p>
+                                                <h6 class="h6">{{validation_details?.additional_details?.reader_status_name}}</h6>
+                                            </div>
+                                        </div> 
+                                    </div>
+
+                                    <div class="custom-tab-pane tab-pane fade" id="mr" role="tabpanel" aria-labelledby="mr-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            <div class="col-6" *ngFor="let item of mr_summary">
+                                                                <p class="p p-13">{{item.name}}</p>
+                                                                <h6 class="h6">{{item.value}}</h6>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="custom-tab-pane tab-pane fade" id="validator" role="tabpanel" aria-labelledby="validator-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            <div class="col-6" *ngFor="let item of validator1_summary">
+                                                                <p class="p p-13">{{item.name}}</p>
+                                                                <h6 class="h6">{{item.value}}</h6>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="applicant-block-gen">
+                <div class="meter-reading-ul-list">
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item">
+                            <p class="p p-13">Readings</p>                                          
+                            <h6 class="ttl text-dark">{{validation_details?.additional_details?.total_reading}}</h6>
+                        </li>
+                        <li class="list-group-item">
+                            <p class="p p-13">Completed</p>
+                            <h6 class="ttl text-success">{{validation_details?.additional_details?.completed_reading}}</h6>
+                        </li>
+                        <li class="list-group-item">
+                            <p class="p p-13">Pending</p>
+                            <h6 class="ttl text-danger">{{validation_details?.additional_details?.pending_reading}}</h6>
+                        </li>
+                    </ul>
+                </div>
+                <div class="meter-block">
+                    <div class="header-sec border-bottom-0">
+                        <div class="row justify-content-end">
+                            <div class="form-check form-check-inline">
+                                <span class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" *ngIf="validation_details?.is_meter_matching; else elseblock" checked>
+                                    <input type="checkbox" #elseblock class="custom-control-input" id="meter_matching">
+                                    <label class="custom-control-label" for="meter_matching"></label>
+                                </span>
+                                <label class="form-check-label p text-dark" for="meter_matching">Meter No</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <span class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" *ngIf="validation_details?.is_reading_matching; else elseblock2" checked>
+                                    <input type="checkbox" #elseblock2 class="custom-control-input" id="reading_matching">
+                                    <label class="custom-control-label" for="reading_matching"></label>
+                                </span>
+                                <label class="form-check-label p text-dark" for="reading_matching">Reading</label>
+                            </div>
+                            <ng-container *ngIf="!validation_details?.is_meter_matching && !validation_details?.is_reading_matching && validation_details?.additional_details?.user_role == 'Validator_One'">
+                                <div class="col-auto pr-0">
+                                    <button class="btn btn-outline-light3 st" (click)="send_revisit(validation_details?.schedule_log_id?.id_string, validation_details?.read_cycle_id?.id_string, validation_details?.id_string)">Revisit</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-secondary st" (click)="complete_validation_one(validation_details?.schedule_log_id?.id_string, validation_details?.read_cycle_id?.id_string, validation_details?.id_string)">Submit</button>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="!validation_details?.is_validated && validation_details?.additional_details?.user_role == 'Validator_Two'">
+                                <div class="col-auto pr-0">
+                                    <button class="btn btn-outline-light3 st bttn-filter text-uppercase fw-500" style="border-color: #D2D2D4;" type="button" data-toggle="collapse" data-target="#adjustFilter" aria-expanded="false" aria-controls="adjustFilter">Adjustment</button>
+                                </div>
+                                <div class="col-auto pr-0">
+                                    <button class="btn btn-outline-light3 st" (click)="send_revisit(validation_details?.schedule_log_id?.id_string, validation_details?.read_cycle_id?.id_string, validation_details?.id_string)">Revisit</button>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                    <div class="adjust-form inner-form">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="filters-wrap">
+                                    <div class="collapse" id="adjustFilter">
+                                        <div class="filter-wrap-inner">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <ul class="list-group list-group-horizontal">
+                                                        <li class="list-group-item">
+                                                            <label>Current Reading</label>
+                                                            <input type="text" class="form-control" id= "current_meter_reading_v1" placeholder="Current Reading" value="{{validation_details?.current_meter_reading}}">
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <label>Meter Status</label>
+                                                            <ng-select appendTo="body" [items]="meter_status_list" bindLabel="name" placeholder="Select Meter Status" [(ngModel)]="meter_status_obj.meter_status" name="" (change)='onMeterStatusChange()'>
+                                                            </ng-select>
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <label>Reader Status</label>
+                                                            <ng-select appendTo="body" [items]="reader_status_list" bindLabel="name" placeholder="Select Reader Status" [(ngModel)]="reader_status_obj.reader_status" name="">
+                                                            </ng-select>
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <label>Remark</label>
+                                                            <input type="text" class="form-control" id="v2_remark" placeholder="Enter Remark">
+                                                        </li>
+                                                        <li class="list-group-item align-self-end ml-2">
+                                                            <button class="btn btn-secondary st" type="button" data-toggle="collapse"
+                                                            data-target="#adjustFilter" aria-expanded="false" (click)="complete_validation_two(validation_details?.schedule_log_id?.id_string, validation_details?.read_cycle_id?.id_string, validation_details?.id_string)"
+                                                            aria-controls="adjustFilter">Save</button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>   
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-sec">
+                        <div class="row">
+                            <div class="col-12">
+                                <span class="p p-13 mb-0">Reading Status: </span><h6 class="h6 d-inline-block mb-0 pl-2">{{validation_details?.reading_status}}</h6>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="meter-reading-blk-wrap">
+                                    <div class="meter-reading-blk">
+                                        <div class="media">
+                                            <div class="meter-image-blk">
+                                                <span class="p p-13 meter-type colr1">Current Meter</span>
+                                                <div class="meter-image-card">
+                                                    <div class="img-blk">
+                                                        <img class="img-abs st" src="{{validation_details?.meter_image}}" alt="meter img">
+                                                    </div>
+                                                    <p class="p fw-500">Meter No: <span class="text-primary">{{validation_details?.meter_details?.meter_no}}</span></p>
+                                                </div>                                    
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="meter-listing-blk">
+                                                    <div class="list-group list-group-horizontal">
+                                                        <div class="list-group-item">
+                                                            <div class="row">
+                                                                <div class="col-4" *ngFor="let item of validation_details?.meter_reading_json">
+                                                                    <p class="p p-13" *ngFor="let kv of item | keyvalue">{{kv.key}}</p>                                          
+                                                                    <h6 class="ttl" *ngFor="let kv of item | keyvalue">{{kv.value}}</h6>
+                                                                    <br>
+                                                                </div>                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="meter-reading-blk">
+                                        <div class="media">
+                                            <div class="meter-image-blk">
+                                                <span class="p p-13 meter-type colr2">Previous Meter</span>
+                                                <div class="meter-image-card">
+                                                    <div class="img-blk">
+                                                        <img class="img-abs st" src="{{validation_details?.meter_image}}" alt="meter img">
+                                                    </div>
+                                                    <p class="p fw-500">Meter No: <span class="text-primary">{{validation_details?.meter_details?.meter_no}}</span></p>
+                                                </div>                                    
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="meter-listing-blk">
+                                                    <div class="list-group list-group-horizontal">
+                                                        <div class="list-group-item">
+                                                            <div class="row">
+                                                                <div class="col-4" *ngFor="let item of validation_details?.additional_parameter_json">
+                                                                    <p class="p p-13" *ngFor="let kv of item | keyvalue">{{kv.key}}</p>                                          
+                                                                    <h6 class="ttl" *ngFor="let kv of item | keyvalue">{{kv.value}}</h6>
+                                                                    <br>
+                                                                </div>                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+</section>
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div>{{SuccessMessage.ReadingValidate}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Revisit Pop-Up Start -->
+<div class="row">
+    <div class="col">
+        <ngb-toast *ngIf="revisittoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="revisittoast = false; autohide = true">
+            <div>{{SuccessMessage.SendRevisit}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Revisit Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+        <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errorttoast = false; autohide = true">
+            <div>{{ErrorMessage.SomeThingWentWrong}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->
+
+
+<!-- Update Contact Modal Start -->
+<ng-template #contact let-modal>
+    <div class="modal-header pr-modal-header">
+      <h4 class="modal-title">Update Contact Number</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">&times;</button>
+    </div>
+    <div class="modal-body pr-modal-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-form">
+                    <div class="form-row">
+                        <div class="col">
+                            <label>Enter New Number</label>
+                            <input type="text" id="contact_no" class="form-control" placeholder="" />
+                        </div>
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer pr-modal-footer">
+        <div class="row w-100">
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-outline-light3 st mr-3" (click)="modal.close('Close click')">Cancel</button></div>
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-secondary st" (click)="UpdateContact(validation_details?.user_details?.consumer_email,validation_details?.user_details?.consumer_password,validation_details?.user_details?.consumer_id_string)">Save</button></div>
+        </div> 
+    </div>
+</ng-template>
+<!-- Update Contact Modal End -->
+
+<!-- Update Meter No Modal Start -->
+<ng-template #meter_no let-modal>
+    <div class="modal-header pr-modal-header">
+      <h4 class="modal-title">Update Meter Number</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">&times;</button>
+    </div>
+    <div class="modal-body pr-modal-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-form">
+                    <div class="form-row">
+                        <div class="col">
+                            <label>Enter New Meter Number</label>
+                            <input type="text" id="contact_no" class="form-control" placeholder="" />
+                        </div>
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer pr-modal-footer">
+        <div class="row w-100">
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-outline-light3 st mr-3" (click)="modal.close('Close click')">Cancel</button></div>
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-secondary st" (click)="UpdateMeterNo()">Save</button></div>
+        </div> 
+    </div>
+</ng-template>
+<!-- Update Meter No End -->
+
+<!-- Update Meter Status Start -->
+<ng-template #meter_status let-modal>
+    <div class="modal-header pr-modal-header">
+      <h4 class="modal-title">Update Meter/Reader Status</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">&times;</button>
+    </div>
+    <div class="modal-body pr-modal-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-form">
+                    <div class="form-row">
+                        <div class="col">
+                            <label>Meter Status *</label>
+                            <ng-select appendTo="body" [items]="meter_status_list" bindLabel="name" placeholder="Select Meter Status" [(ngModel)]="meter_status_obj.meter_status" name="" (change)='onMeterStatusChange()'>
+                            </ng-select>
+                        </div>
+                        <div class="col">
+                            <label>Reader Status *</label>
+                            <ng-select appendTo="body" [items]="reader_status_list" bindLabel="name" placeholder="Select Reader Status" [(ngModel)]="reader_status_obj.reader_status" name="">
+                            </ng-select>
+                        </div>
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer pr-modal-footer">
+        <div class="row w-100">
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-outline-light3 st mr-3" (click)="modal.close('Close click')">Cancel</button></div>
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-secondary st" (click)="UpdateStatus(validation_details?.id_string)">Save</button></div>
+        </div> 
+    </div>
+</ng-template>
+<!-- Update Meter Status Modal End -->
+
+
+<!-- Update Route Start -->
+<ng-template #route let-modal>
+    <div class="modal-header pr-modal-header">
+      <h4 class="modal-title">Update Route</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">&times;</button>
+    </div>
+    <div class="modal-body pr-modal-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-form">
+                    <div class="form-row">
+                        <div class="col">
+                            <label>Route *</label>
+                            <ng-select appendTo="body" [items]="update_route_list" bindLabel="name" placeholder="Select Route" [(ngModel)]="update_route_obj.route" name="">
+                            </ng-select>
+                        </div>
+                        <div class="col">
+                            <label>Premises *</label>                                    
+                            <ng-select appendTo="body" [items]="premise_list" bindLabel="name" placeholder="Select Premises" [(ngModel)]="premise_obj.premise" name="">
+                            </ng-select>
+                        </div>
+                    </div>                        
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer pr-modal-footer">
+        <div class="row w-100">
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-outline-light3 st mr-3" (click)="modal.close('Close click')">Cancel</button></div>
+            <div class="col-6 px-1"><button type="button" class="btn btn-block btn-secondary st" (click)="UpdateRoute(validation_details?.meter_details?.id_string,validation_details?.meter_details?.device_no)">Save</button></div>
+        </div> 
+    </div>
+</ng-template>
+<!-- Update Route Modal End -->

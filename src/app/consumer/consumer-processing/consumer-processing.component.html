@@ -1,0 +1,538 @@
+<section class="pr-section list-view-section">
+    <div class="info-block">
+        <div class="applicant-data">
+            <div class="row">   
+                <div class="col-12">
+                    <br>
+                    <div class="bttn-toggle">
+                        <div class="toggle-button-wrap mt-0">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist" style="margin-right: 76.5%;">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="true">Connected</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="summry-tab" data-toggle="tab" href="#summry" role="tab" aria-controls="summry" aria-selected="false">Pending</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profl-tab" data-toggle="tab" href="#profl" role="tab" aria-controls="profl" aria-selected="false">History</a>
+                                </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="custom-tab-pane tab-pane fade" id="summry" role="tabpanel" aria-labelledby="summry-tab">
+                            <div class="row">
+                                <div class="col">
+                                    <app-consumer-dashboard></app-consumer-dashboard>
+                                    <app-consumer-filters></app-consumer-filters>
+                                    <!-- <div class="row">   
+                                        <div class="col-12"> -->
+                                            <!-- <div class="bttn-toggle">
+                                                <div class="toggle-button-wrap mt-0">
+                                                    <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true">List View</a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map View</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div> -->
+                                        <!-- </div>
+                                    </div> -->
+<!--                                     <div class="custom-tab-pane tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="list-tab">
+ -->                                    <div class="row">
+                                            <div class="col">
+                                                <div class="listview-table-wrap">
+                                                    <!-- <label class="p p-12">Showing Last 3 month records</label> -->
+                                                    <br>
+                                                    <table datatable id="table1" style="width:100%" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" *ngFor="let item of blocks"><span>{{item?.name}}</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngIf="!processing">
+                                                            <tr *ngFor="let item of consumerList | filter:searchText">
+                                                                <td class="showOnHover">{{item?.consumer_no}}
+                                                                    <span class="show">
+                                                                        <span class="enqry-no-blk">{{item?.consumer_no}}</span>
+                                                                        <!-- <input type="hidden" value="{{item.id_string}}"/> -->
+                                                                        <span class="enqry-name-blk">{{item?.consumer_id?.first_name}} {{item?.consumer_id?.last_name}}</span>
+                                                                        <div class="enqry-sts-blk" [ngSwitch]="item.state">
+                                                                            <!-- <div *ngSwitchCase="'APPROVED'">
+                                                                                <div class="badge badge-label-success">APPROVED</div>
+                                                                                </div> -->
+                                                                                <div *ngSwitchCase="'APPROVED'">
+                                                                                    <div class="badge badge-label-pending">IN PROGRESS</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'CONNECTED'">
+                                                                                    <div class="badge badge-label-success">CONNECTED</div>
+                                                                                    </div>
+                                                                                <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                                <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'CREATED'">
+                                                                                    <div class="badge badge-label-warning">CREATED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'REQUESTED'">
+                                                                                    <div class="badge badge-label-warning">REQUESTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'COMPLETED'">
+                                                                                    <div class="badge badge-label-success">COMPLETED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'ARCHIVED'">
+                                                                                    <div class="badge badge-label-warning">ARCHIVED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'PENDING'">
+                                                                                    <div class="badge badge-label-warning">PENDING</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'REJECTED'">
+                                                                                <div class="badge badge-label-danger">REJECTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'HOLD'">
+                                                                                    <div class="badge badge-label-pending">HOLD</div>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="list-blk">
+                                                                            <p><span>{{item?.consumer_id?.billing_sub_area?.name}}</span><span>Sub Area</span></p>
+                                                                            <p><span>Vendor_1</span><span>Vendor</span></p>
+                                                                            <p><span>{{item?.utility}}</span><span>Agency</span></p>
+                                                                        </div>
+                                                                    </span>
+                                                                </td>
+                                                                <td>{{item?.consumer_id?.first_name}} {{item?.consumer_id?.last_name}}</td>
+                                                                <td>
+                                                                    <div class="enqry-sts-blk" [ngSwitch]="item?.state">
+                                                                        <!-- <div *ngSwitchCase="'APPROVED'">
+                                                                            <div class="badge badge-label-success">APPROVED</div>
+                                                                            </div> -->
+                                                                            <div *ngSwitchCase="'APPROVED'">
+                                                                                <div class="badge badge-label-pending">IN PROGRESS</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'CONNECTED'">
+                                                                                <div class="badge badge-label-success">CONNECTED</div>
+                                                                                </div>
+                                                                            <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                            <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'CREATED'">
+                                                                                <div class="badge badge-label-warning">CREATED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'REQUESTED'">
+                                                                                <div class="badge badge-label-warning">REQUESTED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'COMPLETED'">
+                                                                                <div class="badge badge-label-success">COMPLETED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'ARCHIVED'">
+                                                                                <div class="badge badge-label-warning">ARCHIVED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'PENDING'">
+                                                                                <div class="badge badge-label-warning">PENDING</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'REJECTED'">
+                                                                            <div class="badge badge-label-danger">REJECTED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'HOLD'">
+                                                                                <div class="badge badge-label-pending">HOLD</div>
+                                                                            </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{item?.consumer_id?.phone_mobile}}</td>
+                                                                <td>{{item?.contract?.category?.utility_product?.name}}</td> 
+                                                                <td>{{item?.contract?.category.name}}</td>
+                                                                <td>{{item?.contract?.sub_category.name}}</td>
+                                                                <td>{{item?.consumer_id?.billing_area.name}}</td>  
+                                                                   
+                                                                <td>{{item?.created_date| date : 'dd MMM yy'}}</td>
+                                                                <td class="action">
+                                                                    <!-- <ul class="list-group list-group-horizontal action-list" *ngIf="onlyEditPrivilege || EditViewPrivilege"> -->
+                                                                    <ul class="list-group list-group-horizontal action-list">	
+                                                                        <!-- <li class="list-group-item st" (click)="OnApproveConsumer(item)" ngbTooltip="Approve" [openDelay]="200" [closeDelay]="200">
+                                                                            <i class="icons8 icons8-user"></i>
+                                                                        </li> -->
+                                                                        <li class="list-group-item st" style="margin-right: 60%;" ngbTooltip="View" [openDelay]="200" [closeDelay]="200" (click)='onViewclick(item)'>
+                                                                            <i class="icons8 icons8-eye"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr> 
+                                                        </tbody>
+                                                        <tbody *ngIf="consumerList?.length == 0">
+                                                            <tr>
+                                                              <td colspan="3" class="no-data-available">No matching records found</td>
+                                                            </tr>
+                                                            </tbody>
+                                                            <tbody *ngIf="processing">
+                                                            <tr >
+                                                              <td colspan="3"> .....</td>						
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+<!--                                     </div>
+ -->                                    <!-- <div class="custom-tab-pane tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                        <div class="row">
+                                            <div class="col" style="top: 99px">
+                                                <p>INSIDE MAP TAB</p> -->
+                                                <!-- <div *ngFor="let item of consumerList">
+                                                    <app-address-details [consumerId]="item?.consumer_id?.id_string"></app-address-details>
+                                                </div> -->
+                                                <!-- <div class="map-overview-blk">
+                                                    <p>inside 2nd map</p>
+                                                    <div class="map" id="map" class="match-parent" style="top: 200px"></div>
+                                                </div> -->
+                                            <!-- </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="custom-tab-pane tab-pane fade" id="profl" role="tabpanel" aria-labelledby="profl-tab">
+                            <div class="row">
+                                <div class="col">
+                                    <app-consumer-dashboard></app-consumer-dashboard>
+                                    <app-consumer-filters></app-consumer-filters>
+                                    <!-- <div class="bttn-toggle">
+                                        <div class="toggle-button-wrap mt-0">
+                                            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="list1-tab" data-toggle="tab" href="#list1" role="tab" aria-controls="list1" aria-selected="true">List View</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="map1-tab" data-toggle="tab" href="#map1" role="tab" aria-controls="map1" aria-selected="false" (click)="historySetCoordinates()">Map View</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div> -->
+<!--                                     <div class="custom-tab-pane tab-pane fade show active" id="list1" role="tabpanel" aria-labelledby="list1-tab">
+ -->                                        <div class="row">
+                                            <div class="col">
+                                                <div class="listview-table-wrap">
+                                                    <label class="p p-12">Showing Last 6 month records</label>
+                                                    <br>
+                                                    <table datatable id="table2" style="width:100%" [dtOptions]="dtOptions1" class="pr-datatable table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" *ngFor="let item of blocks"><span>{{item?.name}}</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngIf="!processing">
+                                                            <tr *ngFor="let item of consumerListHistory | filter:searchText">
+                                                                <td class="showOnHover">{{item?.consumer_no}}
+                                                                    <span class="show">
+                                                                        <span class="enqry-no-blk">{{item?.consumer_no}}</span>
+                                                                        <!-- <input type="hidden" value="{{item.id_string}}"/> -->
+                                                                        <span class="enqry-name-blk">{{item?.consumer_id?.first_name}} {{item?.consumer_id?.last_name}}</span>
+                                                                        <div class="enqry-sts-blk" [ngSwitch]="item.state">
+                                                                            <!-- <div *ngSwitchCase="'APPROVED'">
+                                                                                <div class="badge badge-label-success">APPROVED</div>
+                                                                                </div> -->
+                                                                                <div *ngSwitchCase="'APPROVED'">
+                                                                                    <div class="badge badge-label-pending">IN PROGRESS</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'CONNECTED'">
+                                                                                <div class="badge badge-label-success">CONNECTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                                <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'CREATED'">
+                                                                                    <div class="badge badge-label-warning">CREATED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'REQUESTED'">
+                                                                                    <div class="badge badge-label-warning">REQUESTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'COMPLETED'">
+                                                                                    <div class="badge badge-label-success">COMPLETED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'ARCHIVED'">
+                                                                                    <div class="badge badge-label-warning">ARCHIVED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'PENDING'">
+                                                                                    <div class="badge badge-label-warning">PENDING</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'REJECTED'">
+                                                                                <div class="badge badge-label-danger">REJECTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'HOLD'">
+                                                                                    <div class="badge badge-label-pending">HOLD</div>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="list-blk">
+                                                                            <p><span>{{item?.consumer_id?.billing_sub_area?.name}}</span><span>Sub Area</span></p>
+                                                                            <p><span>Vendor_1</span><span>Vendor</span></p>
+                                                                            <p><span>{{item?.utility}}</span><span>Agency</span></p>
+                                                                        </div>
+                                                                    </span>
+                                                                </td>
+                                                                <td>{{item?.consumer_id?.first_name}} {{item?.consumer_id?.last_name}}</td>
+                                                                <td>
+                                                                    <div class="enqry-sts-blk" [ngSwitch]="item?.state">
+                                                                        <!-- <div *ngSwitchCase="'APPROVED'">
+                                                                            <div class="badge badge-label-success">APPROVED</div>
+                                                                            </div> -->
+                                                                            <div *ngSwitchCase="'APPROVED'">
+                                                                                <div class="badge badge-label-pending">IN PROGRESS</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'CONNECTED'">
+                                                                                <div class="badge badge-label-success">CONNECTED</div>
+                                                                                </div>
+                                                                            <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                            <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'CREATED'">
+                                                                                <div class="badge badge-label-warning">CREATED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'REQUESTED'">
+                                                                                <div class="badge badge-label-warning">REQUESTED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'COMPLETED'">
+                                                                                <div class="badge badge-label-success">COMPLETED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'ARCHIVED'">
+                                                                                <div class="badge badge-label-warning">ARCHIVED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'PENDING'">
+                                                                                <div class="badge badge-label-warning">PENDING</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'REJECTED'">
+                                                                            <div class="badge badge-label-danger">REJECTED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'HOLD'">
+                                                                                <div class="badge badge-label-pending">HOLD</div>
+                                                                            </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{item?.consumer_id?.phone_mobile}}</td>
+                                                                <td>{{item?.contract?.category?.utility_product?.name}}</td> 
+                                                                <td>{{item?.contract?.category?.name}}</td>
+                                                                <td>{{item?.contract?.sub_category?.name}}</td>
+                                                                <td>{{item?.consumer_id?.billing_area?.name}}</td>  
+                                                                <td>{{item?.created_date| date : 'dd MMM yy'}}</td>
+                                                                <td class="action">
+                                                                    <!-- <ul class="list-group list-group-horizontal action-list" *ngIf="onlyEditPrivilege || EditViewPrivilege"> -->
+                                                                    <ul class="list-group list-group-horizontal action-list">	
+                                                                        <!-- <li class="list-group-item st" (click)="OnApproveConsumer(item)" ngbTooltip="Approve" [openDelay]="200" [closeDelay]="200">
+                                                                            <i class="icons8 icons8-user"></i>
+                                                                        </li> -->
+                                                                        <li class="list-group-item st" style="margin-right: 60%;" ngbTooltip="View" [openDelay]="200" [closeDelay]="200" (click)='onViewclick(item)'>
+                                                                            <i class="icons8 icons8-eye"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr> 
+                                                        </tbody>
+                                                        <tbody *ngIf="consumerListHistory?.length == 0">
+                                                            <tr>
+                                                              <td colspan="3" class="no-data-available">No matching records found</td>
+                                                            </tr>
+                                                            </tbody>
+                                                            <tbody *ngIf="processing">
+                                                            <tr >
+                                                              <td colspan="3"> .....</td>						
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+<!--                                     </div>
+ -->                                    <!-- <div class="custom-tab-pane tab-pane fade" id="map1" role="tabpanel" aria-labelledby="map1-tab">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>INSIDE history map TAB</p>
+                                                <div class="map-overview-blk">
+                                                    <p>inside 2nd map</p>
+                                                    <div class="map" id="map" class="match-parent"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="custom-tab-pane tab-pane fade show active" id="history" role="tabpanel" aria-labelledby="history-tab">
+                            <div class="row">
+                                <div class="col">
+                                    <app-consumer-dashboard></app-consumer-dashboard>
+                                    <app-consumer-filters></app-consumer-filters>
+                                    <div class="bttn-toggle" style="margin-right: 82.5%;">
+                                        <div class="toggle-button-wrap mt-0">
+                                            <ul class="nav nav-tabs" id="myTab1" role="tablist">
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" id="list-tab" data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true">List View</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link" id="map-tab" data-toggle="tab" href="#map" role="tab" aria-controls="map" aria-selected="false">Map View</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="custom-tab-pane tab-pane fade show active" id="list" role="tabpanel" aria-labelledby="list-tab">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="listview-table-wrap">
+                                                    <!-- <label class="p p-12">Showing Last 6 month records</label> -->
+                                                    <br>
+                                                    <table datatable id="table2" style="width:100%" [dtOptions]="dtOptions2" class="pr-datatable table table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" *ngFor="let item of blocks"><span>{{item?.name}}</span></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody *ngIf="!processing">
+                                                            <tr *ngFor="let item of consumerListApproved | filter:searchText">
+                                                                <td class="showOnHover">{{item?.consumer_no}}
+                                                                    <span class="show">
+                                                                        <span class="enqry-no-blk">{{item?.consumer_no}}</span>
+                                                                        <!-- <input type="hidden" value="{{item.id_string}}"/> -->
+                                                                        <span class="enqry-name-blk">{{item?.consumer_id?.first_name}} {{item?.consumer_id?.last_name}}</span>
+                                                                        <div class="enqry-sts-blk" [ngSwitch]="item.state">
+                                                                            <!-- <div *ngSwitchCase="'APPROVED'">
+                                                                                <div class="badge badge-label-success">APPROVED</div>
+                                                                                </div> -->
+                                                                                <div *ngSwitchCase="'APPROVED'">
+                                                                                    <div class="badge badge-label-pending">IN PROGRESS</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'CONNECTED'">
+                                                                                <div class="badge badge-label-success">CONNECTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                                <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'CREATED'">
+                                                                                    <div class="badge badge-label-warning">CREATED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'REQUESTED'">
+                                                                                    <div class="badge badge-label-warning">REQUESTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'COMPLETED'">
+                                                                                    <div class="badge badge-label-success">COMPLETED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'ARCHIVED'">
+                                                                                    <div class="badge badge-label-warning">ARCHIVED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'PENDING'">
+                                                                                    <div class="badge badge-label-warning">PENDING</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'REJECTED'">
+                                                                                <div class="badge badge-label-danger">REJECTED</div>
+                                                                                </div>
+                                                                                <div *ngSwitchCase="'HOLD'">
+                                                                                    <div class="badge badge-label-pending">HOLD</div>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="list-blk">
+                                                                            <p><span>{{item?.consumer_id?.billing_sub_area?.name}}</span><span>Sub Area</span></p>
+                                                                            <p><span>Vendor_1</span><span>Vendor</span></p>
+                                                                            <p><span>{{item?.utility}}</span><span>Agency</span></p>
+                                                                        </div>
+                                                                    </span>
+                                                                </td>
+                                                                <td>{{item?.consumer_id?.first_name}} {{item?.consumer_id?.last_name}}</td>
+                                                                <td>
+                                                                    <div class="enqry-sts-blk" [ngSwitch]="item?.state">
+                                                                        <!-- <div *ngSwitchCase="'APPROVED'">
+                                                                            <div class="badge badge-label-success">APPROVED</div>
+                                                                            </div> -->
+                                                                            <div *ngSwitchCase="'APPROVED'">
+                                                                                <div class="badge badge-label-pending">IN PROGRESS</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'CONNECTED'">
+                                                                                <div class="badge badge-label-success">CONNECTED</div>
+                                                                                </div>
+                                                                            <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                            <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'CREATED'">
+                                                                                <div class="badge badge-label-warning">CREATED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'REQUESTED'">
+                                                                                <div class="badge badge-label-warning">REQUESTED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'COMPLETED'">
+                                                                                <div class="badge badge-label-success">COMPLETED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'ARCHIVED'">
+                                                                                <div class="badge badge-label-warning">ARCHIVED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'PENDING'">
+                                                                                <div class="badge badge-label-warning">PENDING</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'REJECTED'">
+                                                                            <div class="badge badge-label-danger">REJECTED</div>
+                                                                            </div>
+                                                                            <div *ngSwitchCase="'HOLD'">
+                                                                                <div class="badge badge-label-pending">HOLD</div>
+                                                                            </div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>{{item?.consumer_id?.phone_mobile}}</td>
+                                                                <td>{{item?.contract?.category?.utility_product?.name}}</td> 
+                                                                <td>{{item?.contract?.category?.name}}</td>
+                                                                <td>{{item?.contract?.sub_category?.name}}</td>
+                                                                <td>{{item?.consumer_id?.billing_area?.name}}</td>  
+                                                                <td>{{item?.created_date| date : 'dd MMM yy'}}</td>
+                                                                <td class="action">
+                                                                    <!-- <ul class="list-group list-group-horizontal action-list" *ngIf="onlyEditPrivilege || EditViewPrivilege"> -->
+                                                                    <ul class="list-group list-group-horizontal action-list">	
+                                                                        <!-- <li class="list-group-item st" (click)="OnApproveConsumer(item)" ngbTooltip="Approve" [openDelay]="200" [closeDelay]="200">
+                                                                            <i class="icons8 icons8-user"></i>
+                                                                        </li> -->
+                                                                        <li class="list-group-item st" style="margin-right: 60%;" ngbTooltip="View" [openDelay]="200" [closeDelay]="200" (click)='consumerDetail(item)'>
+                                                                            <i class="icons8 icons8-eye"></i>
+                                                                        </li>
+                                                                    </ul>
+                                                                </td>
+                                                            </tr> 
+                                                        </tbody>
+                                                        <tbody *ngIf="consumerListApproved?.length == 0">
+                                                            <tr>
+                                                              <td colspan="3" class="no-data-available">No matching records found</td>
+                                                            </tr>
+                                                            </tbody>
+                                                            <tbody *ngIf="processing">
+                                                            <tr >
+                                                              <td colspan="3"> .....</td>						
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-tab-pane tab-pane fade" id="map" role="tabpanel" aria-labelledby="map-tab">
+                                        <div class="row">
+                                            <div class="col">
+                                                <p>INSIDE approve map TAB</p>
+                                                <!-- <div *ngFor="let item of consumerList">
+                                                    <app-address-details [consumerId]="item?.consumer_id?.id_string"></app-address-details>
+                                                </div> -->
+                                                <div class="map-overview-blk">
+                                                    <p>inside 2nd map</p>
+                                                    <div class="map" id="map" class="match-parent"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>                             
+</section>
+<app-connection-approve></app-connection-approve>

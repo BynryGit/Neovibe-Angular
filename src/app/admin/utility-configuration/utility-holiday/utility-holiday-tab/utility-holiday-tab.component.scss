@@ -1,0 +1,12 @@
+.datatable td{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+
+}
+
+.required:after {
+    content:" *";
+    color: #f72424;
+  }

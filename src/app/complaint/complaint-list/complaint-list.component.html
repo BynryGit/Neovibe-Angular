@@ -1,0 +1,75 @@
+<app-complaint-view></app-complaint-view>
+<div class="row">
+    <div class="col">
+        <div class="listview-table-wrap">
+        	<label class="p p-12">Showing Last 6 month records</label>
+        	<br>
+        	<table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+        		<thead>
+		            <tr>
+		                <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+		            </tr>
+		        </thead>
+		        <tbody>
+		            <tr *ngFor="let item of complaint.results">
+		            	<td class="showOnHover">{{item.id}}
+		            		<span class="show">
+		            			<span class="enqry-no-blk">{{item.id}}</span>
+								<span class="enqry-name-blk">{{item.complaint_name}}</span>
+								
+                                <!-- <div class="enqry-sts-blk" [ngSwitch]="item.state">
+				                    <div *ngSwitchCase="'Approved'">
+				                      <div class="badge badge-label-success">Approved</div>
+				                    </div>
+				                    <div *ngSwitchCase="'Pending'">
+				                      <div class="badge badge-label-warning">Pending</div>
+				                    </div>
+				                    <div *ngSwitchCase="'Rejected'">
+				                      <div class="badge badge-label-danger">Rejected</div>
+				                    </div>
+								</div> -->
+								<div></div><br>
+				                <div class="list-blk">
+				                    <p><span>Old Alwal</span><span>Sub Area</span></p>
+				                    <p><span>Venkatesh</span><span>Vendor</span></p>
+				                    <p><span>Venkatesh.co</span><span>Agency</span></p>
+			                    </div>
+				            </span>
+		            	</td>
+		            	<td>{{item.complaint_name}}</td>
+		            	<!-- <td>
+		            		<div class="enqry-sts-blk" [ngSwitch]="item.state">
+			                    <div *ngSwitchCase="'Approved'">
+			                      <div class="badge badge-label-success">Approved</div>
+			                    </div>
+			                    <div *ngSwitchCase="'Pending'">
+			                      <div class="badge badge-label-warning">Pending</div>
+			                    </div>
+			                    <div *ngSwitchCase="'Rejected'">
+			                      <div class="badge badge-label-danger">Rejected</div>
+			                    </div>
+			                </div>
+						</td> -->
+						<td>{{item?.complaint_type_id.complaint_name}}</td>
+						<td>{{item?.complaint_sub_type_id.complaint_name}}</td>
+						
+			            <td>{{item?.description}}</td>
+			            <td>{{item?.complaint_date| date : 'dd MMM yy'}}</td>
+			            <td>{{item?.complaint_no}}</td>
+			            <td>{{item?.created_date| date : 'dd MMM yy'}}</td>
+			            <td class="action">
+			            	<ul class="list-group list-group-horizontal action-list">
+			                    <li class="list-group-item st" (click)="buttonClicked($event)" ngbTooltip="View" [openDelay]="200" [closeDelay]="200">
+			                        <i class="icons8 icons8-eye"></i>
+			                    </li>
+			                    <!-- <li class="list-group-item st" (click)="testing(item.id)" ngbTooltip="Reject" [openDelay]="200" [closeDelay]="200">
+			                        <i class="icons8 icons8-eye"></i>
+			                    </li> -->
+		                    </ul>
+			            </td>
+		            </tr> 
+		        </tbody>
+		    </table>
+    	</div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+
+body { margin: 0; padding: 0; }
+
+#map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.mapboxgl-canvas {
+    position: fixed;
+ }
+
+.mapboxgl-ctrl-geocoder {
+    min-width: 100%;
+}
+
+.btn-blue {
+    padding: 10px;
+    background-color: blue;
+    color: white;
+    margin-top: 10px;
+    font-weight: bold;
+}

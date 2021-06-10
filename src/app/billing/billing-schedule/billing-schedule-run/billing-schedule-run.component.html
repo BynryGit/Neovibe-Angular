@@ -1,0 +1,466 @@
+<app-stepper-form [operator]="testing()">
+    <div class="col pl-0">
+        <div class="cust-form-col-rt">
+            <div class="row">
+                <div class="col-12">
+                    <div class="registration-inner inner-wrap tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="bill-data-dtls" role="tabpanel"
+                            aria-labelledby="bill-data-dtls-tab">
+                                            <div class="row inner-form-wrap">
+                                                <div class="col-12">
+                                                    <form name="form" >
+
+                                                        <ngb-accordion class="pr-custom-accordion" [closeOthers]="true" activeIds="sandm" >
+                                                            <ngb-panel id="summary">
+                                                                <ng-template ngbPanelHeader>
+                                                                    <button ngbPanelToggle class="btn btn-link stretched-link st">
+                                                                        Summary
+                                                                        <p class="dtls">View details</p>
+                                                                        <p class="counter-wrap">
+                                                                            <span class="counter p p-13" data-count="100">0</span><span class="p p-13">% Complete</span>
+                                                                            <span class="finished"><img class="img-fluid st" src="../../../../assets/images/green-tick-circle.png" alt="icon"></span>
+                                                                        </p>  
+                                                                    </button>
+                                                                </ng-template>
+                                                                <ng-template ngbPanelContent>
+                                                                    
+                                                                    <ngx-content-loading class="pr-content-loader" [speed]="'1500ms'" [width]="800" [height]="60" [primaryColor]="'#F6F6FA'" [secondaryColor]="'#E4E5E9'">
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="200" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="200" rx="5" ry="5"></svg:g>
+                                                                    </ngx-content-loading>
+
+                                                                    <div class="applicant-data">
+                                                                        <div class="row justify-content-start">
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Schedule Name</p>
+                                                                                <h6 class="h6">{{summaryDetail?.name}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Bill Cycle</p>
+                                                                                <h6 class="h6">{{summaryDetail?.bill_cycle_name}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Start Date</p>
+                                                                                <h6 class="h6">{{summaryDetail?.start_date | date : 'yyy MM dd'}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">End Date</p>
+                                                                                <h6 class="h6">{{summaryDetail?.end_date | date : 'yyy MM dd'}}</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </ng-template>
+                                                            </ngb-panel>
+
+                                                            <ngb-panel id="mtrrdn">
+                                                                <ng-template ngbPanelHeader let-opened="closed">
+                                                                    <button ngbPanelToggle class="btn btn-link stretched-link st">
+                                                                        Meter reading
+                                                                        <p class="dtls">View details</p>
+                                                                        <p class="counter-wrap">
+                                                                            <span class="counter p p-13" data-count="100">0</span><span class="p p-13">% Complete</span>
+                                                                            <span class="finished"><img class="img-fluid st" src="../../../../assets/images/green-tick-circle.png" alt="icon"></span>
+                                                                        </p>                                                                        
+                                                                    </button>
+                                                                </ng-template>
+                                                                <ng-template ngbPanelContent>
+
+                                                                    <ngx-content-loading class="pr-content-loader" [speed]="'1500ms'" [width]="800" [height]="60" [primaryColor]="'#F6F6FA'" [secondaryColor]="'#E4E5E9'">
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="200" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="200" rx="5" ry="5"></svg:g>
+                                                                    </ngx-content-loading>
+                                                                    
+                                                                    <div class="applicant-data">
+                                                                        <div class="row justify-content-between">
+                                                                            <div class="col-auto">
+                                                                                <p class="p p-13">Consumers</p>
+                                                                                <h6 class="h6" >{{summaryDetail?.consumer_count}}</h6>
+                                                                            </div>
+                                                                            <div class="col-auto">
+                                                                                <p class="p p-13">Reading</p>
+                                                                                <h6 class="h6" >{{summaryDetail?.reading_count}}</h6>
+                                                                            </div>
+                                                                            <div class="col-auto">
+                                                                                <p class="p p-13">Normal</p>
+                                                                                <h6 class="h6">{{summaryDetail?.meter_status?.normal_meter}}</h6>
+                                                                            </div>
+                                                                            <div class="col-auto">
+                                                                                <p class="p p-13">Faulty</p>
+                                                                                <h6 class="h6">{{summaryDetail?.meter_status?.faulty_meter}}</h6>
+                                                                            </div>
+                                                                            <div class="col-auto">
+                                                                                <p class="p p-13">RCNT</p>
+                                                                                <h6 class="h6">{{summaryDetail?.meter_status?.rcnt_meter}}</h6>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+
+                                                                </ng-template>
+                                                            </ngb-panel>
+                                                        
+                                                            <ngb-panel id="outstnd">
+                                                                <ng-template ngbPanelHeader>
+                                                                    <button ngbPanelToggle class="btn btn-link stretched-link st">
+                                                                        Outstanding
+                                                                        <p class="dtls">View details</p>
+                                                                        <p class="counter-wrap">
+                                                                            <span class="counter p p-13" data-count="100">0</span><span class="p p-13">% Complete</span>
+                                                                            <span class="finished"><img class="img-fluid st" src="../../../../assets/images/green-tick-circle.png" alt="icon"></span>
+                                                                        </p>  
+                                                                    </button>
+                                                                </ng-template>
+                                                                <ng-template ngbPanelContent>
+                                                                    
+                                                                    <ngx-content-loading class="pr-content-loader" [speed]="'1500ms'" [width]="800" [height]="60" [primaryColor]="'#F6F6FA'" [secondaryColor]="'#E4E5E9'">
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="200" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="200" rx="5" ry="5"></svg:g>
+                                                                    </ngx-content-loading>
+
+                                                                    <div class="applicant-data">
+                                                                        <div class="row justify-content-start">
+                                                                            <div class="col-auto">
+                                                                                <p class="p p-13">Outstanding Amount</p>
+                                                                                <h6 class="h6">{{summaryDetail?.outstanding_amount?.outstanding_amount}}</h6>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+
+                                                                </ng-template>
+                                                            </ngb-panel>
+
+                                                            <ngb-panel id="schm">
+                                                                <ng-template ngbPanelHeader>
+                                                                    <button ngbPanelToggle class="btn btn-link stretched-link st">
+                                                                        Rate
+                                                                        <p class="dtls">View details</p>
+                                                                        <p class="counter-wrap">
+                                                                            <span class="counter p p-13" data-count="100">0</span><span class="p p-13">% Complete</span>
+                                                                            <span class="finished"><img class="img-fluid st" src="../../../../assets/images/green-tick-circle.png" alt="icon"></span>
+                                                                        </p>  
+                                                                    </button>
+                                                                </ng-template>
+                                                                <ng-template ngbPanelContent>
+                                                                    
+                                                                    <ngx-content-loading class="pr-content-loader" [speed]="'1500ms'" [width]="800" [height]="60" [primaryColor]="'#F6F6FA'" [secondaryColor]="'#E4E5E9'">
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="200" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="200" rx="5" ry="5"></svg:g>
+                                                                    </ngx-content-loading>
+
+                                                                    <div class="applicant-data" >
+                                                                       
+                                                                        <div class="row justify-content-start">    
+                                                                            <table style="width:100%;">
+                                                                                <tr>
+                                                                                    <th>Product:</th>
+                                                                                    <td >
+                                                                                      {{summaryDetail?.rate[0].product}} 
+                                                                                    </td>
+                                                                                  </tr>
+                                                                                <tr>
+                                                                                  <th>Unit:</th>
+                                                                                  <td *ngFor="let item of summaryDetail?.rate">
+                                                                                    {{item.unit}} 
+                                                                                  </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                  <th>Rate:</th>
+                                                                                  <td *ngFor="let item of summaryDetail?.rate">
+                                                                                    {{item.rate}}
+                                                                                  </td>
+                                                                                </tr>
+                                                                              </table>
+                                                                        </div>
+                                                                        <!-- <div class="row justify-content-start" *ngIf="item?.product == 'Gas' && 'Water'">
+                                                                            <div class="col-2">
+                                                                                <p class="p p-13">Product</p>
+                                                                                <h6 class="h6">{{item?.product}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Category</p>
+                                                                                <h6 class="h6">{{item?.category}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Sub Category</p>
+                                                                                <h6 class="h6">{{item?.sub_category}}</h6>
+                                                                            </div>
+                                                                            <div class="col-2">
+                                                                                <p class="p p-13">Rate</p>
+                                                                                <h6 class="h6">{{item?.rate}}</h6>
+                                                                            </div>
+                                                                            <div class="col-2">
+                                                                                <p class="p p-13">Unit</p>
+                                                                                <h6 class="h6">{{item?.unit}}</h6>
+                                                                            </div>
+                                                                            
+                                                                        </div> -->
+                                                                    </div>
+                                                                    
+                                                                </ng-template>
+                                                            </ngb-panel>
+
+                                                            <ngb-panel id="adjref">
+                                                                <ng-template ngbPanelHeader>
+                                                                    <button ngbPanelToggle class="btn btn-link stretched-link st">
+                                                                        Adjust/Refund/Credit/Penalty
+                                                                        <p class="dtls">View details</p>
+                                                                        <p class="counter-wrap">
+                                                                            <span class="counter p p-13" data-count="100">0</span><span class="p p-13">% Complete</span>
+                                                                            <span class="finished"><img class="img-fluid st" src="../../../../assets/images/green-tick-circle.png" alt="icon"></span>
+                                                                        </p>  
+                                                                    </button>
+                                                                </ng-template>
+                                                                <ng-template ngbPanelContent>
+                                                                    
+                                                                    <ngx-content-loading class="pr-content-loader" [speed]="'1500ms'" [width]="800" [height]="60" [primaryColor]="'#F6F6FA'" [secondaryColor]="'#E4E5E9'">
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="200" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="200" rx="5" ry="5"></svg:g>
+                                                                    </ngx-content-loading>
+
+                                                                    <div class="applicant-data">
+                                                                        <div class="row justify-content-start">
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Adjust Amount</p>
+                                                                                <h6 class="h6">{{summaryDetail?.additional_charges?.adjustment_amount}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Refund Amount</p>
+                                                                                <h6 class="h6">{{summaryDetail?.additional_charges?.refund_amount}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Credit Amount</p>
+                                                                                <h6 class="h6">{{summaryDetail?.additional_charges?.credit_amount}}</h6>
+                                                                            </div>
+                                                                            <div class="col-3">
+                                                                                <p class="p p-13">Penalty Amount</p>
+                                                                                <h6 class="h6">{{summaryDetail?.additional_charges?.penalty_amount}}</h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </ng-template>
+                                                            </ngb-panel>
+
+                                                             <ngb-panel id="payment">
+                                                                <ng-template ngbPanelHeader>
+                                                                    <button ngbPanelToggle class="btn btn-link stretched-link st">
+                                                                        Payment
+                                                                        <p class="dtls">View details</p>
+                                                                        <p class="counter-wrap">
+                                                                            <span class="counter p p-13" data-count="100">0</span><span class="p p-13">% Complete</span>
+                                                                            <span class="finished"><img class="img-fluid st" src="../../../../assets/images/green-tick-circle.png" alt="icon"></span>
+                                                                        </p>  
+                                                                    </button>
+                                                                </ng-template>
+                                                                <ng-template ngbPanelContent>
+                                                                    
+                                                                    <ngx-content-loading class="pr-content-loader" [speed]="'1500ms'" [width]="800" [height]="60" [primaryColor]="'#F6F6FA'" [secondaryColor]="'#E4E5E9'">
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="0" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="126" height="8" y="10" x="200" rx="5" ry="5"></svg:g>
+                                                                        <svg:g ngx-rect width="59" height="8" y="25" x="200" rx="5" ry="5"></svg:g>
+                                                                    </ngx-content-loading>
+
+                                                                    <div class="applicant-data">
+                                                                        <div class="row justify-content-start">
+                                                                            <div class="col-auto">
+                                                                                <p class="p p-13">Paid Amount</p>
+                                                                                <h6 class="h6">{{summaryDetail?.additional_charges?.paid_amount}}</h6>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                </ng-template>
+                                                            </ngb-panel>
+                                                        </ngb-accordion>
+                                                        <div class="row justify-content-end form-bttn-row br-top">
+                                                            <div class="col-auto">
+                                                                <button class="btn btn-outline-light3 st">Cancel</button>
+                                                            </div>
+                                                            <div class="col-auto pl-1 pr-4">
+                                                                <button class="btn btn-secondary st" [disabled]="hideRunBillButton" (click)="save_run_bill()">Run Bill</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>                                                
+                                            
+                        </div>
+                        <div class="tab-pane fade" id="view-bill-data-dtls" role="tabpanel" aria-labelledby="view-bill-data-dtls-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">View Bills</h4>                                    
+                                </div>
+                              
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form">
+
+                                                    <div class="row justify-content-end">
+                                                        <div class="col">
+                                                            <form class="pr-search-form d-inline-block">
+                                                                <span class="s-icon"></span>
+                                                                <input class="form-control pr-table-search" type="search" placeholder="Search by MRU, Portion" aria-label="Search">
+                                                            </form>
+                                                        </div>
+                                                        <div class="col-auto pr-0">
+                                                            <label class="p p-13 mr-3">Records</label>
+                                                            <ng-select style="display: inline-block;min-width: 80px;" [searchable]="false" appendTo="body" class="filter-select"  bindLabel="name" placeholder="10"
+                                                                 name="name">
+                                                            </ng-select>
+                                                        </div>
+                                                        <div class="col-auto pr-0">
+                                                            <button class="btn btn-outline-light3 st bttn-filter" type="button" data-toggle="collapse"
+                                                                data-target="#run-bill-filter" aria-expanded="false"
+                                                                aria-controls="run-bill-filter"><span>2</span>Filter</button>
+                                                        </div>
+                                                        <div class="col-auto pl-0">
+                                                            <div class="dropdown tool-dropdown">
+                                                                <button class="btn btn-outline-light3 st dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    Tools
+                                                                </button>
+                                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                                    <a class="dropdown-item active" href="#">
+                                                                        <fa-icon [icon]="faPrint"></fa-icon>Print
+                                                                    </a>
+                                                                    <a class="dropdown-item" href="#">
+                                                                        <fa-icon [icon]="faFilePdf"></fa-icon>PDF
+                                                                    </a>
+                                                                    <a class="dropdown-item" href="#">
+                                                                        <fa-icon [icon]="faFileExcel"></fa-icon>Excel
+                                                                    </a>
+                                                                    <a class="dropdown-item" href="#">
+                                                                        <fa-icon [icon]="faFileCsv"></fa-icon>CSV
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="filters-wrap">
+                                                                <div class="collapse" id="run-bill-filter">
+                                                                    <div class="filter-wrap-inner with-bg">    
+                                                                        <ul class="list-group list-group-horizontal">
+                                                                            <li class="list-group-item">
+                                                                                <label>Utility</label>
+                                                                                <ng-select class="filter-select"  bindLabel="name"
+                                                                                    placeholder="Select Utility" name="name">
+                                                                                </ng-select>
+                                                                            </li>
+                                                                            <li class="list-group-item">
+                                                                                <label>Category</label>
+                                                                                <ng-select class="filter-select"  bindLabel="name"
+                                                                                    placeholder="Select Category"  name="name">
+                                                                                </ng-select>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col">
+                                                          <div class="listview-table-wrap">
+                                                    
+                                                            <table datatable class="pr-datatable table table-hover no-boxshadow table-border">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col"><span>Consumer No.</span></th>
+                                                                        <th scope="col"><span>Meter No.</span></th>
+                                                                        <th scope="col"><span>Cycle Name</span></th>
+                                                                        <th scope="col"><span>Schedule Name</span></th>
+                                                                        <th scope="col"><span>Date</span></th>
+                                                                        <th scope="col" class="action-col"><span>Action</span></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr *ngFor="let item of consumerDetails">
+                                                                        <td class="showOnHover">{{item?.consumer_no}}
+                                                                            <span class="show">
+                                                                                <span class="enqry-no-blk">{{item?.meter_no}}</span>
+                                                                                <p class="p p-13">Bill Cycle: <span class="text-dark">{{item?.bill_cycle_id?.bill_cycle_name}}</span></p>
+                                                                                <div class="list-blk">
+                                                                                    <p><span>9 Jan 2020</span><span>Start Date</span></p>
+                                                                                    <p><span>15 Jan 2020</span><span>End Date</span></p>
+                                                                                    <p><span>15 Jan 2020</span><span>Due Date</span></p>
+                                                                                </div>
+                                                                                <div class="list-blk">
+                                                                                    <p><span>560</span><span>Consumption</span></p>
+                                                                                    <p><span>360</span><span>Consumer</span></p>
+                                                                                </div>
+                                                                            </span>
+                                                                        </td>
+                                                                        <td>{{item?.meter_no}}</td>
+                                                                        <td>{{item?.bill_cycle_id?.bill_cycle_name}}</td>
+                                                                        <td>{{item?.bill_schedule_log_id?.schedule_bill_id?.name}}</td>
+                                                                        <td>{{item.created_date | date : 'dd MMM yyyy'}}</td>
+                                                                        <td class="action-col">
+                                                                            <span class="show">
+                                                                                <ul class="list-group list-group-horizontal action-list">
+                                                                                    <li class="list-group-item st" (click)="viewBillInvoice(item.consumer_no,item.bill_schedule_log_id.id_string)"
+                                                                                        tooltipClass="pr-tooltip" placement="top" ngbTooltip="View" [openDelay]="300"
+                                                                                        [closeDelay]="500" data-toggle="modal">
+                                                                                        <i class="icons8 icons8-eye"></i>
+                                                                                    </li>
+                                                                                </ul>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                               
+                                                            </table>
+                                                    
+                                                          </div>
+                                                        </div>
+                                                      </div>
+
+                                                </form>
+                                            </div>
+                                        </div>                                            
+                                        <div class="row justify-content-end form-bttn-row br-top">
+                                            <div class="col-auto">
+                                                <button class="btn btn-outline-light3 st">Reject</button>
+                                            </div>
+                                            <div class="col-auto pl-1 pr-4">
+                                                <button class="btn btn-secondary st" id="proceed_3">Proceed</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                                    
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-stepper-form>
+
+
+<!-- display bill invoice tempalte-->
+<app-print-bill hidden *ngIf="showInvoive"></app-print-bill>    
+
+

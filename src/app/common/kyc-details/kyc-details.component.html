@@ -1,0 +1,14 @@
+<div class="applicant-data" *ngIf="kycDocs.length != 0">
+    <div class="upload-wrapper">
+        <div class="uploaded-items">
+            <ul class="list-group list-group-horizontal-sm">
+                <li class="list-group-item" *ngFor="let item of kycDocs">
+                    <div class="thumbnail">
+                        <img class="st img-abs" src="{{item.doc}}" alt="img">
+                    </div>
+                    <p class="p p-12 file-name">{{item.name}}</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,96 @@
+<!-- Search Consumer Component Start -->
+<section class="pr-section search-section">
+    <div class="row justify-content-center search-section-row">
+        <div class="col-12 p-0">
+            <div class="search-section-wrap">
+                <div class="img-blk">
+                    <img class="img-fluid st" src="../../../assets/images/settings-survey.png" alt="img">
+                </div>
+                <h2 class="ttl">Welcome To Consumer</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="custom-control custom-radio pr-custom-radio custom-control-inline">
+                            <input type="radio" id="cons1" name="conselct" class="custom-control-input" checked (change)="cons1" #cons1>
+                            <label class="custom-control-label" for="cons1">Consumer No.</label>
+                        </div>
+                        <div class="custom-control custom-radio pr-custom-radio custom-control-inline">
+                            <input type="radio" id="cons2" name="conselct" class="custom-control-input" (change)="cons2" #cons2>
+                            <label class="custom-control-label" for="cons2">Meter No.</label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <ng-container *ngIf="cons1.checked">
+                    <form class="pr-page-search">
+                        <span class="s-icon"><i class="icons8 icons8-search"></i></span>
+                        <input #inp class="form-control st" type="search" placeholder="Search by Consumer" aria-label="Search">
+                    </form>
+                    <button class="btn btn-primary rounded st" (click)="searchConsumer(inp.value)">Search</button>
+                </ng-container>
+                <ng-container *ngIf="cons2.checked">
+                    <form class="pr-page-search">
+                        <span class="s-icon"><i class="icons8 icons8-search"></i></span>
+                        <input #inp class="form-control st" type="search" placeholder="Search by Meter No." aria-label="Search">
+                    </form>
+                    <button class="btn btn-primary rounded st" (click)="searchConsumer(inp.value)">Search</button>
+                </ng-container>
+            </div>
+        </div>
+
+        <!-- Meter Detail Table Start -->
+        <div class="row" *ngIf="showtable">
+            <div class="col">
+                <div class="listview-table-wrap">
+                    <label class="p p-12">Showing Last 6 month records</label>
+                    <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col" *ngFor="let item of blocks">
+                                    <span>{{item.name}}</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody *ngIf="!processing">
+                            <tr *ngFor="let item of dataSet">
+                                <td>{{item.meter_no}}</td>
+                                <td>{{item.consumer_no}}</td>
+                                <td>{{item.read_cycle_id.name}}</td>
+                                <td class="action">
+                                    <ul class="list-group list-group-horizontal action-list">
+                                        <li class="list-group-item st" (click)="ViewReading(item.meter_no,item.schedule_log_id.id_string,item.read_cycle_id.id_string)" ngbTooltip="View" [openDelay]="200" [closeDelay]="200">
+                                            <i class="icons8 icons8-eye"></i>
+                                        </li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="dataSet?.length == 0">
+                            <tr>
+                                <td colspan="12" class="no-data-available">No matching records found</td>
+                            </tr>
+                        </tbody>
+                        <tbody *ngIf="processing">
+                            <tr >
+                                <td colspan="12"> .....</td>						
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- Meter Detail Table End -->
+
+    </div>
+</section>
+
+<!-- Search Consumer Component End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>{{ErrorMessage.RecordNotFound}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->

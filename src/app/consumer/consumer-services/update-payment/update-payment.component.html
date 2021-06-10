@@ -1,0 +1,234 @@
+<!-- update payment Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="paymentModal" data-backdrop="false" tabindex="-1" role="dialog"  aria-labelledby="connectModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+        <div class="modal-content">
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="connectModalLabel">Payment</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="inner-form">
+                        <form [formGroup]="approveForm">
+                            <ng-container>
+                        <!-- Select Meter Option -->
+                        <div class="form-row" >
+                            <div class="col" *ngIf="meter_list.length != 0">
+                                <label>Select Product</label>
+                                <ng-select [items]="meter_list"
+                                bindLabel="name"
+                                placeholder="Select product"
+                                appendTo="body"
+                                name="name"
+                                formControlName="meter"
+                                [clearable]="false"
+                                [ngClass]="{'is-invalid':approveFormSubmitted && af.meter.errors}">
+                                </ng-select>
+                                <div *ngIf="approveFormSubmitted && af.meter.errors" class="invalid-feedback">
+                                    <div *ngIf="af.meter.errors.required">Product Required</div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- select meter end  -->
+
+                        <div class="form-row">
+                          <div class="col-7">
+                            <label>Add Payment Type and Subtype</label>
+                          </div>
+                          <div class="col-5">
+                            <button class="bttn-transparent" type="button" (click)="add_payment_type_subtype()"><fa-icon [icon]="faPlus"></fa-icon></button>
+                          </div>
+                        </div>
+
+                        <div formArrayName="transaction" *ngFor="let item of approveForm.get('transaction')['controls']; let i = index;">
+                            <div [formGroupName]="i">
+                                <div class="form-row">
+                                    <div class="col-5" *ngIf="payment_type_list.length != 0">
+                                        <label>Payment Type</label>
+                                        <ng-select [items]="payment_type_list"
+                                        bindLabel="name"
+                                        placeholder="Select payment type"
+                                        appendTo="body"
+                                        name="payment_type"
+                                        formControlName="payment_type"
+                                        [clearable]="false"
+                                        [ngClass]="{'is-invalid':approveFormSubmitted && af.payment_type.errors}">
+                                        </ng-select>
+                                        <div *ngIf="approveFormSubmitted && af.payment_type.errors" class="invalid-feedback">
+                                            <div *ngIf="af.payment_type.errors.required">Payment Type Required</div>
+                                        </div>
+                                    </div>
+                                <!-- </div>
+                                <div class="form-row"> -->
+                                    <div class="col-5" *ngIf="payment_sub_type_list.length != 0">
+                                        <label>Payment Subtype</label>
+                                        <ng-select [items]="payment_sub_type_list"
+                                        bindLabel="name"
+                                        placeholder="Select payment subtype"
+                                        appendTo="body"
+                                        name="payment_sub_type"
+                                        formControlName="payment_sub_type"
+                                        [clearable]="false"
+                                        [ngClass]="{'is-invalid':approveFormSubmitted && af.payment_sub_type.errors}">
+                                        </ng-select>
+                                        <div *ngIf="approveFormSubmitted && af.payment_sub_type.errors" class="invalid-feedback">
+                                            <div *ngIf="af.payment_sub_type.errors.required">Payment SubType Required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                      <button class="btn bttn-transparent bttn-icon" type="button" (click)="remove_payment_type_subtype(i)"><fa-icon [icon]="faTrash"></fa-icon></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="form-row">
+                                <div class="col-6" *ngIf="channel_list.length != 0">
+                                    <label>Payment Channel</label>
+                                    <ng-select [items]="channel_list"
+                                    bindLabel="name"
+                                    placeholder="Select Payment channel"
+                                    appendTo="body"
+                                    name="channel"
+                                    formControlName="channel"
+                                    [clearable]="false"
+                                    [ngClass]="{'is-invalid':approveFormSubmitted && af.channel.errors}">
+                                    </ng-select>
+                                    <div *ngIf="approveFormSubmitted && af.channel.errors" class="invalid-feedback">
+                                        <div *ngIf="af.channel.errors.required">Payment Channel Required</div>
+                                    </div>
+                                </div>
+                                <div class="col-6" *ngIf="mode_list.length != 0">
+                                    <label>Payment Mode</label>
+                                    <ng-select [items]="mode_list"
+                                    bindLabel="name"
+                                    placeholder="Select Payment Mode"
+                                    appendTo="body"
+                                    name="mode"
+                                    formControlName="mode"
+                                    [clearable]="false"
+                                    [ngClass]="{'is-invalid':approveFormSubmitted && af.mode.errors}">
+                                    </ng-select>
+                                    <div *ngIf="approveFormSubmitted && af.mode.errors" class="invalid-feedback">
+                                        <div *ngIf="af.mode.errors.required">Payment Mode Required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-row">
+                                <div class="col-6">
+                                    <label>Amount</label>
+                                    <input type="text" class="form-control" placeholder="Enter Amount" value="" formControlName="amount" [ngClass]="{'is-invalid':approveFormSubmitted && af.amount.errors}"/>
+                                    <div *ngIf="approveFormSubmitted && af.amount.errors" class="invalid-feedback">
+                                        <div *ngIf="af.amount.errors.required">Amount Required</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label>Tax(%)</label>
+                                    <input type="text" class="form-control" placeholder="Enter Tax(%)" value="" formControlName="tax" [ngClass]="{'is-invalid':approveFormSubmitted && af.tax.errors}"/>
+                                    <div *ngIf="approveFormSubmitted && af.tax.errors" class="invalid-feedback">
+                                        <div *ngIf="af.tax.errors.required">Tax(%) Required</div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Transaction Date</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date" (click)="d.toggle()" container="body" [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                                        <div class="input-group-append">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="approveFormSubmitted && af.date.errors" class="invalid-feedback">
+                                        <div *ngIf="af.date.errors.required">{{message.appointmentDateRequired}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <label>Bank Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Bank Name" value="" formControlName="bank" [ngClass]="{'is-invalid':approveFormSubmitted && af.bank.errors}"/>
+                                    <div *ngIf="approveFormSubmitted && af.bank.errors" class="invalid-feedback">
+                                        <div *ngIf="af.bank.errors.required">Bank Name Required</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <label>Account Number</label>
+                                    <input type="text" class="form-control" placeholder="Account Number" value="" formControlName="account" [ngClass]="{'is-invalid':approveFormSubmitted && af.account.errors}"/>
+                                    <div *ngIf="approveFormSubmitted && af.account.errors" class="invalid-feedback">
+                                        <div *ngIf="af.account.errors.required">Account number required</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-6">
+                                    <label>IFSC Code</label>
+                                    <input type="text" class="form-control" placeholder="Enter IFSC code" value="" formControlName="ifsc" [ngClass]="{'is-invalid':approveFormSubmitted && af.ifsc.errors}"/>
+                                    <div *ngIf="approveFormSubmitted && af.ifsc.errors" class="invalid-feedback">
+                                        <div *ngIf="af.ifsc.errors.required">IFSC code required</div>
+                                    </div>
+                                  </div>
+                                  <div class="col-6">
+                                    <label>Cheque/DD number</label>
+                                    <input type="text" class="form-control" placeholder="Enter cheque/dd number" value="" formControlName="ifsc" [ngClass]="{'is-invalid':approveFormSubmitted && af.cheque_dd_no.errors}"/>
+                                    <div *ngIf="approveFormSubmitted && af.cheque_dd_no.errors" class="invalid-feedback">
+                                        <div *ngIf="af.cheque_dd_no.errors.required">Cheque/DD number is required</div>
+                                    </div>
+                                  </div>
+                            </div>
+                            <div class="form-row" >
+                                <div class="col">
+                                    <label>Cheque/DD Date</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="cheque_dd_date" ngbDatepicker #dd="ngbDatepicker" formControlName="cheque_dd_date" (click)="dd.toggle()" container="body" [ngClass]="{'is-invalid':approveFormSubmitted && af.cheque_dd_date.errors}">
+                                        <div class="input-group-append">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="dd.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="approveFormSubmitted && af.cheque_dd_date.errors" class="invalid-feedback">
+                                        <div *ngIf="af.cheque_dd_date.errors.required">{{message.appointmentDateRequired}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                    <div class="col-6">
+                                        <label>Payment Amount</label>
+                                        <input type="text" class="form-control" placeholder="Enter Payment Amount" value="" formControlName="payment_amount" [ngClass]="{'is-invalid':approveFormSubmitted && af.payment_amount.errors}"/>
+                                        <div *ngIf="approveFormSubmitted && af.payment_amount.errors" class="invalid-feedback">
+                                            <div *ngIf="af.payment_amount.errors.required">Payment Amount Required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <label>Transaction Id</label>
+                                        <input type="text" class="form-control" placeholder="Enter Transaction Id" value="" formControlName="transaction_id" [ngClass]="{'is-invalid':approveFormSubmitted && af.transaction_id.errors}"/>
+                                        <div *ngIf="approveFormSubmitted && af.transaction_id.errors" class="invalid-feedback">
+                                            <div *ngIf="af.transaction_id.errors.required">Transaction Id Required</div>
+                                        </div>
+                                    </div>
+                            </div>
+                            </ng-container>
+                            <div class="modal-footer pr-modal-footer">
+                              <div class="row justify-content-end">
+                                <div class="col-auto">
+                                    <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                        aria-label="Close">Cancel</button>
+                                </div>
+                                <div class="col-auto pl-1 pr-0">
+                                  <button class="btn btn-secondary st" (click)="onApproveFormSubmit()">Submit</button>
+                                </div>
+                              </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </ngx-simplebar>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- update paytment modal end  -->
+
+

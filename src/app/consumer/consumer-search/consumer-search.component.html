@@ -1,0 +1,75 @@
+<section class="pr-section search-section">
+    <div class="row justify-content-center search-section-row">
+        <div class="col-12 p-0">
+            <div class="search-section-wrap">
+                <div class="img-blk">
+                    <img class="img-fluid st" src="../../../assets/images/settings-survey.png" alt="img">
+                </div>
+                <h2 class="ttl">Welcome To Account</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="custom-control custom-radio pr-custom-radio custom-control-inline">
+                            <input type="radio" id="cons1" name="conselct" class="custom-control-input" checked (change)="cons1" #cons1>
+                            <label class="custom-control-label" for="cons1">Account No.</label>
+                        </div>
+                        <div class="custom-control custom-radio pr-custom-radio custom-control-inline">
+                            <input type="radio" id="cons2" name="conselct" class="custom-control-input" (change)="cons2" #cons2>
+                            <label class="custom-control-label" for="cons2">Meter No.</label>
+                        </div>
+                        <div class="custom-control custom-radio pr-custom-radio custom-control-inline">
+                            <input type="radio" id="cons3" name="conselct" class="custom-control-input" (change)="cons3" #cons3>
+                            <label class="custom-control-label" for="cons3">Email ID</label>
+                        </div>
+                        <div class="custom-control custom-radio pr-custom-radio custom-control-inline">
+                            <input type="radio" id="cons4" name="conselct" class="custom-control-input" (change)="cons4" #cons4>
+                            <label class="custom-control-label" for="cons4">Phone</label>
+                        </div>
+                    </div>
+                </div>
+                <ng-container *ngIf="cons1.checked">
+                    <form class="pr-page-search">
+                        <span class="s-icon"><i class="icons8 icons8-search"></i></span>
+                        <input #inp class="form-control st" type="search" placeholder="Search by Account No." aria-label="Search">
+                    </form>
+                    <button class="btn btn-primary rounded st" (click)="searchConsumer(inp.value, 'CONSUMER')">Search</button>
+                </ng-container>
+                <ng-container *ngIf="cons2.checked">
+                    <form class="pr-page-search">
+                        <span class="s-icon"><i class="icons8 icons8-search"></i></span>
+                        <input #inp class="form-control st" type="search" placeholder="Search by Meter No." aria-label="Search">
+                    </form>
+                    <button class="btn btn-primary rounded st" (click)="searchConsumer(inp.value, 'METER')">Search</button>
+                </ng-container>
+                <ng-container *ngIf="cons3.checked">
+                    <form class="pr-page-search">
+                        <span class="s-icon"><i class="icons8 icons8-search"></i></span>
+                        <input #inp class="form-control st" type="search" placeholder="Search by Email ID" aria-label="Search">
+                    </form>
+                    <button class="btn btn-primary rounded st" (click)="searchConsumer(inp.value, 'EMAIL')">Search</button>
+                </ng-container>
+                <ng-container *ngIf="cons4.checked">
+                    <form class="pr-page-search">
+                        <span class="s-icon"><i class="icons8 icons8-search"></i></span>
+                        <input #inp class="form-control st" type="search" placeholder="Search by Phone No." aria-label="Search">
+                    </form>
+                    <button class="btn btn-primary rounded st" (click)="searchConsumer(inp.value, 'PHONE')">Search</button>
+                </ng-container>
+
+            </div>
+            <div class="add-consumer-wrap">
+              <p class="p sb-ttl"> Not able to find it, add one!</p>
+              <button class="btn btn-outline-light3 rounded st" [routerLink]="['/registration/add-registration']">New Account</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div> No Record Found </div><br>
+        </ngb-toast>
+    </div>
+</div>

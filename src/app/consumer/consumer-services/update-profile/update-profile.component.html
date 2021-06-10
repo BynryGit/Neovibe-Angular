@@ -1,0 +1,200 @@
+<!-- Profile Change Modal --> 
+<div class="pr-modal">
+    <div class="modal right fade" id="profileChangeModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="profileChangeModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="profileChangeModalLabel">Update Profile</h4>
+                    <button type="button" (click)="formReset()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <form [formGroup]="typeForm" (ngSubmit)="onTypeFormSubmit()">
+                                    <ng-container>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Change Type</label>
+                                                <ng-select [items]="types" bindLabel="name" value= "" appendTo="body" placeholder="Select Type" name="" formControlName="type" [ngClass]="{'is-invalid':typeFormSubmitted && td.type.errors}"></ng-select>
+
+
+                                                <div *ngIf="typeFormSubmitted && td.type.errors" class="invalid-feedback">
+                                                    <div *ngIf="td.type.errors.required">{{message.typeRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </ng-container>
+                                </form>
+                                <form [formGroup]="emailForm" (ngSubmit)="onTypeFormSubmit()">
+                                    <ng-container *ngIf="this.typeForm?.value?.type?.id == 1">    
+                                        <div class="row" *ngIf="this.consumer != null">
+                                            <div class="col">
+                                                <div class="title-divider profile-existing">
+                                                    <p class="p mb-2">Existing Email</p>
+                                                    <div class="profile-existing-data">
+                                                        <p class="p">{{consumer.email}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label class="required">Email</label>
+                                                <input type="text" class="form-control" placeholder="Enter Email" value="" formControlName="email" [ngClass]="{'is-invalid':typeFormSubmitted && ed.email.errors}"/>
+                                                <div *ngIf="typeFormSubmitted && ed.email.errors" class="invalid-feedback">
+                                                    <div *ngIf="ed.email.errors.required || ed.email.errors.pattern">{{message.emailRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </form>
+                                <form [formGroup]="addressForm" (ngSubmit)="onTypeFormSubmit()">
+                                    <ng-container *ngIf="this.typeForm?.value?.type?.id == 2">    
+                                        <div class="row" *ngIf="this.consumer != null">
+                                            <div class="col">
+                                                <div class="title-divider profile-existing">
+                                                    <p class="p mb-2">Existing Address</p>
+                                                    <div class="profile-existing-data">
+                                                        <p class="p">{{consumer.billing_address_line_1}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label class="required">Address Line 1</label>
+                                                <textarea class="form-control text-uppercase" placeholder="Address" rows="2" name="address" formControlName="address" [ngClass]="{'is-invalid':typeFormSubmitted && ad.address.errors}"></textarea>
+                                                <div *ngIf="typeFormSubmitted && ad.address.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.address.errors.required">{{message.addressLineRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label class="required">Street</label>
+                                                <textarea class="form-control text-uppercase" placeholder="Street" rows="2" name="street" formControlName="street" [ngClass]="{'is-invalid':typeFormSubmitted && ad.street.errors}"></textarea>
+                                                <div *ngIf="typeFormSubmitted && ad.street.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.street.errors.required">{{message.streetRequired}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label class="required">State</label>
+                                                <ng-select [items]="stateProvinces" bindLabel="name" appendTo="body" placeholder="Select state/province/region" name="state" formControlName="state" [ngClass]="{'is-invalid':typeFormSubmitted && ad.state.errors}"></ng-select>
+                                                <div *ngIf="typeFormSubmitted && ad.state.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.state.errors.required">{{message.stateProvienceRegionRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label class="required">City</label>
+                                                <ng-select [items]="cities" bindLabel="name" appendTo="body" placeholder="Select City" name="city" formControlName="city" [ngClass]="{'is-invalid':typeFormSubmitted && ad.city.errors}">
+                                                </ng-select>
+                                                <div *ngIf="typeFormSubmitted && ad.city.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.city.errors.required">{{message.cityRequired}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label class="required">Postal / Zip Code </label>
+                                                <input type="text" class="form-control" placeholder="Please Enter Postal / Zip Code" name="zipCode" formControlName="zipCode" [ngClass]="{'is-invalid':typeFormSubmitted && ad.zipCode.errors}">
+                                                <div *ngIf="typeFormSubmitted && ad.zipCode.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.zipCode.errors.required">{{message.zipCodeRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label class="required">Area</label>
+                                                <ng-select [items]="areas" bindLabel="name" appendTo="body" placeholder="Select Area" name="area" formControlName="area" [ngClass]="{'is-invalid':typeFormSubmitted && ad.area.errors}">
+                                                </ng-select>
+                                                <div *ngIf="typeFormSubmitted && ad.area.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.area.errors.required">{{message.areaRequired}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label class="required">Sub Area</label>
+                                                <ng-select [items]="subAreas" bindLabel="name" appendTo="body" placeholder="Select Sub area" name="subArea" formControlName="subArea" [ngClass]="{'is-invalid':typeFormSubmitted && ad.subArea.errors}">
+                                                </ng-select>
+                                                <div *ngIf="typeFormSubmitted && ad.subArea.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.subArea.errors.required">{{message.subAreaRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-6">
+                                                <label class="required">Premiese</label>
+                                                <ng-select [items]="premieses" bindLabel="name" appendTo="body" placeholder="Select Premiese" name="premiese" formControlName="premiese" [ngClass]="{'is-invalid':typeFormSubmitted && ad.premiese.errors}">
+                                                </ng-select>
+                                                <div *ngIf="typeFormSubmitted && ad.premiese.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.premiese.errors.required">{{message.premiseRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </form>
+                                <form [formGroup]="mobileForm" (ngSubmit)="onTypeFormSubmit()">
+                                    <ng-container *ngIf="this.typeForm?.value?.type?.id == 3">    
+                                        <div class="row" *ngIf="this.consumer != null">
+                                            <div class="col">
+                                                <div class="title-divider profile-existing">
+                                                    <p class="p mb-2">Existing Mobile No.</p>
+                                                    <div class="profile-existing-data">
+                                                        <p class="p">{{consumer.phone_mobile}}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Mobile No.</label>
+                                                <input type="text" class="form-control" placeholder="Enter Mobile No." onKeyPress="if(this.value.length==10) return false;" value="" formControlName="mobile" [ngClass]="{'is-invalid':typeFormSubmitted && md.mobile.errors}"/>
+                                                <div *ngIf="typeFormSubmitted && md.mobile.errors" class="invalid-feedback">
+                                                    <div *ngIf="md.mobile.errors.required">{{message.mobileNoRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </form>
+                                <form [formGroup]="typeForm" (ngSubmit)="onTypeFormSubmit()">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label class="required">Remark</label>
+                                            <textarea class="form-control big-textarea" placeholder="" rows="2" formControlName="remark" [ngClass]="{'is-invalid':typeFormSubmitted && td.remark.errors}"></textarea>
+                                            <div *ngIf="typeFormSubmitted && td.remark.errors" class="invalid-feedback">
+                                                    <div *ngIf="td.remark.errors.required">{{message.complaintDescriptionRequired}}</div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close" (click)="formReset()">Cancel</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0">
+                            <button class="btn btn-secondary st" (click)="onTypeFormSubmit()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showtoast = false; autohide = true">
+            <div>Profile Updated successfully !!</div><br>
+        </ngb-toast>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<div class="tab-pane fade" id="billingtemplate" role="tabpanel" aria-labelledby="billingtemplatetab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" placeholder="Search" aria-label="Search">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addRegionModal">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div class="col-auto">
+        <div class="plan-card" style="width:280px;">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">Billing Template</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editCampaignFreqModal"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                   
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">Yes</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created Date</p>
+                        <h6 class="h6 mb-3">09 Jan 2020</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>         
+</div>
+
+

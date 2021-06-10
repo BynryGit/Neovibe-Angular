@@ -1,0 +1,264 @@
+<!-- Complaint Approve Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="complaintApproveModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="complaintApproveModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="complaintApproveModalLabel">Approve Complaint</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block"> 
+                                            <!-- <form [formGroup]="addOfferForm">
+                                                <ng-container> -->
+                                                    <!-- <div class="form-row">
+                                                        <div class="col">
+                                                            <label>Offer Name</label>
+                                                            <input type="text" name="name" formControlName="name" class="form-control" [readonly]='true'>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <label>Offer Code</label>
+                                                            <input type="text" name="code" formControlName="code" class="form-control" [readonly]='true'>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- <div class="form-row">
+                                                        <div class="col">
+                                                            <h4>Complaint Details :-</h4>
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="title-divider">Complaint Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Complaint No</p>
+                                                                    <h6 class="h6">{{complaintData.complaint_no}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Consumer No</p>
+                                                                    <h6 class="h6">{{complaintData.consumer_no}}</h6>
+                                                                </div>
+                                                            <!-- </div>
+                                                            <div class="row"> -->
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Complaint Name</p>
+                                                                    <h6 class="h6">{{complaintData.complaint_name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Complaint Description</p>
+                                                                    <h6 class="h6">{{complaintData.description}}</h6>
+                                                                </div>
+                                                            <!-- </div>
+                                                            <div class="row"> -->
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Complaint Date</p>
+                                                                    <h6 class="h6">{{complaintData.complaint_date | date : 'dd MMM yy'}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Complaint Status</p>
+                                                                    <div class="enqry-sts-blk" [ngSwitch]="complaintData.state">
+                                                                        <div *ngSwitchCase="'COMPLETED'">
+                                                                          <div class="badge badge-label-success">COMPLETED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'CREATED'">
+                                                                          <div class="badge badge-label-pending">CREATED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'IN PROGRESS'">
+                                                                          <div class="badge badge-label-unfinished">IN PROGRESS</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'REJECTED'">
+                                                                            <div class="badge badge-label-danger">REJECTED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'HOLD'">
+                                                                            <div class="badge badge-label-pending">HOLD</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Complaint Remark</p>
+                                                                    <h6 class="h6">{{complaintData.closure_remark}}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>    
+                                                    <!-- <div class="form-row">
+                                                        <div class="col-sm">
+                                                            <p class="p p-13 mb-1">Complaint No</p>
+                                                            <h6 class="h6">{{complaintData.complaint_no}}</h6>
+                                                        </div>
+                                                        <div class="col-sm">
+                                                            <p class="p p-13 mb-1">Consumer No</p>
+                                                            <h6 class="h6">{{complaintData.consumer_no}}</h6>
+                                                        </div>
+                                                        <div class="col-sm">
+                                                            <p class="p p-13 mb-1">Complaint Name</p>
+                                                            <h6 class="h6">{{complaintData.complaint_name}}</h6>
+                                                        </div>                                        
+                                                    </div>
+
+                                                    <div class="form-row">
+                                                        <div class="col-sm">
+                                                            <p class="p p-13 mb-1">Complaint Description</p>
+                                                            <h6 class="h6">{{complaintData.description}}</h6>
+                                                        </div>
+                                                        <div class="col-sm">
+                                                            <p class="p p-13 mb-1">Consumer Date</p>
+                                                            <h6 class="h6">{{complaintData.complaint_date | date : 'dd MMM yy'}}</h6>
+                                                        </div>                                
+                                                    </div> -->
+                                                    <br>
+                                                    
+
+                                                    <div class="form-row" *ngIf="complaintData.state === 'CREATED' || complaintData.state === 'HOLD' ">
+                                                        <div class="col">
+                                                        <form [formGroup]="complaintapprove" novalidate >
+                                                            <label>Do you want to raise work order?</label>
+                                                            <ng-select [searchable]="false" [clearable]="false" formControlName="complaintType" [ngClass]="{'is-invalid':onApprove && ca.complaintType.errors}"  appendTo="body" placeholder="Select prefix" name="name">
+                                                                <ng-option [value]="'yes'">Yes</ng-option>
+                                                                <ng-option [value]="'no'">No</ng-option>
+                                                            </ng-select>
+                                                            <div *ngIf="onApprove && ca.complaintType.errors" class="invalid-feedback">
+                                                                <div *ngIf="ca.complaintType.errors">Please select option(yes/no)!</div>
+                                                            </div>
+                                                        </form>
+                                                        </div>
+                                                    </div>
+                                                    
+                            
+                                                    <form name="form" [formGroup]="workOrderDetailsForm" *ngIf="complaintapprove.value.complaintType === 'yes'">
+                                                        <div formArrayName="workItemsControl">
+                                                            <div class="form-row" *ngFor="let item of workItems.controls; let i=index" [formGroupName]="i">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->                                                                    
+                                                                    <div class="col-12">
+                                                                        <label>Work Order Type</label>
+                                                                        <ng-select bindLabel="name" [items]="workOrderTypelist.results"  appendTo="body" formControlName="workOrderType" [ngClass]="{'is-invalid':onApprove && workItems.controls[i].get('workOrderType').errors}" [clearable]="false" placeholder="Select type" name="workOrderType" (change)="onWorkorderType(i)"></ng-select>
+                                                                        <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="onApprove && workItems.controls[i].get('workOrderType').errors?.required">Please select work order type</label>
+                                                                    </div>                                                                                                                                
+                                                                <!-- </div> -->
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->
+                                                                    <div class="col-12" *ngIf="workType.length !=0">
+                                                                        <label>Work Order Sub Type</label>
+                                                                        <ng-select [items]="workType" bindLabel="name" placeholder="Select sub type" name="subType" [clearable]="false" id="subType" formControlName="workOrderSubType" (change)="onWorkorderSubType(i)"></ng-select>                                                                    
+                                                                    </div>
+                                                                    <br>
+                                                                <!-- </div> -->
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->
+                                                                    <div class="col-12" *ngIf="workMaster.length !=0">
+                                                                        <label>Work Order</label>
+                                                                        <ng-select bindLabel="name" [items]="workMaster" formControlName="workOrderMaster" [clearable]="false" placeholder="Select work order" id="master" name="master"></ng-select>
+                                                                    </div>
+                                                                    <br>
+                                                                <!-- </div> -->
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <form name="form" [formGroup]="remarkAdd" *ngIf="complaintData.state === 'CREATED' || complaintData.state === 'HOLD' ">
+                                                        <div formArrayName="remarkItemsControl">
+                                                            <div class="form-row" *ngFor="let item of remarkItems.controls; let i=index" [formGroupName]="i"> 
+                                                                <!-- <div class="form-row"> -->
+                                                                    <div class="col">
+                                                                        <label>Remark</label>
+                                                                        <textarea class="form-control big-textarea" formControlName="remark" name="add_remark" [ngClass]="{'is-invalid':onRejectOrHold && remarkItems.controls[i].get('remark').errors}"></textarea>
+                                                                        <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="onRejectOrHold && remarkItems.controls[i].get('remark').errors?.required">Please enter remark</label>
+                                                                    <!-- </div> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                <!-- </ng-container>
+                                            </form> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close" (click)="onCancel()">Cancel</button>
+                        </div>                        
+                        <div class="col-auto pl-1" *ngIf="complaintData.state === 'CREATED' || complaintData.state === 'HOLD' ">
+                            <button class="btn btn-outline-light3 st" (click)="onReject()">Reject</button>
+                        </div>
+                        <div class="col-auto pl-1" *ngIf="complaintData.state === 'CREATED'">
+                            <button class="btn btn-outline-light3 st" (click)="onHold()">Hold</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0" *ngIf="complaintData.state === 'CREATED' || complaintData.state === 'HOLD' ">
+                            <button class="btn btn-secondary st" (click)="onAddServicedata()">Approve</button>
+                        </div>
+                        <!-- <div class="col-auto pl-1 pr-0" *ngIf="complaintData.state !== 'CREATED'">
+                            <button class="btn btn-secondary st">Add Remark</button>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Work Order Successfully Created!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="updateToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="updateToast = false; autohide = true">
+            <div>Complaint Approved Successfully!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="rejectToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectToast = false; autohide = true">
+            <div>Complaint Rejected Successfully!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="holdToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="holdToast = false; autohide = true">
+            <div>Complaint on-Hold!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>Work Order Already Exist!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="newerrortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="newerrortoast = false; autohide = true">
+            <div>Please fill all details!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="rejectAndHoldToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectAndHoldToast = false; autohide = true">
+            <div>Please enter remark!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Complaint Approve Modal -->

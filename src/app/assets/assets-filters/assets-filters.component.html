@@ -1,0 +1,85 @@
+<div class="row justify-content-end">
+        <div class="col">
+             <form class="pr-search-form d-inline-block">
+                   <span class="s-icon"></span>
+                   <input class="form-control pr-table-search" type="search" placeholder="Search by Asset Id,Name,Make No" aria-label="Search">        
+             </form>
+        </div>
+        <div class="col-auto pr-0">
+          <label class="p p-13 mr-3">Records</label>
+          <ng-select  class="filter-select record-select" [searchable]="false" [clearable]="false"
+                                    appendTo="body" [items]="pagination" bindLabel="name"
+                                    placeholder="50" [(ngModel)]="selectedPagination" name="name">
+        </ng-select>
+        </div>
+        <div class="col-auto pr-0">
+            <button class="btn btn-outline-light3 st bttn-filter" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse"><span>2</span>Filter</button>
+        </div>
+        <div class="col-auto pl-0">
+            <div class="dropdown tool-dropdown">
+                <button class="btn btn-outline-light3 st dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Tools
+                </button>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item active" >
+                    <i class="icons8 icons8-print-2"></i>Print
+                  </a>
+                  <a class="dropdown-item" >
+                    <i class="icons8 icons8-pdf"></i>PDF
+                  </a>
+                  <a class="dropdown-item" >
+                    <i class="icons8 icons8-brief"></i>Excel
+                  </a>
+                  <a class="dropdown-item" >
+                    <i class="icons8 icons8-document"></i>CSV
+                  </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" [routerLink]="'/asset/add'">ASSET</button>
+        </div>
+    </div>
+<!-- Filters start -->
+<div class="row">
+  <div class="col-12">
+    <div class="filters-wrap">
+      <div class="collapse" id="filterCollapse">
+        <div class="filter-wrap-inner">
+          <div class="row">
+            <div class="col-12">
+              <ul class="list-group list-group-horizontal">
+                <li class="list-group-item" *ngFor="let item of filters">
+                  <label>{{item.name}}</label>
+                  <ng-select class="filter-select" [items]="item.options" bindLabel="name" [placeholder]="item.placeholder"
+                    [(ngModel)]="selectedValue" name="name">
+                  </ng-select>
+                </li>
+                <li class="list-group-item">
+                  <label>Date Range</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="btn bttn-transparent bttn-icon" type="button">
+                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                        </button>
+                    </div>
+                    <input class="form-control pr-date-range" placeholder="Date Range" type="text" name="daterange" [locale]="{format: 'DD-MM-YYYY'}" ngxDaterangepickerMd/>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <label>&nbsp;&nbsp;</label>
+                  <button class="btn btn-outline-secondary st" style="min-width: 175px;">Apply</button>
+                </li>
+                <li class="list-group-item">
+                  <label>&nbsp;&nbsp;</label>
+                  <button class="btn btn-light2 st" style="min-width: 175px;" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">Cancel</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Filters end -->

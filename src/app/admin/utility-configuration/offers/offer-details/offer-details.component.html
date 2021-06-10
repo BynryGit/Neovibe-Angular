@@ -1,0 +1,479 @@
+<div class="tab-pane fade" id="offer_details" role="tabpanel" aria-labelledby="offer_details_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_consumer_offers">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+            <div class="plan-card" style="width:280px;" *ngFor="let item of offer_List.results| filter:searchText">
+               <div class="plan-card-header">
+                   <div class="row">
+                       <div class="col-12">
+                           <h4 class="ttl">{{item.offer_name}}</h4>
+                            <span class="edt st" tooltipClass="pr-tooltip" (click)="onCardClickEvent(item)" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_consumer_offers"><i class="icons8 icons8-edit"></i></span>
+                       </div>
+                       <div class="col-12">
+                           <input type="hidden" value="{{item.id_string}}"/>
+                       </div>
+                       <div class="col-12">
+   
+                       </div>
+                   </div>                                    
+               </div>
+               <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Module</p>
+                        <h6 class="h6 mb-3">{{item.sub_module.label}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Sub Module</p>
+                        <h6 class="h6 mb-3">{{item.sub_module.module.label}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Offer Type</p>
+                        <h6 class="h6 mb-3">{{item.offer_sub_type.offer_type.name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Offer Sub Type</p>
+                        <h6 class="h6 mb-3">{{item.offer_sub_type.name}}</h6>
+                    </div>
+                </div>
+                   <div class="row">
+                       <div class="col-6">
+                           <p class="p p-13 mb-1">Active</p>
+                           <h6 class="h6 mb-3">Yes</h6>
+                       </div>
+                       <div class="col-6">
+                           <p class="p p-13 mb-1">Created by</p>
+                           <h6 class="h6 mb-3">Admin</h6>
+                       </div>
+                   </div>
+                   <div class="row">
+                       <div class="col-6">
+                           <p class="p p-13 mb-1">Created date</p>
+                           <h6 class="h6 mb-3">{{item.created_date |  date : 'MMM dd yy'}}</h6>
+                       </div>
+                       <span class="col-6">
+                        <p class="p p-13 mb-1">Services</p>
+                        <span class="h6 mb-3" *ngFor="let services of item.service_obj; let last = last">
+                            {{services.value}}<ng-container *ngIf="!last">,</ng-container>
+                        </span>
+                    </span>
+                   </div>                                  
+               </div>
+       </div>   
+</div>
+</div>
+
+<!--Basic Consumer Offers Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_consumer_offers" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add Consumer Offers</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Module</label>
+                                        <ng-select [items]="module_list.results" (change)="moduleChange()" bindLabel="label"  bindvalue="id_string" placeholder="Select Module" formControlName="moduleNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.moduleNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.moduleNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.moduleNameControl.errors.required">{{message.moduleCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>SubModule</label>
+                                        <ng-select [items]="submodule_list.results" bindLabel="label" bindvalue="id_string" placeholder="Select Sub Module" formControlName="subModuleNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.subModuleNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.subModuleNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.subModuleNameControl.errors.required">{{message.submoduleCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Type</label>
+                                        <ng-select [items]="offer_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Offer Type" formControlName="typeNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.typeNameControl.errors }" (change)="typeChange()">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.typeNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.typeNameControl.errors.required">{{message.offerTypeCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>SubType</label>
+                                        <ng-select [items]="offer_subtype_filterList.results" bindLabel="name" bindvalue="id_string"  placeholder="Select Offer SubType" formControlName="subTypeNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.subTypeNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.subTypeNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.subTypeNameControl.errors.required">{{message.offerSubTypeCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Offer Name" formControlName="offerNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.offerNameControl.errors }" name = "add_offer_name"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.offerNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.offerNameControl.errors.required">{{message.offerNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.offerNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.offerNameControl.errors.whitespace && !ad.offerNameControl.errors.required">{{message.invalidOfferName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Product</label>
+                                        <ng-select [items]="productList.results" [multiple]="true" bindLabel="name" bindvalue="id_string" placeholder="Select Product" formControlName="productNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.productNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.productNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.productNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Max Amount</label>
+                                        <input type="number" class="form-control" placeholder="Enter Max Amount" formControlName="maxAmountNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.maxAmountNameControl.errors }" name = "add_offer_max_amount"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.maxAmountNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.maxAmountNameControl.errors.required">{{message.maxAmountCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Percentage</label>
+                                        <input type="text" class="form-control" placeholder="Enter Precentage" formControlName="percentNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.percentNameControl.errors }"  name = "add_offer_percentage"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.percentNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.percentNameControl.errors.required">{{message.percentCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Offer Code</label>
+                                        <input type="text" class="form-control" placeholder="Enter Offer Code" formControlName="codeNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.codeNameControl.errors}" name = "add_offer_code"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.codeNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.codeNameControl.errors.required">{{message.codeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.codeNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.codeNameControl.errors.maxlength">{{message.codeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.codeNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.codeNameControl.errors.whitespace && !ad.codeNameControl.errors.required">{{message.invalidCode}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Effective Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="offerObj.effective_date" formControlName="effectiveDateControl" (ngModelChange)="select_effective_date(offerObj.effective_date)" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.effectiveDateControl.errors}" placeholder="mm--yyyy--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body">
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.effectiveDateControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.effectiveDateControl.errors.required">{{message.effectiveDateCantBeEmpty}}</div>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Expiry Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="offerObj.expiry_date" (ngModelChange)="select_expiry_date(offerObj.expiry_date)" formControlName="expiryDateControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.expiryDateControl.errors}" placeholder="mm--yyyy--dd" name="dp2" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" container="body">
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.expiryDateControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.expiryDateControl.errors.required">{{message.expiryDateCantBeEmpty}}</div>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d2.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Description</label>
+                                        <textarea class="form-control big-textarea" name="add_description" placeholder="Enter Description" id="add_description" formControlName="descriptionControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.descriptionControl.errors}"></textarea>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.descriptionControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.descriptionControl.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.descriptionControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.descriptionControl.errors.whitespace && !ad.descriptionControl.errors.required">{{message.invalidDescription}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddOfferData()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+                <div>Offer Details successfully added!!</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+                <div>Offer Details Already Exists!!</div>
+            </ngb-toast>
+        </div>
+    </div>
+</div>
+
+<!--Basic Consumer Offers Add End-->
+
+
+
+<!-- Basic Consumer Offers Edit Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_consumer_offers" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="editSubTypeModalLabel">Edit Consumer Offers</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Module</label>
+                                        <ng-select [items]="module_list.results" (change)="moduleEditChange()" bindLabel="label"  bindvalue="id_string" placeholder="Select Module" formControlName="moduleNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.moduleNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.moduleNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.moduleNameControlEdit.errors.required">{{message.offerTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>SubModule</label>
+                                        <ng-select [items]="submodule_list.results" bindLabel="label" bindvalue="id_string" placeholder="Select Sub Module" formControlName="subModuleNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.subModuleNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.subModuleNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.subModuleNameControlEdit.errors.required">{{message.offerTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Type</label>
+                                        <ng-select [items]="offer_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Offer Type" formControlName="typeNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.typeNameControlEdit.errors }" (change)="typeEditChange()">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.typeNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.typeNameControlEdit.errors.required">{{message.offerTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>SubType</label>
+                                        <ng-select [items]="offer_subtype_filterList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Offer SubType" formControlName="subTypeNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.subTypeNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.subTypeNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.subTypeNameControlEdit.errors.required">{{message.offerTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Offer Name"  name = "add_offer_name" formControlName="offerNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.offerNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.offerNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.offerNameControlEdit.errors.required">{{message.offerTypeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.offerNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.offerNameControlEdit.errors.maxlength">{{message.offerTypeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.offerNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.offerNameControlEdit.errors.whitespace && !ade.offerNameControlEdit.errors.required">{{message.invalidOfferType}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Product</label>
+                                        <ng-select [items]="productList.results" [multiple]="true" bindLabel="name" bindvalue="id_string" placeholder="Select Product" formControlName="productNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.productNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.productNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.productNameControlEdit.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- <div class="form-row">
+                                    <div class="col">
+                                        <label>Percentage</label>
+                                        <input type="text" class="form-control" placeholder="Enter Precentage" [(ngModel)]="offerObj_edit.offer_percentage" name = "add_offer_percentage"/>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Offer Code</label>
+                                        <input type="text" class="form-control" placeholder="Enter Offer Code" [(ngModel)]="offerObj_edit.offer_code" name = "add_offer_code"/>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Effective Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="offerObj.effective_date_edit" (ngModelChange)="select_effective_date_edit(offerObj.effective_date_edit)" placeholder="mm--yyyy--dd" name="dp_edit1" ngbDatepicker #d1_edit="ngbDatepicker" (click)="d1_edit.toggle()" container="body">
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d1_edit.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Expiry Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="offerObj.expiry_date_edit" (ngModelChange)="select_expiry_date_edit(offerObj.expiry_date_edit)" placeholder="mm--yyyy--dd" name="dp2_edit" ngbDatepicker #d2_edit="ngbDatepicker" (click)="d2_edit.toggle()" container="body">
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d2_edit.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Max Amount</label>
+                                        <input type="number" class="form-control" placeholder="Enter Max Amount" formControlName="maxAmountNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.maxAmountNameControlEdit.errors }" name = "add_offer_max_amount"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.maxAmountNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.maxAmountNameControlEdit.errors.required">{{message.maxAmountCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Percentage</label>
+                                        <input type="number" class="form-control" placeholder="Enter Precentage" formControlName="percentNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.percentNameControlEdit.errors }"  name = "add_offer_percentage"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.percentNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.percentNameControlEdit.errors.required">{{message.percentCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Offer Code</label>
+                                        <input type="text" class="form-control" placeholder="Enter Offer Code" formControlName="codeNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.codeNameControlEdit.errors}" name = "add_offer_code"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.codeNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.codeNameControlEdit.errors.required">{{message.codeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.codeNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.codeNameControlEdit.errors.maxlength">{{message.codeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.codeNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.codeNameControlEdit.errors.whitespace && !ade.codeNameControlEdit.errors.required">{{message.invalidCode}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Effective Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="offerObj.effective_date_edit" formControlName="effectiveDateControlEdit" (ngModelChange)="select_effective_date_edit(offerObj.effective_date_edit)" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.effectiveDateControlEdit.errors}" placeholder="mm--yyyy--dd" name="dp_edit1" ngbDatepicker #d1_edit="ngbDatepicker" (click)="d1_edit.toggle()" container="body">
+                                            <div *ngIf="applicantDetailsFormEditSubmitted && ade.effectiveDateControlEdit.errors" class="invalid-feedback">
+                                                <div *ngIf="ade.effectiveDateControlEdit.errors.required">{{message.effectiveDateCantBeEmpty}}</div>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d1_edit.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Expiry Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="offerObj.expiry_date_edit" (ngModelChange)="select_expiry_date_edit(offerObj.expiry_date_edit)" formControlName="expiryDateControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.expiryDateControlEdit.errors}" placeholder="mm--yyyy--dd" name="dp2_edit" ngbDatepicker #d2_edit="ngbDatepicker" (click)="d2_edit.toggle()" container="body">
+                                            <div *ngIf="applicantDetailsFormEditSubmitted && ade.expiryDateControlEdit.errors" class="invalid-feedback">
+                                                <div *ngIf="ade.expiryDateControlEdit.errors.required">{{message.expiryDateCantBeEmpty}}</div>
+                                            </div>
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d2_edit.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Description</label>
+                                        <textarea class="form-control big-textarea" name="add_description" placeholder="Enter Description" id="add_description" formControlName="descriptionControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors }"></textarea>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.descriptionControlEdit.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.descriptionControlEdit.errors.whitespace && !ade.descriptionControlEdit.errors.required">{{message.invalidDescription}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditOfferData()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Basic Consumer Offers Edit Ends -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Offer Details successfully edited!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Offer Details Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+

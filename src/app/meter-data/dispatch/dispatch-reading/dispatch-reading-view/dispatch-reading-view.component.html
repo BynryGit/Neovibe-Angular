@@ -1,0 +1,251 @@
+<!-- Dispatch Route Model Start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="DispatchRouteModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="DispatchRouteModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:800px;">
+            <div class="modal-content">
+
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title mb-2" id="DispatchRouteModalLabel">Route Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">                                
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="block-body">
+                                                <div class="row">
+                                                <div class="col-6">
+                                                    <h4 >Schedule : <span class="h4 text-primary">{{schedule_log_details?.schedule_id?.name}}</span></h4>
+                                                    <div class="enqry-sts-blk" [ngSwitch]="schedule_log_details?.schedule_log_status">
+                                                        <div *ngSwitchCase="'COMPLETED'">
+                                                            <div class="badge badge-label-success">Completed</div>
+                                                          </div>
+                                                          <div *ngSwitchDefault="'PENDING'">
+                                                            <div class="badge badge-label-pending">Pending</div>
+                                                          </div>
+                                                          <div *ngSwitchCase="'IN-PROGRESS'">
+                                                            <div class="badge badge-label-unfinished">In Progress</div>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <h4 class="h4 text-primary">Read Cycle: <span class="h4 text-primary">{{schedule_log_details?.read_cycle_id?.label}}</span></h4>
+                                                    <p class="p p-13 mb-1"><span class="mr-3">Date:</span><span class="text-right text-secondary">{{schedule_log_details?.date_and_time | date : 'dd MMM yy'}}</span></p>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-end mt-3">
+                                    <div class="col">
+                                        <form class="pr-search-form d-inline-block">
+                                            <span class="s-icon"></span>
+                                            <input class="form-control pr-table-search" type="search"
+                                                placeholder="Search by Route, Status" aria-label="Search">
+                                        </form>
+                                    </div>
+                                    <div class="col-auto mr-3">
+                                        <div class="dropdown tool-dropdown">
+                                            <button class="btn btn-outline-light3 st dropdown-toggle" type="button"
+                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                Tools
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item active" href="#">
+                                                    <fa-icon [icon]="faPrint"></fa-icon>Print
+                                                  </a>
+                                                  <a class="dropdown-item" href="#">
+                                                    <fa-icon [icon]="faFilePdf"></fa-icon>PDF
+                                                  </a>
+                                                  <a class="dropdown-item" href="#">
+                                                    <fa-icon [icon]="faFileExcel"></fa-icon>Excel
+                                                  </a>
+                                                  <a class="dropdown-item" href="#">
+                                                    <fa-icon [icon]="faFileCsv"></fa-icon>CSV
+                                                  </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Route DataTable Start -->
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="listview-table-wrap">
+                                            <label class="p p-12">Showing Last 6 month records</label>
+                                            <br>
+                                            <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" *ngFor="let item of blocks">
+                                                        <span>{{item.name}}</span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngIf="!processing">
+                                                    <tr *ngFor="let item of dataSet">
+                                                        <td>{{item.label}}</td>
+                                                        <td>{{item.route_detail?.total_consumer}}</td>
+                                                        <td>{{item.route_detail?.total_reading}}</td>
+                                                        <td>{{item.route_detail?.meter_reader_first_name}} {{item.route_detail?.meter_reader_last_name}}</td>
+                                                        <td>{{item.route_detail?.assign_date | date : 'dd MMM yy'}}</td>
+                                                        <td>
+                                                            <div [ngSwitch]="item.route_detail?.state">
+                                                                <div *ngSwitchDefault="'NOT-DISPATCHED'">
+                                                                    <div class="badge badge-label-unfinished">Not Dispatched</div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'IN-PROGRESS'">
+                                                                    <div class="badge badge-label-pending">In Progress</div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'STARTED'">
+                                                                    <div class="badge badge-label-finished">Started</div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'PARTIAL'">
+                                                                    <div class="badge badge-label-unfinished">Partial</div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'DISPATCHED'">
+                                                                    <div class="badge badge-label-success">Dispatched</div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'ASSIGN-FAIL'">
+                                                                    <div class="badge badge-label-pending">Assign Fail</div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'DE-ASSIGN-FAIL'">
+                                                                    <div class="badge badge-label-pending">De-Assign Fail</div>
+                                                                </div>
+                                                                <div *ngSwitchCase="'COMPLETED'">
+                                                                    <div class="badge badge-label-success">Completed</div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="action-col">
+                                                            <div *ngIf="item.route_detail?.state != 'IN-PROGRESS'">
+                                                                <div class="row" *ngIf="item.route_detail?.state === 'STARTED' || item.route_detail?.state === 'DISPATCHED'">
+                                                                    <div class="col-12">
+                                                                        <ul class="list-unstyled assign-col-list p-0 m-auto">
+                                                                            <li class="media mb-0 pb-0 border-0" role="button" tooltipClass="pr-tooltip" placement="top" [openDelay]="300" [closeDelay]="500">
+                                                                                <div class="prof-img-blk colr1">
+                                                                                    {{item.route_detail?.meter_reader_first_name | slice:0:1}} {{item.route_detail?.meter_reader_last_name | slice:0:1}}
+                                                                                    <span>{{item.route_detail?.meter_reader_task_count}}</span>
+                                                                                </div>
+                                                                                <div class="prof-img-blk colr1" ngbTooltip="De-Assign" (click)="AssignTask(item.other_detail.read_cycle_id_string, item.id_string, item.other_detail.schedule_log_id_string, item.meter_reader_detail[0].id_string)">
+                                                                                    
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" *ngIf="item.route_detail?.state === 'ASSIGN-FAIL' || item.route_detail?.state === 'DE-ASSIGN-FAIL'">
+                                                                    <div class="col-12">
+                                                                        <ul class="list-unstyled assign-col-list p-0 m-auto">
+                                                                            <li class="media mb-0 pb-0 border-0" role="button" tooltipClass="pr-tooltip" placement="top" [openDelay]="300" [closeDelay]="500">
+                                                                                <div class="prof-img-blk colr1" ngbTooltip="retry" (click)="AssignTask(item.other_detail.read_cycle_id_string, item.id_string, item.other_detail.schedule_log_id_string, item.meter_reader_detail[0].id_string)">
+                                                                                    
+                                                                                </div>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="show shown" *ngIf="item.route_detail?.state === 'NOT-DISPATCHED' || item.route_detail?.state === 'PARTIAL'">
+                                                                    <ul class="list-group list-group-horizontal action-list">
+                                                                        <li class="list-group-item dashed-br st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Assign" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="">
+                                                                            <div class="assign-dropdown dropleft">
+                                                                                <button type="button" class="btn bttn-transparent bttn-icon bttn-assign" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                                    <i class="icons8 icons8-user"></i>
+                                                                                </button>
+                                                                                <div class="dropdown-menu assign-dropdown-menu">
+                                                                                    <div class="assign-dropdown-wrap">
+                                                                                        <div class="row">
+                                                                                            <div class="col-12">
+                                                                                                <form class="pr-search-form">
+                                                                                                    <span class="s-icon"></span>
+                                                                                                    <input class="form-control pr-table-search w-100" type="search" placeholder="Search"
+                                                                                                        aria-label="Search">
+                                                                                                </form>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-12">
+                                                                                                <hr class="hr mt-2">
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="row">
+                                                                                            <div class="col-12">
+                                                                                                <ul class="list-unstyled assign-col-list" *ngFor="let item2 of item.meter_reader_detail">
+                                                                                                    <li class="media" role="button" data-toggle="modal" (click)="AssignTask(item.other_detail.read_cycle_id_string, item.id_string, item.other_detail.schedule_log_id_string, item2.id_string)">
+                                                                                                        <div class="prof-img-blk colr1">
+                                                                                                            {{item2.first_name | slice:0:1}} {{item2.last_name | slice:0:1}}<span>{{item2.route_task_assignment_count}}</span>
+                                                                                                        </div>
+                                                                                                        <div class="media-body">
+                                                                                                            <h6 class="ttl">{{item2.first_name}} {{item2.last_name}}</h6>
+                                                                                                            <p class="p p-13">{{item2.email}}</p>
+                                                                                                        </div>
+                                                                                                        <div class="contc-blk">
+                                                                                                            <p class="p p-13 text-dark">{{item2.phone_mobile}}</p>
+                                                                                                        </div>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>                                                                        
+                                                                        </li>
+                                                                    </ul>
+                                                                </span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="dataSet?.length == 0">
+                                                    <tr>
+                                                        <td colspan="12" class="no-data-available">No matching records found</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="processing">
+                                                    <tr >
+                                                        <td colspan="12"> .....</td>						
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Route DataTable End -->
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div> 
+        </div>
+    </div>
+</div>
+<!-- Dispatch Route Model End -->
+
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div>{{SuccessMessage.RouteAssigned}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>{{ErrorMessage.SomethingWentWrong}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->

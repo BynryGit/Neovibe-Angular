@@ -1,0 +1,156 @@
+<div class="block-body inner-form"> 
+    <div class="row">
+        <div class="col">
+            <div class="applicant-data">
+                <div class="row justify-content-end">
+                    <div class="col-auto pl-0">
+                        <button class="btn btn-secondary st" *ngIf="showAddButton" (click)="toggle()"><fa-icon [icon]="faPlus"></fa-icon>Add Note</button>
+                    </div>
+                </div>        
+                <div class="row">
+                    <div class="col-12">
+                        <ng-container *ngIf="show && add_Note">
+                            <div class="add-notes-wrap">
+                                <p class="p p-13">Notes</p>
+                                <div>
+                                    <input type="text" placeholder="Enter Note Name" (keyup)="onNoteNameChange($event)" class="form-control" name="">
+                                </div>
+                                <p class="p p-13" id="note-name-error" style="color:red; display: none;">Note name can't be empty!</p>
+                                <div class="add-notes-card">
+                                    <div class="txt-area">
+                                        <textarea class="form-control add-notes-textarea" (keyup)="onNoteChange($event)" name="note" rows="10" placeholder="Write your note here.."></textarea>
+                                    </div>
+                                    <p class="p p-13" id="note-error" style="color:red; display: none;">Note can't be empty!</p>
+                                    <div class="body"> 
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="color-radio-wrap">
+                                                    <div class="btn-group" data-toggle="buttons">
+                                                        <label class="btn colr1 color-radio-btn radio-btn-round active">
+                                                            <input type="radio" name="note-options" id="option1" autocomplete="off" (click)="changeColor($event)" checked value="notes-card colr1">
+                                                            <span class="tick st"></span>
+                                                        </label>
+                                                        <label class="btn colr2 color-radio-btn radio-btn-round">
+                                                            <input type="radio" name="note-options" id="option2" autocomplete="off" (click)="changeColor($event)" value="notes-card colr2">
+                                                            <span class="tick st"></span>
+                                                        </label>  
+                                                        <label class="btn colr3 color-radio-btn radio-btn-round">
+                                                            <input type="radio" name="note-options" id="option3" autocomplete="off" (click)="changeColor($event)" value="notes-card colr3">
+                                                            <span class="tick st"></span>
+                                                        </label>                
+                                                        <label class="btn colr4 color-radio-btn radio-btn-round">
+                                                            <input type="radio" name="note-options" id="option4" autocomplete="off" (click)="changeColor($event)" value="notes-card colr4">
+                                                            <span class="tick st"></span>
+                                                        </label>                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto pl-1">
+                                                <button class="btn btn-outline-light3 st" (click)="onCancelClick()">Cancel</button>
+                                            </div>
+                                            <div class="col-auto pl-1">
+                                                <button class="btn btn-secondary st" (click)="addNote()">Add Note</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        
+                        <ng-container *ngIf="!show">
+                            <div class="notes-card-wrap" *ngIf="notes.length != 0" style="overflow-wrap: break-word">
+                                <ul class="list-group list-group-horizontal notes-card-list">
+                                    <li class="list-group-item" *ngFor="let item of notes">
+                                        <div class="{{item?.note_color}}">
+                                            <div class="header">
+                                                <a class="print-doc"><fa-icon [icon]="faPrint"></fa-icon></a>
+                                                <div class="dropdown dot-option-dropdown">
+                                                    <!-- <a class="dot-btn-v st" (click)="toggle()" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="padding:1em"></a> -->
+                                                     <span class="edit-note" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Edit" role="button" (click)="onEditNoteClick();onCardClickEvent(item)"><i class="icons8 icons8-edit"></i></span>
+                                                     <span style="top: 12%;margin-right: 35px;" class="bttn-transparent bttn-icon" (click)="onRemoveClick(item)" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove"><fa-icon [icon]="faTrash"></fa-icon></span> 
+                                                </div>
+                                            </div>
+                                            <div class="body">
+                                                <h5 class="ttl">{{item?.note_name}}</h5>
+                                                <p class="p p-12 txt">{{item?.note}}</p>
+                                                <ul class="list-group list-group-horizontal notes-card-body-list">
+                                                    <li class="list-group-item"><p class="p p-12">{{item?.date | date : 'dd MMM yy'}}</p></li>
+                                                    <li class="list-group-item" style="text-align: right"><p class="p p-12">{{item?.time | date : 'shortTime'}}</p></li>
+                                                </ul>
+                                                <div class="user-blk media">
+                                                    <!-- <div class="img-blk">
+                                                        <img class="img-abs st" src="../../assets/images/john-doe.png" alt="John Doe">
+                                                    </div> -->
+                                                    <div class="img-blk text-uppercase" >
+                                                        {{item?.first_name}}{{item?.last_name}}
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <span class="p nm">{{item?.user}}</span>
+                                                        <span class="p dt">{{item?.date | date : 'dd MMM yy'}}</span>
+                                                    </div>     
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12">
+                        <ng-container *ngIf="show_edit">
+                            <div class="add-notes-wrap">
+                                <p class="p p-13">Notes</p>
+                                <div>
+                                    <input type="text" placeholder="Enter Note Name" (keyup)="onNoteNameChange($event)" class="form-control" name="">
+                                </div>
+                                <p class="p p-13" id="note-name-error" style="color:red; display: none;">Note name can't be empty!</p>
+                                <div class="add-notes-card">
+                                    <div class="txt-area">
+                                        <textarea class="form-control add-notes-textarea" (keyup)="onNoteChange($event)" name="note" rows="10" placeholder="Write your note here.."></textarea>
+                                    </div>
+                                    <p class="p p-13" id="note-error" style="color:red; display: none;">Note can't be empty!</p>
+                                    <div class="body"> 
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="color-radio-wrap">
+                                                    <div class="btn-group" data-toggle="buttons">
+                                                        <label class="btn colr1 color-radio-btn radio-btn-round active">
+                                                            <input type="radio" name="note-options" id="option1" autocomplete="off" (click)="changeColor($event)" checked value="notes-card colr1">
+                                                            <span class="tick st"></span>
+                                                        </label>
+                                                        <label class="btn colr2 color-radio-btn radio-btn-round">
+                                                            <input type="radio" name="note-options" id="option2" autocomplete="off" (click)="changeColor($event)" value="notes-card colr2">
+                                                            <span class="tick st"></span>
+                                                        </label>  
+                                                        <label class="btn colr3 color-radio-btn radio-btn-round">
+                                                            <input type="radio" name="note-options" id="option3" autocomplete="off" (click)="changeColor($event)" value="notes-card colr3">
+                                                            <span class="tick st"></span>
+                                                        </label>                
+                                                        <label class="btn colr4 color-radio-btn radio-btn-round">
+                                                            <input type="radio" name="note-options" id="option4" autocomplete="off" (click)="changeColor($event)" value="notes-card colr4">
+                                                            <span class="tick st"></span>
+                                                        </label>                
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto pl-1">
+                                                <button class="btn btn-outline-light3 st" (click)="onCancelClick()">Cancel</button>
+                                            </div>
+                                            <div class="col-auto pl-1">
+                                                <button class="btn btn-secondary st" (click)="saveNote()">Save Note</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

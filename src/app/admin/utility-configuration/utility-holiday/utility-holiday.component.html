@@ -1,0 +1,18 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="leave-tab" data-toggle="tab" href="#work-leaves" role="tab"
+                    aria-controls="country" aria-selected="true">Working Hours</a> 
+                    <a class="nav-item nav-link st" id="holiday-tab" data-toggle="tab" href="#work_holiday"
+                        role="tab" aria-controls="region" aria-selected="true">Holiday</a>                     
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-utility-leaves [operator]="testing()"></app-utility-leaves>
+<app-utility-holiday-tab [operator]="testing()"></app-utility-holiday-tab>
+

@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="hcm_type_tab" data-toggle="tab" href="#hcm_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="hcm_subtype_tab" data-toggle="tab" href="#hcm_subtype" role="tab"
+                        aria-controls="country" aria-selected="false">Subtype</a>              
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-hcm-type [operator]="testing()"></app-hcm-type>
+<app-hcm-subtype [operator]="testing()"></app-hcm-subtype>

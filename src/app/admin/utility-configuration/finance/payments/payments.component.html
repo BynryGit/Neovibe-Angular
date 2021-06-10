@@ -1,0 +1,24 @@
+
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="paymenttypetab" data-toggle="tab" href="#paymenttype"
+                        role="tab" aria-controls="channel" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="paymentsubtypetab" data-toggle="tab" href="#paymentsubtype"
+                        role="tab" aria-controls="channel" aria-selected="true">SubType</a>
+                    <a class="nav-item nav-link st" id="paymentmodetab" data-toggle="tab" href="#paymentmode"
+                    role="tab" aria-controls="channel" aria-selected="true">Mode</a>
+                    <a class="nav-item nav-link st" id="paymentchanneltab" data-toggle="tab" href="#paymentchannel" role="tab"
+                        aria-controls="subtype" aria-selected="false">Channel</a>
+                </div> 
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-payments-type [operator]="testing()"></app-payments-type>
+<app-payment-subtype [operator]="testing()"></app-payment-subtype>
+<app-payments-mode [operator]="testing()"></app-payments-mode>
+<app-payments-channel [operator]="testing()"></app-payments-channel>

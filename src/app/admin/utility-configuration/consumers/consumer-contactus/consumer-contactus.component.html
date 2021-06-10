@@ -1,0 +1,247 @@
+<div class="tab-pane fade" id="consumer_contactus" role="tabpanel" aria-labelledby="consumer_contactus_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Title." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addConsumerContactUs">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:280px;" *ngFor="let item of contactUsList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.emergency_no}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span  (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editConsumerContactUs"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Working Days</p>
+                        <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.working_days}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3" style="word-wrap: break-word;">Admin</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3" style="word-wrap: break-word;">Yes</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<!-- Add city modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="addConsumerContactUs" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCityModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Contact Us Details</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" placeholder="Enter Email" formControlName="emailNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.emailNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.emailNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.emailNameControl.errors.required">{{message.emailCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.emailNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.emailNameControl.errors.email">{{message.invalidEmail}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Emergency No.</label>
+                                        <input type="text" class="form-control" placeholder="Enter Emergency No." formControlName="emergencyNoControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.emergencyNoControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.emergencyNoControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.emergencyNoControl.errors.required">{{message.emergencyNoCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.emergencyNoControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.emergencyNoControl.errors.maxlength">{{message.emergencyNoMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.emergencyNoControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.emergencyNoControl.errors.whitespace && !ad.emergencyNoControl.errors.required">{{message.invalidEmergencyNo}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Working Days</label>
+                                        <input type="text" class="form-control" placeholder="Enter No.of Working Days" formControlName="workingDaysControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.workingDaysControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.workingDaysControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.workingDaysControl.errors.required">{{message.workingDaysCantBeEmpty}}</div>
+                                        </div>
+                                        
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.workingDaysControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.workingDaysControl.errors.whitespace && !ad.workingDaysControl.errors.required">{{message.invalidWorkingDays}}</div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Portal Site</label>
+                                        <input type="text" class="form-control" placeholder="Enter Portal Site" formControlName="siteNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.siteNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.siteNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.siteNameControl.errors.required">{{message.siteCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.siteNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.siteNameControl.errors.whitespace && !ad.siteNameControl.errors.required">{{message.invalidSite}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddContactUsdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Contact Us Details successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Contact Us Details Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add city modal end -->
+
+<!-- edit city modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="editConsumerContactUs" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCityModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Contact Us Details</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Email</label>
+                                        <input type="text" class="form-control" placeholder="Enter Email" formControlName="emailNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.emailNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.emailNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.emailNameControlEdit.errors.required">{{message.emailCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.emailNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.emailNameControlEdit.errors.email">{{message.invalidEmail}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Emergency No.</label>
+                                        <input type="number" class="form-control" placeholder="Enter Emergency No." formControlName="emergencyNoControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.emergencyNoControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.emergencyNoControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.emergencyNoControlEdit.errors.required">{{message.emergencyNoCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.emergencyNoControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.emergencyNoControlEdit.errors.whitespace && !ade.emergencyNoControlEdit.errors.required">{{message.invalidEmergencyNo}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Working Days</label>
+                                        <input type="number" class="form-control" placeholder="Enter City" formControlName="workingDaysControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.workingDaysControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.workingDaysControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.workingDaysControlEdit.errors.required">{{message.workingDaysCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.workingDaysControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.workingDaysControlEdit.errors.whitespace && !ade.workingDaysControlEdit.errors.required">{{message.invalidWorkingDays}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Portal Site</label>
+                                        <input type="text" class="form-control" placeholder="Enter Portal Site" formControlName="siteNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.siteNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.siteNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.siteNameControlEdit.errors.required">{{message.siteCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.siteNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.siteNameControlEdit.errors.whitespace && !ade.siteNameControlEdit.errors.required">{{message.invalidSite}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditContactUsdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- edit city modal end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Contact Us Details successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Contact Us Details Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

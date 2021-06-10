@@ -1,0 +1,284 @@
+<!-- Complaint Approve Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="transferApproveModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="transferApproveModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="transferApproveModalLabel">Transfer Request</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block"> 
+                                    
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="title-divider">Transfer Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Request No</p>
+                                                                    <h6 class="h6">{{transferData?.sa_number}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Consumer No</p>
+                                                                    <h6 class="h6">{{transferData?.consumer_service_contract_detail_id?.consumer_no}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Product</p>
+                                                                    <h6 class="h6">{{transferData?.work_order_master_id?.utility_product_id?.name}}</h6>
+                                                                </div>
+                                                            
+                                                                
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Request Description</p>
+                                                                    <h6 class="h6">{{transferData?.sa_description}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Transfer Request Date</p>
+                                                                    <h6 class="h6">{{transferData?.created_date | date : 'dd MMM yy'}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Transfer Request For</p>
+                                                                    <h6 class="h6">{{transferData?.work_order_master_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Trnasfer Request Status</p>
+                                                                    <div class="enqry-sts-blk" [ngSwitch]="transferData?.state">
+                                                                        <div *ngSwitchCase="'COMPLETED'">
+                                                                          <div class="badge badge-label-success">COMPLETED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'CREATED'">
+                                                                          <div class="badge badge-label-pending">CREATED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'IN PROGRESS'">
+                                                                          <div class="badge badge-label-unfinished">IN PROGRESS</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'REJECTED'">
+                                                                            <div class="badge badge-label-danger">REJECTED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'HOLD'">
+                                                                            <div class="badge badge-label-pending">HOLD</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'REQUESTED'">
+                                                                            <div class="badge badge-label-pending">REQUESTED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                            <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Transfer Remark</p>
+                                                                    <h6 class="h6">{{transferData?.sa_user_remark}}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>    
+                                                
+                                                    <br>
+
+                                                    <div class="row" *ngIf="transferData?.work_order_master_id?.utility_work_order_sub_type?.name === 'TRANSFER_DISCONNECT'">
+                                                        <div class="col">
+                                                            <div class="title-divider">Address Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block" *ngIf="transferData?.work_order_master_id?.utility_work_order_sub_type?.name === 'TRANSFER_DISCONNECT'">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">State</p>
+                                                                    <h6 class="h6">{{transferData?.state_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">City</p>
+                                                                    <h6 class="h6">{{transferData?.city_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Area</p>
+                                                                    <h6 class="h6">{{transferData?.area_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Area</p>
+                                                                    <h6 class="h6">{{transferData?.sub_area_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Zipcode</p>
+                                                                    <h6 class="h6">{{transferData?.zipcode}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Address</p>
+                                                                    <h6 class="h6">{{transferData?.address_line_1}}</h6>
+                                                                </div>                                                                                                                                                                                                                                                                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" *ngIf="transferData?.work_order_master_id?.utility_work_order_sub_type?.name === 'TRANSFER_CONNECT'">
+                                                        <div class="col">
+                                                            <div class="title-divider">Old Address Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block" *ngIf="transferData?.work_order_master_id?.utility_work_order_sub_type?.name === 'TRANSFER_CONNECT'">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">State</p>
+                                                                    <h6 class="h6">{{transferData?.consumer_service_contract_detail_id?.consumer_id?.billing_state?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">City</p>
+                                                                    <h6 class="h6">{{transferData?.consumer_service_contract_detail_id?.consumer_id?.billing_city?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Area</p>
+                                                                    <h6 class="h6">{{transferData?.consumer_service_contract_detail_id?.consumer_id?.billing_area?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Area</p>
+                                                                    <h6 class="h6">{{transferData?.consumer_service_contract_detail_id?.consumer_id?.billing_sub_area?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Zipcode</p>
+                                                                    <h6 class="h6">{{transferData?.consumer_service_contract_detail_id?.consumer_id?.billing_zipcode}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Address</p>
+                                                                    <h6 class="h6">{{transferData?.consumer_service_contract_detail_id?.consumer_id?.billing_address_line_1}}</h6>
+                                                                </div>                                                                                                                                                                                                                                                                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" *ngIf="transferData?.work_order_master_id?.utility_work_order_sub_type?.name === 'TRANSFER_CONNECT'">
+                                                        <div class="col">
+                                                            <div class="title-divider">New Address Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block" *ngIf="transferData?.work_order_master_id?.utility_work_order_sub_type?.name === 'TRANSFER_CONNECT'">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">State</p>
+                                                                    <h6 class="h6">{{transferData?.state_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">City</p>
+                                                                    <h6 class="h6">{{transferData?.city_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Area</p>
+                                                                    <h6 class="h6">{{transferData?.area_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Area</p>
+                                                                    <h6 class="h6">{{transferData?.sub_area_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Zipcode</p>
+                                                                    <h6 class="h6">{{transferData?.zipcode}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Address</p>
+                                                                    <h6 class="h6">{{transferData?.address_line_1}}</h6>
+                                                                </div>                                                                                                                                                                                                                                                                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <form name="form" [formGroup]="remarkAdd" *ngIf="transferData?.state === 'REQUESTED' || transferData?.state === 'HOLD' ">
+                                                        <div formArrayName="remarkItemsControl">
+                                                            <div class="form-row" *ngFor="let item of remarkItems.controls; let i=index" [formGroupName]="i"> 
+                                                                <!-- <div class="form-row"> -->
+                                                                    <div class="col">
+                                                                        <label>Remark</label>
+                                                                        <textarea class="form-control big-textarea" formControlName="remark" [ngClass]="{'is-invalid':onRejectOrHold && remarkItems.controls[i].get('remark').errors}" name="add_remark" id="add_remark"></textarea>
+                                                                        <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="onRejectOrHold && remarkItems.controls[i].get('remark').errors?.required">Please enter remark</label>
+                                                                    <!-- </div> -->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    
+
+                                                   
+                                                <!-- </ng-container>
+                                            </form> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close" >Cancel</button>
+                        </div>                        
+                        <div class="col-auto pl-1" *ngIf="transferData.state === 'REQUESTED' || transferData.state === 'HOLD' ">
+                            <button class="btn btn-outline-light3 st" (click)="onReject()" >Reject</button>
+                        </div>
+                        <div class="col-auto pl-1" *ngIf="transferData.state === 'REQUESTED'">
+                            <button class="btn btn-outline-light3 st" (click)="onHold()">Hold</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0" *ngIf="transferData.state === 'REQUESTED' || transferData.state === 'HOLD' ">
+                            <button class="btn btn-secondary st" (click)="onApprove()" >Approve</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Work Order Successfully Created!!</div>
+        </ngb-toast>
+    </div>
+</div> -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="approveToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="approveToast = false; autohide = true">
+            <div>Transfer Request Approved Successfully!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="rejectToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectToast = false; autohide = true">
+            <div>Transfer Request Rejected Successfully!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="holdToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="holdToast = false; autohide = true">
+            <div>Transfer Request on-Hold!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>Transfer Request Unable To Proceed!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="rejectAndHoldToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectAndHoldToast = false; autohide = true">
+            <div>Please enter remark!!</div>
+        </ngb-toast>
+    </div>
+</div>

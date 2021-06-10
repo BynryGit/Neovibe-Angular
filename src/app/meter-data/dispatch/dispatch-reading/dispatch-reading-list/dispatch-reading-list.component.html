@@ -1,0 +1,95 @@
+<!-- Schedule Log Table Start -->
+<div class="row">
+  <div class="col">
+    <div class="listview-table-wrap">
+      <label class="p p-12">Showing Last 6 month records</label>
+      <br>
+      <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor="let item of blocks">
+              <span>{{item.name}}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!processing">
+          <tr *ngFor="let item of dataSet">
+            <td class="showOnHover">{{item.schedule_id.name}}
+              <span class="show">
+                <span class="enqry-no-blk">{{item.schedule_id.name}}</span>
+                <span class="enqry-name-blk">{{item.read_cycle_id?.label}}</span>
+                  <div class="enqry-sts-blk" [ngSwitch]="item.schedule_log_status">
+                      <div *ngSwitchCase="'COMPLETED'">
+                        <div class="badge badge-label-success">Completed</div>
+                      </div>
+                      <div *ngSwitchDefault="'PENDING'">
+                        <div class="badge badge-label-pending">Pending</div>
+                      </div>
+                      <div *ngSwitchCase="'IN-PROGRESS'">
+                        <div class="badge badge-label-unfinished">In Progress</div>
+                      </div>
+                  </div>
+                  <div class="list-blk">
+                    <p><span>{{item.tenant?.short_name}}</span><span>Tenant</span></p>
+                    <p><span>{{item.utility?.name}}</span><span>Utility</span></p>
+                    <p><span>{{item.utility_product_id?.name}}</span><span>Utility Product</span></p>
+                  </div>
+              </span>
+            </td>
+            <td>{{item.read_cycle_id?.name}}</td>
+            <td>{{item.route_detail?.total_route}}</td>
+            <td>{{item.total_consumer}}</td>
+            <td>{{item.route_detail?.started_route}}</td>
+            <td>{{item.route_detail?.dispatch_route}}</td>
+            <td>{{item.route_detail?.completed_route}}</td>
+            <td>{{item.schedule_id.start_date | date : 'dd MMM yy'}}</td>
+            <td>{{item.schedule_id.end_date | date : 'dd MMM yy'}}</td>
+            <td>
+              <div [ngSwitch]="item.schedule_log_status">
+                <div *ngSwitchCase="'COMPLETED'">
+                    <div class="badge badge-label-success">Completed</div>
+                </div>
+                <div *ngSwitchDefault="'PENDING'">
+                    <div class="badge badge-label-pending">Pending</div>
+                </div>
+                <div *ngSwitchCase="'IN-PROGRESS'">
+                    <div class="badge badge-label-unfinished">In Progress</div>
+                </div>
+              </div>
+            </td>
+            <td class="action">
+              <ul class="list-group list-group-horizontal action-list" style="margin-right: 30%;">
+                <li class="list-group-item st" ngbTooltip="View" (click)="ViewRoute($event,item.id_string,'VIEW')" [openDelay]="200" [closeDelay]="200">
+                    <i class="icons8 icons8-eye"></i>
+                </li>
+                <li class="list-group-item st" ngbTooltip="Revisit" (click)="ViewRevisitRoute($event,item.id_string,'REVISIT')" [openDelay]="200" [closeDelay]="200">
+                    <fa-icon [icon]="faRedoAlt"></fa-icon>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="dataSet?.length == 0">
+          <tr>
+            <td colspan="12" class="no-data-available">No matching records found</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="processing">
+          <tr >
+            <td colspan="12"> .....</td>						
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Schedule Log Table End -->
+
+
+<!-- Reading Route View Component Start -->
+<app-dispatch-reading-view></app-dispatch-reading-view>
+<!-- Reading Route View Component End -->
+
+<!-- Reading Route Revisit Component Start -->
+<app-dispatch-reading-revisit></app-dispatch-reading-revisit>
+<!-- Reading Route Revisit Component End -->

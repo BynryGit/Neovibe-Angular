@@ -1,0 +1,30 @@
+version: 0.2
+
+phases:
+
+  install:
+    runtime-versions:
+      nodejs: 12
+    commands:      
+      - "npm uninstall -g @angular/cli"
+      - "npm cache clean --force"
+      - "npm install -g @angular/cli@8.3.25"
+      - "export NODE_OPTIONS='--max-old-space-size=16384'"
+      - "npm install --save mapbox-gl"
+      - "npm install --save @mapbox/mapbox-gl-geocoder"
+      - "npm install"
+
+  build:
+    commands:
+      - echo "Build started for $ENV environment"
+      - ng build --configuration=$ENV
+      
+  post_build:
+    commands:
+      - echo "Build completed on `date`"
+
+artifacts:
+    files:
+        - '**/*'
+    base-directory: 'dist/smart360-angular*'
+    discard-paths: no

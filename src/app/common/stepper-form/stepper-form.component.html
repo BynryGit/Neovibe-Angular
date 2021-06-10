@@ -1,0 +1,20 @@
+<section class="pr-section registration-sec" *ngIf="blocks.length != 0"> 
+    <div class="row">
+        <div class="col-auto pr-0 h100">
+            <div class="cust-form-col-lt" style="width: 280px;">
+                <div class="row h-100">
+                    <div class="col-12">
+                        <div class="custom-hr-list-wrap">
+                            <ul class="nav list-group" id="myTab" role="tablist">
+                                <li class="{{item.listClass}}" *ngFor="let item of blocks">
+                                    <a class="{{item.class}}" id="{{item.id}}" data-toggle="tab" href="{{item.href}}" role="tab" aria-controls="{{item.areaControl}}" aria-selected="true">{{item.name}}</a>
+                                </li>
+                            </ul>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ng-content></ng-content>
+    </div>
+</section>

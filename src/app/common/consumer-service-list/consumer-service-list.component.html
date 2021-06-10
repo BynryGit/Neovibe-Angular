@@ -1,0 +1,176 @@
+
+<div class="col">
+    <form class="pr-search-form d-inline-block">
+        <span class="s-icon"></span>
+        <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+    </form>
+</div>
+
+
+<div class="listview-table-wrap">
+    <table  id="table1" style="width: 100%;" [dtOptions]="dtOptions" datatable class="pr-datatable table table-hover">
+        <thead>
+            <tr>
+                <th scope="col" class="sm-col" ><span>ID</span></th>
+                <th scope="col"><span>Service Name</span></th>
+                <th scope="col"><span>Type</span></th>
+                <th scope="col"><span>SubType</span></th>
+                <th scope="col"><span>Requested On</span></th>
+                <th scope="col"><span>Status</span></th>
+                <th scope="col" class="action-col"><span>Action</span></th>
+            </tr>
+        </thead>
+        <tbody *ngIf="!processing">
+            <tr *ngFor="let item of consumerList.results | filter:searchText">
+                <th scope="row" class="sb-col">{{item?.sa_number}}</th>
+                <td>{{item?.work_order_master_id?.name}}</td>
+                <td>{{item?.work_order_master_id?.utility_work_order_sub_type?.utility_work_order_type?.name}}</td>
+                <td>{{item?.work_order_master_id?.utility_work_order_sub_type?.name}}</td>
+                <td>{{item?.sa_date| date : 'dd MMM yy'}}</td>
+                <td>
+                    <!-- <div [ngSwitch]="item.is_active">
+                        <div *ngSwitchCase=true>
+                            <div class="badge badge-label-unpaid">Active</div>
+                        </div>
+                        <div *ngSwitchDefault>
+                            <div class="badge badge-label-paid">Expired</div>
+                        </div>
+                    </div> -->
+                    <div [ngSwitch]="item.state">
+                        <div *ngSwitchCase="'CLOSED'">
+                            <div class="badge  badge-label-danger">
+                                {{item?.state}}
+                            </div>
+                        </div>
+                        <div *ngSwitchDefault>
+                            <div
+                                class="badge badge-label-new">
+                                {{item?.state}}
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="action-col">
+                    <span class="show">
+                    <ul class="list-group list-group-horizontal action-list">
+                        <li class="list-group-item st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="View"
+                            [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#explumberServicesModal" (click)="serviceClicked(item)">
+                            <i class="icons8 icons8-eye"></i>
+                        </li>
+                    </ul>
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+        <tbody *ngIf="consumerList.results?.length == 0">
+            <tr>
+                <td colspan="7" class="no-data-available">No data available in table</td>
+            </tr>
+            </tbody>
+            <tbody *ngIf="processing">
+            <tr>
+                <td colspan="7"> .....</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Services Modal View -->
+<div class="pr-modal pr-web-modal">
+    <div class="modal right fade" id="explumberServicesModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="explumberServicesModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header web-modal-header">
+                <button class="btn bttn-back st" data-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body web-modal-body-wrap pt-0 full-length">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form web-modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="dtls-block">
+
+                                        <div class="srvc-info-graphic colr1">
+                                            <img class="st" src="../../../../assets/images/service-card-plumber-bg1.png" alt="img">
+                                        </div>
+                                        <div class="srvc-name-blk pb-0">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h4 class="ttl">{{ selected_service?.work_order_master_id?.name}}</h4>
+                                                    <div class="rtng-blk-wrap">
+                                                        <div class="rtng-blk">
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon [icon]="faStar"></fa-icon>
+                                                            <span class="p text-dark pl-2 fw-500">4.2</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="p ide">ID: {{selected_service?.sa_number}}</p>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <h4 class="srvc-amt">{{selected_service?.work_order_master_id?.base_rate}}</h4>
+                                                    <span class="badge badge-label-success">{{selected_service?.state}}</span>
+                                                </div>
+                                            </div>                                            
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <hr class="hr">
+                                            </div>
+                                        </div>
+                                        <div class="ovrwv-blk">
+                                            <h6 class="ttl">Overview</h6>
+                                            <p class="p p-13">{{selected_service?.work_order_master_id?.description}}</p>
+                                        </div>
+
+                                        <div class="info-block bg-light-grey mt-3">
+                                            <div class="applicant-data">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <p class="p p-13">Type</p>
+                                                        <h6 class="h6">{{selected_service?.work_order_master_id?.utility_work_order_sub_type?.work_order_sub_type?.name}}</h6>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="p p-13">Sub Type</p>
+                                                        <h6 class="h6">{{selected_service?.work_order_master_id?.utility_work_order_sub_type?.name}}</h6>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="p p-13"> Date</p>
+                                                        <h6 class="h6">{{selected_service?.sa_date | date : 'dd MMM yy'}}</h6>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <p class="p p-13">Remark</p>
+                                                        <h6 class="h6">{{selected_service?.sa_user_remark}}</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer  web-modal-footer">
+                <div class="row w-100 justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st">Print</button>
+                    </div>
+                </div>
+            </div>  
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Service Modal  View end-->

@@ -1,0 +1,431 @@
+<div class="pr-modal">
+    <div class="modal right fade" *ngIf="showModalBox" id="resorceViewModal" data-backdrop="false" tabindex="-1"
+        role="dialog" aria-labelledby="resorceViewModalLabel">
+        <div class="modal-dialog" role="document" style="width: 780px;max-width: unset;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="resorceViewModals">&nbsp;</h4>
+                    <button type="button" class="close" (click)="hideModel()" data-dismiss="modal"
+                        aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="block-body">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h4>Requested ID :<span
+                                                                class="h4 text-primary">{{assignDetailsObj?.sa_number}}</span>
+                                                        </h4>
+                                                        <div class="badge badge-label-success">
+                                                            {{assignDetailsObj?.state}}</div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <h4 >Type :<span
+                                                                class="h4 text-primary">{{assignDetailsObj?.work_order_master_id?.name}}</span>
+                                                        </h4>
+                                                        <p class="p p-13 mb-1">Created Date :<span
+                                                                class="text-right text-secondary">{{assignDetailsObj?.created_date |date:'dd MMM yyyy'}}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-end mt-3">
+                                    <div class="col-6">
+                                        <form class="pr-search-form d-inline-block">
+                                            <span class="s-icon"></span>
+                                            <input class="form-control pr-table-search" type="search"
+                                                placeholder="Search by User ID, Email, Phone No." aria-label="Search"
+                                                (keyup)="onSearch($event.target.value)">
+                                        </form>
+                                    </div>
+                                    <div class="col-6">
+                                        <button class="btn bttn-text st" data-toggle="collapse"
+                                            data-target="#hide-show-filter" aria-expanded="false"
+                                            aria-controls="hide-show-filter" (click)="toggleBtn()">
+                                            <fa-icon [icon]="faPlus"></fa-icon>Apply Filter
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row collapse" id="hide-show-filter">
+                                    <div class="col pr-0">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <ng-select [clearable]="false" [searchable]="false" bindLabel="name"
+                                                    placeholder="Select Utility" [(ngModel)]="selectedUtility"
+                                                    name="name">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="listview-table-wrap">
+                                            <label class="p p-12">Showing Last 6 month records</label>
+                                            <table datatable id="table1" [dtOptions]="dtOptions"
+                                                class="pr-datatable table table-hover" style="width: 100%;">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" class="sm-col"><span>User ID</span></th>
+                                                        <th scope="col"><span>Name</span></th>
+                                                        <th scope="col"><span>Mobile No.</span></th>
+                                                        <th scope="col"><span>Email</span></th>
+
+                                                        <th scope="col" class="action-col"><span>Action</span></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody *ngIf="!processing">
+                                                    <tr *ngFor="let item of users">
+                                                        <td class="showOnHover"><a data-dismiss="modal" data-toggle="modal"  data-target="#resorceUserDetailViewModal" 
+                                                        [routerLink]=""
+                                                    (click)="showUserDetailModel(item)">{{item?.user?.user_id}}</a>
+                                                <span class="show">
+                                                    <span class="enqry-no-blk">{{item?.user?.first_name}}</span> <span></span>                                                
+                                                    <div class="list-blk">
+                                                        <p><span>{{item?.user?.user_id}}</span><span>Area</span></p>
+                                                        <!-- <p><span>{{item?.consumer_service_contract_detail_id?.consumer_id?.billing_sub_area?.name}}</span><span>Sub Area</span></p>
+                                                        <p><span>{{item?.sa_date | date : 'dd MMM yy hh:mm a'}}</span><span>Requested Date</sp an></p>-->
+                                                    </div>
+
+                                                    </span>
+                                                </td>
+                                                        <td>{{item?.user?.first_name}}&nbsp;{{item?.user?.last_name}}
+                                                        </td>
+                                                        <td>{{item?.user?.phone_mobile}}</td>
+                                                        <td>{{item?.user?.email}}</td>
+
+                                                        <td class="action-col">
+                                                            <span class="show shown">
+                                                                <ul
+                                                                    class="list-group list-group-horizontal action-list">
+                                                                    <!-- data-target="#dispatchAssignModal" -->
+                                                                    <li class="list-group-item dashed-br st"
+                                                                        tooltipClass="pr-tooltip" placement="top"
+                                                                        ngbTooltip="Assign">
+                                                                        <div class="assign-dropdown dropleft">
+                                                                            <button type="button"
+                                                                                class="btn bttn-transparent bttn-icon bttn-assign"
+                                                                                data-toggle="dropdown"
+                                                                                aria-haspopup="true"
+                                                                                (click)="assignAppointment(item)">
+                                                                                <i class="icons8 icons8-user"></i>
+                                                                            </button>
+
+                                                                        </div>
+                                                                    </li>
+                                                                </ul>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="users?.length == 0">
+                                                    <tr>
+                                                        <td colspan="3" class="no-data-available">No matching records
+                                                            found</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody *ngIf="processing">
+                                                    <tr>
+                                                        <td colspan="3"> .....</td>
+                                                    </tr>
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Assign Sucessfully Msg -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="assignSuccessMsg" header="dwd" [delay]="2000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="assignSuccessMsg = false; autohide = true">
+            <div>Service Appointment Successfully Assigned!!</div><br>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="assignConflictMsg" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="assignConflictMsg = false; autohide = true">
+            <div>Service Appointment already Assigned !</div><br><br>
+        </ngb-toast>
+
+        <ngb-toast class="success" *ngIf="deAssignmentMsg" header="dwd" [delay]="2000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="deAssignmentMsg = false; autohide = true">
+            <div>Service Appointment Successfully Dessigned!!</div><br>
+        </ngb-toast>
+
+        <ngb-toast class="success" *ngIf="deAssignErrorMsg" header="dwd" [delay]="2000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="deAssignErrorMsg = false; autohide = true">
+            <div>Service Assignment Not Exists, Please Assign First!!</div><br><br>
+        </ngb-toast>
+    </div>
+</div>
+
+
+<div class="pr-modal">
+    <div class="modal right fade" *ngIf="showUserModalBox" id="resorceUserDetailViewModal" data-backdrop="false" tabindex="-1"
+        role="dialog" aria-labelledby="resorceUserDetailViewModalLabel">
+        <div class="modal-dialog" role="document" style="width: 780px;max-width: unset;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="resorceUserDetailViewModal">&nbsp;</h4>
+                    <button type="button" class="close" (click)="hideModel()" data-dismiss="modal"
+                        aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="block-body" style="min-height: unset;">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h4>Name :<span
+                                                                class="h4 text-primary">{{userDetails?.user?.first_name}}&nbsp;{{userDetails?.user?.last_name}}</span>
+                                                        </h4>
+                                                        <h4>User ID :<span
+                                                                class="h4 text-primary">{{userDetails?.user?.user_id}}</span>
+                                                        </h4>
+                                                        <div class="badge badge-label-success">
+                                                            {{userDetails?.user?.status_id?.status}}</div>
+                                                        
+                                                    </div>
+                                                    <div class="col">
+                                                        <h4 >Email :<span
+                                                                class="h4 text-primary">{{userDetails?.user?.email}}</span>
+                                                        </h4>
+                                                        <p class="p p-13 mb-1">Contact No. :<span
+                                                                class="text-right text-secondary">{{userDetails?.user?.phone_mobile}}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="title-divider">User Details</div>
+                                    </div>                                    
+                                </div>
+                                 <div class="info-block">
+                                    <div class="applicant-data">
+                                        <div class="col">
+                                            <div class="col">
+                                                <div class="row">
+                                                <!-- <div class="col-3">
+                                                    <p class="p p-13" style="margin-bottom: 5px;">Tenant</p>
+                                                    <h6 class="h6">{{userDetails?.user?.tenant?.name}}</h6>
+                                                </div> -->
+                                                <!-- <div class="col-4">
+                                                    <p class="p p-13" style="margin-bottom: 5px;">Type</p>
+                                                    <h6 class="h6">{{userDetails?.user?.user_type_id?.name}}</h6>
+                                                </div>
+                                                
+                                                <div class="col-4">
+                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Type</p>
+                                                    <h6 class="h6">{{userDetails?.user?.user_subtype_id?.name}}</h6>
+                                                </div> -->
+                                                <!-- <div class="col-4">
+                                                    <p class="p p-13" style="margin-bottom: 5px;">Form Factor</p>
+                                                    <h6 class="h6">{{userDetails?.user?.form_factor_id?.name}}</h6>
+                                                </div> -->
+                                                <div class="col-3">
+                                                    <p class="p p-13" style="margin-bottom: 5px;">County</p>
+                                                    <h6 class="h6">{{userDetails?.user?.city_id?.name}}</h6>
+                                                </div>
+                                                <div class="col-3">
+                                                    <p class="p p-13" style="margin-bottom: 5px;">Area</p>
+                                                    <h6 class="h6"> New Paltz</h6>
+                                                </div>
+                                                <div class="col-3">
+                                                <p class="p p-13" style="margin-bottom: 5px;">Name</p>
+                                                <h6 class="h6">{{userDetails?.user?.supplier_id?.name}}</h6>
+                                                </div>
+                                                <!-- <div class="col-4">
+                                                <p class="p p-13" style="margin-bottom: 5px;">Email</p>
+                                                <h6 class="h6">{{userDetails?.user?.supplier_id?.email_id}}</h6>
+                                            </div> -->
+                                            <div class="col-3">
+                                                <p class="p p-13" style="margin-bottom: 5px;">Contact No.</p>
+                                                <h6 class="h6">{{userDetails?.user?.supplier_id?.phone_no}}</h6>
+                                            </div>
+                                                                                    
+                                            </div>
+                                        </div>
+                                            </div>
+                                            
+                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="title-divider">User Skill</div>
+                                    </div>
+                                </div>
+                                <div class="info-block">
+                                    <div class="applicant-data">
+                                        <div class="col">
+                                            <div class="col">
+                                            <div class="row">
+                                            <div class="col">
+                                                <p class="p p-13" style="margin-bottom: 5px;">Skill</p>
+                                                <h6 class="h6">{{userDetails?.skill?.skill}} , Completed IIA Water ,  Grade C Water Couse Completed</h6>
+                                            </div>  
+                                                                                   
+                                            </div>
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="title-divider">Utilization</div>
+                                    </div>
+                                </div>
+                                <div class="info-block" *ngIf="appointments">
+                                    <div class="applicant-data">
+                                        <div class="col">
+                                            <div class="row" style="padding-left:3%">
+                                            <div class="col-4">
+                                                <p class="p p-13" style="margin-bottom: 5px;">Today</p>
+                                                <h6 class="h6">50%</h6>
+                                            </div>  
+                                            <div class="col-4">
+                                                <p class="p p-13" style="margin-bottom: 5px;">Tomorrow</p>
+                                                <h6 class="h6">10%</h6>
+                                            </div> 
+                                            <div class="col-4">
+                                                <p class="p p-13" style="margin-bottom: 5px;">Day After Tomorrow</p>
+                                                <h6 class="h6">0%</h6>
+                                            </div>  
+                                        </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="info-block" *ngIf="appointmentsError && appointments == undefined">
+                                    <div class="applicant-data">
+                                        <div class="row" style="padding-left:3%">
+                                            <div class="col-11">                                                
+                                                <div class="col">
+                                                    <p>{{appointmentsError}}</p>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div><br>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="title-divider">Assigned Appointments (Next 3 Day's)</div>
+                                    </div>
+                                </div>
+                                <div class="info-block">
+                                    <div class="applicant-data">
+                                        <div class="col">
+                                            <div class="col">
+                                                <div class="row" *ngIf="appointmentsError && appointments == undefined">
+                                                    <div class="col">
+                                                        <h6 class="h6">{{appointmentsError}}</h6>
+                                                    </div>                       
+                                                </div>
+                                                <div class="row" *ngIf="appointments">     
+
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="listview-table-wrap">
+                                                            <table datatable id="table1" [dtOptions]="dtOptions"
+                                                                class="pr-datatable table table-hover" style="width: 110%;">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th scope="col" class="sm-col"><span>ID</span></th>
+                                                                        <th scope="col"><span>Service</span></th>
+                                                                        <th scope="col"><span>Area</span></th>
+                                                                        <th scope="col"><span>Date</span></th>
+                                                                        <th scope="col"><span>Status</span></th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody *ngIf="!processing">
+                                                                    <tr *ngFor="let item of appointments">
+                                                                  
+                                                                        <td class="sm-col">{{item?.sa_id?.sa_number}}</td>
+                                                                        <td>{{item?.sa_id?.work_order_master_id?.name}}
+                                                                        </td>
+                                                                        <td>New Paltz</td>
+                                                                        <td>{{item?.sa_id?.sa_date|date : 'dd MMM yyyy hh:mm a'}} </td>
+                                                                        <td>{{item?.sa_id?.state}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <tbody *ngIf="users?.length == 0">
+                                                                    <tr>
+                                                                        <td colspan="3" class="no-data-available">No matching records
+                                                                            found</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <tbody *ngIf="processing">
+                                                                    <tr>
+                                                                        <td colspan="3"> .....</td>
+                                                                    </tr>
+                                                                </tbody>
+
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer pr-modal-footer  web-modal-footer">
+                        <div class="row w-100 justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close" >Cancel</button>
+                            </div>                   
+                            <div class="col-auto pl-1 pr-0">
+                                <button class="btn btn-secondary st" (click)="assignAppointment(userDetails)">Assign</button>
+                            </div>
+                        </div>
+                    </div> 
+                </ngx-simplebar>
+
+            </div>
+        </div>
+
+    </div>
+</div>

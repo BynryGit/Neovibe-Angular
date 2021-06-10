@@ -1,0 +1,152 @@
+<div class="tab-pane fade" id="service_subtype" role="tabpanel" aria-labelledby="service_subtype_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_service_subtype" (click)="onAddClick()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+         <div class="plan-card" style="width:280px;" *ngFor="let item of service_subtypeList.results | filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                         <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_service_subtype"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">Yes</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Service Type</p>
+                        <h6 class="h6 mb-3" >{{item.service_type.name}}</h6>
+                    </div>
+                </div>                                  
+            </div>
+        </div> 
+    </div>           
+</div>
+
+<!--Add Service SubType Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_service_subtype" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Service SubType</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Service Type</label>
+                                    <ng-select [items]="service_typeList.results" formControlName="utilityControl" bindLabel="name" bindvalue="id_string" placeholder="Select Service Type" appendTo="body" >
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Service SubType</label>
+                                    <input type="text" class="form-control" placeholder="Enter Service SubType" name = "editService" formControlName="firstNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.firstNameControl.errors }"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.firstNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.firstNameControl.errors.required">{{message.firstNameRequired}}</div>
+                                    </div>
+                                </div>
+                            </div> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddServiceSubTypedata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Service SubType Ends-->
+
+<!--Edit Service SubType Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_service_subtype" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Service SubType</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Service Type</label>
+                                    <ng-select [items]="service_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Service Type" appendTo="body" [(ngModel)]="service_subtype_Obj.bindvalue">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Service SubType</label>
+                                    <input type="text" class="form-control" placeholder="Enter Service Type" name = "editService" [(ngModel)]="service_subtype_Obj.name"/>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditServiceSubTypedata()" data-dismiss="modal" aria-label="Close">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Edit Service SubType Ends-->

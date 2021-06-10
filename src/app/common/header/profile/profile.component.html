@@ -1,0 +1,36 @@
+<div class="d-inline-block" *ngFor="let pro of profile.data">
+    <div class="dropdown profile-dropdown" dropdown dropdown-append-to-body>
+      <a class="btn bttn-transparent dropdown-toggle" role="button" id="headerDropdown2" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+         
+          <!-- <span><img class="st img-abs" src="{{pro.img}}"></span> -->
+          <div class="circle">
+            {{first_name_c}}{{last_name_c}}
+          </div>
+          <!-- <span style="color: black;">GS</span> -->
+        
+       
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="headerDropdown2">
+       
+        <h6 class="dropdown-header"></h6>
+        <span class="dropdown-item-text p p-13"></span>
+        <button class="btn btn-sm btn-primary text-uppercase" type="button">View Profile</button>
+        
+        <div class="dropdown-divider"></div>
+        <div *ngFor="let pro1 of profile.links">
+        <a class="dropdown-item" (click)="selectItem(pro1.options)">{{pro1.options}}</a>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="1000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>User Logged Out Successfully!!</div>
+        </ngb-toast>
+        <!-- <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>City Already Exists!!</div>
+        </ngb-toast> -->
+    </div>
+</div>

@@ -1,0 +1,326 @@
+<app-work-order-add [triger]="triger"></app-work-order-add>
+
+<section class="pr-section applicant-details-sec work-order-sec">
+    <div class="row">
+        <div class="col-auto pr-0">
+            <div class="applicant-block-lt inner-wrap">
+                <div class="block-lt-header">
+                    <div class="row justify-content-end">
+                        <div class="row">
+                            <div class="col" style="float: right;">
+                                <label class="p p-13">Type</label>
+                                <ng-select class="filter-dropdown-select" [clearable]="false" [searchable]="false"
+                                    [items]="" bindLabel="name" placeholder="Select Utility" name="name">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-auto">
+                                <a class="btn dropdown-toggle btn-primary bttn-icon rounded" role="button"
+                                    id="headerDropdown1" data-toggle="dropdown" (click)="buttonClicked($event)">
+                                    <fa-icon [icon]="faPlus"></fa-icon>
+
+                                </a>&nbsp;&nbsp;
+                                <button class="btn ikon-bttn st mr-2" (click)="showLocations()"
+                                    ngClass='{{locations ? "" : "active"}}'><i
+                                        class="icons8 icons8-place-marker"></i></button>
+                                <button class="btn ikon-bttn st" style="border: 0px;"></button> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="block-lt-body" *ngIf="locations">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn bttn-text st" data-toggle="collapse" data-target="#hide-show-collapse"
+                                aria-expanded="false" aria-controls="hide-show-collapse" (click)="toggleBtn()">
+                                <fa-icon [icon]="faPlus"></fa-icon>Apply Filter
+                            </button>
+                        </div>
+                    </div><br>
+                    <div class="collapse" id="hide-show-collapse">
+                        <div class="row">
+                            <div class="col pr-0">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <ng-select [clearable]="false" [searchable]="false" [items]="" bindLabel="name"
+                                            placeholder="Select Utility" [(ngModel)]="selectedUtility" name="name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col">
+                                        <ng-select [clearable]="false" [searchable]="false" [items]="" bindLabel="name"
+                                            placeholder="Select Area" [(ngModel)]="selectedArea" name="name">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <ng-select [clearable]="false" [searchable]="false" [items]="" bindLabel="name"
+                                            placeholder="Select Sub Area" [(ngModel)]="selectedSubArea" name="name">
+                                        </ng-select>
+                                    </div>
+                                    <div class="col">
+                                        <ng-select [clearable]="false" [searchable]="false" [items]="" bindLabel="name"
+                                            placeholder="Select Type" [(ngModel)]="selectedType" name="name">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <ng-select [clearable]="false" [searchable]="false" bindLabel="name"
+                                            placeholder="Select Status" [(ngModel)]="selectedStatus" name="name">
+                                        </ng-select>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-auto px-0">
+                                <button class="btn bttn-edt ikon-bttn st"><i class="icons8 icons8-edit"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <form class="pr-search-form d-inline-block">
+                                <span class="s-icon"></span>
+                                <input class="form-control pr-table-search" type="search"
+                                    placeholder="Search by Req ID, Type" aria-label="Search"
+                                    (keyup)="onSearch($event.target.value)">
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="listview-table-wrap">
+                                <table datatable id="table2" [dtOptions]="dtOptions" 
+                                    class="pr-datatable pr-datatable-sm table table-hover no-boxshadow table-border without-border">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" class="chbx-col">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="checkAll">
+                                                    <label class="custom-control-label" for="checkAll"></label>
+                                                </div>
+                                            </th>
+                                            <th scope="col"><span>Req ID</span></th>
+                                            <th scope="col"><span>Type</span></th>
+                                            <th scope="col"><span>Status</span></th>
+                                            <th scope="col" class="action-col"><span>Action</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of serviceAppointments">
+                                            <th scope="row" class="chbx-col">
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input"
+                                                        [attr.id]="item.sa_number" (click)="selectCheckbox(item)">
+                                                    <label class="custom-control-label"
+                                                        [attr.for]="item.sa_number"></label>
+                                                </div>
+                                            </th>
+                                            <td class="showOnHover"><a [routerLink]=""
+                                                    (click)="showDetailModel(item.id_string)">{{item.sa_number}}</a>
+                                                <span class="show">
+                                                    <span class="enqry-no-blk">{{item.sa_number}}</span> <span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <span class="flag-green" *ngIf="item?.consumer_service_contract_detail_id?.consumer_id?.is_vip"></span>
+                                                    <div class="list-blk">
+                                                        <p><span>{{item?.consumer_service_contract_detail_id?.consumer_id?.billing_area?.name}}</span><span>Area</span></p>
+                                                        <p><span>{{item?.consumer_service_contract_detail_id?.consumer_id?.billing_sub_area?.name}}</span><span>Sub Area</span></p>
+                                                        <p><span>{{item?.sa_date | date : 'dd MMM yy hh:mm a'}}</span><span>Requested Date</span></p>
+                                                    </div>
+
+                                                </span>
+                                            </td>
+                                            <td>{{item?.work_order_master_id?.utility_work_order_sub_type?.work_order_sub_type?.work_order_type?.name}}</td>
+                                            <td>
+                                                <div class="enqry-sts-blk">
+                                                    <div *ngIf="item.state == 'COMPLETED'">
+                                                        <div class="badge badge-label-danger">Completed</div>
+                                                    </div>
+                                                    <div *ngIf="item.state == 'ASSIGNED'">
+                                                        <div class="badge badge-label-success">Assigned</div>
+                                                    </div>
+                                                    <div *ngIf="item.state == 'NOT ASSIGNED'">
+                                                        <div class="badge badge-label-warning">Not Assigned</div>
+                                                    </div>
+                                                    <div *ngIf="item.state == 'REJECTED'">
+                                                        <div class="badge badge-label-danger">Rejected</div>
+                                                    </div>
+                                                    <div *ngIf="item.state == 'ACCEPTED'">
+                                                        <div class="badge badge-label-finished">Accepted</div>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                            <td class="action-col">
+                                                <div class="dropdown dot-option-dropdown">
+                                                    <a class="dot-btn-v st" href="#" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false"></a>
+                                                        
+                                                    <div class="dropdown-menu dropdown-menu-right"
+                                                        *ngIf="item.state != 'COMPLETED'">
+                                                        <a class="dropdown-item active st" data-toggle="collapse"
+                                                            data-target="#resorceViewModal" aria-expanded="false"
+                                                            (click)="openResourceListModel(item)"
+                                                            *ngIf="item.state != 'ASSIGNED' && item.state != 'ACCEPTED'"><span>Assign</span></a>
+                                                        <a class="dropdown-item active st"
+                                                            (click)="deAssignAppointment(item.id_string)"
+                                                            *ngIf="item.state != 'NOT ASSIGNED' && item.state != 'ACCEPTED'"><span>Deassign</span></a>
+                                                        <!-- <a class="dropdown-item st"><span>Credit</span></a> -->
+                                                    </div>
+                                                   
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="serviceAppointments?.length == 0">
+                                        <tr>
+                                            <td colspan="3" class="no-data-available">No matching records found</td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="processing">
+                                        <tr>
+                                            <td colspan="3"> .....</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="block-lt-footer" *ngIf="locations">
+                    <div class="row justify-content-end">
+
+                        <div class="col-auto align-self-center">
+                            <button class="btn btn-secondary st mr-2" (click)="bulkSchedule()">Schedule</button>
+                            <button class="btn btn-outline-light3 st">Dispatch</button>
+                        </div>
+                    </div>
+                </div>
+                <ngx-simplebar [options]="scrollOptions1" class="block-lt-body" *ngIf="!locations">
+                    <div class="row justify-content-center">
+                        <div class="col-12">
+                            <div class="alert alert-light alert-dismissible fade show" role="alert">
+                                <div class="media">
+                                    <p class="p p-13">Select a territory to display it’s service appointments in the
+                                        appointment list and Gantt. Territories without members don’t appear on the
+                                        gantt</p>
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="nav-block">
+                                <nav class="inner-form-tabs">
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link st active" id="nav-territories-tab"
+                                            data-toggle="tab" href="#nav-territories" role="tab"
+                                            aria-controls="nav-territories" aria-selected="true">Territories</a>
+                                        <a class="nav-item nav-link st" id="nav-favorites-tab" data-toggle="tab"
+                                            href="#nav-favorites" role="tab" aria-controls="nav-favorites"
+                                            aria-selected="false">Favorites</a>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                </ngx-simplebar>
+                <div class="block-lt-footer" *ngIf="!locations">
+                    <div class="row justify-content-end">
+                        <div class="col-auto align-self-center">
+                            <button class="btn btn-secondary st mr-2">Schedule</button>
+                            <button class="btn btn-outline-light3 st">Dispatch</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="applicant-block-rt inner-wrap">
+                <div class="row">
+
+                    <div class="col pr-0">
+                        <div class="map-overview-blk">
+                            <div class="block-rt-header">
+                                <div class="row justify-content-between">
+                                    <div class="col-auto align-self-center">
+                                        <!-- <button class="btn ikon-bttn st" ngClass='{{mapView ? "active" : ""}}'><i
+                                                class="icons8 icons8-marker"></i></button> -->
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <div class="map-calendar-wrap">
+                                            <label class="map-calendar-label" for="dp22">{{curDate | date:'dd MMM yyyy' }}</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto align-self-center">
+                                        <div class="map-calendar-buttons">
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn prev st" (click)="getPreviousDate()">
+                                                    <i class="icons8 icons8-back"></i>
+                                                    </button>
+                                                <button type="button" class="btn st">{{finalDate | date:'dd MMM yyyy'}}</button>
+                                                <button type="button" class="btn next st" (click)="getNextDate()"><i
+                                                    class="icons8 icons8-forward"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="block-rt-body">
+                                <div class="g-map-wrapper" id="g-map-wrapper" *ngIf="mapView">
+                                    <div class="g-map" id="g-map"></div>
+                                    <div class="map-footer">
+                                        <ul class="list-group list-group-horizontal map-footer-ul">
+                                            <li class="list-group-item">
+                                                <span class="icon-blk"><img class="img-fluid st"
+                                                        src="../../../assets/images/icons/marker-bttn-ikon1.png"
+                                                        alt="b"></span>
+                                                <span class="p">Flag</span>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="icon-blk"><img class="img-fluid st"
+                                                        src="../../../assets/images/icons/marker-bttn-ikon2.png"
+                                                        alt="b"></span>
+                                                <span class="p">Emergency</span>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="icon-blk"><img class="img-fluid st"
+                                                        src="../../../assets/images/icons/marker-bttn-ikon3.png"
+                                                        alt="b"></span>
+                                                <span class="p">Repair/Service Request</span>
+                                            </li>
+                                            <li class="list-group-item">
+                                                <span class="icon-blk"><img class="img-fluid st"
+                                                        src="../../../assets/images/icons/marker-bttn-ikon4.png"
+                                                        alt="b"></span>
+                                                <span class="p">Schedule</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="gant-view-wrapper" id="gant-view-wrapper">
+                                    <div class="map" id="map" class="match-parent"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Detail View Of service Appointment -->
+<app-work-order-detail-view></app-work-order-detail-view>
+
+
+<!-- serviceAssigne View Modal -->
+<input type="text" id="userAssign_obj" style="display: none;" />
+<app-work-order-assignment></app-work-order-assignment>

@@ -1,0 +1,248 @@
+<div class="tab-pane fade show active" id="consent" role="tabpanel" aria-labelledby="consumer-consent-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Consumer Consent Name" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" (click)="onAddClick()" data-target="#add_consumer_consent">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+         <div class="plan-card" style="width:280px;" *ngFor="let item of consentList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl" style="word-wrap: break-word;">{{item.name}}</h4>
+                         <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_consumer_consent"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Category</p>
+                        <h6 class="h6 mb-3">{{item.consumer_category.name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Sub Category</p>
+                        <h6 class="h6 mb-3">{{item.consumer_subcategory.name}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'MMM dd yy'}}</h6>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                    </div>
+                    <!-- <div class="col-6">
+                        <p class="p p-13 mb-1">Channel</p>
+                        <h6 class="h6 mb-3" *ngFor="let channels of item.channel">{{channels.name}}</h6>
+                    </div> -->
+                </div>                                  
+            </div>
+        </div> 
+    </div>           
+</div>
+<!--Add Consumer Consent Type Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_consumer_consent" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Consumer Consent</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <!-- <div class="form-row">
+                                    <div class="col">
+                                        <label>Registration Type</label>
+                                        <ng-select [items]="registration_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Registration Type" appendTo="body" [(ngModel)]="consent_Obj.bindvalue">
+                                        </ng-select>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="form-row">
+                                    <div class="col">
+                                        <label>Registartion Subtype</label>
+                                        <ng-select [items]="registration_subtypeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Registration SubType" appendTo="body" [(ngModel)]="consent_Obj1.bindvalue">
+                                        </ng-select>
+                                    </div>
+                                </div> -->
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Consumer Category</label>
+                                        <ng-select [items]="consumer_categoryList.results" bindLabel="name" (change)="categoryChange()" formControlName="consumerCategoryControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.consumerCategoryControl.errors }" bindvalue="id_string" placeholder="Select Consumer Category" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.consumerCategoryControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.consumerCategoryControl.errors.required">{{message.consumerCategoryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Consumer Sub Category</label>
+                                        <ng-select [items]="consumer_subcategoryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Sub Catgeory" appendTo="body" formControlName="consumerSubCategoryControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.consumerSubCategoryControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.consumerSubCategoryControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.consumerSubCategoryControl.errors.required">{{message.consumerSubCategoryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Consumer Consent</label>
+                                        <textarea class="form-control big-textarea" placeholder="Enter Consumer Consent"  formControlName="consumerConsentControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.consumerConsentControl.errors }" name = "consent_add">/</textarea>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.consumerConsentControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.consumerConsentControl.errors.required">{{message.consumerConsentCantBeEmpty}}</div>
+                                        </div>
+                                        <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.consumerConsentControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.consumerConsentControl.errors.maxlength">{{message.consumerConsentMaxLength}}</div>
+                                        </div> -->
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.consumerConsentControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.consumerConsentControl.errors.whitespace && !ad.consumerConsentControl.errors.required">{{message.invalidConsumerConsent}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.consumerConsentControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.consumerConsentControl.errors.pattern">{{message.consentShouldBeLetter}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddConsentdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Consumer Consent Type Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Consumer Consent successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Consumer Consent Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--Edit Consumer Consent Type Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_consumer_consent" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Consumer Consent</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Consumer Category</label>
+                                        <ng-select [items]="consumer_categoryList.results" (change)="categoryChangeEdit()" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Category" appendTo="body" formControlName="consumerCategoryControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.consumerCategoryControlEdit.errors }">
+                                        </ng-select>
+                                        <input type="hidden" class="form-control" formControlName="consumerCategoryControlEditHidden"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.consumerCategoryControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.consumerCategoryControlEdit.errors.required">{{message.consumerCategoryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Consumer Sub Category</label>
+                                        <ng-select [items]="consumer_subcategoryList.results" (change)="subCategoryChangeEdit()" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Subcategory" appendTo="body" formControlName="consumerSubCategoryControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.consumerSubCategoryControlEdit.errors }">
+                                        </ng-select>
+                                        <input type="hidden" class="form-control" formControlName="consumerSubCategoryControlEditHidden"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.consumerSubCategoryControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.consumerSubCategoryControlEdit.errors.required">{{message.consumerSubCategoryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Consumer Consent</label>
+                                        <textarea class="form-control big-textarea" placeholder="Enter Consent"  formControlName="consumerConsentControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.consumerConsentControlEdit.errors }"></textarea>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.consumerConsentControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.consumerConsentControlEdit.errors.required">{{message.consumerConsentCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.consumerConsentControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.consumerConsentControlEdit.errors.maxlength">{{message.consumerConsentMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.consumerConsentControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.consumerConsentControlEdit.errors.whitespace && !ade.consumerConsentControlEdit.errors.required">{{message.invalidConsumerConsent}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.consumerConsentControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.consumerConsentControlEdit.errors.pattern">{{message.consentShouldBeLetter}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditConsentdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Edit Consumer Consent Type Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Consumer Consent successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Consumer Consent Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+

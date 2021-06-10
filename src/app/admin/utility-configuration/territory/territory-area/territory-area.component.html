@@ -1,0 +1,211 @@
+<div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Area Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addAreaModal" (click)="onAddClick()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table datatable *ngIf="showTable" id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item?.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet | filter:searchText">
+                            <td>{{item?.name}}</td>
+                            <td>{{item?.division?.name}}</td>  
+                            <td>{{item?.division?.zone_id?.name}}</td>
+                            <td>{{item?.division?.zone_id?.city?.name}}</td>
+                            <td>{{item?.division?.zone_id?.city?.state?.name}}</td> 
+                            <td>{{item?.division?.zone_id?.city?.state?.country_id?.name}}</td>
+                            <td>{{item?.division?.zone_id?.city?.state?.country_id?.region?.name}}</td>
+                            <td>{{item?.created_date | date: 'dd MMM yy'}}</td>
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editAreaModal" (click)="onCardClickEvent(item)">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                  
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add area modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="addAreaModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Area</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Division</label>
+                                        <ng-select appendTo="body" [items]="divisionList.results" bindLabel="name" placeholder="Select Division" formControlName="divisionNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.divisionNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.divisionNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.divisionNameControl.errors.required">{{message.divisionCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Area</label>
+                                        <input type="text" class="form-control" placeholder="Enter Area" name = "area" formControlName="areaNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.areaNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.areaNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.areaNameControl.errors.required">{{message.areaCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.areaNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.areaNameControl.errors.maxlength">{{message.areaMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.areaNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.areaNameControl.errors.whitespace && !ad.areaNameControl.errors.required">{{message.invalidArea}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.areaNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.areaNameControl.errors.pattern">{{message.areaShouldBeLetters}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddAreadata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Area successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Area Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add area modal end -->
+
+
+<!-- edit area modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="editAreaModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Area</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Division</label>
+                                        <ng-select appendTo="body" [items]="divisionList.results" bindLabel="name" placeholder="Select Division" formControlName="divisionNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.divisionNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.divisionNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.divisionNameControlEdit.errors.required">{{message.divisionCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Area</label>
+                                        <input type="text" class="form-control" placeholder="Enter Area" name = "area" formControlName="areaNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.areaNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.areaNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.areaNameControlEdit.errors.required">{{message.areaCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.areaNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.areaNameControlEdit.errors.maxlength">{{message.areaMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.areaNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.areaNameControlEdit.errors.whitespace && !ade.areaNameControlEdit.errors.required">{{message.invalidArea}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.areaNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.areaNameControlEdit.errors.pattern">{{message.areaShouldBeLetters}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditAreadata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- edit area modal end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Area successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Area Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+

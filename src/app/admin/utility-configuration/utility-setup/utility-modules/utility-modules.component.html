@@ -1,0 +1,143 @@
+<div class="tab-pane fade show active" id="utility_modules" role="tabpanel" aria-labelledby="module-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Module Name" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" [disabled]="disableAddModule()" role="button" data-toggle="modal" data-target="#add_utility_modules" (click)="getTenantIdString()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+        <div class="plan-card" style="width:280px;" *ngFor="let item of utility_moduleList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.label}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <!-- <span class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editCountryModal"><i class="icons8 icons8-edit"></i></span> -->
+                    </div>
+                    <!-- <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div> -->
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                    <div class="row">
+                        <!-- <div class="col-6">
+                            <p class="p p-13 mb-1">Sub Module</p>
+                            <h6 class="h6 mb-3" *ngFor="let submodule of submoduleList">{{submodule.name}}</h6>
+                        </div> -->
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Created by</p>
+                            <h6 class="h6 mb-3">Admin</h6>
+                        </div>
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Created date</p>
+                            <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                        </div>
+                        
+                    </div>
+
+                    <div class="row">
+                       
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Active</p>
+                            <h6 class="h6 mb-3">Yes</h6>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<!--Add Utility Modules Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_utility_modules" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document" >
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Utility Modules</h4>
+                <button type="button" (click)="onCancelClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body" style="width: 500px;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="moduleDetailsForm">
+                                <div formArrayName="moduleDivControl">
+                                    <div class="form-row" *ngFor="let item of Transactions.controls; let i=index" [formGroupName]="i">
+                                        <div class="col-sm">
+                                            <label>Select Module</label>                                                                
+                                            <ng-select appendTo="body" (change)="getModuleId(i)" [items]="moduleList" bindLabel="name" placeholder="Select Module" formControlName="utility_module" 
+                                            name="add_module">
+                                            </ng-select>
+                                            <div style="font-size: 13px !important;
+                                            color: #e74a3b !important;" *ngIf="moduleDetailsFormSubmitted && md?.moduleDivControl?.controls[i]?.controls?.utility_module.errors">
+                                                <div *ngIf="md.moduleDivControl?.controls[i]?.controls?.utility_module?.errors?.required">Please Select Module</div>
+                                            </div>
+                                        </div> 
+                                        <div class="col-sm" >
+                                            <label>Select SubModule</label>
+                                            <ng-select appendTo="body" [multiple]="true" [items]="submoduleList" bindLabel="name" appendTo="body" placeholder="Select"  name="name" formControlName="utility_submodule" [clearable]="false"  >
+                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                    <div class="custom-control custom-checkbox">
+                                                        <input type="checkbox" id="item-{{index}}" class="custom-control-input"/>
+                                                        <label class="custom-control-label" for="item-{{index}}"></label>
+                                                        {{item.name}}
+                                                    </div>
+                                                   
+                                                </ng-template>
+                                            </ng-select>
+                                            <div style="font-size: 13px !important;
+                                            color: #e74a3b !important;" *ngIf="moduleDetailsFormSubmitted && md.moduleDivControl.controls[i].controls.utility_submodule.errors">
+                                                <div *ngIf="md.moduleDivControl.controls[i].controls.utility_submodule.errors.required">Please Select Sub Module</div>
+                                            </div>
+                                        </div>  
+                                        <div class="col-auto align-self-center action-col">
+                                            <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeTransactionRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                        </div>    
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-6 align-self-end">
+                                        <button class="btn bttn-transparent bttn-add" type="button" (click)="addModulesRow()">Add</button>
+                                    </div>
+                                    
+                                </div> 
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onUtilitySubmit()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Utility Modules End-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Module successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Module Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

@@ -1,0 +1,203 @@
+<div class="tab-pane fade" id="section" role="tabpanel" aria-labelledby="section-tab">    
+    <div class="row justify-content-end">
+    <div class="col">
+        <form class="pr-search-form d-inline-block">
+            <span class="s-icon"></span>
+            <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Zone Name." aria-label="Search" [(ngModel)]="searchText">
+        </form>
+    </div>
+    <div class="col-auto pl-0">
+        <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addSectionModal" (click)="onAddClick()">
+            <fa-icon [icon]="faPlus" ></fa-icon>Add
+        </button>
+    </div>
+</div><br>
+<div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+    <div class="plan-card" style="width:280px;" *ngFor="let item of zoneList.results| filter:searchText">
+        <div class="plan-card-header">
+            <div class="row">
+                <div class="col-12">
+                    <h4 class="ttl">{{item.name}}</h4>
+                    <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                    <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editSectionModal"><i class="icons8 icons8-edit"></i></span>
+                </div>
+                <div class="col-12">
+                    <input type="hidden" value="{{item.id_string}}"/>
+                </div>
+                <div class="col-12">
+
+                </div>
+            </div>                                    
+        </div>
+        <div class="plan-card-body">
+            <div class="row">
+                <div class="col-6">
+                    <p class="p p-13 mb-1">County</p>
+                    <h6 class="h6 mb-3">{{item.city.name}}</h6>
+                </div>
+                <div class="col-6">
+                    <p class="p p-13 mb-1">Created by</p>
+                    <h6 class="h6 mb-3">Admin</h6>
+                </div>
+            </div>
+           
+            <div class="row">
+                <div class="col-6">
+                    <p class="p p-13 mb-1">Created date</p>
+                    <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                </div>
+                <div class="col-6">
+                    <p class="p p-13 mb-1">Active</p>
+                    <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+</div>
+<!-- Add section modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="addSectionModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addSectionModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Zone</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>County</label>
+                                        <ng-select appendTo="body" [items]="cityList.results" bindLabel="name" placeholder="Select County" bindvalue="id_string" formControlName="cityNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.cityNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.cityNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.cityNameControl.errors.required">{{message.cityRequired}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Zone</label>
+                                        <input type="text" class="form-control" placeholder="Enter Zone" formControlName="zoneNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.zoneNameControl.errors }"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.zoneNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.zoneNameControl.errors.required">{{message.zoneCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.zoneNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.zoneNameControl.errors.maxlength">{{message.zoneMaxLength}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.zoneNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.zoneNameControl.errors.whitespace && !ad.zoneNameControl.errors.required">{{message.invalidZone}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.zoneNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.zoneNameControl.errors.pattern">{{message.zoneShouldbeLetters}}</div>
+                                    </div>
+                                </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddZonedata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Zone successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Zone Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add section modal end -->
+
+<!-- edit section modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="editSectionModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editSectionModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Zone</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>City</label>
+                                        <ng-select appendTo="body" [items]="cityList.results" bindLabel="name" placeholder="Select City" bindvalue="id_string" formControlName="cityNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.cityNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.cityNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.cityNameControlEdit.errors.required">{{message.cityRequired}}</div>
+                                        </div>
+                                    </div>
+                                </div>    
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Zone</label>
+                                        <input type="text" class="form-control" placeholder="Enter Zone" formControlName="zoneNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.zoneNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.zoneNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.zoneNameControlEdit.errors.required">{{message.zoneCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.zoneNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.zoneNameControlEdit.errors.maxlength">{{message.zoneMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.zoneNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.zoneNameControlEdit.errors.whitespace && !ade.zoneNameControlEdit.errors.required">{{message.invalidZone}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.zoneNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.zoneNameControlEdit.errors.pattern">{{message.zoneShouldbeLetters}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditZonedata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- edit section modal end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Zone successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Zone Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

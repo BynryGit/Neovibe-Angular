@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="tenders_type_tab" data-toggle="tab" href="#tender_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="tenders_subtype_tab" data-toggle="tab" href="#tender_subtype" role="tab"
+                        aria-controls="country" aria-selected="false">Subtype</a>
+                    <a class="nav-item nav-link st" id="tenders_terms_tab" data-toggle="tab" href="#tender_terms"
+                        role="tab" aria-controls="state" aria-selected="true">Terms and Conditions</a> 
+                    <a class="nav-item nav-link st" id="tenders_quote_tab" data-toggle="tab" href="#tender_quote"
+                        role="tab" aria-controls="state" aria-selected="true">Quotation</a>               
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-tenders-type [operator]="testing()"></app-tenders-type>
+<app-tenders-subtype [operator]="testing()"></app-tenders-subtype>
+<app-tenders-terms [operator]="testing()"></app-tenders-terms>
+<app-tenders-quotation [operator]="testing()"></app-tenders-quotation>

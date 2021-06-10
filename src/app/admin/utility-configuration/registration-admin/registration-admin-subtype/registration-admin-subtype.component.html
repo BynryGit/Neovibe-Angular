@@ -1,0 +1,149 @@
+<div class="tab-pane fade" id="registrationsubtype" role="tabpanel" aria-labelledby="registrationsubtypetab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_registration_subtype">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+        <div class="plan-card" style="width:280px;" *ngFor="let item of registration_subtypeList.results| filter:searchText">
+           <div class="plan-card-header">
+               <div class="row">
+                   <div class="col-12">
+                       <h4 class="ttl">{{item.name}}</h4>
+                        <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_registration_subtype"><i class="icons8 icons8-edit"></i></span>
+                   </div>
+                   <div class="col-12">
+                       <input type="hidden" value="{{item.id_string}}"/>
+                   </div>
+                   <div class="col-12">
+
+                   </div>
+               </div>                                    
+           </div>
+           <div class="plan-card-body">
+               <div class="row">
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Active</p>
+                       <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                   </div>
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Created by</p>
+                       <h6 class="h6 mb-3">Admin</h6>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Created date</p>
+                       <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                   </div>
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Registration Type</p>
+                       <h6 class="h6 mb-3" *ngFor="let types of item.registration_type">{{types.name}}</h6>
+                   </div>
+
+               </div>                                  
+           </div>
+       </div> 
+   </div>           
+</div>
+<!--Add Survey Sub Type Starts-->
+<div class="pr-modal">
+   <div class="modal right fade" id="add_registration_subtype" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">    
+           <div class="modal-header pr-modal-header">
+               <h4 class="modal-title" id="addPymntsModalLabel">Add Registration SubType</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+           </div>
+           <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+               <div class="row">
+                   <div class="col-12">
+                       <div class="inner-form">
+                           <div class="form-row">
+                               <div class="col">
+                                   <label>Registration Type</label>
+                                   <ng-select [items]="registration_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Registration Type" appendTo="body" [(ngModel)]="registration_subtype_Obj.bindvalue">
+                                   </ng-select>
+                               </div>
+                           </div>
+                           <div class="form-row">
+                               <div class="col">
+                                   <label>Registration SubType</label>
+                                   <input type="text" class="form-control" placeholder="Enter Survey SubType"  [(ngModel)]="registration_subtype_Obj.name" name = "addregistration_subtype"/>
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </ngx-simplebar>
+           <div class="modal-footer pr-modal-footer">
+               <div class="row justify-content-end">
+                   <div class="col-auto">
+                       <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                   </div>
+                   <div class="col-auto pl-1 pr-0">
+                       <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onAddRegistrationSubTypedata()">Add</button>
+                   </div>
+               </div>
+           </div> 
+       </div>
+     </div>
+   </div>
+</div>
+<!--Add Survey Sub Type Ends-->
+
+<!--Edit Survey Sub Type Starts-->
+<div class="pr-modal">
+   <div class="modal right fade" id="edit_registration_subtype" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">    
+           <div class="modal-header pr-modal-header">
+               <h4 class="modal-title" id="addPymntsModalLabel">Edit Registration SubType</h4>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+           </div>
+           <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+               <div class="row">
+                   <div class="col-12">
+                       <div class="inner-form">
+                           <div class="form-row">
+                               <div class="col">
+                                   <label>Registration Type</label>
+                                   <ng-select [items]="registration_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Registration Type" appendTo="body" [(ngModel)]="registration_subtype_Obj.bindvalue">
+                                   </ng-select>
+                               </div>
+                           </div>
+                        <div class="form-row">
+                               <div class="col">
+                                   <label>Registration SubType</label>
+                                   <input type="text" class="form-control" placeholder="Enter Registration Sub Type" name = "edit_registration_subtype" [(ngModel)]="registration_subtype_Obj.name"/>
+                               </div>
+                           </div> 
+                       </div>
+                   </div>
+               </div>
+           </ngx-simplebar>
+           <div class="modal-footer pr-modal-footer">
+               <div class="row justify-content-end">
+                   <div class="col-auto">
+                       <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                   </div>
+                   <div class="col-auto pl-1 pr-0">
+                       <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onEditRegistrationSubTypedata()">Save</button>
+                   </div>
+               </div>
+           </div> 
+       </div>
+     </div>
+   </div>
+</div>
+<!--Edit Registration Sub Type Ends-->
+
+

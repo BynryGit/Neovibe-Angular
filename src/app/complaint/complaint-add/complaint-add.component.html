@@ -1,0 +1,121 @@
+<div class="pr-modal">
+    <div class="modal right fade" id="addAdvertisementModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAdvertisementModalLabel">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addAdvertisementModalLabel"> Add Complaint</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+  
+            <div class="modal-body pr-modal-body">
+              
+              <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+  
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Objective</label>
+                                    <input type="text" class="form-control" placeholder="Objective" />
+                                </div>
+                            </div>
+  
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Description</label>
+                                    <textarea class="form-control big-textarea" placeholder="Description" rows="5"></textarea>
+                                </div>
+                            </div>
+  
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Type</label>
+                                    <ng-select [items]="type" bindLabel="name"  [(ngModel)]="selectedtype" name="name" placeholder="Select Type">
+                                    </ng-select>
+                                </div>
+                            </div>
+  
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Sub Type</label>
+                                    <ng-select [items]="subtype" bindLabel="name"  [(ngModel)]="selectedSubtype" name="name" placeholder="Select Sub Type">
+                                    </ng-select>
+                                </div>
+                            </div>
+  
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Date</label>
+                                   <div class="input-group">
+                                        <div class="input-group-prepend">
+                                          <button class="btn bttn-transparent bttn-icon" type="button" (click)="dp2.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                        <input type="text" class="form-control"  name="dp2" [(ngModel)]="model" ngbDatepicker #dp2="ngbDatepicker" (click)="dp2.toggle()" container="body">                                  
+                                    </div>
+                                </div>
+                            </div>
+  
+                           
+  
+                            <div class="form-row">
+                                <div class="col-12">
+                                    <label>Documents</label>
+                                    <div class="upload-wrapper custom-dropzone" ngx-dropzone
+                                        [accept]="'image/*'" (change)="onSelect($event)">
+                                        <div class="upload-inner">
+                                            <div class="media">
+                                                <div class="media-body single">
+                                                    <ngx-dropzone-label>
+                                                        <div class="drag-drop">
+                                                            <img class="st img-fluid" src="../../assets/images/icons/upload-icon.png" alt="upload">
+                                                            <p class="p p-13">Drag & Drop files here</p>
+                                                            <p class="p p-13 font-weight-normal">Or</p>
+                                                            <button class="btn bttn-uplaod bttn-txt st">Browse Files</button>
+                                                        </div>
+                                                    </ngx-dropzone-label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uploaded-items">
+                                        <ul class="list-group list-group-horizontal-sm">
+                                            <ngx-dropzone-image-preview class="list-group-item" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                                <ngx-dropzone-label
+                                                    class="p p-12 file-name">{{ f.name }}
+                                                </ngx-dropzone-label>
+                                            </ngx-dropzone-image-preview>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+  
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" id="proceed_user_done" (click)="showtoast = true" data-dismiss="modal" aria-label="Close">Submit</button>
+                    </div>
+                </div>
+            </div>
+    
+        </div> 
+      </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ngb-toast *ngIf="showtoast" header="dwd" [delay]="3000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="showtoast = false; autohide = true">
+                <div *ngIf="autohide">Submitted Complaint <span class="text-primary">Successfully!!</span></div>
+            </ngb-toast>
+        </div>
+    </div>
+</div>
+

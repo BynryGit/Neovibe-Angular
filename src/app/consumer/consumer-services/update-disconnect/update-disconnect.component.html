@@ -1,0 +1,189 @@
+<!-- Consumer disconnect Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="disconnectModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="disconnectModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="disconnectModalLabel">Disconnect</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <form [formGroup]="approveForm">
+                                    <ng-container>
+                                        <!-- Additional dropdown  -->
+                                         <!-- Select Meter Option -->
+                                         <div class="form-row" *ngIf="meter_list.length != 0">
+                                            <div class="col">
+                                                <label>Select Meter to Disconnect<span style="color: red;">*</span></label>
+                                                <ng-select [items]="meter_list"
+                                                bindLabel="meter_no"
+                                                placeholder="Select Meter Number"
+                                                appendTo="body"
+                                                name="meter_no" 
+                                                formControlName="meter"
+                                                [clearable]="false"
+                                                [ngClass]="{'is-invalid':approveFormSubmitted && af.meter.errors}">
+                                                </ng-select>
+                                                <div *ngIf="approveFormSubmitted && af.meter.errors" class="invalid-feedback">
+                                                    <div *ngIf="af.meter.errors.required">{{message.meterNumberRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- select meter end  -->
+                                        <!-- select temp or permenent disconnect option -->                                        
+                                        <div class="form-row" *ngIf="disconnect_types.length != 0">
+                                            <div class="col">
+                                                <label>Select Disconnection Type<span style="color: red;">*</span></label>
+                                                <ng-select [items]="disconnect_types" 
+                                                bindLabel="name" 
+                                                appendTo="body" 
+                                                placeholder="Select Disconnect Type" 
+                                                name="disconnect_type" 
+                                                formControlName="disconnect_type" 
+                                                [clearable]="false" 
+                                                (change)="disconnect_selection_item()"
+                                                [ngClass]="{'is-invalid':approveFormSubmitted && af.disconnect_type.errors}">
+                                                </ng-select>
+                                                <div *ngIf="approveFormSubmitted && af.disconnect_type.errors" class="invalid-feedback">
+                                                    <div *ngIf="af.disconnect_type.errors.required">{{message.disconnectTypeRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- select temp or permenent end disconnect option -->
+                                        <!-- Additional drop down end   -->
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Disconnect Date<span style="color: red;">*</span></label>
+                                                <div class="input-group">
+                                                    <input type="text"
+                                                    class="form-control" 
+                                                    placeholder="yyyy--mm--dd" 
+                                                    name="dp" ngbDatepicker #d="ngbDatepicker" 
+                                                    formControlName="date" 
+                                                    (click)="d.toggle()" 
+                                                    container="body" 
+                                                    [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                                                    <div class="input-group-append">
+                                                        <button class="btn bttn-transparent bttn-icon" style="height: 36px;" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                                    </div>
+                                                    <div *ngIf="approveFormSubmitted && af.date.errors" class="invalid-feedback">
+                                                        <div *ngIf="af.date.errors.required">{{message.appointmentDateRequired}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    <!-- Showing disconnect request for the specific meter  -->
+
+                                    <div class="form-row" *ngIf="showApprovementModel" >
+                                        <div class="col">
+                                            <div class="outstanding_detail">
+                                                <h4 class="modal-title" id="disconnectModalLabel">Consumer Disconnect Request</h4>
+                                                <table class="table_body">
+                                                    <tr>
+                                                        <td><label>Disconnect Type:</label></td>
+                                                        <td> {{ work_order_type_selected }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label>Requested Date:</label></td>
+                                                        <td>{{ request_created_date }} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label>Service Appointment No:</label></td>
+                                                        <td>{{ service_appointment_no }} </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><label>Outstanding Amount :</label></td>
+                                                        <td> {{ outstanding_amount }}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- disconnect request end -->
+
+                                    <!-- disconnect remark  -->
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Remark</label>
+                                            <textarea class="form-control" name="add_description" placeholder="Enter Description" formControlName="user_remark" id="add_description_dis connect"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- disconnect remark end  -->
+                                    </ng-container>
+                                    <div class="modal-footer pr-modal-footer">
+					                    <div class="row justify-content-end">
+					                        <div class="col-auto">
+					                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+					                                aria-label="Close" (click)="onCancelClick()">Cancel</button>
+					                        </div>
+					                        <div class="col-auto pl-1 pr-0">
+					                            <button class="btn btn-secondary st" [disabled]="isDisabled"  (click)="onApproveFormSubmit()">Submit</button>
+					                        </div>
+					                    </div>
+					                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Consumer disconnect Modal -->
+<!-- Info on the success in disconnection  -->
+<!-- <div class="modal" id="myModal" [style.display]="showModal ? 'block' : 'none'" style="margin-top: 70px">
+    <div class="modal-dialog">
+      <div class="modal-content"> -->
+      
+        <!-- Modal Header -->
+        <!-- <div class="modal-header">
+          <h4 class="modal-title"> {{ selected_disconnection_type }} Disconnecting Request </h4>
+          <button type="button" class="close" data-dismiss="modal" (click) = "hide_disconnect_success_modal()">&times;</button>
+        </div>       -->
+        <!-- Modal body -->
+        <!-- <div class="modal-body" id="component1">
+        <h1>Disconnect Request</h1>
+         <p>{{ selected_disconnection_type }} Disconnecting Request Created Successfully</p>
+         <p>Crn No : {{ selected_consumer_no }}</p>
+         <p>Meter No: {{ selected_meter_no }}</p>
+         <p>Service appointment No: {{ service_appointment_no }}</p>
+         <p>Date: {{ request_created_date }}</p>
+        <p>Outstanding : 12 </p>
+        </div> -->
+        
+        <!-- Modal footer -->
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click) = "hide_disconnect_success_modal()">Close</button>
+          <button type="button" class="btn btn-danger" (click)="printComponent('component1')" aria-label="Print">Print</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+<!-- end disconnection -->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showtoast = false; autohide = true">
+            <div>Disconnection Request Successfully Added!!</div>
+            <div>And Your Request no. is {{storeServicenumber}}</div><br>
+        </ngb-toast>
+        <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div>{{ exception_message }}</div><br>
+        </ngb-toast>
+        <ngb-toast *ngIf="applicantDetailToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="applicantDetailToast = false; autohide = true">
+            <div>Please fill all details!!</div>
+        </ngb-toast>
+    </div>
+</div>

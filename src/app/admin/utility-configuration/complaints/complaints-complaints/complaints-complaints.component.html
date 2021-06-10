@@ -1,0 +1,251 @@
+<div class="tab-pane fade" id="complaint_complaint" role="tabpanel" aria-labelledby="complaint_complaint_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Complaint Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" (click)="onAddClick()" data-toggle="modal" data-target="#add_complaint">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+         <div class="plan-card" style="width:280px;" *ngFor="let item of complaint_complaintList.results | filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                         <span class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_complaint" (click)="onCardClickEvent(item)"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Complaint Type</p>
+                        <h6 class="h6 mb-3">{{item.complaint_sub_type.complaint_type.name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Complaint Subtype</p>
+                        <h6 class="h6 mb-3">{{item.complaint_sub_type.name}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <span class="col-6">
+                        <p class="p p-13 mb-1">Services</p>
+                        <span class="h6 mb-3" *ngFor="let services of item.service_obj; let last = last">
+                            {{services.value}}<ng-container *ngIf="!last">,</ng-container>
+                        </span>
+                    </span>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created By</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                </div>    
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM, yyyy'}}</h6>
+                    </div>
+                </div>                                  
+            </div>
+        </div> 
+    </div>           
+</div>
+
+<!--Add Complaints Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_complaint" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Complaint Details</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Complaint Type</label>
+                                        <ng-select [items]="complaint_typeList.results" bindLabel="name" bindvalue="id_string" formControlName="complaintTypeControl" (change)="typeChange()" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.complaintTypeControl.errors }" placeholder="Select Complaint Type" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.complaintTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.complaintTypeControl.errors.required">{{message.complaintTypeCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Complaint Sub Type</label>
+                                        <ng-select [items]="complaint_subtypeList.results" bindLabel="name" bindvalue="id_string" formControlName="complaintSubTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.complaintSubTypeControl.errors }" placeholder="Select Complaint SubType" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.complaintSubTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.complaintSubTypeControl.errors.required">{{message.complaintSubTypeCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Products</label>
+                                        <ng-select [items]="utility_productList.results" [multiple]="true" bindLabel="name" bindvalue="id_string" formControlName="productControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.productControl.errors }" placeholder="Select Products" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.productControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.productControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" formControlName="complaintNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.complaintNameControl.errors }" placeholder="Enter Complaint Name"  name = "add_complaint_name"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.complaintNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.complaintNameControl.errors.required">{{message.complaintNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.complaintNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.complaintNameControl.errors.maxlength">{{message.complaintNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.complaintNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.complaintNameControl.errors.whitespace && !ad.complaintNameControl.errors.required">{{message.invalidComplaintName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.complaintNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.complaintNameControl.errors.pattern">{{message.invalidComplaintNameLetter}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddComplaint()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+ </div>
+ <!--Add Complaints Ends-->
+ <div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="1000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Complaint successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Complaint Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+ <!--Edit Complaints Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_complaint" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Complaint Details</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Complaint Type</label>
+                                        <ng-select [items]="complaint_typeList.results" bindLabel="name" bindvalue="id_string" formControlName="complaintTypeControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.complaintTypeControlEdit.errors }" placeholder="Select Complaint Type" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.complaintTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.complaintTypeControlEdit.errors.required">{{message.complaintTypeCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Complaint Sub Type</label>
+                                        <ng-select [items]="complaint_subtypeList.results" bindLabel="name" bindvalue="id_string" formControlName="complaintSubTypeControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.complaintSubTypeControlEdit.errors }" placeholder="Select Complaint SubType" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.complaintSubTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.complaintSubTypeControlEdit.errors.required">{{message.complaintSubTypeCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Products</label>
+                                        <ng-select [items]="utility_productList.results" [multiple]="true" bindLabel="name" bindvalue="id_string" formControlName="productControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.productControlEdit.errors }" placeholder="Select Products" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.productControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.productControlEdit.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" formControlName="complaintNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.complaintNameControlEdit.errors }" placeholder="Enter Complaint Name"  name = "edit_complaint_name"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.complaintNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.complaintNameControlEdit.errors.required">{{message.complaintNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.complaintNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.complaintNameControlEdit.errors.maxlength">{{message.complaintNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.complaintNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.complaintNameControlEdit.errors.whitespace && !ade.complaintNameControlEdit.errors.required">{{message.invalidComplaintName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.complaintNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.complaintNameControlEdit.errors.pattern">{{message.invalidComplaintNameLetter}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditComplaint()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+ </div>
+ <!--Add Services Ends-->
+ <div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="1000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Complaint successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Complaint Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+

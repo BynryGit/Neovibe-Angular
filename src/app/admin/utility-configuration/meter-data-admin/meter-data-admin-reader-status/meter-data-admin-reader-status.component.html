@@ -1,0 +1,243 @@
+<div class="tab-pane fade" id="reader-status" role="tabpanel" aria-labelledby="reader_status_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Reader Status Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_reader_status">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:280px;" *ngFor="let item of reader_status_list.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl" style="word-wrap: break-word;">{{item.name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_reader_status" (click)="onCardClickEvent(item)"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                   
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Meter Status</p>
+                        <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.meter_status.name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Status Code</p>
+                        <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.status_code}}</h6>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created Date</p>
+                        <h6 class="h6 mb-3">{{item.created_date  | date : 'dd MMM yy'}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>       
+</div>
+
+<div class="pr-modal">
+    <div class="modal right fade" id="add_reader_status" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Reader Status</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Meter Status</label>
+                                        <ng-select appendTo="body" [items]="meter_status_list.results" bindLabel="name" placeholder="Select Meter Status List" formControlName="meterStatusControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.meterStatusControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.meterStatusControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.meterStatusControl.errors.required">{{message.meterStatusCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Name" formControlName="readerStatusNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.readerStatusNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusNameControl.errors.required">{{message.readerStatusNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusNameControl.errors.maxlength">{{message.readerStatusNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusNameControl.errors.whitespace && !ad.readerStatusNameControl.errors.required">{{message.invalidReaderStatusName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusNameControl.errors.pattern">Reader Status Name should contain only letters.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Status Code</label>
+                                        <input type="text" class="form-control" placeholder="Enter Status Code" formControlName="readerStatusCodeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.readerStatusCodeControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusCodeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusCodeControl.errors.required">{{message.readerStatusCodeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusCodeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusCodeControl.errors.maxlength">{{message.readerStatusCodeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusCodeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusCodeControl.errors.whitespace && !ad.readerStatusCodeControl.errors.required">{{message.invalidReaderStatusCode}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readerStatusCodeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readerStatusCodeControl.errors.pattern">Reader Status Code should contain only letters.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddReaderStatus()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Reader Status successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Reader Status Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_reader_status" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Reader Status</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Meter Status</label>
+                                        <ng-select appendTo="body" [items]="meter_status_list.results" bindLabel="name" placeholder="Select Meter Status" formControlName="meterStatusControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.meterStatusControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.meterStatusControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.meterStatusControlEdit.errors.required">{{message.meterStatusCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Name" formControlName="readerStatusNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.readerStatusNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusNameControlEdit.errors.required">{{message.readerStatusNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusNameControlEdit.errors.maxlength">{{message.readerStatusNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusNameControlEdit.errors.whitespace && !ade.readerStatusNameControlEdit.errors.required">{{message.invalidReaderStatusName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusNameControlEdit.errors.pattern">Reader Status Name should contain only letters.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Status Code</label>
+                                        <input type="text" class="form-control" placeholder="Enter Status Code" formControlName="readerStatusCodeControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.readerStatusCodeControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusCodeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusCodeControlEdit.errors.required">{{message.readerStatusCodeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusCodeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusCodeControlEdit.errors.maxlength">{{message.readerStatusCodeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusCodeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusCodeControlEdit.errors.whitespace && !ade.readerStatusCodeControlEdit.errors.required">{{message.invalidReaderStatusCode}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.readerStatusCodeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.readerStatusCodeControlEdit.errors.pattern">Reader Status Code should contain only letters.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditReaderStatus()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Reader Status successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Reader Status Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+

@@ -1,0 +1,303 @@
+<div class="tab-pane fade show active" id="smart_meter" role="tabpanel" aria-labelledby="smart-meter-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by API and Vendor Name" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" (click)="onCancelClick()" data-target="#add_smart_meter">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:280px;" *ngFor="let item of smart_meterList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.smart_meter_api_name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span  (click)="onCardClickEvent(item)" (click)="onCancelClick()" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_smart_meter"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Vendor Name</p>
+                        <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.vendor_name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Product</p>
+                        <h6 class="h6 mb-3">{{item.utility_product.name}}</h6>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<!-- Add smart meter modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_smart_meter" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Smart Meter Configuration</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>API Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter API Name"  formControlName="apiNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.apiNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiNameControl.errors.required">{{message.apiNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiNameControl.errors.maxlength">{{message.apiNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiNameControl.errors.whitespace && !ad.apiNameControl.errors.required">{{message.invalidAPIName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiNameControl.errors.pattern">{{message.APINameShouldBeLetters}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Product</label>
+                                        <ng-select appendTo="body" [items]="product_list.results" bindLabel="name" placeholder="Select Product" formControlName="productNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.productNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.productNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.productNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Vendor Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Vendor Name"  formControlName="vendorNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.vendorNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.vendorNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.vendorNameControl.errors.required">{{message.vendorCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.vendorNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.vendorNameControl.errors.maxlength">{{message.vendorMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.vendorNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.vendorNameControl.errors.whitespace && !ad.vendorNameControl.errors.required">{{message.invalidVendor}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.vendorNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.vendorNameControl.errors.pattern">{{message.invalidVendor}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>API Key</label>
+                                        <input type="text" class="form-control" placeholder="Enter API Key"  formControlName="apiKeyNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.apiKeyNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiKeyNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiKeyNameControl.errors.required">{{message.apiKeyCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiKeyNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiKeyNameControl.errors.whitespace && !ad.apiKeyNameControl.errors.required">{{message.invalidAPIKey}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiKeyNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiKeyNameControl.errors.pattern">{{message.invalidAPIKey}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>API URL</label>
+                                        <input type="url" pattern="https://.*" class="form-control" placeholder="Enter API URL"  formControlName="apiURLNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.apiURLNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiURLNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiURLNameControl.errors.required">{{message.apiUrlCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiURLNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiURLNameControl.errors.whitespace && !ad.apiURLNameControl.errors.required">{{message.invalidAPIURL}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.apiURLNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.apiURLNameControl.errors.pattern">{{message.invalidAPIURL}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddSmartMeterdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Smart Meter API successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Smart Meter API Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add Smart Meter Details modal end -->
+
+
+<!-- edit Smart Meter Details modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_smart_meter" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Smart Meter Details</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>API Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter API Name" formControlName="apiNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.apiNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiNameControlEdit.errors.required">{{message.apiNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiNameControlEdit.errors.maxlength">{{message.apiNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiNameControlEdit.errors.whitespace && !ade.apiNameControlEdit.errors.required">{{message.invalidAPIName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiNameControlEdit.errors.pattern">{{message.APINameShouldBeLetters}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Product</label>
+                                        <ng-select appendTo="body" [items]="product_list.results" bindLabel="name" placeholder="Select Product" formControlName="productNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.productNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.productNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.productNameControlEdit.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Vendor Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Vendor Name" formControlName="vendorNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.vendorNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.vendorNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.vendorNameControlEdit.errors.required">{{message.vendorCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.vendorNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.vendorNameControlEdit.errors.maxlength">{{message.vendorMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.vendorNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.vendorNameControlEdit.errors.whitespace && !ade.vendorNameControlEdit.errors.required">{{message.invalidVendor}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>API Key</label>
+                                        <input type="text" class="form-control" placeholder="Enter API Key" formControlName="apiKeyNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.apiKeyNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiKeyNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiKeyNameControlEdit.errors.required">{{message.apiKeyCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiKeyNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiKeyNameControlEdit.errors.whitespace && !ade.apiKeyNameControlEdit.errors.required">{{message.invalidAPIKey}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>API URL</label>
+                                        <input type="text" class="form-control" placeholder="Enter API URL" formControlName="apiURLNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.apiURLNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiURLNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiURLNameControlEdit.errors.required">{{message.apiUrlCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.apiURLNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.apiURLNameControlEdit.errors.whitespace && !ade.apiURLNameControlEdit.errors.required">{{message.invalidAPIURL}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditSmartMeterdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- edit division modal end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Smart Meter API successfully edited!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Smart Meter API Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+

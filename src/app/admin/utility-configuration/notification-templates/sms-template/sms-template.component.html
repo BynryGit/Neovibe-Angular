@@ -1,0 +1,47 @@
+<div class="tab-pane fade" id="sms_template" role="tabpanel" aria-labelledby="sms-template-tab">
+    <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+        <div class="row">
+            <div class="col-12">
+                <div class="inner-form">
+                    <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                        <div class="form-row">
+                            <div class="col-sm">
+                                <label class="required">Message</label>
+                            </div>
+                            <!-- <div class="col-sm">
+                                <label>Sub Module</label>
+                                <ng-select appendTo="body" [items]="submoduleList.results" bindLabel="key" placeholder="Select Sub Modules" formControlName="subModuleNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.subModuleNameControl.errors }">
+                                </ng-select>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.subModuleNameControl.errors" class="invalid-feedback">
+                                    <div *ngIf="ad.subModuleNameControl.errors.required">{{message.submoduleCantBeEmpty}}</div>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <textarea id="mymce2" class="mceEditor"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer pr-modal-footer">
+            <div class="row justify-content-end">
+                <div class="col-auto pl-1 pr-0" style="margin-right:-8px;">
+                    <button class="btn btn-secondary st" (click)="onSaveClick()">Save</button>
+                </div>
+            </div>
+        </div> 
+    </ngx-simplebar>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>SMS Template successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>SMS Template Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

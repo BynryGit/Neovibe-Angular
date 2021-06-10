@@ -1,0 +1,154 @@
+<!-- Edit Meter Model Start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="EditMeterModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="EditMeterModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:570px;">
+        <div class="modal-content"> 
+    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="EditMeterModalLabel">Edit Meter Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+
+            <div class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            
+                            <input type="hidden" id="meter_id_string" value="">
+                            
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Device No</label>
+                                    <input type="text" id='device_no' class="form-control" placeholder="Enter Device No" name="name" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Meter No</label>
+                                    <input type="text" id='meter_no' class="form-control" placeholder="Enter Meter No" name="name" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Consumer No</label>
+                                    <input type="text" id='consumer_no' class="form-control" placeholder="Enter Meter No" name="name" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Meter Make</label>
+                                    <ng-select appendTo="body" [items]="meter_make_list" bindLabel="name" placeholder="Select Meter Make" [(ngModel)]="meter_make_obj.make" name="" disabled>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Route *</label>
+                                    <ng-select appendTo="body" [items]="route_list" bindLabel="name" placeholder="Select Route" [(ngModel)]="route_obj.route" name="">
+                                    </ng-select>
+                                    <div *ngIf="invalid_route">
+                                        <div style="color: red;">{{ErrorMessage.Route}}</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label>Premises *</label>                                    
+                                    <ng-select appendTo="body" [items]="premise_list" bindLabel="name" placeholder="Select Premises" [(ngModel)]="premise_obj.premise" name="">
+                                    </ng-select>
+                                    <div *ngIf="invalid_premise">
+                                        <div style="color: red;">{{ErrorMessage.Premise}}</div>
+                                    </div>
+                                </div>
+                            </div>                            
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Current Reading</label>
+                                    <input type="text" id='current_reading' class="form-control" placeholder="Enter Current reading" name="name" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                <label>Install Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <button class="btn bttn-transparent bttn-icon" type="button" (click)="install_date.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                        <input type="text" id="install_date" class="form-control" placeholder="yyyy-mm-dd" name="install_date" [(ngModel)]="install_dte" ngbDatepicker #install_date="ngbDatepicker" (click)="install_date.toggle()" container="body" disabled>                                  
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Meter Type</label>
+                                    <ng-select appendTo="body" [items]="meter_type_list" bindLabel="value" placeholder="Select Meter Type" [(ngModel)]="meter_type_obj.meter_type" name="" disabled>
+                                    </ng-select>
+                                </div>
+                                <div class="col">
+                                    <label>Product</label>                                    
+                                    <ng-select appendTo="body" [items]="service_type_list" bindLabel="name" placeholder="Select Product" [(ngModel)]="service_type_obj.service_type" name="" disabled>
+                                    </ng-select>
+                                </div>
+                            </div>                           
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Latitude</label>
+                                    <input type="text" id='latitude' class="form-control" placeholder="Enter Latitude" name="name">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Longitude</label>
+                                    <input type="text" id='longitude' class="form-control" placeholder="Enter Longitude" name="name">
+                                </div>
+                            </div>                           
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="edit_meter()">Submit</button>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Edit Meter Model End -->
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div><p id="success_message">{{SuccessMessage.MeterUpdate}}</p></div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div><p id="error_message">{{SuccessMessage.MeterExist}}</p></div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->

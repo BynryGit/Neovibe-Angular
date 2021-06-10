@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="module-tab" data-toggle="tab" href="#utility_modules" role="tab"
+                        aria-controls="utility_module" aria-selected="true">Modules</a> 
+                    <a class="nav-item nav-link st" id="product-tab" data-toggle="tab" href="#utility_product"
+                        role="tab" aria-controls="utility_product" aria-selected="false">Products</a>      
+                    <a class="nav-item nav-link st" id="department-tab" data-toggle="tab" href="#utility_department"
+                        role="tab" aria-controls="utility_department" aria-selected="false">Departments</a>                    
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+
+<app-utility-modules [operator]="testing()"></app-utility-modules>
+<app-utility-products [operator]="testing()"></app-utility-products>
+<app-utility-departments [operator]="testing()"></app-utility-departments>

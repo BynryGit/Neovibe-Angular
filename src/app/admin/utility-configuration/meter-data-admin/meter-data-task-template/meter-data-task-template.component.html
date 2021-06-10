@@ -1,0 +1,428 @@
+<div class="tab-pane fade" id="meter_task" role="tabpanel" aria-labelledby="meter-task-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Task Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" (click)="onCancelClick()" data-target="#add_meter_task">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:280px;" *ngFor="let item of task_templateList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.task_name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span  (click)="onCardClickEvent(item)" (click)="onCancelClick()" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_meter_task"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created By</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div> 
+</div>
+
+<!-- Add smart meter modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_meter_task" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document" style="min-width: 600px;">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Meter Task Configuration</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Task Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Task Name"  formControlName="taskNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.taskNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.taskNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.taskNameControl.errors.required">{{message.taskNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.taskNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.taskNameControl.errors.maxlength">{{message.taskNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.taskNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.taskNameControl.errors.whitespace && !ad.taskNameControl.errors.required">{{message.invalidTaskName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.taskNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.taskNameControl.errors.pattern">{{message.letterTaskName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12" >
+                                        <div class="title-divider">
+                                            Meter Parameter Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <div formArrayName="meterControl">
+                                    <div class="form-row" *ngFor="let item of MeterControl.controls; let i=index" [formGroupName]="i">
+                                            <div class="col-sm">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter Meter Details"  formControlName="meterDetailNameControl"/>
+                                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.meterDetailNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.meterDetailNameControl.errors.required">{{message.taskNameCantBeEmpty}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.meterDetailNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.meterDetailNameControl.errors.maxlength">{{message.taskNameMaxLength}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.meterDetailNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.meterDetailNameControl.errors.whitespace && !ad.meterDetailNameControl.errors.required">{{message.invalidTaskName}}</div>
+                                                </div> -->
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.meterControl.controls[i].controls.meterDetailNameControl.errors" style="font-size: 13px !important;
+                                                color: #e74a3b !important;">
+                                                <div *ngIf="ad.meterControl.controls[i].controls.meterDetailNameControl.errors.required && ad.meterControl.controls[i].controls.meterDetailNameControl.touched">Meter Name can't be empty!</div>
+                                                <div *ngIf="ad.meterControl.controls[i].controls.meterDetailNameControl.errors.pattern && ad.meterControl.controls[i].controls.meterDetailNameControl.touched">Meter Name Should Cantain only Alphabets.</div>
+                                            </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <label>Data type</label>
+                                                <ng-select appendTo="body" [items]="dataType" bindLabel="name" placeholder="Select DataType" formControlName="dataTypeNameControl">
+                                                </ng-select>
+                                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                                </div> -->
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.meterControl.controls[i].controls.dataTypeNameControl.errors" style="font-size: 13px !important;
+                                                color: #e74a3b !important;">
+                                                <div *ngIf="ad.meterControl.controls[i].controls.dataTypeNameControl.errors.required && ad.meterControl.controls[i].controls.dataTypeNameControl.touched">Data Type required</div>
+                                            </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <label>Optional/Mandatory</label>
+                                                <ng-select appendTo="body" [items]="colType" bindLabel="name" placeholder="Select" formControlName="colTypeNameControl">
+                                                </ng-select>
+                                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                                </div> -->
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.meterControl.controls[i].controls.colTypeNameControl.errors" style="font-size: 13px !important;
+                                                color: #e74a3b !important;">
+                                                <div *ngIf="ad.meterControl.controls[i].controls.colTypeNameControl.errors.required && ad.meterControl.controls[i].controls.colTypeNameControl.touched">Optional/Mandatory Required.</div>
+                                                
+                                            </div>
+                                            </div>
+                                            <div class="col-auto align-self-center action-col">
+                                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeParametersRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <button class="btn bttn-transparent bttn-add" type="button" (click)="addMeterDetailsRow()">Add</button>
+                                </div>
+                            
+                                <div class="row">
+                                    <div class="col-12" >
+                                        <div class="title-divider">
+                                            Additional Parameter Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <div formArrayName="parameterControl">
+                                    <div class="form-row" *ngFor="let item of ParameterControl.controls; let i=index" [formGroupName]="i">
+                                        <div class="col-sm">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" placeholder="Enter Parameter"  formControlName="parameterNameControl"/>
+                                            <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.parameterNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.parameterNameControl.errors.required">{{message.taskNameCantBeEmpty}}</div>
+                                            </div>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.parameterNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.parameterNameControl.errors.maxlength">{{message.taskNameMaxLength}}</div>
+                                            </div>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.parameterNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.parameterNameControl.errors.whitespace && !ad.parameterNameControl.errors.required">{{message.invalidTaskName}}</div>
+                                            </div> -->
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.parameterControl.controls[i].controls.parameterNameControl.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ad.parameterControl.controls[i].controls.parameterNameControl.errors.required && ad.parameterControl.controls[i].controls.parameterNameControl.touched">Parameter Name can't be empty!</div>
+                                                <div *ngIf="ad.parameterControl.controls[i].controls.parameterNameControl.errors.pattern && ad.parameterControl.controls[i].controls.parameterNameControl.touched">Parameter Name Should Cantain only Alphabets.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <label>Data type</label>
+                                            <ng-select appendTo="body" [items]="dataType" bindLabel="name" placeholder="Select DataType" formControlName="dataTypeNameControl">
+                                            </ng-select>
+                                            <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                            </div> -->
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.parameterControl.controls[i].controls.dataTypeNameControl.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ad.parameterControl.controls[i].controls.dataTypeNameControl.errors.required && ad.parameterControl.controls[i].controls.dataTypeNameControl.touched">Data Type required</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <label>Optional/Mandatory</label>
+                                            <ng-select appendTo="body" [items]="colType" bindLabel="name" placeholder="Select" formControlName="colTypeNameControl">
+                                            </ng-select>
+                                            <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                            </div> -->
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.parameterControl.controls[i].controls.colTypeNameControl.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ad.parameterControl.controls[i].controls.colTypeNameControl.errors.required && ad.parameterControl.controls[i].controls.colTypeNameControl.touched">Optional/Mandatory Required.</div>
+                                                
+                                            </div>
+                                        </div>
+                                        <div class="col-auto align-self-center action-col">
+                                            <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeAdditionalParametersRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <button class="btn bttn-transparent bttn-add" type="button" (click)="addParameterDetailsRow()">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddTaskdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Meter Task successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Meter Task Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add Smart Meter Details modal end -->
+
+<!--Edit Smart Meter Details modal start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_meter_task" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document" style="min-width: 600px;">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Meter Task Configuration</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Task Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Task Name"  formControlName="taskNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.taskNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.taskNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.taskNameControlEdit.errors.required">{{message.taskNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.taskNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.taskNameControlEdit.errors.maxlength">{{message.taskNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.taskNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.taskNameControlEdit.errors.whitespace && !ade.taskNameControlEdit.errors.required">{{message.invalidTaskName}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.taskNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.taskNameControlEdit.errors.pattern">{{message.letterTaskName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12" >
+                                        <div class="title-divider">
+                                            Meter Parameter Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <div formArrayName="meterControlEdit">
+                                    <div class="form-row" *ngFor="let item of MeterControlEdit.controls; let i=index" [formGroupName]="i">
+                                            <div class="col-sm">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter Meter Details"  formControlName="meterDetailNameControlEdit"/>
+                                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.meterDetailNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.meterDetailNameControl.errors.required">{{message.taskNameCantBeEmpty}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.meterDetailNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.meterDetailNameControl.errors.maxlength">{{message.taskNameMaxLength}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.meterDetailNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.meterDetailNameControl.errors.whitespace && !ad.meterDetailNameControl.errors.required">{{message.invalidTaskName}}</div>
+                                                </div> -->
+                                                <div *ngIf="applicantDetailsFormEditSubmitted && ade.meterControlEdit.controls[i].controls.meterDetailNameControlEdit.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ade.meterControlEdit.controls[i].controls.meterDetailNameControlEdit.errors.required && ade.meterControlEdit.controls[i].controls.meterDetailNameControlEdit.touched">Meter Name can't be empty!.</div>
+                                                <div *ngIf="ade.meterControlEdit.controls[i].controls.meterDetailNameControlEdit.errors.pattern && ade.meterControlEdit.controls[i].controls.meterDetailNameControlEdit.touched">Meter Name Should Cantain only Alphabets.</div>
+                                            </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <label>Data type</label>
+                                                <ng-select appendTo="body" [items]="dataType" bindLabel="name" placeholder="Select DataType" formControlName="dataTypeNameControlEdit">
+                                                </ng-select>
+                                                <div *ngIf="applicantDetailsFormEditSubmitted && ade.meterControlEdit.controls[i].controls.dataTypeNameControlEdit.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ade.meterControlEdit.controls[i].controls.dataTypeNameControlEdit.errors.required && ade.meterControlEdit.controls[i].controls.dataTypeNameControlEdit.touched">Data Type Required.</div>
+
+                                            </div>
+                                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                                </div> -->
+                                            </div>
+                                            <div class="col-sm">
+                                                <label>Optional/Mandatory</label>
+                                                <ng-select appendTo="body" [items]="colType" bindLabel="name" placeholder="Select" formControlName="colTypeNameControlEdit">
+                                                </ng-select>
+                                                <div *ngIf="applicantDetailsFormEditSubmitted && ade.meterControlEdit.controls[i].controls.colTypeNameControlEdit.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ade.meterControlEdit.controls[i].controls.colTypeNameControlEdit.errors.required && ade.meterControlEdit.controls[i].controls.colTypeNameControlEdit.touched">Optional/ Mandatory Required.</div>
+                                            </div>
+                                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                                </div> -->
+                                            </div>
+                                            <div class="col-auto align-self-center action-col">
+                                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeParametersRowEdit(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <button class="btn bttn-transparent bttn-add" type="button" (click)="addMeterDetailsRowEdit()">Add</button>
+                                </div>
+                            
+                                <div class="row">
+                                    <div class="col-12" >
+                                        <div class="title-divider">
+                                            Additional Parameter Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <div formArrayName="parameterControlEdit">
+                                    <div class="form-row" *ngFor="let item of ParameterControlEdit.controls; let i=index" [formGroupName]="i">
+                                        <div class="col-sm">
+                                            <label>Name</label>
+                                            <input type="text" class="form-control" placeholder="Enter Parameter"  formControlName="parameterNameControlEdit"/>
+                                            <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.parameterNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.parameterNameControl.errors.required">{{message.taskNameCantBeEmpty}}</div>
+                                            </div>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.parameterNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.parameterNameControl.errors.maxlength">{{message.taskNameMaxLength}}</div>
+                                            </div>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.parameterNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.parameterNameControl.errors.whitespace && !ad.parameterNameControl.errors.required">{{message.invalidTaskName}}</div>
+                                            </div> -->
+                                            <div *ngIf="applicantDetailsFormEditSubmitted && ade.parameterControlEdit.controls[i].controls.parameterNameControlEdit.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ade.parameterControlEdit.controls[i].controls.parameterNameControlEdit.errors.required && ade.parameterControlEdit.controls[i].controls.parameterNameControlEdit.touched">Parameter Name can't be empty!</div>
+                                                <div *ngIf="ade.parameterControlEdit.controls[i].controls.parameterNameControlEdit.errors.pattern && ade.parameterControlEdit.controls[i].controls.parameterNameControlEdit.touched">Parameter Name Should Cantain only Alphabets.</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm">
+                                            <label>Data type</label>
+                                            <ng-select appendTo="body" [items]="dataType" bindLabel="name" placeholder="Select DataType" formControlName="dataTypeNameControlEdit">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormEditSubmitted && ade.parameterControlEdit.controls[i].controls.dataTypeNameControlEdit.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ade.parameterControlEdit.controls[i].controls.dataTypeNameControlEdit.errors.required && ade.parameterControlEdit.controls[i].controls.dataTypeNameControlEdit.touched">Data type Required.</div>
+                                            
+                                            </div>
+                                            <!-- <div *ngIf="applicantDetailsFormEditSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-sm">
+                                            <label>Optional/Mandatory</label>
+                                            <ng-select appendTo="body" [items]="colType" bindLabel="name" placeholder="Select" formControlName="colTypeNameControlEdit">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormEditSubmitted && ade.parameterControlEdit.controls[i].controls.colTypeNameControlEdit.errors" style="font-size: 13px !important;
+                                            color: #e74a3b !important;">
+                                                <div *ngIf="ade.parameterControlEdit.controls[i].controls.colTypeNameControlEdit.errors.required && ade.parameterControlEdit.controls[i].controls.colTypeNameControlEdit.touched">Optional/Mandatory Required.</div>
+                                            
+                                            </div>
+                                            <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.dataTypeNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.dataTypeNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                            </div> -->
+                                        </div>
+                                        <div class="col-auto align-self-center action-col">
+                                            <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeAdditionalParametersRowEdit(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <button class="btn bttn-transparent bttn-add" type="button" (click)="addParameterDetailsRowEdit()">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditTaskdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Meter Task successfully edited!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Meter Task Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!--Edit end-->
+
+
+
+

@@ -1,0 +1,988 @@
+<app-stepper-form [operator]="testing()">
+    <div class="col pl-0">
+        <div class="cust-form-col-rt">
+            <div class="row">
+                <div class="col-12">
+                    <div class="registration-inner inner-wrap tab-content" id="consumerTabContent">
+ 
+                        <!-- Tab panel for services start-->
+                        <div class="tab-pane fade show active" id="services" role="tabpanel" aria-labelledby="services-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">Products</h4>                                    
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="details-list">
+                                        <ul class="list-group list-group-horizontal justify-content-end">
+                                            <li class="list-group-item"></li>
+                                        </ul>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form" [formGroup]="serviceDetailsForm" (ngSubmit)="onServiceDetailsFormSubmit()">
+                                                    <div formArrayName="serviceContractsControl">
+                                                        <div *ngFor="let item of contracts.controls; let i=index" [formGroupName]="i">
+                                                            <div class="form-row">
+                                                                <div class="col-4">
+                                                                    <label>Product</label>
+                                                                    <ng-select [items]="services" bindLabel="name" placeholder="Select product" formControlName="service" name="service" [clearable]="false" id="service" (change)="serviceChange(i)">
+                                                                    </ng-select>
+                                                                    <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="serviceDetailsFormSubmitted && contracts.controls[i].get('service').errors?.required">{{message.serviceRequired}}</label>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <label>Category</label>
+                                                                    <ng-select [items]="consumerCategories" bindLabel="name" placeholder="Select Consumer category" formControlName="category" name="category" [clearable]="false" id="category" (change)="categoryChange(i)">
+                                                                    </ng-select>
+                                                                    <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="serviceDetailsFormSubmitted && contracts.controls[i].get('category').errors?.required">{{message.consumerCategoryRequired}}</label>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <label>Sub category</label>
+                                                                    <ng-select [items]="consumerSubCategories" bindLabel="name"placeholder="Select Consumer sub category" formControlName="subCategory" name="subCategory" [clearable]="false" (change)="subCategoryChange(i)">
+                                                                    </ng-select>
+                                                                    <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="serviceDetailsFormSubmitted && contracts.controls[i].get('subCategory').errors?.required">{{message.consumerSubCategoryRequired}}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col-4">
+                                                                    <label>Service Contract</label>
+                                                                    <ng-select [items]="serviceContracts" bindLabel="name" placeholder="Select Service contract" formControlName="serviceContract" name="serviceContract" [clearable]="false" id="serviceContract" >
+                                                                    </ng-select>
+                                                                    <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="serviceDetailsFormSubmitted && contracts.controls[i].get('serviceContract').errors?.required">{{message.serviceContractRequired}}</label>
+                                                                </div>
+                                                                <!-- <div class="col-4" *ngIf="premises.length !=0">
+                                                                    <label>Premises</label>
+                                                                    <ng-select [items]="premises" bindLabel="name" placeholder="Select Premise" formControlName="premise" name="premise" [clearable]="false" id="premise" (change)="premiseChange(i)">
+                                                                    </ng-select>
+                                                                    <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="serviceDetailsFormSubmitted && contracts.controls[i].get('premise').errors?.required">
+                                                                        {{message.premiseRequired}}
+                                                                    </label>
+                                                                </div> -->
+                                                                <!-- <div class="col-4" *ngIf="meters.length !=0">
+                                                                    <label>Meter</label>
+                                                                    <ng-select [items]="meters" bindLabel="name" placeholder="Select Meter" formControlName="meter" name="meter" [clearable]="false" id="meter">
+                                                                    </ng-select>
+                                                                </div> -->
+                                                                <div class="col-auto align-self-center action-col" style="margin-top: -15px; margin-left: -10px;">
+                                                                    <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeServiceContractRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <button class="btn bttn-transparent bttn-add" type="button" (click)="addServiceContractRow()" [disabled]="serviceDetailsForm.get('serviceContractsControl').invalid">Add</button>
+                                                    </div>
+                                                    <div class="row justify-content-center form-bttn-row">
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-outline-light3 st" (click)="onCancel()">Cancel</button>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-secondary st" id="proceed_1">Proceed</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab panel for Services end -->
+
+                        <!-- Tab panel for Applicant details start -->
+                        <div class="tab-pane fade" id="applicant-dtls" role="tabpanel" aria-labelledby="applicant-dtls-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">Applicant Details</h4>        
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form" [formGroup]="applicantDetailsForm" (ngSubmit)="onApplicantDetailsFormSubmit()">
+                                                    <div formArrayName="accountHoldersControl">
+                                                        <div class="form-row" *ngFor="let item of accountHolders.controls; let i=index" [formGroupName]="i">
+                                                            <div class="col">
+                                                                <label>First Name</label>
+                                                                <input type="text" class="form-control" placeholder="First Name" name="firstName" formControlName="first_name">
+                                                                <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="applicantDetailsFormSubmitted && accountHolders.controls[i].get('first_name').errors?.required">{{message.firstNameRequired}}</label>
+                                                            </div>
+                                                            <!-- <div class="col">
+                                                                <label>Middle Name</label>
+                                                                <input type="text" class="form-control" placeholder="Middle Name" name="firstName" formControlName="middle_name">
+                                                            </div> -->
+                                                            <div class="col">
+                                                                <label>Last Name</label>
+                                                                <input type="text" class="form-control" placeholder="Last Name"name="firstName" formControlName="last_name">
+                                                                <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="applicantDetailsFormSubmitted && accountHolders.controls[i].get('last_name').errors?.required">{{message.lastNameRequired}}</label>
+                                                            </div>
+                                                            <!-- <div class="col">
+                                                                <label>Type</label>
+                                                                <ng-select [items]="accountHolderTypes" bindLabel="name" appendTo="body" placeholder="Select type" name="name" [clearable]="false" formControlName="type">
+                                                                </ng-select>
+                                                                <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="applicantDetailsFormSubmitted && accountHolders.controls[i].get('type').errors?.required">{{message.accountHolderTypeRequired}}</label>
+                                                            </div> -->
+                                                            <!-- <div class="col-auto align-self-center action-col">
+                                                                <button style="margin-top: 20px; margin-left: -10px;" class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200"><fa-icon [icon]="faTrash" (click)="removeAccountHolderRow(i)"></fa-icon></button> 
+                                                            </div> -->
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <label>Email</label>
+                                                            <input type="email" class="form-control" placeholder="Email ID" name="email" formControlName="emailControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.emailControl.errors }">
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.emailControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.emailControl.errors.required">{{message.emailRequired}}</div>
+                                                            </div>
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.emailControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.emailControl.errors.email || ad.emailControl.errors.pattern">{{message.correctEmailAddress}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>Mobile Number</label>
+                                                            <input type="text" class="form-control" placeholder="Mobile Number" name="mobileNo" formControlName="mobileNoControl" onKeyPress="if(this.value.length==10) return false;" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.mobileNoControl.errors }"/>
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.mobileNoControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.mobileNoControl.errors.required">{{message.mobileNoRequired}}</div>
+                                                            </div>
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.mobileNoControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.mobileNoControl.errors.pattern">Enter valid mobile number</div>
+                                                            </div>
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.mobileNoControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.mobileNoControl.errors.minlength">Enter 10 digit mobile number</div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                    
+                                                    <!-- <div class="form-row">
+                                                        <button class="btn bttn-transparent bttn-add" type="button" (click)="addAccountHolderRow()">Add</button>
+                                                    </div> -->
+                                                    <div class="form-row">
+                                                        <!-- <div class="col">
+                                                            <label>Account Type</label>
+                                                            <ng-select [items]="accountTypes" bindLabel="name" placeholder="Select type" formControlName="accountTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.accountTypeControl.errors }"  name="accountType" [clearable]="false">
+                                                            </ng-select>
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.accountTypeControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.accountTypeControl.errors.required">{{message.accountTypeRequired}}</div>
+                                                            </div>
+                                                        </div> -->
+                                                        <!-- <div class="col" *ngIf="ownerships.length !=0"> -->
+                                                        <div class="col">
+                                                            <label>Ownership</label>
+                                                            <ng-select [items]="ownerships" bindLabel="name" placeholder="Select Ownership" formControlName="ownershipControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.ownershipControl.errors }" name="ownership" [clearable]="false">
+                                                            </ng-select>
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.ownershipControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.ownershipControl.errors.required">{{message.ownershipRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label>VIP</label>
+                                                            <ng-select [items]="vip"  bindLabel="name" placeholder="Select Yes/No" formControlName="vipControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.vipControl.errors }" name="vip" [clearable]="false">
+                                                            </ng-select>
+                                                            <div *ngIf="applicantDetailsFormSubmitted && ad.vipControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ad.vipControl.errors.required">{{message.vipRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col" [hidden]="masterAccounNo">
+                                                            <label>Master Account No.</label>
+                                                            <input type="text" class="form-control" placeholder="Master account no." name="masterAccountNo" formControlName="masterAccountNoControl">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row justify-content-center form-bttn-row">
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-outline-light3 st" (click)="onCancel()">Cancel</button>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-secondary st" id="proceed_2">Proceed</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                               
+                        </div>
+                        <!-- Tab panel for Applicant details end -->
+
+                        <!-- Tab panel for Address details start -->
+                        <div class="tab-pane fade" id="applicant-addr" role="tabpanel" aria-labelledby="applicant-addr-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">Address Details</h4>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">                                                
+                                                <nav class="inner-form-tabs">
+                                                    <div class="nav nav-tabs" id="nav-tab" role="tablist" style="margin-left: -10px">
+                                                        <a class="nav-item nav-link st active" id="nav-billing-tab" data-toggle="tab" href="#nav-billing" role="tab"
+                                                            aria-controls="nav-billing" aria-selected="true">Billing</a>
+                                                    </div>
+                                                </nav>
+                                                <div class="tab-content" id="nav-tabContent">
+                                                    <div class="tab-pane fade show active" id="nav-billing" role="tabpanel" aria-labelledby="nav-billing-tab">
+                                                        <form name="form" [formGroup]="addressDetailsForm" (ngSubmit)="onAddressDetailsFormSubmit()">
+                                                            <div class="form-row">
+                                                                <div class="col-12">
+                                                                    <label>Address Line 1</label>
+                                                                    <textarea class="form-control" placeholder="Address" rows="2" name="billingAddressLine" formControlName="billingAddressLineControl" [ngClass]="{ 'is-invalid': addressDetailsFormSubmitted && add.billingAddressLineControl.errors }" [readonly]="isAddressSame"></textarea>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingAddressLineControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingAddressLineControl.errors.required">Please enter address.</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col-6">
+                                                                    <label>Street</label>
+                                                                    <textarea class="form-control" placeholder="Street" rows="1" name="billingStreet" formControlName="billingStreetControl" [ngClass]="{'is-invalid':addressDetailsFormSubmitted && add.billingStreetControl.errors}" [readonly]="isAddressSame"></textarea>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingStreetControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingStreetControl.errors.required">Please enter street.</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-6">
+                                                                    <label>State / Province / Region</label>
+                                                                    <ng-select [items]="stateProvinces" bindLabel="name" appendTo="body" placeholder="Select state/province/region" name="billingStateProvinceRegion" formControlName="billingStateProvinceRegionControl" [ngClass]="{'is-invalid':addressDetailsFormSubmitted && add.billingStateProvinceRegionControl.errors}" [readonly]="isAddressSame" (change)="onStateChange()">
+                                                                    </ng-select>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingStateProvinceRegionControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingStateProvinceRegionControl.errors.required">Please select state/province/region!</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <label>City</label>
+                                                                    <ng-select [items]="cities" bindLabel="name" appendTo="body" placeholder="Select City" name="billingCity" formControlName="billingCityControl" [ngClass]="{'is-invalid':addressDetailsFormSubmitted && add.billingCityControl.errors}" [readonly]="isAddressSame">
+                                                                    </ng-select>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingCityControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingCityControl.errors.required">Please select city!</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label>Postal / Zip Code </label>
+                                                                    <input type="text" class="form-control" placeholder="Select Postal/Zip code" name="billingZipCode" formControlName="billingZipCodeControl" onKeyPress="if(this.value.length==6) return false;" [ngClass]="{'is-invalid':addressDetailsFormSubmitted && add.billingZipCodeControl.errors}" [readonly]="isAddressSame">
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingZipCodeControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingZipCodeControl.errors.required">Please Enter postal/zip code!</div>
+                                                                    </div>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingZipCodeControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingZipCodeControl.errors.pattern">Please Enter Correct postal/zip code!</div>
+                                                                    </div>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingZipCodeControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingZipCodeControl.errors.minlength">Please Enter 6 digit postal/zip code!</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <label>Area</label>
+                                                                    <ng-select [items]="areas" bindLabel="name" appendTo="body" placeholder="Select Area" name="billingArea" formControlName="billingAreaControl" [ngClass]="{'is-invalid':addressDetailsFormSubmitted && add.billingAreaControl.errors}" [readonly]="isAddressSame" (change)="onAreaChange()">
+                                                                    </ng-select>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingAreaControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingAreaControl.errors.required">Please select area!</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label>Sub Area</label>
+                                                                    <ng-select [items]="subAreas" bindLabel="name" appendTo="body" placeholder="Select Sub area" name="billingSubArea" formControlName="billingSubAreaControl" [ngClass]="{'is-invalid':addressDetailsFormSubmitted && add.billingSubAreaControl.errors}" [readonly]="isAddressSame" (change)="subAreaChange()">
+                                                                    </ng-select>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.billingSubAreaControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingSubAreaControl.errors.required">Please select sub area!</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4" >
+                                                                    <label>Premises</label>
+                                                                    <ng-select [items]="premises" bindLabel="name" appendTo="body" placeholder="Select Premise" name="premise" formControlName="premise"  [ngClass]="{'is-invalid':addressDetailsFormSubmitted && add.premise.errors}" [readonly]="isAddressSame">
+                                                                    </ng-select>
+                                                                    <div *ngIf="addressDetailsFormSubmitted && add.premise.errors" class="invalid-feedback">
+                                                                        <div *ngIf="add.billingSubAreaControl.errors.required">Please select premise!</div>
+                                                                    </div>
+                                                                    <!-- <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="serviceDetailsFormSubmitted && contracts.controls[i].get('premise').errors?.required">
+                                                                        {{message.premiseRequired}}
+                                                                    </label> -->
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <form name="form" [formGroup]="addressDetailsForm" (ngSubmit)="onAddressDetailsFormSubmit()">
+                                                        <div class="row justify-content-center form-bttn-row">
+                                                            <div class="col-auto">
+                                                                <button class="btn btn-outline-light3 st" (click)="onCancel()">Cancel</button>
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <button class="btn btn-secondary st" id="proceed_3">Proceed</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab panel for Address details end -->
+
+                        <!-- Tab panel for KYC documents start-->
+                        <div class="tab-pane fade" id="kyc-doc" role="tabpanel" aria-labelledby="kyc-doc-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">KYC documents</h4>                                    
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="details-list">
+                                        <ul class="list-group list-group-horizontal justify-content-end">
+                                            <li class="list-group-item"></li>
+                                        </ul>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form" [formGroup]="kycDetailsForm" (ngSubmit)="onKycDetailsFormSubmit()">
+                                                    <div formArrayName="documentsControl">
+                                                        <div class="form-row" *ngFor="let item of Documents.controls; let i=index" [formGroupName]="i">
+                                                            <div class="col">
+                                                                <label>Document Type</label>
+                                                                <ng-select [items]="documentTypes" bindLabel="name" appendTo="body" placeholder="Select document type"  name="name" formControlName="document_type_id" (change)="onDocumentTypeChnage(i)">
+                                                                </ng-select>
+                                                                <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="kycDetailsFormSubmitted && Documents.controls[i].get('document_type_id').errors?.required">{{message.documentTypeRequired}}</label>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Document Sub Type</label>
+                                                                <ng-select [items]="documentSubTypes" bindLabel="name" appendTo="body" placeholder="Select document sub type" name="name" formControlName="document_sub_type_id">
+                                                                </ng-select>
+                                                                <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="kycDetailsFormSubmitted && Documents.controls[i].get('document_sub_type_id').errors?.required">{{message.documentSubTypeRequired}}</label>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <label>File</label>
+                                                                <input type="file" formControlName="file">
+                                                                <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="kycDetailsFormSubmitted && Documents.controls[i].get('file').errors?.required">{{message.fileRequired}}</label>
+                                                            </div>
+                                                            <div class="col-auto align-self-center action-col" style="margin-top: -25px;">
+                                                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeDocumentRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <button class="btn bttn-transparent bttn-add" type="button" (click)="addDocumentRow()">Add</button>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row justify-content-center form-bttn-row">
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-outline-light3 st" (click)="onCancel()">Cancel</button>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-secondary st" id="proceed_4">Proceed</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab panel for KYC documents end -->
+
+                        <!-- Tab panel for review and submit start -->
+                        <div class="tab-pane fade" id="rvw-sbmt" role="tabpanel" aria-labelledby="rvw-sbmt-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">Review</h4>                                    
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="details-list">
+                                        <ul class="list-group list-group-horizontal justify-content-end">
+                                            <li class="list-group-item"></li>
+                                        </ul>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row" id="print-section">
+                                <div class="col-12">
+                                    <div class="review-submit-wrap">
+                                        <div class="review-submit-card" *ngIf="this.applicantDetailsForm.valid">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">Applicant Details</h6>
+                                                    </div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Email</p>
+                                                            <h6 class="h6 text-lowercase">{{this.applicantDetailsForm.value.emailControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Mobile Number</p>
+                                                            <h6 class="h6">{{this.applicantDetailsForm.value.mobileNoControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Ownership</p>
+                                                            <h6 class="h6">{{this.applicantDetailsForm.value.ownershipControl.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Vip</p>
+                                                            <h6 class="h6"><span class="flag-green"></span>{{this.applicantDetailsForm.value.vipControl.name}}</h6>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="row" *ngFor="let item of accountHolders.controls">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">First name</p>
+                                                            <h6 class="h6">{{item.value.first_name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Middle name</p>
+                                                            <h6 class="h6">{{item.value.middle_name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Last name</p>
+                                                            <h6 class="h6">{{item.value.last_name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Type</p>
+                                                            <h6 class="h6">{{item.value.type.name}}</h6>
+                                                        </div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="review-submit-card" *ngIf="this.addressDetailsForm.valid">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">Address</h6>
+                                                    </div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Address</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.billingAddressLineControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Street</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.billingStreetControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">State</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.billingStateProvinceRegionControl.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">City</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.billingCityControl.name}}</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Postal/Zip code</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.billingZipCodeControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Area</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.billingAreaControl.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Sub area</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.billingSubAreaControl.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Premise</p>
+                                                            <h6 class="h6">{{this.addressDetailsForm.value.premise.name}}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="review-submit-card" *ngIf="this.kycDetailsForm.valid">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">KYC details</h6>
+                                                    </div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Document type</p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Document sub type</p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Document</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngFor="let item of Documents.controls">
+                                                        <div class="col-3">
+                                                            <!-- <p class="p p-13">Document type</p> -->
+                                                            <h6 class="h6">{{item.value.document_type_id.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <!-- <p class="p p-13">Document sub type</p> -->
+                                                            <h6 class="h6">{{item.value.document_sub_type_id.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <!-- <p class="p p-13">Document</p> -->
+                                                            <h6 class="h6">{{item.value.file | slice:12:100}}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="review-submit-card" *ngIf="this.serviceDetailsForm.valid">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">Services</h6>
+                                                    </div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Service</p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Category</p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Sub category</p>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Contract</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row" *ngFor="let item of contracts.controls">
+                                                        <div class="col-3">
+                                                            <!-- <p class="p p-13">Service</p> -->
+                                                            <h6 class="h6">{{item.value.service.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <!-- <p class="p p-13">Category</p> -->
+                                                            <h6 class="h6">{{item.value.category.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <!-- <p class="p p-13">Sub category</p> -->
+                                                            <h6 class="h6">{{item.value.subCategory.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <!-- <p class="p p-13">Contract</p> -->
+                                                            <h6 class="h6">{{item.value.serviceContract.name}}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="review-submit-card" *ngIf="this.othersDetailsForm.valid">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">Others</h6>
+                                                    </div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row" *ngFor="let item of otherItems.controls">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Item</p>
+                                                            <h6 class="h6">{{item.value.otherDropdownControl.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">{{item.value.otherDropdownControl.name}}</p>
+                                                            <h6 class="h6" *ngIf="item.value.otherDropdownControl.key == 'CREDIT'">{{item.value.creditRatingControl.name}}</h6>
+                                                            <h6 class="h6" *ngIf="item.value.otherDropdownControl.key == 'OFFER'">{{item.value.offerControl.name}}</h6>
+                                                            <h6 class="h6" *ngIf="item.value.otherDropdownControl.key == 'UPFPAYMENT'">{{item.value.upfPaymentControl}}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                        <!-- <div class="review-submit-card" *ngIf="this.paymentDetailsForm.valid">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">Payments</h6>
+                                                    </div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row" *ngFor="let item of this.paymentDetailsForm.value.transactionsControl">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Payment Type</p>
+                                                            <h6 class="h6">{{item.transaction_type_id.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Payment Sub Type</p>
+                                                            <h6 class="h6">{{item.transaction_sub_type_id.name}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Amount</p>
+                                                            <h6 class="h6">{{item.transaction_amount}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Tax</p>
+                                                            <h6 class="h6">{{item.tax_amount}}</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center form-bttn-row">
+                                <div class="col-auto">
+                                    <button class="btn btn-outline-light3 st" (click)="onCancel()">Cancel</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-secondary st" id="proceed_5" (click)="onReviewandSubmit()">Proceed</button>
+                                </div>
+                            </div> 
+                        </div>
+                        <!-- Tab panel for review and submit end -->
+
+                        <!-- Tab panel for others start-->
+                        <div class="tab-pane fade" id="others" role="tabpanel" aria-labelledby="others-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">Offers</h4>                                    
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="details-list">
+                                        <ul class="list-group list-group-horizontal justify-content-end">
+                                            <li class="list-group-item"></li>
+                                        </ul>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form" [formGroup]="othersDetailsForm" (ngSubmit)="onOthersDetailsFormSubmit()">
+                                                    <div formArrayName="otherItemsControl">
+                                                        <div class="form-row" *ngFor="let item of otherItems.controls; let i=index" [formGroupName]="i">
+                                                            <div class="col" *ngIf="offerProducts.length !=0">
+                                                                <label>offer Product</label>
+                                                                <ng-select [items]="offerProducts" bindLabel="name" placeholder="Select Service" formControlName="offerservice" name="offerservice" id="offerservice" [clearable]="false" (change)="onServiceProductChange(i)">
+                                                                </ng-select>
+                                                                <!-- <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="serviceDetailsFormSubmitted && contracts.controls[i].get('offerservice').errors?.required">{{message.serviceRequired}}</label> -->
+                                                            </div>
+                                                            <!-- <div class="col">
+                                                                <label>Item</label>
+                                                                <ng-select [items]="others" bindLabel="name" placeholder="Select" name="others" formControlName="otherDropdownControl" name="other" [clearable]="false">
+                                                                </ng-select>
+                                                                <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="othersDetailsFormSubmitted && otherItems.controls[i].get('otherDropdownControl').errors?.required">{{message.firstNameRequired}}</label>
+                                                            </div> -->
+                                                            <!-- <div class="col" *ngIf="creditRatings.length !=0 && otherItems.at(i).value.otherDropdownControl.key=='CREDIT'">
+                                                                <label>Credit rating</label>
+                                                                <ng-select [items]="creditRatings" bindLabel="name" placeholder="Select Credit rating" name="creditRating" [clearable]="false" id="creditRating" formControlName="creditRatingControl">
+                                                                </ng-select>
+                                                            </div> -->
+                                                            <div class="col">
+                                                                <label>Offer</label>
+                                                                <ng-select [items]="offers" bindLabel="offer_name" placeholder="Select offer" formControlName="offerControl" name="offerControl" id="offerControl" [clearable]="false"  >
+                                                                </ng-select>
+                                                            </div>
+                                                            <!-- <div class="col-6" *ngIf="otherItems.at(i).value.otherDropdownControl.key=='UPFPAYMENT'">
+                                                                <label>Upfront payment</label>
+                                                                <input type="text" class="form-control" placeholder="Payment" name="upfrontPayment" formControlName="upfPaymentControl">
+                                                            </div> -->
+                                                            <div class="col-auto align-self-center action-col">
+                                                                <button style="margin-top: 20px; margin-left: -10px;" class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeOtherItemsRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <button class="btn bttn-transparent bttn-add" type="button" (click)="addOtherItemsRow()">Add</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col-6">
+                                                            <label>Upfront payment</label>
+                                                            <input type="text" class="form-control" placeholder="Payment" name="upfrontPayment" formControlName="upfPaymentControl">
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="form-row">
+                                                        <div class="col">
+                                                            <label>Select item</label>
+                                                            <ng-select [items]="others" bindLabel="name" placeholder="Select" name="others" formControlName="otherDropdownControl" [ngClass]="{ 'is-invalid': othersDetailsFormSubmitted && od.otherDropdownControl.errors }"  name="other" [clearable]="false" (change)="otherChange($event)">
+                                                            </ng-select>
+                                                            <div *ngIf="othersDetailsFormSubmitted && od.otherDropdownControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="od.otherDropdownControl.errors.required">{{message.otherRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col" *ngIf="creditRatings.length !=0 && creditRating">
+                                                            <label>Credit rating</label>
+                                                            <ng-select [items]="creditRatings" bindLabel="name" placeholder="Select Credit rating" name="creditRating" [clearable]="false" id="creditRating" formControlName="creditRatingControl">
+                                                            </ng-select>
+                                                        </div>
+                                                        <div class="col" *ngIf="offers.length !=0 && offer">
+                                                            <label>Offer</label>
+                                                            <ng-select [items]="offers" bindLabel="name"placeholder="Select offer" name="offer" [clearable]="false" id="offer" formControlName="offerControl">
+                                                            </ng-select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col-6" *ngIf="upfPayment">
+                                                            <label>Upfront payment</label>
+                                                            <input type="text" class="form-control" placeholder="Payment" name="upfrontPayment" formControlName="upfPaymentControl">
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="row justify-content-center form-bttn-row">
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-outline-light3 st" (click)="onCancel()">Cancel</button>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-secondary st" id="proceed_6" (click)="setPaymentAmount()">Pay</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab panel for others end -->
+
+                        <!-- Tab panel for payments start-->
+                        <div class="tab-pane fade" id="payments" role="tabpanel" aria-labelledby="payments-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">Payments</h4>                                    
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="details-list">
+                                        <ul class="list-group list-group-horizontal justify-content-end">
+                                            <li class="list-group-item"></li>
+                                        </ul>
+                                    </div>                                    
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form" [formGroup]="paymentDetailsForm" (ngSubmit)="onPaymentDetailsFormSubmit()">
+                                                    <div formArrayName="transactionsControl">
+                                                        <div class="form-row" *ngFor="let item of Transactions.controls; let i=index" [formGroupName]="i">
+                                                            <div class="col">
+                                                                <label>Payment Type</label>
+                                                                <ng-select [items]="paymentTypes" bindLabel="name" appendTo="body" placeholder="Select Payment Type" name="name" [clearable]="false" formControlName="transaction_type_id" [readonly]="true">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Payment Sub Type</label>
+                                                                <ng-select [items]="paymentSubTypes" bindLabel="name" appendTo="body" placeholder="Select Payment Sub Type" name="name" [clearable]="false" formControlName="transaction_sub_type_id" [readonly]="true">
+                                                                </ng-select>
+                                                                <label style="font-size: 80%;color: #ED6868;" *ngIf="Transactions.controls[i].get('transaction_sub_type_id').errors?.required">
+                                                                  Payment Sub type required.
+                                                                </label>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Amount</label>
+                                                                <input [readonly]="true" type="text" class="form-control" placeholder="Amount" formControlName="transaction_amount" (keyup)="setPaymentAmount()"/>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Tax (%)</label>
+                                                                <input type="text" class="form-control" placeholder="Tax" formControlName="tax_amount" [readonly]="true"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col-3" style="display: none;">
+                                                            <label>Payment Type</label>
+                                                            <ng-select [items]="paymentTypes" bindLabel="name" appendTo="body" placeholder="Select Payment Type" name="name" [clearable]="false" formControlName="paymentTypeControl" [readonly]="true" [ngClass]="{ 'is-invalid': paymentsDetailsFormSubmitted && pd.paymentTypeControl.errors }">
+                                                            </ng-select>
+                                                            <div *ngIf="paymentsDetailsFormSubmitted && pd.paymentTypeControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="pd.paymentTypeControl.errors.required">{{message.paymentTypeRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3" style="display: none;">
+                                                            <label>Payment Sub Type</label>
+                                                            <ng-select [items]="paymentSubTypes" bindLabel="name" appendTo="body" placeholder="Select Payment Sub Type" name="name" [clearable]="false" formControlName="paymentSubTypeControl" [readonly]="true" [ngClass]="{ 'is-invalid': paymentsDetailsFormSubmitted && pd.paymentSubTypeControl.errors }">
+                                                            </ng-select>
+                                                            <div *ngIf="paymentsDetailsFormSubmitted && pd.paymentSubTypeControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="pd.paymentSubTypeControl.errors.required">{{message.paymentSubTypeRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <label>Payment Mode</label>
+                                                            <ng-select [items]="paymentModes" bindLabel="name" appendTo="body" placeholder="Select Payment Mode" name="name" formControlName="paymentModeControl" [ngClass]="{ 'is-invalid': paymentsDetailsFormSubmitted && pd.paymentModeControl.errors }">
+                                                            </ng-select>
+                                                            <div *ngIf="paymentsDetailsFormSubmitted && pd.paymentModeControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="pd.paymentModeControl.errors.required">{{message.paymentModeRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <label>Payment Channel</label>
+                                                            <ng-select [items]="paymentChannels" bindLabel="name" appendTo="body" placeholder="Select Payment Channel" name="name" formControlName="paymentChannelControl" [ngClass]="{ 'is-invalid': paymentsDetailsFormSubmitted && pd.paymentChannelControl.errors }">
+                                                            </ng-select>
+                                                            <div *ngIf="paymentsDetailsFormSubmitted && pd.paymentChannelControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="pd.paymentChannelControl.errors.required">{{message.paymentChannelRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                    <!-- </div> -->
+                                                    <!-- <div class="form-row"> -->
+                                                        <div class="col-3">
+                                                            <label>Payment Amount</label>
+                                                            <input type="text" class="form-control" placeholder="Payment amount" (click)="setPaymentAmount()" formControlName="paymentAmountControl" [readonly]="true" [ngClass]="{ 'is-invalid': paymentsDetailsFormSubmitted && pd.paymentAmountControl.errors }"/>
+                                                            <div *ngIf="paymentsDetailsFormSubmitted && pd.paymentAmountControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="pd.paymentAmountControl.errors.required">{{message.paymentAmountRequired}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3" [hidden]="chequeDemandDraft">
+                                                            <label>Cheque/DD No.</label>
+                                                            <input type="text" class="form-control" placeholder="Cheque/DD" value="3000" formControlName="chequeDdControl"/>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <label>Transaction Id</label>
+                                                            <input type="text" class="form-control" placeholder="Transaction ID" value="TXN23887645" formControlName="transactionIdControl"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col-3">
+                                                            <label>Transaction Date</label>
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body" formControlName="transationDateControl" [ngClass]="{ 'is-invalid': paymentsDetailsFormSubmitted && pd.transationDateControl.errors }">
+                                                                <div class="input-group-append">
+                                                                    <button class="btn bttn-transparent bttn-icon" style="height: 36px;" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                                                </div>
+                                                                <div *ngIf="paymentsDetailsFormSubmitted && pd.transationDateControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="pd.transationDateControl.errors.required">{{message.paymentDateRequired}}</div>
+                                                            </div>
+                                                            </div>
+                                                        </div> 
+                                                    </div>
+                                                    <div class="row justify-content-center form-bttn-row">
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-outline-light3 st" (click)="onCancel()">Cancel</button>
+                                                        </div>
+                                                        <div class="col-auto">
+                                                            <button class="btn btn-secondary st" id="proceed_7" [disabled]="isDisabled"  (click)="onConsumerSubmit()">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab panel for payments end -->
+
+                        <div class="row">
+                            <div class="col">
+                                <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+                                    <div>Registration Successfully Created!!</div>
+                                    <div>And Your Registration no. is {{storeRegistrationNumber}}</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+                                    <div>Mobile Number Already Exist!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up End -->
+                        <!-- Cancel Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="onCanceltoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="onCanceltoast = false; autohide = true">
+                                    <div>Registration Canceled !!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Cancel Pop-Up End -->
+                        <!-- Error Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="applicantDetailToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="applicantDetailToast = false; autohide = true">
+                                    <div>Please enter applicant details!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up End -->
+                        <!-- Error Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="addressDetailToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addressDetailToast = false; autohide = true">
+                                    <div>Please enter address details!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up End -->
+                        <!-- Error Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="kycDetailToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="kycDetailToast = false; autohide = true">
+                                    <div>Please enter kyc details!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up End -->
+                        <!-- Error Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="serviceDetailToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="serviceDetailToast = false; autohide = true">
+                                    <div>Please enter service details!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up End -->
+                        <!-- Error Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="othersDetailToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="othersDetailToast = false; autohide = true">
+                                    <div>Please enter others details!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up End -->
+                        <!-- Error Pop-Up Start -->
+                        <div class="row">
+                            <div class="col">
+                            <ngb-toast *ngIf="paymentDetailToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="paymentDetailToast = false; autohide = true">
+                                    <div>Please enter payment details!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                        <!-- Error Pop-Up End -->                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</app-stepper-form>

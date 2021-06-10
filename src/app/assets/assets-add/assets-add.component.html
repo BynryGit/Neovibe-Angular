@@ -1,0 +1,289 @@
+<app-stepper-form [operator]="testing()">
+    <div class="col pl-0">
+        <div class="cust-form-col-rt">
+            <div class="row">
+                <div class="col-12">
+                    <div class="registration-inner inner-wrap tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="basic-dtls" role="tabpanel"
+                            aria-labelledby="basic-dtls-tab">
+
+                            <div class="row br-btm">
+                                    <div class="col-auto align-self-center">
+                                        <h4 class="h4 ttl">Basic Details</h4>
+                                    </div>
+                                </div>                                
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="registration-form inner-form">
+                                            <div class="row inner-form-wrap">
+                                                <div class="col-12">
+                                                    <form name="form">
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Asset Name</label>
+                                                                <input type="text" class="form-control" placeholder="Asset Name"
+                                                                    value="XYWS" />
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Serial No</label>
+                                                                <input type="text" class="form-control" placeholder="Serial No"
+                                                                    value="0158974" />
+                                                            </div>
+                                                           
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Select Category</label>
+                                                                <ng-select [items]="category" bindLabel="name" placeholder="Select Category"
+                                                                    [(ngModel)]="selectedCategory" name="category">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Select Sub-Category</label>
+                                                                <ng-select [items]="subcategory" bindLabel="name" placeholder="Select Sub Category"
+                                                                    [(ngModel)]="selectedSubCategory" name="subcategory">
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Manufacture</label>
+                                                                <ng-select [items]="manufacture" bindLabel="name" placeholder="Select Manufacture"
+                                                                    [(ngModel)]="selectedManufacture" name="manufacture">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Make</label>
+                                                                <ng-select [items]="make" bindLabel="name" placeholder="Select Make"
+                                                                    [(ngModel)]="selectedMake" name="make">
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Select Model</label>
+                                                                <ng-select [items]="model_" bindLabel="name" placeholder="Select Model"
+                                                                    [(ngModel)]="selectedModel" name="model">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Select Insurance</label>
+                                                                <ng-select [items]="insurance" bindLabel="name" placeholder="Select Insurance"
+                                                                    [(ngModel)]="selectedInsurance" name="insurance">
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="row justify-content-end form-bttn-row br-top">
+                                                <div class="col-auto">
+                                                    <button class="btn btn-outline-light3 st">Cancel</button>
+                                                </div>
+                                                <div class="col-auto pl-1 pr-4">
+                                                    <button class="btn btn-secondary st" (click)="onAssetBasicFormSubmit()">Proceed</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+
+
+                        <div class="tab-pane fade" id="other-dtls" role="tabpanel"
+                            aria-labelledby="other-dtls-tab">
+                            <div class="row br-btm">
+                                    <div class="col-auto align-self-center">
+                                        <h4 class="h4 ttl">Other Details</h4>                                    
+                                    </div>
+                                    <div class="col align-self-center">
+                                        <div class="details-list">
+                                            
+                                        </div>                                    
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="registration-form inner-form">
+
+                                            <div class="row inner-form-wrap">
+                                                <div class="col-12">
+                                                    <form name="form">
+
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Installation Date</label>
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="dd-mm-yyyy" name="dp"
+                                                                        [(ngModel)]="model" ngbDatepicker
+                                                                        #D="ngbDatepicker" (click)="D.toggle()"
+                                                                        container="body">
+                                                                    <div class="input-group-append" id="button-addon4">
+                                                                        <button class="btn bttn-transparent bttn-icon"
+                                                                            type="button" (click)="D.toggle()">
+                                                                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Expire Date</label>
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="dd-mm-yyyy" name="dp"
+                                                                        [(ngModel)]="model" ngbDatepicker
+                                                                        #d="ngbDatepicker" (click)="d.toggle()"
+                                                                        container="body">
+                                                                    <div class="input-group-append" id="button-addon4">
+                                                                        <button class="btn bttn-transparent bttn-icon"
+                                                                            type="button" (click)="d.toggle()">
+                                                                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Asset Life</label>
+                                                                <input type="text" class="form-control" placeholder="Asset Life" value="1 year" />
+                                                            </div>  
+                                                            <div class="col">
+                                                                <label>Asset Value</label>
+                                                                <input type="text" class="form-control" placeholder="Asset Value" value="" />
+                                                            </div>                    
+                                                            
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Deprication Method</label>
+                                                                <ng-select [items]="depricationMethod" bindLabel="name" [(ngModel)]="selecteddepricationMethod" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Deprication Rate</label>
+                                                                <ng-select [items]="depricationRate" bindLabel="name" [(ngModel)]="selecteddepricationRate" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Deprication Method</label>
+                                                                <ng-select [items]="depricationMethod" bindLabel="name" [(ngModel)]="selecteddepricationMethod" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Deprication Rate</label>
+                                                                <ng-select [items]="depricationRate" bindLabel="name" [(ngModel)]="selecteddepricationRate" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Sop</label>
+                                                                <ng-select [items]="sop" bindLabel="name" [(ngModel)]="selectedsop" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Frequency</label>
+                                                                <ng-select [items]="frequency" bindLabel="name" [(ngModel)]="selectedFrequency" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col">
+                                                                <label>Latitude</label>
+                                                                <ng-select [items]="latitude" bindLabel="name" [(ngModel)]="selectedLatitude" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label>Longitude</label>
+                                                                <ng-select [items]="longitude" bindLabel="name" [(ngModel)]="selectedLongitude" name="name">
+                                                                </ng-select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row">
+                                                            <div class="col-12">
+                                                                <div class="upload-wrapper custom-dropzone" ngx-dropzone
+                                                                    [accept]="'image/*'" (change)="onSelect($event)">
+                                                                    <div class="upload-inner inline">
+                                                                        <div class="media">
+                                                                            <div class="media-body">
+                                                                                <ngx-dropzone-label>
+                                                                                    <div class="drag-drop">
+                                                                                        <img class="st img-fluid" src="../../assets/images/icons/upload-icon.png" alt="upload">
+                                                                                        <p class="p p-13">Drag & Drop images here</p>
+                                                                                        <p class="p p-13 font-weight-normal">Or</p>
+                                                                                        <button class="btn bttn-uplaod bttn-txt st">Select Images</button>
+                                                                                    </div>
+                                                                                </ngx-dropzone-label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="uploaded-items">
+                                                                    <ul class="list-group list-group-horizontal-sm">
+                                                                        <ngx-dropzone-image-preview class="list-group-item" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                                                            <ngx-dropzone-label
+                                                                                class="p p-12 file-name">{{ f.name }}
+                                                                            </ngx-dropzone-label>
+                                                                        </ngx-dropzone-image-preview>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row justify-content-center form-bttn-row">
+                                                <div class="col-auto">
+                                                    <button class="btn btn-outline-light3 st">Cancel</button>
+                                                </div>
+                                                <div class="col-auto">
+                                                    <button class="btn btn-secondary st" id="proceed_2" (click)="showtoast = true">Submit</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--     <div class="row">
+        <div class="col">
+            <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="showtoast = false; autohide = true">
+                <div>New User Successfully Created!!</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="showexceptiontoast = false; autohide = true">
+                <div>User already exists !</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="dataInvalidMsg" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="dataInvalidMsg = false; autohide = true">
+                <div>Data is invalid !</div>
+            </ngb-toast>
+        </div>
+    </div> -->
+</app-stepper-form>

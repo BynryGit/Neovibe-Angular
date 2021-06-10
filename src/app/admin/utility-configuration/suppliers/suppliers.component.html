@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">        
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="supplier_type_tab" data-toggle="tab" href="#supplier_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="supplier_subtype_tab" data-toggle="tab" href="#supplier_subtype" role="tab"
+                        aria-controls="country" aria-selected="false">Subtype</a>
+                    <a class="nav-item nav-link st" id="supplier_category_tab" data-toggle="tab" href="#supplier_category"
+                        role="tab" aria-controls="state" aria-selected="true">Product Category</a>
+                    <a class="nav-item nav-link st" id="supplier_subcategory_tab" data-toggle="tab" href="#supplier_subcategory"
+                        role="tab" aria-controls="state" aria-selected="true">Product Sub Category</a> 
+                    <a class="nav-item nav-link st" id="supplier_template_tab" data-toggle="tab" href="#supplier_template"
+                        role="tab" aria-controls="state" aria-selected="true">Invoice Template</a>              
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<app-suppliers-type [operator]="testing()"></app-suppliers-type>
+<app-suppliers-subtype [operator]="testing()"></app-suppliers-subtype>
+<app-suppliers-template [operator]="testing()"></app-suppliers-template>
+<app-suppliers-product-cateory [operator]="testing()"></app-suppliers-product-cateory>
+<app-suppliers-product-subcateory [operator]="testing()"></app-suppliers-product-subcateory>

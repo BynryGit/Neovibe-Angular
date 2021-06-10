@@ -1,0 +1,370 @@
+<section class="pr-section applicant-details-sec">
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <button class="btn bttn-transparent bttn-back d-inline-block" [routerLink]="['/asset']"></button>
+                <div class="inner-page-title d-inline-block"><h4 class="h4">Asset details </h4></div>
+            </div>
+            <div class="col-6">
+                <div class="inner-page-pagination">
+                    <nav class="">
+                        <ul class="pagination">
+                            <li class="page-item disabled">
+                                <!-- <a class="page-link" href="#">Previous<button class="btn bttn-prev"><fa-icon [icon]="faChevronLeft"></fa-icon></button></a> -->
+                            </li>
+                            <li class="page-item">
+                                <!-- <a class="page-link" href="#"><button class="btn bttn-next"><fa-icon [icon]="faChevronRight"></fa-icon></button>Next</a> -->
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-auto pr-0">
+                <div class="applicant-block-lt inner-wrap" style="height: 95%;">
+                    <div class="dtls-block">
+                        <div class="applicant-block-lt-header">
+                            <div class="row">
+                                <div class="col align-self-center">
+                                    <div class="enqry-sts-blk">
+                                        <div>
+                                          <div class="badge badge-label-success">Connected</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto align-self-center">
+                                    <h4 class="sh-ttl">Asset ID : 123456</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="block-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="profile-card st">
+                                        <div class="media">
+                                            <div class="img-blk">
+                                                <img class="img-abs st" src="../../assets/images/john-doe.png" alt="img">
+                                            </div>                                                                        
+                                            <div class="media-body">
+                                              <h5>Meter_123</h5>
+                                              <p class="p p-13">Model No: <span>55554477</span></p>
+                                              <div class="badge badge-label-success">Allocated</div>                                     
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                        
+                        </div>
+                    </div>
+                    <ngx-simplebar [options]="scrollOptions" class="info-block">
+                        <div class="applicant-data">
+    
+                            <div class="row">
+                                <div class="col-6">
+                                    <p class="p p-13 text-truncate">Asset</p>
+                                    <h6 class="h6">Industrial</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13 text-truncate">Asset ID</p>
+                                    <h6 class="h6">12345</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13 text-truncate">Category</p>
+                                    <h6 class="h6">Industrial</h6>
+                                  </div>
+                                <div class="col-6">
+                                    <p class="p p-13">Sub Category</p>
+                                    <h6 class="h6">Industrial</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13">Manufacture</p>
+                                    <h6 class="h6">Web</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13">Manufacture Year</p>
+                                    <h6 class="h6">55</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13">Insurance</p>
+                                    <h6 class="h6">insur154845</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13">Insurance No.</p>
+                                    <h6 class="h6">54555521</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13">Installation Date</p>
+                                    <h6 class="h6">21 Jan 2020</h6>
+                                </div>
+                                <div class="col-6">
+                                    <p class="p p-13">Expire Date</p>
+                                    <h6 class="h6">30 May 2020</h6>
+                                </div>
+                            </div>   
+                            <div class="row ">
+                                <div class="col-6">
+                                    <p class="p p-13 text-truncate">Make</p>
+                                    <h6 class="h6">Winziz</h6>
+                                </div>
+                            </div>    
+                        </div>
+                         
+                    </ngx-simplebar>
+                </div>
+            </div>
+            <div class="col"> 
+            <div class="row">
+                <div class="col-3">
+                    <div class="bttn-toggle">
+                        <div class="toggle-button-wrap mt-0">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist" style="width: 242px">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="summry-tab" data-toggle="tab" role="tab"  aria-selected="true" (click)="goToConsumerDetail()" style="cursor:pointer">Consumer Detail</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="profl-tab" data-toggle="tab"  role="tab" aria-selected="false" (click)='goToQuickAccess()' style="cursor:pointer">Quick Services</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           
+            <div class="applicant-block-rt inner-wrap">
+                <div class="nav-block">
+                    <nav class="inner-form-tabs">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="{{item?.class}}" id="{{item?.id}}"  data-toggle="tab" href="{{item?.href}}" role="tab" aria-controls="{{item?.ariaControls}}" aria-selected="{{item?.ariaSelected}}" *ngFor="let item of tabList">{{item?.name}}</a>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="applicant-block-rt-body">
+                    <div class="tab-content" >
+                        <!-- Tab panel for address details start -->
+                        <div class="tab-pane fade show active" id="nav-histroy" role="tabpanel" aria-labelledby="nav-histroy-tab">
+                            <div class="row justify-content-end">
+                            <div class="col">
+                                 <form class="pr-search-form d-inline-block">
+                                       <span class="s-icon"></span>
+                                       <input class="form-control pr-table-search" type="search" placeholder="Search" aria-label="Search">        
+                                 </form>                                        
+                            </div>    
+                            <div class="col" >
+                                    <label class="p p-12">Showing Last 3 month records</label>
+                            </div>                                                                      
+                            </div>    
+                        <div class="listview-table-wrap">   
+                                                                    
+                            <table datatable class="pr-datatable table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" class="sm-col"><span>Total</span></th>
+                                        <th scope="col"><span>Service No</span></th>
+                                        <th scope="col"><span>Category</span></th>
+                                        <th scope="col"><span>Sub Category</span></th>
+                                        <th scope="col"><span>Date</span></th>
+                                        <th scope="col"><span>Status</span></th>
+                                        <th scope="col"><span>Durantion</span></th>
+                                        <th scope="col" class="action-col"><span>Action</span></th> 
+                                                                                           
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of collection.data">
+                                        <th scope="row" class="sb-col">{{item.Id}}</th>
+                                        <td>{{item.service_no}}</td>
+                                        <td>{{item.category}}</td>
+                                        <td>{{item.subcategory}}</td>
+                                        <td>{{item.date | date : 'dd MMM yyyy'}}</td>
+                                        <td>
+                                            <div [ngSwitch]="item.status">
+                                                <div *ngSwitchCase="'Complate'">
+                                                    <div class="badge badge-label-unpaid">Complate</div>
+                                                </div>
+                                                <div *ngSwitchDefault>
+                                                    <div class="badge badge-label-paid">In Progress</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>{{item.duration}}</td>
+                                        <td class="action-col">
+                                            <span class="show">
+                                                <ul class="list-group list-group-horizontal action-list">
+                                                    <li class="list-group-item st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="View"
+                                                        [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#consumerDetailsModal">
+                                                        <fa-icon [icon]="faEye"></fa-icon>
+                                                    </li>
+                                                    <li class="list-group-item st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Print"
+                                                        [openDelay]="300" [closeDelay]="500">
+                                                        <fa-icon [icon]="faPrint"></fa-icon>
+                                                    </li>
+                                                </ul>
+                                            </span>
+                                        </td>
+                                       
+                                    </tr>
+                                </tbody>
+                            </table>                                            
+                        </div>
+                        </div>
+                        <!-- Tab panel for address detail end -->
+                        <!-- Tab panel for Service contract detail start -->
+                        <div class="tab-pane fade" id="nav-document" role="tabpanel" aria-labelledby="nav-document-tab">
+                            <div class="block-body inner-form">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="applicant-data">
+
+                                            <div class="form-row">
+                                                <div class="col-4">
+                                                    <label>Document Type</label>
+                                                    <ng-select [items]="docType" bindLabel="name" appendTo="body" placeholder="Select Document Type" [(ngModel)]="selectedDocType" name="name">
+                                                    </ng-select>
+                                                </div>
+                                                
+                                                <div class="col-4">
+                                                    <label>Select Document </label>
+                                                    <ng-select [items]="doc" bindLabel="name" appendTo="body" placeholder="Select Document " [(ngModel)]="selectedDocuments" name="name">
+                                                    </ng-select>
+                                                </div>
+                                                
+                                            </div>
+
+                                             <div class="form-row">
+                                                <div class="col-10">
+                                                    <div class="upload-wrapper custom-dropzone" ngx-dropzone
+                                                        [accept]="'image/*'" (change)="onSelect($event)">
+                                                        <div class="upload-inner inline">
+                                                            <div class="media">
+                                                                <div class="media-body">
+                                                                    <ngx-dropzone-label>
+                                                                        <div class="drag-drop">
+                                                                            <img class="st img-fluid" src="../../assets/images/icons/upload-icon.png" alt="upload">
+                                                                            <p class="p p-13">Drag & Drop files here</p>
+                                                                            <p class="p p-13 font-weight-normal">Or</p>
+                                                                            <button class="btn bttn-uplaod bttn-txt st">Browse Files</button>
+                                                                        </div>
+                                                                    </ngx-dropzone-label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="uploaded-items">
+                                                        <ul class="list-group list-group-horizontal-sm">
+                                                            <ngx-dropzone-image-preview class="list-group-item" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                                                <ngx-dropzone-label
+                                                                    class="p p-12 file-name">{{ f.name }}
+                                                                </ngx-dropzone-label>
+                                                            </ngx-dropzone-image-preview>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="upload-wrapper">
+                                                        <div class="uploaded-items">
+                                                            <ul class="list-group list-group-horizontal-sm">
+                                                                <li class="list-group-item">
+                                                                    <div class="thumbnail">
+                                                                        <img class="st img-abs" src="../../assets/images/upload1.jpg" alt="img">
+                                                                    </div>
+                                                                    <p class="p p-12 file-name">Personal Details</p>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <div class="thumbnail">
+                                                                        <img class="st img-abs" src="../../assets/images/upload2.jpg" alt="img">
+                                                                    </div>
+                                                                    <p class="p p-12 file-name">Electricity Bill</p>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="row justify-content-end" *ngIf="showUpload">
+                                                <div class="col-auto">
+                                                    <button class="btn btn-outline-light3 st">Cancel</button>
+                                                </div>
+                                                <div class="col-auto pl-1 pr-0">
+                                                    <button class="btn btn-secondary st" (click)="toggleUpload()">Update Survey</button>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tab panel for Service contract detail end -->
+
+                        <!-- Tab panel for Offer detail start -->
+                        <div class="tab-pane fade" id="nav-sop" role="tabpanel" aria-labelledby="nav-sop-tab">
+                            <div class="row justify-content-end">
+                                <div class="col">
+                                     <form class="pr-search-form d-inline-block">
+                                           <span class="s-icon"></span>
+                                           <input class="form-control pr-table-search" type="search" placeholder="Search" aria-label="Search">        
+                                     </form>                                        
+                                </div>    
+                                <div class="col" >
+                                    <label class="p p-12">Showing Last 3 month records</label>
+                                </div>                                                                      
+                            </div>          
+                            <div class="listview-table-wrap">                                            
+                                <table datatable class="pr-datatable table table-hover no-boxshadow table-border">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col"><span>Asset Value</span></th>
+                                            <th scope="col"><span>Depreciation Methos</span></th>
+                                            <th scope="col"><span>Depreciation Rate</span></th>
+                                            <th scope="col"><span>Install Date</span></th>
+                                            <th scope="col"><span>Life</span></th>
+                                            <th scope="col"><span>Current Val</span></th>
+                                            <th scope="col" class="action-col"><span>Main.Cost</span></th>
+                                            <th scope="col"><span></span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of collection.data">
+                                            <th scope="row">{{item.asset_val}}</th>
+                                            <td>{{item.dept_method}}</td>
+                                            
+                                            <td>{{item.dept_rate}}</td>
+                                            <td>{{item.install_date | date : 'dd MMM yyyy'}}</td>  
+                                            <td>{{item.life }}</td>  
+                                            <td>{{item.current_val }}</td>  
+                                            <td>{{item.main_cost }}</td>  
+                                            
+                                            <td class="action-col">
+                                                <div class="dropdown dot-option-dropdown">
+                                                    <a class="dot-btn-v st" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item active st"><span>Allocate</span></a>
+                                                        <a class="dropdown-item st"><span>Reallocate</span></a>
+                                                        <a class="dropdown-item st"><span>Return</span></a>
+                                                        <a class="dropdown-item st"><span>Transfer</span></a>
+                                                        <a class="dropdown-item st"><span>Expire</span></a>
+                                                        <a class="dropdown-item st"><span>Maintenanc</span></a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>                                            
+                            </div>
+                        </div>
+                        <!-- Tab panel for Offer detail end -->
+                        <div class="tab-pane fade" id="nav-help" role="tabpanel" aria-labelledby="nav-help-tab">
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            </div>
+        </div>
+</section>

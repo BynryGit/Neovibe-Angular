@@ -1,0 +1,214 @@
+<!-- Add Meter Model Start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="AddMeterModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="AddMeterModalLabel">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="min-width:570px;">
+            <div class="modal-content"> 
+
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="AddMeterModalLabel">Add Meter</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">                                
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="block-body" style="min-height: unset;">
+                                                <div class="custom-control custom-radio pr-custom-radio custom-control-inline mb-0">
+                                                    <input type="radio" id="meteradd" name="validationradio"
+                                                        class="custom-control-input" checked (change)="meteradd" #meteradd>
+                                                    <label class="custom-control-label" for="meteradd">Add Meter</label>
+                                                </div>
+                                                <div class="custom-control custom-radio pr-custom-radio custom-control-inline mb-0">
+                                                    <input type="radio" id="meterupload" name="validationradio"
+                                                        class="custom-control-input" (change)="meterupload" #meterupload>
+                                                    <label class="custom-control-label" for="meterupload">Upload Meter</label>
+                                                </div>
+                                            </div>                                            
+                                        </div>                                        
+                                    </div>
+                                </div>
+
+                                <ng-container *ngIf="meteradd.checked">
+                                    
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Device No *</label>
+                                                <input type="text" class="form-control" [(ngModel)]="device_Obj.device_no" placeholder="Enter Device No" name="name">
+                                                <div *ngIf="invalid_device">
+                                                    <div style="color: red;">{{ErrorMessage.Device}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Meter Make *</label>
+                                                <ng-select appendTo="body" [items]="meter_make_list" bindLabel="name" placeholder="Select Meter Make" [(ngModel)]="meter_make_obj.make" name="">
+                                                </ng-select>
+                                                <div *ngIf="invalid_make">
+                                                    <div style="color: red;">{{ErrorMessage.MeterMake}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label>Meter Status *</label>
+                                                <ng-select appendTo="body" [items]="meter_status_list" bindLabel="name" placeholder="Select Meter Status" [(ngModel)]="meter_status_obj.status" name="">
+                                                </ng-select>
+                                                <div *ngIf="invalid_status">
+                                                    <div style="color: red;">{{ErrorMessage.meterStatusCantBeEmpty}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Route *</label>
+                                                <ng-select appendTo="body" [items]="route_list" bindLabel="name" placeholder="Select Route" [(ngModel)]="route_obj.route" name="">
+                                                </ng-select>
+                                                <div *ngIf="invalid_route">
+                                                    <div style="color: red;">{{ErrorMessage.Route}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label>Premises *</label>                                    
+                                                <ng-select appendTo="body" [items]="premise_list" bindLabel="name" placeholder="Select Premises" [(ngModel)]="premise_obj.premise" name="">
+                                                </ng-select>
+                                                <div *ngIf="invalid_premise">
+                                                    <div style="color: red;">{{ErrorMessage.Premise}}</div>
+                                                </div>
+                                            </div>
+                                        </div>                            
+        
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Current Reading *</label>
+                                                <input type="text" class="form-control" [(ngModel)]="current_reading_Obj.current_reading" placeholder="Enter Current reading" name="name">
+                                                <div *ngIf="invalid_reading">
+                                                    <div style="color: red;">{{ErrorMessage.Reading}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="form-row">
+                                            <div class="col">
+                                            <label>Install Date *</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                    <button class="btn bttn-transparent bttn-icon" type="button" (click)="install_date.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                                    </div>
+                                                    <input type="text" class="form-control" id="instl_date" placeholder="yyyy-mm-dd" name="install_date" [(ngModel)]="install_dte" ngbDatepicker #install_date="ngbDatepicker" (click)="install_date.toggle()" container="body">                                  
+                                                </div>
+                                                <div *ngIf="invalid_date">
+                                                    <div style="color: red;">{{ErrorMessage.dateCantBeEmpty}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+        
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Meter Type *</label>
+                                                <ng-select appendTo="body" [items]="meter_type_list" bindLabel="value" placeholder="Select Meter Type" [(ngModel)]="meter_type_obj.meter_type" name="">
+                                                </ng-select>
+                                                <div *ngIf="invalid_meter_type">
+                                                    <div style="color: red;">{{ErrorMessage.meterTypeCantBeEmptyDrop}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label>Product *</label>                                    
+                                                <ng-select appendTo="body" [items]="service_type_list" bindLabel="name" placeholder="Select Product" [(ngModel)]="service_type_obj.service_type" name="">
+                                                </ng-select>
+                                                <div *ngIf="invalid_product">
+                                                    <div style="color: red;">{{ErrorMessage.productCantBeEmpty}}</div>
+                                                </div>
+                                            </div>
+                                        </div>                           
+        
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Latitude </label>
+                                                <input type="text" class="form-control" [(ngModel)]="latitude_Obj.latitude" placeholder="Enter Latitude" name="name">
+                                            </div>
+                                        </div>
+            
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Longitude</label>
+                                                <input type="text" class="form-control" [(ngModel)]="longitude_Obj.longitude" placeholder="Enter Longitude" name="name">
+                                            </div>
+                                        </div>     
+
+                                        <div class="modal-footer pr-modal-footer">
+                                            <div class="row justify-content-end">
+                                                <div class="col-auto">
+                                                    <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                                </div>
+                            
+                                                <div class="col-auto pl-1 pr-0">
+                                                    <button class="btn btn-secondary st" (click)="add_meter()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                </ng-container>
+
+                                <ng-container *ngIf="meterupload.checked">
+                                    <div class="inner-form">
+                                        <div class="form-row">
+                                            <div class="form-row">
+                                                <div class="col">
+                                                    <label>Choose File (EXCEL)</label>
+                                                    <input type="file" id='file' accept='.xls,' class="form-control" (change)="HandleFileInput($event.target.files)">
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div *ngIf="invalid_file">
+                                                    <div style="color: red;">{{ErrorMessage.File}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer pr-modal-footer">
+                                        <div class="row justify-content-end">
+                                            <div class="col-auto">
+                                                <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                                            </div>
+                        
+                                            <div class="col-auto pl-1 pr-0">
+                                                <button class="btn btn-secondary st" (click)="upload_meter()">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add Meter Model End -->
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div><p id="success_message">{{SuccessMessage.MeterCreate}}</p></div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div><p id="error_message">{{SuccessMessage.MeterExist}}</p></div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->

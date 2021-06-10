@@ -1,0 +1,203 @@
+<div class="tab-pane fade" id="consumer_subcategory" role="tabpanel" aria-labelledby="consumer_subcategory_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Consumer Sub Category" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" (click)="onAddClick()" data-target="#add_consumer_subcategory">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+        <div class="plan-card" style="width:280px;" *ngFor="let item of consumer_subcategoryList.results| filter:searchText">
+           <div class="plan-card-header">
+               <div class="row">
+                   <div class="col-12">
+                       <h4 class="ttl" style="word-wrap: break-word;">{{item.name}}</h4>
+                        <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_consumer_subcategory"><i class="icons8 icons8-edit"></i></span>
+                   </div>
+                   <div class="col-12">
+                       <input type="hidden" value="{{item.id_string}}"/>
+                   </div>
+                   <div class="col-12">
+
+                   </div>
+               </div>                                    
+           </div>
+           <div class="plan-card-body">
+               <div class="row">
+                <div class="col-6">
+                    <p class="p p-13 mb-1">Category</p>
+                    <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.consumer_category.name}}</h6>
+                </div>
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Created by</p>
+                       <h6 class="h6 mb-3">Admin</h6>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Created date</p>
+                       <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                   </div>
+                   <div class="col-6">
+                    <p class="p p-13 mb-1">Active</p>
+                    <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                </div>  
+               </div>                                  
+           </div>
+       </div> 
+   </div>           
+</div>
+
+<!--Add Consumer SubCategory Type Starts-->
+<div class="pr-modal">
+   <div class="modal right fade" id="add_consumer_subcategory" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">    
+           <div class="modal-header pr-modal-header">
+               <h4 class="modal-title" id="addPymntsModalLabel">Add Consumer Subcategory</h4>
+               <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+           </div>
+           <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+               <div class="row">
+                   <div class="col-12">
+                       <div class="inner-form">
+                        <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                           <div class="form-row">
+                               <div class="col">
+                                   <label>Consumer Category</label>
+                                   <ng-select [items]="consumer_categoryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Category" appendTo="body" formControlName="categoryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.categoryNameControl.errors }">
+                                   </ng-select>
+                                   <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                    <div *ngIf="ad.categoryNameControl.errors.required">{{message.categoryCantBeEmpty}}</div>
+                                </div>
+                               </div>
+                           </div>
+                           <div class="form-row">
+                               <div class="col">
+                                   <label>Consumer Subcategory</label>
+                                   <input type="text" class="form-control" placeholder="Enter Consumer Sub Category"  formControlName="subCategoryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.subCategoryNameControl.errors }"/>
+                                   <div *ngIf="applicantDetailsFormSubmitted && ad.subCategoryNameControl.errors" class="invalid-feedback">
+                                    <div *ngIf="ad.subCategoryNameControl.errors.required">{{message.subCategoryCantBeEmpty}}</div>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.subCategoryNameControl.errors" class="invalid-feedback">
+                                    <div *ngIf="ad.subCategoryNameControl.errors.maxlength">{{message.subCategoryMaxLength}}</div>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.subCategoryNameControl.errors" class="invalid-feedback">
+                                    <div *ngIf="ad.subCategoryNameControl.errors.whitespace && !ad.subCategoryNameControl.errors.required">{{message.invalidSubCategory}}</div>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.subCategoryNameControl.errors" class="invalid-feedback">
+                                    <div *ngIf="ad.subCategoryNameControl.errors.pattern">{{message.subCategoryNameShouldBeLetter}}</div>
+                                </div>
+                               </div>
+                           </div>
+                        </form>
+                       </div>
+                   </div>
+               </div>
+           </ngx-simplebar>
+           <div class="modal-footer pr-modal-footer">
+               <div class="row justify-content-end">
+                   <div class="col-auto">
+                       <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                   </div>
+                   <div class="col-auto pl-1 pr-0">
+                       <button class="btn btn-secondary st" (click)="onAddConsumerSubCategorydata()">Add</button>
+                   </div>
+               </div>
+           </div> 
+       </div>
+     </div>
+   </div>
+</div>
+<!--Add Consumer SubCategory Type Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Consumer Sub Category successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Consumer Sub Category Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--Edit Consumer SubCategory Type Starts-->
+<div class="pr-modal">
+   <div class="modal right fade" id="edit_consumer_subcategory" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+     <div class="modal-dialog" role="document">
+       <div class="modal-content">    
+           <div class="modal-header pr-modal-header">
+               <h4 class="modal-title" id="addPymntsModalLabel">Edit Consumer Subcategory</h4>
+               <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+           </div>
+           <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+               <div class="row">
+                   <div class="col-12">
+                       <div class="inner-form">
+                           <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Consumer Category</label>
+                                    <ng-select [items]="consumer_categoryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Category" appendTo="body" formControlName="categoryNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors }">
+                                    </ng-select>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.categoryNameControlEdit.errors.required">{{message.categoryCantBeEmpty}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Consumer SubCategory</label>
+                                    <input type="text" class="form-control" placeholder="Enter Consumer Sub Category" name = "edit_consumer_subcategory" formControlName="subCategoryNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.subCategoryNameControlEdit.errors }"/>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.subCategoryNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.subCategoryNameControlEdit.errors.required">{{message.subCategoryCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.subCategoryNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.subCategoryNameControlEdit.errors.maxlength">{{message.subCategoryMaxLength}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.subCategoryNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.subCategoryNameControlEdit.errors.whitespace && !ade.subCategoryNameControlEdit.errors.required">{{message.invalidSubCategory}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.subCategoryNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.subCategoryNameControlEdit.errors.pattern">{{message.subCategoryNameShouldBeLetter}}</div>
+                                    </div>
+                                </div>
+                            </div> 
+                            </form>
+                       </div>
+                   </div>
+               </div>
+           </ngx-simplebar>
+           <div class="modal-footer pr-modal-footer">
+               <div class="row justify-content-end">
+                   <div class="col-auto">
+                       <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                   </div>
+                   <div class="col-auto pl-1 pr-0">
+                       <button class="btn btn-secondary st" (click)="onEditConsumerSubCategorydata()">Save</button>
+                   </div>
+               </div>
+           </div> 
+       </div>
+     </div>
+   </div>
+</div>
+<!--Edit Registration Sub Type Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Sub Category successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Sub Category Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+

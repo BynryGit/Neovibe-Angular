@@ -1,0 +1,338 @@
+<div class="tab-pane fade" id="premises" role="tabpanel" aria-labelledby="premises-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Premise Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <div class="dropdown tool-dropdown">
+              <button class="btn btn-outline-light3 st dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Tools
+              </button>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item active" >
+                  <i class="icons8 icons8-print-2"></i>Print
+                </a>
+                <a class="dropdown-item" role="button" (click)="downloadAsPDF()">
+                  <i class="icons8 icons8-pdf"></i>PDF
+                </a>
+                <a class="dropdown-item" role="button" (click)="exportexcel()">
+                  <i class="icons8 icons8-brief"></i>Excel
+                </a>
+                <a class="dropdown-item" role="button" (click)="results()">
+                  <i class="icons8 icons8-document"></i>CSV
+                </a>
+              </div>
+            </div>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" (click)="onAddClick()" role="button" data-toggle="modal" data-target="#addPremisesModal">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap" id="tablepdf" #tablepdf>  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table *ngIf="showTable" datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item?.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet | filter:searchText">
+                            <td>{{item.name}}</td>
+                            <td>{{item.GIS}}</td>
+                            <td>{{item.MRU}}</td>
+                            <td>{{item?.subarea?.area?.division?.zone_id?.city?.name}}</td>
+                            <td>{{item?.subarea?.area?.division?.zone_id?.name}}</td>
+                            <td>{{item?.subarea?.area?.division?.name}}</td>
+                            <td>{{item?.subarea?.area?.name}}</td>
+                            <td>{{item?.subarea?.name}}</td>
+                            <td>{{item?.created_date | date:'dd MMM yy'}}</td>
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editPremisesModal" (click)="onCardClickEvent(item)">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                  
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+</div>
+<!--Add subarea modal start territory-->
+<div class="pr-modal">
+    <div class="modal right fade" id="addPremisesModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addSubareaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Premise</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Select Category</label>
+                                        <ng-select appendTo="body" [items]="consumer_categoryList.results" bindLabel="name" placeholder="Select Category" formControlName="categoryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.categoryNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.categoryNameControl.errors.required">{{message.categoryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Meter Type</label>
+                                        <ng-select appendTo="body" [items]="meter_typeList.results" bindLabel="value" placeholder="Select Meter Type" formControlName="meterNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.meterNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.meterNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.meterNameControl.errors.required">{{message.meterCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">SubArea</label>
+                                        <ng-select appendTo="body" [items]="subareaList.results" bindLabel="name" placeholder="Select SubArea" formControlName="subareaNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.subareaNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.subareaNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.subareaNameControl.errors.required">{{message.subareaCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Premise</label>
+                                        <input type="text" class="form-control" placeholder="Enter Premise Name" formControlName="premiseNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.premiseNameControl.errors }"/>     
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.premiseNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.premiseNameControl.errors.required">{{message.premiseCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.premiseNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.premiseNameControl.errors.maxlength">{{message.premiseMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.premiseNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.premiseNameControl.errors.whitespace && !ad.premiseNameControl.errors.required">{{message.invalidPremise}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.premiseNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.premiseNameControl.errors.pattern">{{message.premiseShouldBeLetters}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">GIS</label>
+                                        <input type="text" class="form-control" placeholder="Enter GIS" formControlName="gisNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.gisNameControl.errors }"/>   
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.gisNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.gisNameControl.errors.required">{{message.gisCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.gisNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.gisNameControl.errors.maxlength">{{message.gisMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.gisNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.gisNameControl.errors.whitespace && !ad.gisNameControl.errors.required">{{message.invalidGIS}}</div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">MRU</label>
+                                        <input type="text" class="form-control" placeholder="Enter MRU" formControlName="mruNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.mruNameControl.errors }"/>     
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.mruNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.mruNameControl.errors.required">{{message.mruCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.mruNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.mruNameControl.errors.maxlength">{{message.mruMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.mruNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.mruNameControl.errors.whitespace && !ad.mruNameControl.errors.required">{{message.invalidMRU}}</div>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddPremisedata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Premise successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Premise Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add subarea modal end -->
+
+<!-- edit subarea modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="editPremisesModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editSubareaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Premise</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Select Category</label>
+                                        <ng-select appendTo="body" [items]="consumer_categoryList.results" bindLabel="name" placeholder="Select Category" formControlName="categoryNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.categoryNameControlEdit.errors.required">{{message.categoryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Meter Type</label>
+                                        <ng-select appendTo="body" [items]="meter_typeList.results" bindLabel="value" placeholder="Select Meter Type" formControlName="meterNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.meterNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.meterNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.meterNameControlEdit.errors.required">{{message.meterCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">SubArea</label>
+                                        <ng-select appendTo="body" [items]="subareaList.results" bindLabel="name" placeholder="Select Area" formControlName="subareaNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.subareaNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.subareaNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.subareaNameControlEdit.errors.required">{{message.subareaCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Premise</label>
+                                        <input type="text" class="form-control" placeholder="Enter Premise Name" formControlName="premiseNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.premiseNameControlEdit.errors }"/> 
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.premiseNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.premiseNameControlEdit.errors.required">{{message.premiseCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.premiseNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.premiseNameControlEdit.errors.maxlength">{{message.premiseMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.premiseNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.premiseNameControlEdit.errors.whitespace && !ade.premiseNameControlEdit.errors.required">{{message.invalidPremise}}</div>
+                                        </div>    
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.premiseNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.premiseNameControlEdit.errors.pattern">{{message.premiseShouldBeLetters}}</div>
+                                        </div>    
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">GIS</label>
+                                        <input type="text" class="form-control" placeholder="Enter GIS" formControlName="gisNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.gisNameControlEdit.errors }"/>  
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.gisNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.gisNameControlEdit.errors.required">{{message.gisCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.gisNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.gisNameControlEdit.errors.maxlength">{{message.gisMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.gisNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.gisNameControlEdit.errors.whitespace && !ade.gisNameControlEdit.errors.required">{{message.invalidGIS}}</div>
+                                        </div>    
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">MRU</label>
+                                        <input type="text" class="form-control" placeholder="Enter MRU" formControlName="mruNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.mruNameControlEdit.errors }"/>     
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.mruNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.mruNameControlEdit.errors.required">{{message.mruCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.mruNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.mruNameControlEdit.errors.maxlength">{{message.mruMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.mruNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.mruNameControlEdit.errors.whitespace && !ade.mruNameControlEdit.errors.required">{{message.invalidMRU}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            
+                        </div>
+                        </div>
+                    </div>
+            </ngx-simplebar>
+            
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditPremisedata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- edit subarea modal end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Premise successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Premise Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

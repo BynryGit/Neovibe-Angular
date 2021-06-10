@@ -1,0 +1,204 @@
+<div class="tab-pane fade" id="country" role="tabpanel" aria-labelledby="country-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Country Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addCountryModal" (click)="onAddClick()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+        <div class="plan-card" style="width:280px;" *ngFor="let item of countryList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editCountryModal"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Region</p>
+                            <h6 class="h6 mb-3">{{item.region.name}}</h6>
+                        </div>
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Created by</p>
+                            <h6 class="h6 mb-3">Admin</h6>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Created date</p>
+                            <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                        </div>
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Active</p>
+                            <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                        </div>
+                    </div>
+                   
+            </div>
+        </div>
+    </div> 
+</div>
+<!--Add Country Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="addCountryModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Country</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Region</label>
+                                        <ng-select [items]="regionList" bindLabel="name" bindvalue="id_string" placeholder="Select Region" appendTo="body" formControlName="regionNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.regionNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.regionNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.regionNameControl.errors.required">{{message.regionCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Country</label>
+                                        <input type="text" class="form-control" placeholder="Enter Country" formControlName="countryControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.countryControl.errors }" name = "country"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.countryControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.countryControl.errors.required">{{message.countryCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.countryControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.countryControl.errors.maxlength">{{message.countryMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.countryControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.countryControl.errors.whitespace && !ad.countryControl.errors.required">{{message.invalidCountry}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.countryControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.countryControl.errors.pattern">Country Name Should contain only letters.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddCountrydata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Country successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Country Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!--Add Country Ends-->
+
+<!--Edit Country Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="editCountryModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Country</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Region</label>
+                                        <ng-select [items]="regionList" bindLabel="name" bindvalue="id_string" placeholder="Select Region" appendTo="body" formControlName="regionNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.regionNameControlEdit.errors }">
+                                        </ng-select>
+                                        <input type="hidden" class="form-control" formControlName="regionNameControlEditHidden"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.regionNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.regionNameControlEdit.errors.required">{{message.regionCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Country</label>
+                                        <input type="text" class="form-control" placeholder="Enter Country" formControlName="countryControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.countryControlEdit.errors }" name = "country_edit"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.countryControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.countryControlEdit.errors.required">{{message.countryCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.countryControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.countryControlEdit.errors.maxlength">{{message.countryMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.countryControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.countryControlEdit.errors.whitespace && !ade.countryControlEdit.errors.required">{{message.invalidCountry}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.countryControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.countryControlEdit.errors.pattern">Country Name Should contain only letters</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditCountrydata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Country successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Country Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!--Edit Country Ends-->

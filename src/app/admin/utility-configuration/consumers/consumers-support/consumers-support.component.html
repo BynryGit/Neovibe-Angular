@@ -1,0 +1,280 @@
+<div class="tab-pane fade" id="consumer_support" role="tabpanel" aria-labelledby="consumer_support_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" placeholder="Search by Service Centre Name." aria-label="Search">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addConsumerSupportModal">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table *ngIf="showTable" datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet">
+                            <td>{{item.name}}</td>
+                            <td>{{item.city.name}}</td>
+                            <td>{{item.email_id}}</td> 
+                            <td>{{item.phone_no}}</td> 
+                            <td>{{item.description}}</td>  
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editConsumerSupportModal" (click)="onCardClickEvent(item)">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>     
+</div>
+<!--Basic Consumer FAQ Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="addConsumerSupportModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add Customer Service Centre</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>City</label>
+                                    <ng-select [items]="cityList.results" bindLabel="name" bindvalue="id_string" placeholder="Select City" appendTo="body" formControlName="cityNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.cityNameControl.errors }">
+                                    </ng-select>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.cityNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.cityNameControl.errors.required">{{message.cityCantBeEmptyDrop}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" name="add_question" placeholder="Enter Support Name" formControlName="supportNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.supportNameControl.errors }"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.supportNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.supportNameControl.errors.required">{{message.supportCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.supportNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.supportNameControl.errors.whitespace && !ad.supportNameControl.errors.required">{{message.invalidSupport}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Email Id</label>
+                                    <input type="text" class="form-control" name="add_email" formControlName="emailNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.emailNameControl.errors }" placeholder="Enter Email Id"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.emailNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.emailNameControl.errors.required">{{message.emailRequired}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.emailNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.emailNameControl.errors.pattern">{{message.correctEmailAddress}}</div>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Mobile No.</label>
+                                    <input type="number" class="form-control" onKeyPress="if(this.value.length==10) return false;" name="add_phone_no" formControlName="phoneNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.phoneNameControl.errors }" placeholder="Enter Phone Number" id="add_phone_no"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.phoneNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.phoneNameControl.errors.required">{{message.utilityPhoneNoRequired}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.phoneNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.phoneNameControl.errors.maxlength">{{message.phoneMaxLength}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.phoneNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.phoneNameControl.errors.email">{{message.invalidPhoneNumber}}</div>
+                                    </div>
+                                </div> 
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Description</label>
+                                    <textarea  type="text" class="form-control big-textarea" name="add_description" formControlName="descriptionNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.descriptionNameControl.errors }" placeholder="Enter Description" id="add_description"></textarea>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.descriptionNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.descriptionNameControl.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                    </div>
+                                   
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.descriptionNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.descriptionNameControl.errors.whitespace && !ad.descriptionNameControl.errors.required">{{message.invalidDescription}}</div>
+                                    </div>
+                                </div> 
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddSupport()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Basic Consumer FAQ Add Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Customer Service Centre added succesfully!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Customer Service Centre already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+
+<!--Basic Consumer FAQ Edit Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="editConsumerSupportModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Edit Customer Service Centre</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>City</label>
+                                        <ng-select [items]="cityList.results" (change)="onCityEditChange()" bindLabel="name" bindvalue="id_string" placeholder="Select City" appendTo="body" formControlName="cityNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.cityNameControlEdit.errors }">
+                                        </ng-select>
+                                        <input type="hidden" class="form-control" formControlName="cityNameControlEditHidden"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.cityNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.cityNameControlEdit.errors.required">{{message.cityCantBeEmptyDrop}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" name="edit_question" formControlName="supportNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.supportNameControlEdit.errors }" placeholder="Enter Name" id="edit_question"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.supportNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.supportNameControlEdit.errors.required">{{message.supportCantBeEmpty}}</div>
+                                        </div>
+                                        <!-- <div *ngIf="applicantDetailsFormEditSubmitted && ade.supportNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.supportNameControlEdit.errors.maxlength">{{message.supportMaxLength}}</div>
+                                        </div> -->
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.supportNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.supportNameControlEdit.errors.whitespace && !ade.supportNameControlEdit.errors.required">{{message.invalidSupport}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Email Id</label>
+                                        <input type="text" class="form-control" name="edit_email" formControlName="emailNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.emailNameControlEdit.errors }" placeholder="Enter Email Id" id="edit_answer"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.emailNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.emailNameControlEdit.errors.required">{{message.emailRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.emailNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.emailNameControlEdit.errors.email">{{message.correctEmailAddress}}</div>
+                                        </div>
+                                    
+                                        
+                                    </div> 
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Mobile No.</label>
+                                        <input type="number" class="form-control" onKeyPress="if(this.value.length==10) return false;" name="edit_phone_no" formControlName="phoneNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.phoneNameControlEdit.errors }" placeholder="Enter Phone Number" id="edit_phone_no"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.phoneNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.phoneNameControlEdit.errors.required">{{message.utilityPhoneNoRequired}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.phoneNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.phoneNameControlEdit.errors.maxlength">{{message.phoneMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.phoneNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.phoneNameControlEdit.errors.pattern">{{message.invalidPhoneNumber}}</div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Description</label>
+                                        <textarea  type="text" class="form-control big-textarea" name="edit_description" formControlName="descriptionNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.descriptionNameControlEdit.errors }" placeholder="Enter Description" id="edit_description"></textarea>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.descriptionNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.descriptionNameControlEdit.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                        </div>
+                                        
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.descriptionNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.descriptionNameControlEdit.errors.whitespace && !ade.descriptionNameControlEdit.errors.required">{{message.invalidDescription}}</div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditSupport()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Basic Consumer FAQ Edit Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Service Centre Details Updated Succesfully!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Customer Service Details Centre Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+

@@ -1,0 +1,156 @@
+<section class="pr-section applicant-details-sec">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <button class="btn bttn-transparent bttn-back d-inline-block"></button>
+            <div (click)='goToConsumerDetail()'class="inner-page-title d-inline-block">
+                <h4 class="h4" style="cursor:pointer">Consumer details </h4>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center"> 
+        <!-- Consumer detail block start -->
+<div class="col-auto pr-0">
+<div class="applicant-block-lt inner-wrap" style="height: 100%;">
+    <div class="applicant-block-lt-header">
+        <div class="row">
+            <div class="col align-self-center">
+                <div class="enqry-sts-blk">
+                    <div>
+                        <div class="badge badge-label-success">Connected</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto align-self-center">
+                <h4 class="sh-ttl">Crn No: {{consumer?.consumer_no}}</h4>
+            </div>
+        </div>
+    </div>
+    <div class="dtls-block">
+        <div class="block-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="profile-card st">
+                        <div class="media">
+                            <!-- <div class="img-blk">
+                                <img class="img-abs st" src="../../assets/images/john-doe.png" alt="img">
+                            </div> -->
+                            <div class="img-blk text-uppercase" >
+                                {{first_name_c}}{{last_name_c}}
+                            </div>
+                            <div class="media-body">
+                                <p class="p">{{consumer?.first_name}} {{consumer?.last_name}}</p>
+                                <p class="p" style="margin-bottom: 0px;">{{consumer?.phone_mobile}}</p>
+                                <p class="p">{{consumer?.utility}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-block">
+        <div class="applicant-data">
+            <!-- <p>Profile</p> -->
+            <div class="badge badge-label-success">Profile</div>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <div class="tab-content" id="myTabContent">
+                            <div class="row">
+                                <div class="col-6" *ngFor="let item of profile">
+                                    <p class="p p-13">{{item?.name}}</p>
+                                    <h6 class="h6">{{item?.value}}</h6>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+        <!-- Consumer detail block end -->
+        <!-- Consumer services blocks start -->
+        <div class="col">
+            <div class="row">
+                <div class="col-3">
+                    <div class="bttn-toggle">
+                        <div class="toggle-button-wrap mt-0">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist" style="width: 242px">
+                                <li class="nav-item">
+                                    <a class="nav-link" id="summry-tab" data-toggle="tab" role="tab"  aria-selected="false" (click)="goToConsumerDetail()" style="cursor:pointer">Consumer Detail</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="profl-tab" data-toggle="tab"  role="tab" aria-selected="true" (click)='goToQuickAccess()' style="cursor:pointer">Quick Services</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="applicant-block-gen">
+                <!-- <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">Quick Menu</h4>
+                    </div>
+                </div> -->
+                
+                <div class="row justify-content-start applicant-block-gen-wrap">
+                	<!-- Service blocks start -->
+                    <div class="col-3" *ngFor="let item of serviceBlocks">
+                        <div class="applicant-block-gen-card st" (click)="serviceClicked(item?.value)">
+                            <div class="img-blk">
+                                <img class="img-fluid st" src="{{item?.image}}" alt="img">
+                            </div>
+                            <p class="p text-dark fw-500">{{item?.name}}</p>
+                        </div>
+                    </div>
+                    <!-- Service blocks end -->
+                </div>
+            </div>
+        </div>
+        <!-- Consumer services blocks end -->
+    </div>
+</section>
+
+<!-- Update profile model start -->
+<app-update-profile [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-profile>
+<!-- Update profile model end -->
+
+<!-- Update offer model start -->
+<app-update-offers [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-offers>
+<!-- Update offer model end -->
+
+<!-- Update disconnect model start -->
+<app-update-disconnect [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-disconnect>
+<!-- Update disconnect model end -->
+
+<!-- Update connect model start -->
+<app-update-connect [trigger] = "trigger" *ngIf="meter_list.length>0" [consumerId]="consumerIdString"></app-update-connect>
+<!-- Update connect model end -->
+
+<!-- Update complaint model start -->
+<app-update-complaints [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-complaints>
+<!-- Update complaint model end -->
+
+
+<!-- Update outage model start -->
+<app-update-outage [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-outage>
+<!-- Update outage model end -->
+
+<!-- Update service  modal start -->
+<app-update-services [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-services>
+<!-- Update service modal end -->
+
+<!-- Update transfer  modal start -->
+<app-update-transfer [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-transfer>
+<!-- Update transfer modal end -->
+
+<!-- Update payment modal -->
+<app-update-payment [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-payment>
+<!-- update payment modal end  -->
+
+<!-- Update bill payment modal -->
+<app-update-billpay [trigger] = "trigger" [consumerId]="consumerIdString"></app-update-billpay>
+<!-- update bill payment modal end  -->

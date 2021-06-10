@@ -1,0 +1,219 @@
+<!-- Consumer connect Modal -->
+<div class="pr-modal">
+  <div class="modal right fade" id="transferModal" data-backdrop="false" tabindex="-1" role="dialog"
+    aria-labelledby="connectModalLabel">
+    <div class="modal-dialog" role="document" style="min-width:570px;">
+      <div class="modal-content">
+        <div class="modal-header pr-modal-header">
+          <h4 class="modal-title" id="connectModalLabel">Transfer</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()">&times;</button>
+        </div>
+        <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="inner-form">
+                <form [formGroup]="approveForm">
+                  <ng-container>
+                    <!-- Select Meter Option -->
+                    <div class="form-row" *ngIf="meter_list.length != 0">
+                      <div class="col">
+                        <label>Select Meter to Connect<span style="color: red;">*</span></label>
+                        <ng-select [items]="meter_list" bindLabel="meter_no" placeholder="Select Meter Number"
+                          appendTo="body" name="meter_no" formControlName="meter" [clearable]="false"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.meter.errors}">
+                        </ng-select>
+                        <div *ngIf="approveFormSubmitted && af.meter.errors" class="invalid-feedback">
+                          <div *ngIf="af.meter.errors.required">{{message.meterNumberRequired}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select meter end  -->
+                    <!-- date selection -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Transfer date<span style="color: red;">*</span></label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker
+                            #d="ngbDatepicker" formControlName="date" (click)="d.toggle()" container="body"
+                            [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                          <div class="input-group-append">
+                            <button class="btn bttn-transparent bttn-icon" type="button" style="height: 36px;" (click)="d.toggle()">
+                              <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                            </button>
+                          </div>
+                          <div *ngIf="approveFormSubmitted && af.date.errors" class="invalid-feedback">
+                            <div *ngIf="af.date.errors.required">Please select the date</div>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- date selection end  -->
+                    <!-- Address line input field-->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Address Line 1<span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter the new address" name="address_line_1"
+                          container="body" formControlName="address_line_1"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.address_line_1.errors}">
+                          <div *ngIf="approveFormSubmitted && af.address_line_1.errors" class="invalid-feedback">
+                            <div *ngIf="af.address_line_1.errors.required">Please enter address</div>
+                          </div>
+                      </div>
+                    </div>
+
+                    <!-- Address line input field end  -->
+
+                    <!-- zip code input field-->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Street<span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter the street" name="dp"
+                          container="body" formControlName="street"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                          <div *ngIf="approveFormSubmitted && af.street.errors" class="invalid-feedback">
+                            <div *ngIf="af.street.errors.required">Please enter street</div>
+                          </div>
+                      </div>
+                    </div>
+                    <!-- zip code input field end  -->
+
+                    <!-- zipcode input field-->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Zip Code<span style="color: red;">*</span></label>
+                        <input type="text" class="form-control" placeholder="Enter Zip code/Pin code" name="dp" container="body"
+                          formControlName="zip_code" [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                          <div *ngIf="approveFormSubmitted && af.zip_code.errors" class="invalid-feedback">
+                            <div *ngIf="af.zip_code.errors.required">Please enter zip code</div>
+                          </div>
+                      </div>
+                    </div>
+                    <!-- zip code input field end  -->
+
+                    <!-- Select zone Option -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Zone<span style="color: red;">*</span></label>
+                        <ng-select [items]="zone_list" bindLabel="name" appendTo="body" placeholder="Select zone"
+                          name="zone" (change)="zonefilter()" formControlName="zone"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.zone.errors}">
+                        </ng-select>
+                        <div *ngIf="approveFormSubmitted && af.zone.errors" class="invalid-feedback">
+                          <div *ngIf="af.zone.errors.required">Please select zone</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select zone end  -->
+
+                    <!-- Select division Option -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Division<span style="color: red;">*</span></label>
+                        <ng-select [items]="division_list" bindLabel="name" appendTo="body"
+                          placeholder="Select division" name="division" (change)="divisionfilter()"
+                          formControlName="division"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.division.errors}">
+                        </ng-select>
+                        <div *ngIf="approveFormSubmitted && af.division.errors" class="invalid-feedback">
+                          <div *ngIf="af.division.errors.required">Please select division</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select division  end  -->
+
+                    <!-- Select area Option -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Area<span style="color: red;">*</span></label>
+                        <ng-select [items]="area_list" bindLabel="name" appendTo="body" placeholder="Select Area"
+                          name="area" (change)="areafilter()" formControlName="area"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.area.errors}">
+                        </ng-select>
+                        <div *ngIf="approveFormSubmitted && af.area.errors" class="invalid-feedback">
+                          <div *ngIf="af.area.errors.required">Please select area</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select area end  -->
+
+                    <!-- Select sub area Option -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Sub Area<span style="color: red;">*</span></label>
+                        <ng-select [items]="subarea_list" bindLabel="name" appendTo="body"
+                          placeholder="Select Sub Area" name="subarea" (change)="subareafilter()"
+                          formControlName="subarea"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.subarea.errors}">
+                        </ng-select>
+                        <div *ngIf="approveFormSubmitted && af.subarea.errors" class="invalid-feedback">
+                          <div *ngIf="af.subarea.errors.required">Please select subarea</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select sub area end  -->
+
+                    <!-- Select sub area Option -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Premises<span style="color: red;">*</span></label>
+                        <ng-select [items]="premise_list" bindLabel="name" appendTo="body"
+                          placeholder="Select Premise" name="premise" formControlName="premise"
+                          [ngClass]="{'is-invalid':approveFormSubmitted && af.premise.errors}">
+                        </ng-select>
+                        <div *ngIf="approveFormSubmitted && af.premise.errors" class="invalid-feedback">
+                          <div *ngIf="af.premise.errors.required">Please select premise</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select sub area end  -->
+
+                    <!-- remark form the consumer -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Remark<span style="color: red;">*</span></label>
+                        <textarea class="form-control big-textarea " name="add_reson" placeholder="Enter remark" id="add_reson"
+                          formControlName="reason"></textarea>
+                          <div *ngIf="approveFormSubmitted && af.reason.errors" class="invalid-feedback">
+                            <div *ngIf="af.reason.errors.required">Please enter remark</div>
+                          </div>
+                      </div>
+                    </div>
+                    <!-- end of remark  -->
+
+                  </ng-container>
+                  <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                      <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                          aria-label="Close" (click)="onCancelClick()">Cancel</button>
+                      </div>
+                      <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="isDisabled" (click)="onApproveFormSubmit()">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </ngx-simplebar>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Consumer connect Modal -->
+
+<div class="row">
+  <div class="col">
+    <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+      (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="showtoast = false; autohide = true">
+      <div>Transfer Request Added Successfully!!</div><br>
+    </ngb-toast>
+    <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+      (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+      (hide)="showexceptiontoast = false; autohide = true">
+      <div>{{ exception_message }}</div><br>
+    </ngb-toast>
+  </div>
+</div>

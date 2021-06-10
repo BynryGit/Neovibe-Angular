@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a *ngFor="let item of tabSet" class="{{item.class}}" id="{{item.id}}" data-toggle="tab" href="{{item.href}}"
+                        role="tab" aria-controls="{{item.area-controls}}" aria-selected="true">{{item.name}}</a>
+                    </div>                     
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-utility-integration-tab [operator]="testing()"></app-utility-integration-tab>

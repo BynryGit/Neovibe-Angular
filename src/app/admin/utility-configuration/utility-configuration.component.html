@@ -1,0 +1,264 @@
+<section class="pr-section applicant-details-sec admin-new-sec">
+    <div class="row justify-content-start">
+        <div class="col-6 align-self-center">
+            <button class="btn bttn-transparent bttn-back d-inline-block" [routerLink]="['/utility']"></button>
+            <div class="inner-page-title d-inline-block"><h4 class="h4">System Configuration</h4></div>
+        </div>
+        <!-- <div class="col-6 align-self-center text-right">
+            <div class="pr-custom-select">
+                <ng-select class="filter-select" [items]="dataSet" bindLabel="name" placeholder="Select Company" [(ngModel)]="selectedCompany" name="name"></ng-select>
+            </div>
+        </div> -->
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="applicant-block-rt inner-wrap py-0">
+                <div class="applicant-block-rt-header applicant-block-rt-header-full-width">
+                    <div class="row">
+                        <div class="col px-0 align-self-center">
+                            <ul class="list-group list-group-horizontal admin-plans-list">
+                                <li class="list-group-item">
+                                    <div class="admin-plans-utility-card">
+                                        <div class="media">
+                                            <div class="logo-blk">
+                                                <img class="st img-fluid" src="{{imageUrl}}" alt="img">
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="ttl">{{name}}</h4>
+                                                <p class="p">{{shortname}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <p>Company ID</p>
+                                    <span class="mb-3">{{companyid}}</span>
+                                    <p>Tax ID</p>   
+                                    <span class="mb-3">{{taxid}}</span>                                                                                                       
+                                </li>
+                                <li class="list-group-item">
+                                    <p>Email ID</p>
+                                    <span class="mb-3">{{emailid}}</span>
+                                    <p>Pan No</p>   
+                                    <span class="mb-3">{{panno}}</span>                                                                                                       
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="applicant-block-rt-body">
+                    <div class="row">                        
+                        <div class="col align-self-center"> 
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Utility Setup'">
+                                <h6 style = "margin-left: -0.85%;">Utility Setup</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Utility Holiday'">
+                                <h6 style = "margin-left: -0.85%;">Utility Holiday</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Territory'">
+                                <h6 style = "margin-left: -0.85%;">Territory</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Num Format'">
+                                <h6 style = "margin-left: -0.85%;">Num Format</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Documents'">
+                                <h6 style = "margin-left: -0.85%;">Documents</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Role'">
+                                <h6 style = "margin-left: -0.85%;">Role</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='User'">
+                                <h6 style = "margin-left: -0.65%;">User</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Campaign'">
+                                <h6 style = "margin-left: -0.85%;">Campaign</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Survey'">
+                                <h6 style = "margin-left: -0.85%;">Survey</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Registration'">
+                                <h6 style = "margin-left: -0.85%;">Registration</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Consumers'">
+                                <h6 style = "margin-left: -0.85%;">Consumers</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Meter Data'">
+                                <h6 style = "margin-left: -0.85%;">Meter Data</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Billing'">
+                                <h6 style = "margin-left: -0.85%;">Billing</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Payments'">
+                                <h6 style = "margin-left: -0.85%;">Payments</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Services'">
+                                <h6 style = "margin-left: -0.85%;">Services</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Complaints'">
+                                <h6 style = "margin-left: -0.85%;">Complaints</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Notifications'">
+                                <h6 style = "margin-left: -0.85%;">Notifications</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Offers'">
+                                <h6 style = "margin-left: -0.85%;">Offers</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Integration and Key'">
+                                <h6 style = "margin-left: -0.85%;">Integration and Key</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Templates'">
+                                <h6 style = "margin-left: -0.85%;">Templates</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Work Orders'">
+                                <h6 style = "margin-left: -0.85%;">Work Orders</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Contracts'">
+                                <h6 style = "margin-left: -0.85%;">Contracts</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Suppliers'">
+                                <h6 style = "margin-left: -0.85%;">Suppliers</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Store'">
+                                <h6 style = "margin-left: -0.85%;">Store</h6>
+                            </div>
+                            <div class="col-12" *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Asset'">
+                                <h6 style = "margin-left: -0.85%;">Asset</h6>
+                            </div>
+                            
+                        </div> 
+                        <div class="col-auto align-self-center">
+                            <div class="applicant-block-rt-body-dropdown-wrap">
+                                <div class="pr-custom-select mr-3">
+                                <ng-select class="filter-select"  [items]="status" bindLabel="name" [(ngModel)]="selectedStatus" name="name" appendTo="body">
+                                </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto align-self-center">
+                            <div class="applicant-block-rt-body-dropdown-wrap">
+                                <div class="pr-custom-select">
+                                    <ng-select class="filter-select" *ngIf="selectedStatus.name==='Basic'" [items]="department" bindLabel="name"  [(ngModel)]="selectedDepartment" name="name" appendTo="body">
+                                    </ng-select>
+                                    <ng-select class="filter-select"  *ngIf="selectedStatus.name==='Advance'" [items]="department1" bindLabel="name1" placeholder="Payment" [(ngModel)]="selectedDepartment1" name="name" appendTo="body">
+                                    </ng-select>
+                                    <ng-select class="filter-select"  *ngIf="selectedStatus.name==='Enterprise'" [items]="department2" bindLabel="name2" placeholder="Payment" [(ngModel)]="selectedDepartment2" name="name" appendTo="body">
+                                    </ng-select> 
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>  
+                    <!--Basic Starts-->
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Utility Setup'" >
+                    <app-utility-setup></app-utility-setup>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Utility Holiday'" >
+                    <app-utility-holiday></app-utility-holiday>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Territory'" >
+                    <app-territory></app-territory>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Num Format'" >
+                    <app-num-format></app-num-format>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Documents'" >
+                    <app-utility-documents></app-utility-documents>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Role'" >
+                        <app-role></app-role>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='User'" >
+                    <app-user-admin></app-user-admin>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Campaign'" >
+                    <app-campaign-admin></app-campaign-admin>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Survey'" >
+                    <app-survey></app-survey>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Registration'" >
+                    <app-registration-admin></app-registration-admin>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Consumers'" >
+                    <app-consumers></app-consumers>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Meter Data'" >
+                    <app-meter-data-admin></app-meter-data-admin>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Billing'" >
+                    <app-billing></app-billing>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Payments'" >
+                    <app-payments></app-payments>
+                    </ng-container>
+                    <!-- <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Services'" >
+                    <app-sevice-requests></app-sevice-requests>
+                    </ng-container> -->
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Complaints'" >
+                    <app-complaints></app-complaints>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Notifications'" >
+                    <app-utility-notifications></app-utility-notifications>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Offers'" >
+                    <app-offers></app-offers>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Integration and Key'" >
+                    <app-utility-integration></app-utility-integration>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Templates'" >
+                    <app-notification-templates></app-notification-templates>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Basic' && selectedDepartment.name==='Activity Log'" >
+                    <app-activity-log></app-activity-log>
+                    </ng-container>
+                    <!--Basic Ends-->
+
+                    <!--Advance Starts-->
+                    <ng-container *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Work Orders'" >
+                    <app-work-orders></app-work-orders>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Contracts'" >
+                    <app-contracts></app-contracts>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Suppliers'" >
+                    <app-suppliers></app-suppliers>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Store'" >
+                    <app-store></app-store>
+                    </ng-container>
+                    <ng-container *ngIf="selectedStatus.name==='Advance' && selectedDepartment1.name1==='Asset'" >
+                    <app-asset></app-asset>
+                    </ng-container>
+                    <!--Advance Ends-->
+
+                    <!--Enterprise Starts-->
+                    <ng-container *ngIf="selectedStatus.name==='Enterprise' && selectedDepartment2.name2==='Products'" >
+                        <app-products></app-products>
+                        </ng-container>
+                        <ng-container *ngIf="selectedStatus.name==='Enterprise' && selectedDepartment2.name2==='Services'" >
+                        <app-services-admin></app-services-admin>
+                        </ng-container>
+                        <ng-container *ngIf="selectedStatus.name==='Enterprise' && selectedDepartment2.name2==='Tenders'" >
+                        <app-tenders></app-tenders>
+                        </ng-container>
+                        <ng-container *ngIf="selectedStatus.name==='Enterprise' && selectedDepartment2.name2==='Orders'" >
+                        <app-orders></app-orders>
+                        </ng-container>
+                        <ng-container *ngIf="selectedStatus.name==='Enterprise' && selectedDepartment2.name2==='HCM'" >
+                        <app-hcm></app-hcm>
+                        </ng-container>
+                        <ng-container *ngIf="selectedStatus.name==='Enterprise' && selectedDepartment2.name2==='Finance'" >
+                        <app-finance></app-finance>
+                        </ng-container>
+                    <!--Enterprise Ends-->
+
+                </div>
+                </div>       
+            </div>           
+        </div>
+</section>
+
+
+
+

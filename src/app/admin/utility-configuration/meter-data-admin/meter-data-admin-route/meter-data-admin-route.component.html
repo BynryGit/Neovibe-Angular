@@ -1,0 +1,258 @@
+<div class="tab-pane fade" id="meter_route" role="tabpanel" aria-labelledby="meter_route_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Route Name" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" role="button" data-toggle="modal" data-target="#add_meter_route">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table datatable *ngIf="showTable" id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item?.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet">
+                            <td>{{item?.name}}</td>  
+                            <td>Admin</td>
+                            <td>{{item?.created_date | date : 'dd MMM yy'}}</td> 
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_read_cycle">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                    <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                    </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+</div>
+<!--Add Read Route Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_meter_route" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:900px;">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Meter Route</h4>
+                <button type="button" (click)="onCloseClick()" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                                <div class="inner-form">
+                                    <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                        <div class="form-row" style="width: 1275px;">
+                                            <div class="col">
+                                                <label>Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter Route Name" formControlName="routeNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.routeNameControl.errors }"/>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.routeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.routeNameControl.errors.required">{{message.routeNameCantBeEmpty}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.routeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.routeNameControl.errors.maxlength">{{message.routeNameMaxLength}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.routeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.routeNameControl.errors.whitespace && !ad.routeNameControl.errors.required">{{message.invalidRouteName}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.routeNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.routeNameControl.errors.pattern">{{message.letterRouteName}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col" style="margin-top: 25px;">
+                                                <button class="btn btn-secondary st" type="button" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">Filter</button>
+                                            </div>
+                                        </div>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="filters-wrap">
+                                                <div class="collapse" id="filterCollapse">
+                                                  <div class="filter-wrap-inner">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <ul class="list-group list-group-horizontal">
+                                                                <li class="list-group-item">
+                                                                    <label>City</label>
+                                                                    <ng-select #selectDropdown class="ng-select-search" [searchable]="true" appendTo="body" [items]="cityList.results" bindLabel="name" placeholder="Select City" formControlName="cityNameControl" [ngClass]="{ 'is-invalid': filterDetailsFormSubmitted && ad.cityNameControl.errors }" (change)="cityChange()" name="city">
+                                                                    </ng-select>
+                                                                    <div *ngIf="filterDetailsFormSubmitted && ad.cityNameControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="ad.cityNameControl.errors.required">{{message.cityCantBeEmptyDrop}}</div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <label>Zone</label>
+                                                                    <ng-select #selectDropdown1 class="ng-select-search" appendTo="body" [items]="zoneList.results" bindLabel="name" placeholder="Select Zone" name="zone" formControlName="zoneNameControl" [ngClass]="{ 'is-invalid': filterDetailsFormSubmitted && ad.zoneNameControl.errors }" [searchable]="true" (change)="zoneChange()">
+                                                                    </ng-select>
+                                                                    <div *ngIf="filterDetailsFormSubmitted && ad.zoneNameControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="ad.zoneNameControl.errors.required">{{message.zoneCantBeEmptyDrop}}</div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <label>Division</label>
+                                                                    <ng-select #selectDropdown2 class="ng-select-search" appendTo="body" [items]="divisionList.results" bindLabel="name" placeholder="Select Division" formControlName="divisionNameControl" [ngClass]="{ 'is-invalid': filterDetailsFormSubmitted && ad.divisionNameControl.errors }" name="division" [searchable]="true" (change)="divisionChange()">
+                                                                    </ng-select>
+                                                                    <div *ngIf="filterDetailsFormSubmitted && ad.divisionNameControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="ad.divisionNameControl.errors.required">{{message.divisionCantBeEmptyDrop}}</div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <label>Area</label>
+                                                                    <ng-select #selectDropdown3 class="ng-select-search" appendTo="body" [items]="areaList.results" bindLabel="name" placeholder="Select Area" formControlName="areaNameControl" [ngClass]="{ 'is-invalid': filterDetailsFormSubmitted && ad.areaNameControl.errors }" name="area" [searchable]="true" (change)="areaChange()">
+                                                                    </ng-select>
+                                                                    <div *ngIf="filterDetailsFormSubmitted && ad.areaNameControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="ad.areaNameControl.errors.required">{{message.areaCantBeEmptyDrop}}</div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <label>Sub Area</label>
+                                                                    <ng-select #selectDropdown4 class="ng-select-search" appendTo="body" [items]="subareaList.results" bindLabel="name" placeholder="Select SubArea" formControlName="subareaNameControl" [ngClass]="{ 'is-invalid': filterDetailsFormSubmitted && ad.subareaNameControl.errors }" name="subarea" [searchable]="true" (change)="subareaChange()">
+                                                                    </ng-select>
+                                                                    <div *ngIf="filterDetailsFormSubmitted && ad.subareaNameControl.errors" class="invalid-feedback">
+                                                                        <div *ngIf="ad.subareaNameControl.errors.required">{{message.subareaCantBeEmptyDrop}}</div>
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row filter-cta-row">
+                                                        <div class="col-auto pr-2">
+                                                          <button class="btn btn-outline-secondary st" data-toggle="collapse" (click)="onApplyClick()">Apply</button>
+                                                        </div>
+                                                        <div class="col-auto pl-2">
+                                                          <button class="btn btn-light2 st" (click)="onFilterClearClick()" (click)="selectDropdown.clearModel();selectDropdown1.clearModel();selectDropdown2.clearModel();selectDropdown3.clearModel();selectDropdown4.clearModel()" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">Cancel</button>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                  </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-sm">
+                                            <label>Category</label>
+                                            <ng-select class="ng-select" appendTo="body" [items]="categoryList.results" bindLabel="name" placeholder="Select Category" formControlName="categoryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.categoryNameControl.errors }" name="category">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.categoryNameControl.errors.required">{{message.categoryCantBeEmptyDrop}}</div>
+                                            </div>                                    
+                                        </div>
+                                        <div class="col-sm">
+                                            <label>Meter Type</label>
+                                            <ng-select class="ng-select" appendTo="body" [items]="meter_typeList.results" bindLabel="value" placeholder="Select Meter Type" formControlName="meterTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.meterTypeControl.errors }" name="meter_type">
+                                            </ng-select>    
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.meterTypeControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.meterTypeControl.errors.required">{{message.meterTypeCantBeEmptyDrop}}</div>
+                                            </div>                                        
+                                        </div>
+                                        <div class="col-sm">
+                                            <label>Product</label>
+                                            <ng-select class="ng-select" appendTo="body" [items]="productList.results" bindLabel="name" placeholder="Select Product" formControlName="productNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.productNameControl.errors }" name="product">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.productNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.productNameControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                            </div>                                    
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="listview-table-wrap">  
+                                                <label>Premises</label>                             
+                                                <table datatable id="table2" [dtOptions]="dtOptions1" class="pr-datatable pr-datatable-sm table table-hover no-boxshadow no-page-details no-navigation">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col" *ngFor="let item of blocks1"><span>{{item?.name}}</span></th> 
+                                                            <th><mat-checkbox (click) = "checkuncheckall($event)"></mat-checkbox>Select All</th>
+                                                        </tr>
+                                                    </thead>
+                                                    
+                                                    <tbody *ngIf="!processing && dataSet1.length != 0">
+                                                        <tr *ngFor="let item of dataSet1">
+                                                            <td>{{item?.name}}</td>
+                                                            <td>{{item?.meter_count}}</td>
+                                                            <!-- <td scope="col" class="chbx-col">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" class="custom-control-input" [attr.id]="item.name">
+                                                                    <label class="custom-control-label" [attr.for]="item.name"></label>
+                                                                </div>
+                                                            </td>   -->
+                                                            <td><mat-checkbox (change)="setLastClicked(item,$event)"></mat-checkbox></td>
+                                                        </tr> 
+                                                    
+                                                    </tbody>
+                                                    <tbody *ngIf="dataSet1?.length == 0">
+                                                        <tr>
+                                                          <td colspan="3" class="no-data-available">No matching records found</td>
+                                                        </tr>
+                                                      </tbody>
+                                                    <tbody *ngIf="processing">
+                                                        <tr >
+                                                            <td colspan="3"> .....</td>						
+                                                        </tr>
+                                                    </tbody>
+                                                </table>                                        
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+              
+        </div>
+   </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddMeterRoute()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Meter Route Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Meter Route successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Meter Route Already Exists!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="repeatRouteToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="repeatRouteToast = false; autohide = true">
+            <div>Cannot Enter Same Premise for different routes!!</div>
+        </ngb-toast>
+    </div>
+</div>

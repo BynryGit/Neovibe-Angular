@@ -1,0 +1,22 @@
+
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="service_type_tab" data-toggle="tab" href="#service_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="service_subtype_tab" data-toggle="tab" href="#service_subtype" role="tab"
+                        aria-controls="country" aria-selected="false">Sub type</a>
+                    <a class="nav-item nav-link st" id="service_service_tab" data-toggle="tab" href="#service_service"
+                        role="tab" aria-controls="state" aria-selected="true">Services</a>
+                
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-sevice-requests-type [operator]="testing()"></app-sevice-requests-type>
+<app-sevice-requests-subtype [operator]="testing()"></app-sevice-requests-subtype>
+<app-sevice-requests-services [operator]="testing()"></app-sevice-requests-services>

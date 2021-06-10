@@ -1,0 +1,216 @@
+<!-- Add Bill Schedule Model Start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="AddBillScheduleModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="AddBillScheduleModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:570px;">
+        <div class="modal-content"> 
+    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="AddBillScheduleModalLabel">Add Bill Schedule</h4>
+                <button type="button" class="close" (click)="resetForm()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+
+            <div class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="billScheduleForm" autocomplete="chrome-off">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label class="required">Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Schedule Name" name="name" formControlName="BillScheduleNameControl" [ngClass]="{ 'is-invalid': billScheduleFormSubmitted && bd.BillScheduleNameControl.errors }" >
+                                    <div *ngIf="billScheduleFormSubmitted && bd.BillScheduleNameControl.errors"
+                                    class="invalid-feedback">
+                                    <div *ngIf="bd.BillScheduleNameControl.errors.required">
+                                        Enter Name</div>
+                                    </div>
+                                    <div *ngIf="billScheduleFormSubmitted && bd.BillScheduleNameControl.errors"
+                                    class="invalid-feedback">
+                                    <div *ngIf="bd.BillScheduleNameControl.errors.pattern">Please Enter Valid Name</div>
+                                </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label class="required">Description</label>
+                                    <textarea class="form-control big-textarea" placeholder="" name="desc" formControlName="DiscriptionControl" [ngClass]="{ 'is-invalid': billScheduleFormSubmitted && bd.DiscriptionControl.errors }"></textarea>
+                                    <div *ngIf="billScheduleFormSubmitted && bd.DiscriptionControl.errors"
+                                    class="invalid-feedback">
+                                    <div *ngIf="bd.DiscriptionControl.errors.required">
+                                        Enter Discription</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label class="required">Utility Product</label>
+                                    <ng-select appendTo="body" [items]="utility_product_list" bindLabel="name" placeholder="Select Utility Product" formControlName="ProductControl" [ngClass]="{ 'is-invalid': billScheduleFormSubmitted && bd.ProductControl.errors }" (change)='onUtilityServiceChange()' name="">
+                                    </ng-select>
+                                    <div *ngIf="billScheduleFormSubmitted && bd.ProductControl.errors"
+                                    class="invalid-feedback">
+                                    <div *ngIf="bd.ProductControl.errors.required">
+                                        Select Product</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label class="required">Billing Cycle</label>
+                                    <ng-select appendTo="body" [items]="bill_cycle_list" bindLabel="bill_cycle_name" placeholder="Select Reading Cycle" formControlName="BillCycleControl" [ngClass]="{ 'is-invalid': billScheduleFormSubmitted && bd.BillCycleControl.errors }" name="">
+                                    </ng-select>
+                                    <div *ngIf="billScheduleFormSubmitted && bd.BillCycleControl.errors"
+                                    class="invalid-feedback">
+                                    <div *ngIf="bd.BillCycleControl.errors.required">
+                                        Select Bill Cycle</div>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <label class="required">Is Recurring</label>                                    
+                                    <ng-select appendTo="body" [items]="recurrence_list" bindLabel="value" placeholder="Select Recurrence" formControlName="IsRecurringControl" [ngClass]="{ 'is-invalid': billScheduleFormSubmitted && bd.IsRecurringControl.errors }" (change)='onRecurrenceChange()' name="">
+                                    </ng-select>
+                                    <div *ngIf="billScheduleFormSubmitted && bd.IsRecurringControl.errors"
+                                    class="invalid-feedback">
+                                    <div *ngIf="bd.IsRecurringControl.errors.required">
+                                        Select Recurring </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row" *ngIf="showfrequency">
+                                <div class="col">
+                                    <label>Frequency</label>
+                                    <ng-select appendTo="body" [items]="frequency_list" bindLabel="value" placeholder="Select Frequency" formControlName="FrequencyControl"  name="" (change)='onfrequencyChange()'>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <!-- <div class="form-row" *ngIf="showdays">
+                                <div class="col">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_val_list" bindLabel="value" placeholder="Select Day" [(ngModel)]="repeat_val_obj.day" name="">
+                                    </ng-select>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="form-row" *ngIf="showyear">
+                                <div class="col">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_year_list" bindLabel="value" placeholder="Select Year" [(ngModel)]="repeat_year_obj.year" name="">
+                                    </ng-select>
+                                </div>
+                            </div> -->
+
+                            <div class="form-row" >
+                                <div class="col" *ngIf="showrepeate">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_val_list" bindLabel="value" placeholder="Select " formControlName="RepeatEveryControl" name="">
+                                    </ng-select>
+                                </div>
+                                <div class="col" *ngIf="showweeks">
+                                    <label>Occurs on</label>
+                                    <ng-select appendTo="body" [multiple]="true" [items]="occur_val_list" bindLabel="value" placeholder="Select Multiple Days" formControlName="OccursOnControl" name="">
+                                    </ng-select>
+                                </div>     
+                                <div class="col" *ngIf="showmonth">
+                                    <label>Occurs on</label>
+                                    <ng-select appendTo="body" [items]="occur_val_list" bindLabel="value" placeholder="Select Day" formControlName="OccursOnControl"  name="">
+                                    </ng-select>
+                                </div>                    
+                            </div>
+
+                            <!-- <div class="form-row" *ngIf="showmonth">
+                                <div class="col">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_month_list" bindLabel="value"  placeholder="Select Month" [(ngModel)]="repeat_month_obj.month" name="">
+                                    </ng-select>
+                                </div>
+                                <div class="col">
+                                    <label>Occurs on</label>
+                                    <ng-select appendTo="body" [items]="occur_month_list" bindLabel="value" placeholder="Select Day" [(ngModel)]="occur_month_obj.month" name="">
+                                    </ng-select>
+                                </div>                                
+                            </div> -->
+
+                            <div class="form-row">
+                                <div class="col">
+                                <label class="required">Start Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <button class="btn bttn-transparent bttn-icon" type="button" (click)="start_date.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                        <input type="text" id="start_date" class="form-control" [minDate]="minDate"  placeholder="yyyy-mm-dd" name="start_date" formControlName="StartDateControl" [ngClass]="{ 'is-invalid': billScheduleFormSubmitted && bd.StartDateControl.errors }"ngbDatepicker #start_date="ngbDatepicker" (click)="start_date.toggle()" (ngModelChange)="select($event)" container="body">         
+                                    <div *ngIf="billScheduleFormSubmitted && bd.StartDateControl.errors" class="invalid-feedback">
+                                    <div *ngIf="bd.StartDateControl.errors.required">
+                                        Select Start Date </div>
+                                    </div>        
+                                    </div>
+                                    <p *ngIf="error.isError" style="color: red; font-size:12px">
+                                       Start date should be less than end date.
+                                    </p> 
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label class="required">End Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="end_date.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                        <input type="text" id="end_date" [minDate]="minDate" class="form-control" placeholder="yyyy-mm-dd" name="end_date" formControlName="EndDateControl" [ngClass]="{ 'is-invalid': billScheduleFormSubmitted && bd.EndDateControl.errors }" ngbDatepicker #end_date="ngbDatepicker" (click)="end_date.toggle()" (ngModelChange)="selectDate($event)" container="body">   
+                                        <div *ngIf="billScheduleFormSubmitted && bd.EndDateControl.errors" class="invalid-feedback">
+                                       <div *ngIf="bd.EndDateControl.errors.required">
+                                        Select End Date </div>
+                                       </div>   
+                                    </div>
+                                    <p *ngIf="error.isError" style="color: red; font-size: 12px">
+                                       End date should be greater than start date.
+                                    </p> 
+                                </div>
+                            </div>  
+                        </form>   
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close" (click)="resetForm()">Cancel</button>
+                    </div>
+
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="add_bill_schedule()">Submit</button>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Add Bill Schedule Model End -->
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div>{{SuccessMessage.BillScheduleCreate}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>{{AlreadyExistMessage.BillScheduleExist}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->

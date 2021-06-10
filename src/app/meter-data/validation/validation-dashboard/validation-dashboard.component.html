@@ -1,0 +1,98 @@
+<div class="row dash-wrap">
+    <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash sm-chart media">
+            <div class="chart-wrap align-self-center">
+                <canvas class="d1" baseChart [options]="ValidationChartOptions1"
+                    [datasets]="ValidationChartData1" [labels]="ValidationChartLabel1"
+                    [chartType]="ValidationChartType1"></canvas>
+                <canvas class="d2" baseChart [options]="ValidationChartOptions2"
+                    [datasets]="ValidationChartData2" [labels]="ValidationChartLabel2"
+                    [chartType]="ValidationChartType2"></canvas>
+            </div>
+            <div class="media-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item colr1">
+                        <p class="p">Consumers</p>
+                        <h4 class="ttl">{{reading_details?.total_consumer}}</h4>
+                    </li>
+                    <li class="list-group-item colr2">
+                        <p class="p">Received</p>
+                        <h4 class="ttl">{{reading_details?.reading_received}}</h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash sm-chart media">
+            <div class="chart-wrap align-self-center">
+                <canvas class="d1" baseChart [options]="ValidationChartOptions3"
+                    [datasets]="ValidationChartData3" [labels]="ValidationChartLabel3"
+                    [chartType]="ValidationChartType3"></canvas>
+                <canvas class="d2" baseChart [options]="ValidationChartOptions4"
+                    [datasets]="ValidationChartData4" [labels]="ValidationChartLabel4"
+                    [chartType]="ValidationChartType4"></canvas>
+            </div>
+            <div class="media-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item colr3">
+                        <p class="p">Validation 1</p>
+                        <h4 class="ttl">{{reading_details?.validation_one}}</h4>
+                    </li>
+                    <li class="list-group-item colr4">
+                        <p class="p">Validation 2</p>
+                        <h4 class="ttl">{{reading_details?.validation_two}}</h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash sm-chart media">
+            <div class="chart-wrap align-self-center">
+                <canvas class="d1" baseChart [options]="ValidationChartOptions5"
+                    [datasets]="ValidationChartData5" [labels]="ValidationChartLabel5"
+                    [chartType]="ValidationChartType5"></canvas>
+                <canvas class="d2" baseChart [options]="ValidationChartOptions6"
+                    [datasets]="ValidationChartData6" [labels]="ValidationChartLabel6"
+                    [chartType]="ValidationChartType6"></canvas>
+            </div>
+            <div class="media-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item colr5">
+                        <p class="p">Completed</p>
+                        <h4 class="ttl">{{reading_details?.completed_reading}}</h4>
+                    </li>
+                    <li class="list-group-item colr6">
+                        <p class="p"> Pending</p>
+                        <h4 class="ttl">{{reading_details?.pending_reading}}</h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash sm-chart media">
+            <div class="chart-wrap align-self-center">
+                <canvas class="d1" baseChart [options]="ValidationChartOptions7"
+                    [datasets]="ValidationChartData7" [labels]="ValidationChartLabel7"
+                    [chartType]="ValidationChartType7"></canvas>
+                <canvas class="d2" baseChart [options]="ValidationChartOptions8"
+                    [datasets]="ValidationChartData8" [labels]="ValidationChartLabel8"
+                    [chartType]="ValidationChartType8"></canvas>
+            </div>
+            <div class="media-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item colr3">
+                        <p class="p">Duplicate</p>
+                        <h4 class="ttl">{{reading_details?.total_duplicate}}</h4>
+                    </li>
+                    <li class="list-group-item colr4">
+                        <p class="p">Revisit</p>
+                        <h4 class="ttl">{{reading_details?.total_revisit}}</h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

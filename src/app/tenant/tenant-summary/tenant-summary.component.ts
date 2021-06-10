@@ -1,0 +1,61 @@
+import { Component, OnInit } from '@angular/core';
+import { DashboardService } from '../../common/dashboard/dashboard.service';
+
+@Component({
+  selector: 'app-tenant-summary',
+  templateUrl: './tenant-summary.component.html',
+  styleUrls: ['./tenant-summary.component.scss']
+})
+export class TenantSummaryComponent implements OnInit {
+
+  constructor(private dashboardService:DashboardService) {
+  }
+
+  ngOnInit(): void {
+    this.sendDashboardData()
+  }
+
+  sendDashboardData(){
+    this.dashboardService.DashboardEvent.emit(this.blocks);
+  }
+
+  
+  imageUrls = {
+    new_image : '../../assets/images/dashboard-card-add-img.png',
+    expire_image : '../../assets/images/dashboard-card-img2.png',
+    discontineud_image : '../../assets/images/dashboard-card-img3.png',
+    contract_image : '../../assets/images/dashboard-card-img3.png'
+  }
+
+  blocks = [
+    {
+      name : 'New',
+      img : this.imageUrls.new_image,
+      count : '50',
+      class : 'badge badge-pill badge-label-pending',
+      default : 'Tenant'
+    },
+    {
+      name : 'Expire',
+      img : this.imageUrls.expire_image,
+      count : '50',
+      class : 'badge badge-pill badge-label-rejected',
+      default : 'Tenant'
+    },
+    {
+      name : 'Discontineud',
+      img : this.imageUrls.discontineud_image,
+      count : '59',
+      class : 'badge badge-pill badge-label-unfinished',
+      default : 'Tenant'
+    },
+    {
+      name : 'Contract',
+      img : this.imageUrls.contract_image,
+      count : '45',
+      class : 'badge badge-pill badge-label-finished',
+      default : 'Tenant'
+    },
+  ]
+
+}

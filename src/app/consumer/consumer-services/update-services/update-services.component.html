@@ -1,0 +1,462 @@
+
+<!-- Add service Modal -->
+<!-- <div class="pr-modal">
+    <div class="modal right fade" id="addServiceModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="addServiceModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="addServiceModalLabel">Add Service</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <form [formGroup]="addServiceForm">
+                                    <ng-container>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Service Name</label>
+                                                <input type="text" name="name" class="form-control" formControlName="name" [readonly]='true'>
+                                            </div>
+                                        </div>
+										<div class="form-row">
+                                            <div class="col">
+                                                <label>Base Rate</label>
+                                                <input type="text" name="name" class="form-control" formControlName="base_rate" [readonly]='true'>
+                                            </div>
+                                        </div>
+										<div class="form-row">
+                                            <div class="col">
+                                                <label>Tax Percent</label>
+                                                <input type="text" name="name" class="form-control" formControlName="tax_rate" [readonly]='true'>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Appointment Date</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body" formControlName="sa_date">
+                                                    <div class="input-group-append">
+                                                        <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                                    </div>
+                                                </div>
+												<div *ngIf="showdateerror" class="appointmentdateerror">
+                                                    <div *ngIf="showdateerror" >Please select the appointment date</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+										<div class="form-row">
+											<div class="col">
+											  <label>Consumer Remark</label>
+											  <textarea rows="4" class="form-control text_area_style" name="add_description"
+												placeholder="Enter consumer remark" formControlName="user_remark"
+												id="add_description_service"></textarea>
+											</div>
+										</div>
+
+                                    </ng-container>
+                                    <div class="modal-footer pr-modal-footer">
+					                    <div class="row justify-content-end">
+					                        <div class="col-auto">
+					                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+					                                aria-label="Close">Cancel</button>
+					                        </div>
+					                        <div class="col-auto pl-1 pr-0">
+					                            <button class="btn btn-secondary st" (click)="onAddServiceFormSubmit()">Submit</button>
+					                        </div>
+					                    </div>
+					                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div> -->
+<!-- Add service Modal -->
+
+<!-- Services Modal View -->
+<div class="pr-modal pr-web-modal">
+	<div class="modal right fade" id="addServiceModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="addServiceModalLabel">      
+        <div class="modal-dialog" role="document" style="min-width:520px;">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header web-modal-header">
+                <button class="btn bttn-back st" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body web-modal-body-wrap pt-0 full-length">
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form web-modal-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="dtls-block">
+
+                                        <div class="srvc-info-graphic colr1">
+                                            <img class="st" src="../../../../assets/images/service-card-plumber-bg1.png" alt="img">
+                                        </div>
+                                        <div class="srvc-name-blk pb-0">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <h4 class="ttl">{{ selectedService?.name}}</h4>
+                                                    <div class="rtng-blk-wrap">
+                                                        <div class="rtng-blk">
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                            <fa-icon [icon]="faStar"></fa-icon>
+                                                            <span class="p text-dark pl-2 fw-500">4.2</span>
+                                                        </div>
+                                                    </div>
+<!--                                                     <p class="p ide">ID: {{selected_service?.sa_number}}</p>
+ -->                                                </div>
+                                                <div class="col-auto">
+<!--                                                     <h4 class="srvc-amt">{{selectedService?.base_rate}}</h4>
+ --><!--                                                     <span class="badge badge-label-success">{{selected_service?.state}}</span>
+ -->                                            </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <hr class="hr">
+                                            </div>
+                                        </div>
+                                        <div class="info-block">
+                                            <div class="applicant-data">
+                                                <nav class="inner-form-tabs" style="margin-left: 0%">
+                                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                        <a class="nav-item nav-link st active"
+                                                            id="overview-dtls-tab" data-toggle="tab"
+                                                            href="#overview-dtls" role="tab"
+                                                            aria-controls="overview-dtls"
+                                                            aria-selected="true">Overview</a>
+                                                        <a class="nav-item nav-link st" id="task-dtls-tab"
+                                                            data-toggle="tab" href="#task-dtls" role="tab"
+                                                            aria-controls="task-dtls"
+                                                            aria-selected="true">Service Request</a>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <hr class="hr" style="margin-top: 0px">
+                                                        </div>
+                                                    </div>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                <div class="tab-content">
+
+                                            <div class="tab-pane fade show active" id="overview-dtls"
+                                                            role="tabpanel" aria-labelledby="overview-dtls-tab">
+                                                <div class="ovrwv-blk">
+                                                    <h6 class="ttl">Overview</h6>
+                                                    <p class="p p-13">{{selectedService?.description}}</p>
+                                                </div>
+
+                                                <div class="info-block bg-light-grey mt-3">
+                                                    <div class="applicant-data">
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <p class="p p-13">Type</p>
+                                                                <h6 class="h6">{{selectedService?.utility_work_order_sub_type?.utility_work_order_type?.name}}</h6>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="p p-13">Sub Type</p>
+                                                                <h6 class="h6">{{selectedService?.utility_work_order_sub_type?.name}}</h6>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="p p-13">Base Rate</p>
+                                                                <h6 class="h6">{{selectedService?.base_rate}}</h6>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <p class="p p-13">Tax Rate</p>
+                                                                <h6 class="h6">{{selectedService?.tax_rate}}</h6>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        <!-- <div class="modal-body pr-modal-body">
+							                <div class="row">
+							                    <div class="col-12"> -->
+<!-- 							                        <div class="inner-form">
+ -->							    <div class="tab-pane fade show" id="task-dtls" role="tabpanel"
+                                                            aria-labelledby="task-dtls-tab">
+                                                        <div class="form-row">
+							                                <div class="col">
+							                                    <label>Is Recurring*</label>                                    
+							                                    <ng-select appendTo="body" [items]="recurrence_list" bindLabel="value" placeholder="Select Recurrence" [(ngModel)]="recurrence_obj.recurrence" (change)='onRecurrenceChange()' name="">
+							                                    </ng-select>
+							                                    <div *ngIf="invalid_recurrance">
+							                                        <div style="color: red;">{{ErrorMessage.Reccurance}}</div>
+							                                    </div>
+							                                </div>
+							                            </div>
+
+							                            <div class="form-row" *ngIf="showfrequency">
+							                                <div class="col">
+							                                    <label>Frequency*</label>
+							                                    <ng-select appendTo="body" [items]="frequency_list" bindLabel="value" placeholder="Select Frequency" [(ngModel)]="frequency_obj.frequency" name="" (change)='onfrequencyChange()'>
+							                                    </ng-select>
+							                                </div>
+							                            </div>
+
+							                            <div class="form-row" *ngIf="showdays">
+							                                <div class="col">
+							                                    <label>Repeat Every*</label>
+							                                    <ng-select appendTo="body" [items]="repeat_day_list" bindLabel="value" placeholder="Select Day" [(ngModel)]="repeat_day_obj.day" name="">
+							                                    </ng-select>
+							                                </div>
+							                            </div>
+
+							                            <div class="form-row" *ngIf="showyear">
+							                                <div class="col">
+							                                    <label>Repeat Every*</label>
+							                                    <ng-select appendTo="body" [items]="repeat_year_list" bindLabel="value" placeholder="Select Year" [(ngModel)]="repeat_year_obj.year" name="">
+							                                    </ng-select>
+							                                </div>
+							                            </div>
+
+							                            <div class="form-row" *ngIf="showweeks">
+							                                <div class="col">
+							                                    <label>Repeat Every*</label>
+							                                    <ng-select appendTo="body" [items]="repeat_week_list" bindLabel="value" placeholder="Select Week" [(ngModel)]="repeat_week_obj.week" name="">
+							                                    </ng-select>
+							                                </div>
+							                                <!-- <div class="col">
+							                                    <label>Occurs on*</label>
+							                                    <ng-select appendTo="body" [multiple]="true" [items]="occur_week_list" bindLabel="value" placeholder="Select Multiple Days" [(ngModel)]="occur_week_obj.week" name="">
+							                                    </ng-select>
+							                                </div>  -->                      
+							                            </div>
+
+							                            <div class="form-row" *ngIf="showmonth">
+							                                <div class="col">
+							                                    <label>Repeat Every*</label>
+							                                    <ng-select appendTo="body" [items]="repeat_month_list" bindLabel="value"  placeholder="Select Month" [(ngModel)]="repeat_month_obj.month" name="">
+							                                    </ng-select>
+							                                </div>
+							                                <!-- <div class="col">
+							                                    <label>Occurs on*</label>
+							                                    <ng-select appendTo="body" [items]="occur_month_list" bindLabel="value" placeholder="Select Day" [(ngModel)]="occur_month_obj.month" name="">
+							                                    </ng-select>
+							                                </div>  -->                               
+							                            </div>
+
+							                            <div class="form-row">
+							                                <div class="col">
+							                                    <label>Start Date*</label>
+							                                    <div class="input-group">
+							                                        <div class="input-group-prepend">
+							                                        <button class="btn bttn-transparent bttn-icon" type="button" (click)="start_date.toggle()" style="height: 36px;"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+							                                        </div>
+							                                        <input type="text" id="start_date" class="form-control" placeholder="yyyy-mm-dd" name="start_date" [(ngModel)]="start_dte" ngbDatepicker #start_date="ngbDatepicker" (click)="start_date.toggle()" container="body">                                  
+							                                    </div>
+							                                    <div *ngIf="invalid_start_date">
+							                                        <div style="color: red;">{{ErrorMessage.StartDate}}</div>
+							                                    </div>
+							                                </div>
+							                            </div>
+
+							                            <div class="form-row">
+							                                <div class="col">
+							                                    <label>End Date</label>
+							                                    <div class="input-group">
+							                                        <div class="input-group-prepend">
+							                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="end_date.toggle()" style="height: 36px;"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+							                                        </div>
+							                                        <input type="text" id="end_date" class="form-control" placeholder="yyyy-mm-dd" name="end_date" [(ngModel)]="end_dte" ngbDatepicker #end_date="ngbDatepicker" (click)="end_date.toggle()" container="body">                                  
+							                                    </div>
+							                                    <div *ngIf="invalid_end_date">
+							                                        <div style="color: red;">{{ErrorMessage.EndDate}}</div>
+							                                    </div>
+							                                </div>
+							                            </div>     
+<!-- 							                        </div>
+ -->							                    <!-- </div>
+							                </div>
+							            </div> -->
+	                                    <form [formGroup]="addServiceForm">
+	                                    	<ng-container>
+		                                        <!-- <div class="form-row">
+		                                            <div class="col">
+		                                                <label>Appointment Date</label>
+		                                                <div class="input-group">
+		                                                    <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body" formControlName="sa_date">
+		                                                    <div class="input-group-append">
+		                                                        <button class="btn bttn-transparent bttn-icon" style="height: 36px;" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+		                                                    </div>
+		                                                </div>
+														<div *ngIf="showdateerror" class="appointmentdateerror">
+		                                                    <div *ngIf="showdateerror" >Please select the appointment date</div>
+		                                                </div>
+		                                            </div>
+		                                        </div> -->
+
+												<div class="form-row">
+													<div class="col">
+													  <label>Remark</label>
+													  <textarea rows="4" class="form-control text_area_style" name="add_description"
+														placeholder="Enter consumer remark" formControlName="user_remark"
+														id="add_description_service"></textarea>
+													</div>
+												</div>
+												<br>
+												
+
+		                                    </ng-container>
+	                                	</form>
+                                        <div class="modal-footer pr-modal-footer">
+                                            <div class="row justify-content-end">
+                                                <div class="col-auto">
+                                                    <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                                        aria-label="Close" (click)="onCancelClick()">Cancel</button>
+                                                </div>
+                                                <div class="col-auto pl-1 pr-0">
+                                                    <button class="btn btn-secondary st" [disabled]="isDisabled" (click)="onAddServiceFormSubmit()">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </ngx-simplebar>
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Service Modal  View end-->
+
+<!-- Services Modal -->
+<div class="pr-modal pr-web-modal">
+    <div class="modal right fade" id="servicesModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="servicesModalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header pr-modal-header web-modal-header">
+	                <h4 class="modal-title" id="servicesModalLabel">Services</h4>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()">&times;</button>
+	                <div class="service-card">
+	                    <div class="service-card-body">
+	                        <div class="media">
+	                            <div class="media-body">
+	                              <h4 class="ttl">Fast & secure Service</h4>
+	                              <p class="p p-13 loc">Available at Your Location</p>
+	                              <p class="p p-13 stj">Starting at Just</p>
+	                            </div>
+	                            <div class="img-blk">
+	                                <img class="st" src="../../assets/images/graphic2.png" alt="img">
+	                            </div>
+	                        </div>
+	                    </div>               
+	                </div>
+	            </div>
+	            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body web-modal-body-wrap no-footer">
+	                <div class="row">
+	                    <div class="col-12">
+	                        <div class="inner-form web-modal-body">
+	                            <div class="row">
+	                                <div class="col-12">
+	                                    <div class="dtls-block">
+                                            <form [formGroup]="addMeterForm">
+                                                <!-- Select Meter Option -->
+                                                <div class="form-row" *ngIf="meter_list.length != 0">
+                                                <div class="col">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="sb-ttl" style="margin-left: -10px;margin-bottom: 12px;">Select Product</h6>
+                                                    </div>
+                                                </div>
+                                                <ng-select [items]="meter_list"
+                                                bindLabel="product_name"
+                                                placeholder="Select Product"
+                                                appendTo="body"
+                                                name="product_name"
+                                                (change)="fetchServiceFilter()"
+                                                formControlName="meter"
+                                                [clearable]="false">
+                                                </ng-select>
+                                                </div>
+                                                </div>
+                                                </form>
+                                                <!-- select meter end  -->
+	                                        <div class="info-block">
+	                                            <div class="applicant-data">
+	                                                <div class="row">
+	                                                    <div class="col-12">
+	                                                        <h6 class="sb-ttl">Available Services</h6>
+	                                                    </div>
+	                                                </div>
+	                                                <div class="row">
+	                                                    <div class="col-12">
+	                                                        <div class="avlbl-service-card-wrap">
+	                                                            <div class="row" *ngIf="servicesList.length != 0">
+	                                                                <div class="col-6" *ngFor="let item of servicesList">
+	                                                                    <div class="avlbl-service-card colr1" role="button" data-dismiss="modal" data-toggle="modal" data-target="" (click)="serviceClicked(item)">
+	                                                                        <div class="avlbl-service-card-img">
+	                                                                            <img class="st" src="../../assets/images/service-card-bg4.png" alt="bg">
+	                                                                        </div>
+	                                                                        <p class="p fw-500 text-dark nm">{{item?.name}}</p>
+	                                                                        <div class="rtng-blk-wrap">
+	                                                                            <div class="rtng-blk">
+	                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+	                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+	                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+	                                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+	                                                                                <fa-icon [icon]="faStar"></fa-icon>
+	                                                                            </div>
+	                                                                        </div>
+	                                                                        <p class="p fw-500 text-dark rt">4.2</p>
+	                                                                    </div>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>
+	                                                    </div>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </ngx-simplebar>
+	        </div>
+	    </div>
+    </div>
+</div>
+<!-- Services Modal -->
+
+
+
+<div class="row">
+    <div class="col">
+        
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showtoast = false; autohide = true">
+            <div>Service Added Successfully!!</div>
+            <div>And Your Service no. is {{storeServicenumber}}</div><br>
+        </ngb-toast>
+        <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div>{{ exception_message }}</div><br>
+        </ngb-toast>
+    </div>
+</div>

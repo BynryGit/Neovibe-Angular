@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="notification-type-tab" data-toggle="tab" href="#notification_type" role="tab"
+                        aria-controls="utility_module" aria-selected="true">Notification Type</a> 
+                    <a class="nav-item nav-link st" id="notification-subtype-tab" data-toggle="tab" href="#notification_subtype"
+                        role="tab" aria-controls="utility_product" aria-selected="false">Notification SubType</a>      
+                    
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+
+<app-notification-type [operator]="testing()"></app-notification-type>
+<app-notification-subtype [operator]="testing()"></app-notification-subtype>

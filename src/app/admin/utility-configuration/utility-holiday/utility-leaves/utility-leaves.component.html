@@ -1,0 +1,292 @@
+<div class="tab-pane fade show active" id="work_leaves" role="tabpanel" aria-labelledby="work-leaves-tab">
+    <div class="row justify-content-end">
+        <div class="col-auto pl-0">
+            <!-- <button class="btn btn-secondary st" *ngIf="!addClicked" (click)="onAddClick()" role="button" data-toggle="modal">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button> -->
+            <div class="col-auto pl-0" *ngIf="dataSet.length === 0 && showAdd">
+                <!-- <input type="hidden" value="{{item.id_string}}"/> -->
+                 <button class="btn btn-secondary st" (click)="onAddClick()" role="button" data-toggle="modal">
+                    <fa-icon [icon]="faPlus"></fa-icon>Add
+                </button>
+            </div>
+        </div>
+    </div><br>
+    <div class="row" *ngIf="showTable">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                                                       
+                <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let item of dataSet | filter:searchText">
+                        <tr *ngIf="!processing && dataSet.length != 0">
+                            <td>{{item.tenant}}</td>
+                            <td>{{item.utility}}</td>
+                            <td>Monday</td>
+                            <td>{{item.mon_start}}</td>  
+                            <td>{{item.mon_end}}</td>
+                        </tr> 
+                        <tr *ngIf="!processing && dataSet.length != 0">
+                            <td>{{item.tenant}}</td>
+                            <td>{{item.utility}}</td>
+                            <td>Tuesday</td>
+                            <td>{{item.tue_start}}</td>  
+                            <td>{{item.tue_end}}</td>
+                        </tr> 
+                        <tr *ngIf="!processing && dataSet.length != 0">
+                            <td>{{item.tenant}}</td>
+                            <td>{{item.utility}}</td>
+                            <td>Wednesday</td>
+                            <td>{{item.wed_start}}</td>  
+                            <td>{{item.wed_end}}</td>
+                        </tr> 
+                        <tr *ngIf="!processing && dataSet.length != 0">
+                            <td>{{item.tenant}}</td>
+                            <td>{{item.utility}}</td>
+                            <td>Thursday</td>
+                            <td>{{item.thu_start}}</td>  
+                            <td>{{item.thu_end}}</td>
+                        </tr> 
+                        <tr *ngIf="!processing && dataSet.length != 0">
+                            <td>{{item.tenant}}</td>
+                            <td>{{item.utility}}</td>
+                            <td>Friday</td>
+                            <td>{{item.fri_start}}</td>  
+                            <td>{{item.fri_end}}</td>
+                        </tr> 
+                        <tr *ngIf="!processing && dataSet.length != 0">
+                            <td>{{item.tenant}}</td>
+                            <td>{{item.utility}}</td>
+                            <td>Saturday</td>
+                            <td>{{item.sat_start}}</td>  
+                            <td>{{item.sat_end}}</td>
+                        </tr> 
+                        <tr *ngIf="!processing && dataSet.length != 0">
+                            <td>{{item.tenant}}</td>
+                            <td>{{item.utility}}</td>
+                            <td>Sunday</td>
+                            <td>{{item.sun_start}}</td>  
+                            <td>{{item.sun_end}}</td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row wrap" *ngIf="showAddHoliday" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="row">
+            <div class="col-auto">
+                <div class="plan-card" style="width: 600px;">
+                    <div class="plan-card-header">
+                        <div class="row">                   
+                            <div class="col-12">
+                                <h3 class="ttl">Set Your Working Hours</h3>
+                            </div>
+                            <div class="col-12">
+
+                            </div>
+                        </div>                                    
+                    </div>
+                    <div class="plan-card-body">
+                        <!-- <div class="row">
+                            <div class="col-sm">
+                                <h4 class="h4 mb-3" style="margin-top: 35px;">SUN</h4>
+                            </div>
+                            <div class="col-sm">
+                                <ngb-timepicker name="date" [(ngModel)]="time" [spinners]="spinners"></ngb-timepicker>
+                            </div>
+                            <div class="col-sm" style="margin: 35px 0px 0px 200px;">
+                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                            </div>
+                            <div class="col-sm" style="margin-top: 35px;">
+                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                            </div>
+                        </div>
+                        <hr> -->
+                        <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 class="h4 mb-3" style="margin-top: 35px;">MON</h4>
+                                </div>
+                                <div class="col-sm" style="margin-left: 50px;">
+                                    <ngb-timepicker name="mon_start" formControlName="time_mon_start" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_mon_start.errors }"  [seconds]="seconds" [spinners]="spinners">
+                                    </ngb-timepicker>
+                                </div>
+                                <div class="col-sm" style="margin-left: 90px;">
+                                    <ngb-timepicker name="mon_end" formControlName="time_mon_end" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_mon_end.errors }"  [seconds]="seconds" [spinners]="spinners">
+                                    </ngb-timepicker>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.time_mon_start.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 164px;">
+                                    <div *ngIf="ad.time_mon_start.errors.required">{{message.startEndTime}}</div>
+                                </div>
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_mon_start._parent.errors" style="font-size: 13px !important;
+                                       color: #e74a3b !important;">
+                                    <div *ngIf="ad.time_mon_start._parent.errors">Start Time Should not be greater than current Number.</div>
+                                </div> -->
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_mon_end.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 124px;">
+                                    <div *ngIf="ad.time_mon_end.errors.required">{{message.startEndTime}}</div>
+                                </div> -->
+                                
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 class="h4 mb-3" style="margin-top: 35px;">TUE</h4>
+                                </div>
+                                
+                                <div class="col-sm" style="margin-left: 50px;">
+                                    <ngb-timepicker name="tue_start" formControlName="time_tue_start" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_tue_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div class="col-sm" style="margin-left: 90px;">
+                                    <ngb-timepicker name="tue_end" formControlName="time_tue_end" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_tue_end.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.time_tue_start.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 164px;">
+                                    <div *ngIf="ad.time_tue_start.errors.required">{{message.startEndTime}}</div>
+                                </div>
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_tue_end.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 124px;">
+                                    <div *ngIf="ad.time_tue_end.errors.required">{{message.startEndTime}}</div>
+                                </div> -->
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 class="h4 mb-3" style="margin-top: 35px;">WED</h4>
+                                </div>
+                                <div class="col-sm" style="margin-left: 50px;">
+                                    <ngb-timepicker name="wed_start" formControlName="time_wed_start" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_wed_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                
+                                <div class="col-sm" style="margin-left: 90px;">
+                                    <ngb-timepicker name="wed_end" formControlName="time_wed_end" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_wed_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.time_wed_start.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 164px;">
+                                    <div *ngIf="ad.time_wed_start.errors.required">{{message.startEndTime}}</div>
+                                </div>
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_wed_end.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 124px;">
+                                    <div *ngIf="ad.time_wed_end.errors.required">{{message.startEndTime}}</div>
+                                </div> -->
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 class="h4 mb-3" style="margin-top: 35px;">THU</h4>
+                                </div>
+                                <div class="col-sm" style="margin-left: 50px;">
+                                    <ngb-timepicker name="thu_start" formControlName="time_thu_start" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_thu_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div class="col-sm" style="margin-left: 90px;">
+                                    <ngb-timepicker name="thu_end" formControlName="time_thu_end" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_thu_end.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.time_thu_start.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 164px;">
+                                    <div *ngIf="ad.time_thu_start.errors.required">{{message.startEndTime}}</div>
+                                </div>
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_thu_end.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 124px;">
+                                    <div *ngIf="ad.time_thu_end.errors.required">{{message.startEndTime}}</div>
+                                </div> -->
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 class="h4 mb-3" style="margin-top: 35px;">FRI</h4>
+                                </div>
+                                <div class="col-sm" style="margin-left: 50px;">
+                                    <ngb-timepicker name="fri_start" formControlName="time_fri_start" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_fri_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                
+                                <div class="col-sm" style="margin-left: 90px;">
+                                    <ngb-timepicker name="fri_end" formControlName="time_fri_end" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_fri_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.time_fri_start.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 164px;">
+                                    <div *ngIf="ad.time_fri_start.errors.required">{{message.startEndTime}}</div>
+                                </div>
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_fri_end.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 124px;">
+                                    <div *ngIf="ad.time_fri_end.errors.required">{{message.startEndTime}}</div>
+                                </div> -->
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 class="h4 mb-3" style="margin-top: 35px;">SAT</h4>
+                                </div>
+                                <div class="col-sm" style="margin-left: 50px;">
+                                    <ngb-timepicker name="sat_start" formControlName="time_sat_start" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_sat_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                
+                                <div class="col-sm" style="margin-left: 90px;">
+                                    <ngb-timepicker name="sat_end" formControlName="time_sat_end" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_sat_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.time_sat_start.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 164px;">
+                                    <div *ngIf="ad.time_sat_start.errors.required">{{message.startEndTime}}</div>
+                                </div>
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_sat_end.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 124px;">
+                                    <div *ngIf="ad.time_sat_end.errors.required">{{message.startEndTime}}</div>
+                                </div> -->
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h4 class="h4 mb-3" style="margin-top: 35px;">SUN</h4>
+                                </div>
+                                <div class="col-sm" style="margin-left: 50px;">
+                                    <ngb-timepicker name="sun_start" formControlName="time_sun_start" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_sun_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                
+                                <div class="col-sm" style="margin-left: 90px;">
+                                    <ngb-timepicker name="sun_end" formControlName="time_sun_end" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_sun_start.errors }"  [seconds]="seconds" [spinners]="spinners"></ngb-timepicker>
+                                </div>
+                                <div *ngIf="applicantDetailsFormSubmitted && ad.time_sun_start.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 164px;">
+                                    <div *ngIf="ad.time_sun_start.errors.required">{{message.startEndTime}}</div>
+                                </div>
+                                <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.time_sat_end.errors" style="font-size: 13px !important;
+                                color: #e74a3b !important;margin-left: 124px;">
+                                    <div *ngIf="ad.time_sat_end.errors.required">{{message.startEndTime}}</div>
+                                </div> -->
+                            </div>
+                            <hr>
+                        </form>
+                        <div class="row">
+                            <div class="col-auto pl-1 pr-0" style="margin-left: 450px;">
+                                <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onAddWorkingHours()">Save</button>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+                                    <div>Working Hours successfully added!!</div>
+                                </ngb-toast>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div> 
+</div>

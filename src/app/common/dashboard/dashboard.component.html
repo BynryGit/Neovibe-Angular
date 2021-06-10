@@ -1,0 +1,13 @@
+<div class="row dash-wrap">
+  <div class="col-xl-3 col-4 dash-col" *ngFor="let item of blocks">
+    <div class="sm-dash" style="background-image: url('{{item.img}}');">
+      <!-- <div class="clearfix">
+        <ng-select class="status-select new d-inline-block" [items]="newStatus1" [searchable]="false" [clearable]="false" bindLabel="status" placeholder="" [(ngModel)]="selectedNewStatus1" name="status" bindValue="status">
+        </ng-select>
+      </div> -->
+      <p><span [class]="item.class">{{item.name}}</span></p>
+      <span class="num h1">{{item.count}}</span>
+      <span class="p dtl">{{item.default}}</span>
+    </div>
+  </div>
+</div>

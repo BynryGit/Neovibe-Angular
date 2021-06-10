@@ -1,0 +1,204 @@
+<div class="tab-pane fade" id="document_subtype" role="tabpanel" aria-labelledby="document-subtype-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Doc. Subtype" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_document_subtype" (click)="onAddClick()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+        <div class="plan-card" style="width:280px;" *ngFor="let item of utilitydocumentSubTypeList.results | filter:searchText">
+           <div class="plan-card-header">
+               <div class="row">
+                   <div class="col-12">
+                       <h4 class="ttl" style="word-wrap: break-word;">{{item.name}}</h4>
+                       <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_document_subtype"><i class="icons8 icons8-edit"></i></span>
+                   </div>
+                   <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                   <div class="col-12">
+
+                   </div>
+               </div>                                    
+           </div>
+           <div class="plan-card-body">
+               <div class="row">
+                   <div class="col-6">
+                    <p class="p p-13 mb-1">Document Type</p>
+                    <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.document_type.name}}</h6>
+                </div>
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Created by</p>
+                       <h6 class="h6 mb-3">Admin</h6>
+                   </div>
+               </div>
+               <div class="row">
+                   <div class="col-6">
+                       <p class="p p-13 mb-1">Created date</p>
+                       <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                   </div>
+                   <div class="col-6">
+                    <p class="p p-13 mb-1">Active</p>
+                    <h6 class="h6 mb-3">Yes</h6>
+                </div> 
+               </div>                                 
+           </div>
+       </div> 
+   </div>
+</div>
+
+<!--Add Document SubType Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_document_subtype" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addStateModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Document SubType</h4>
+                <button type="button" class="close" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Type</label>
+                                        <ng-select appendTo="body" [items]="utilitydocumentTypeList.results" bindLabel="name" formControlName="documentTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.documentTypeControl.errors }" placeholder="Select Type" name="select_document_type">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.documentTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.documentTypeControl.errors.required">{{message.documentTypeCantBeEmpty}}</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>SubType</label>
+                                        <input type="text" class="form-control" placeholder="Enter Document SubType" formControlName="documentSubTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.documentSubTypeControl.errors }" />
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.documentSubTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.documentSubTypeControl.errors.required">{{message.documentSubTypeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.documentSubTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.documentSubTypeControl.errors.maxlength">{{message.documentSubTypeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.documentSubTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.documentSubTypeControl.errors.whitespace && !ad.documentSubTypeControl.errors.required">{{message.invalidocumentSubType}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.documentSubTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.documentSubTypeControl.errors.pattern">{{message.invalidDocumentSubtypeName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddDocumentSubTypeData()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Document SubType End-->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Document Subtype successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Document Subtype Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--Edit Document SubType Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_document_subtype" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addStateModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Document Type</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Type</label>
+                                        <ng-select appendTo="body" [items]="utilitydocumentTypeList.results" formControlName="documentTypeControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.documentTypeControlEdit.errors }" bindLabel="name" placeholder="Select Document Type" name="select_document_type_edit">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.documentTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.documentTypeControlEdit.errors.required">{{message.documentTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>SubType</label>
+                                        <input type="text" class="form-control" placeholder="Enter Document SubType" formControlName="documentSubTypeControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.documentSubTypeControlEdit.errors }"  name = "edit_document_type"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.documentSubTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.documentSubTypeControlEdit.errors.required">{{message.documentSubTypeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.documentSubTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.documentSubTypeControlEdit.errors.maxlength">{{message.documentSubTypeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.documentSubTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.documentSubTypeControlEdit.errors.whitespace && !ade.documentSubTypeControlEdit.errors.required">{{message.invalidocumentSubType}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.documentSubTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.documentSubTypeControlEdit.errors.pattern">{{message.invalidDocumentSubtypeName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditDocumentSubTypeData()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Edit Document SubType End-->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="1000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Document SubType Successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Document SubType Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

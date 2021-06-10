@@ -1,0 +1,60 @@
+#container {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: #512DA8;
+    font-size: 35px;
+    color: #fff;
+    text-align: center;
+    line-height: 150px;
+    margin: 20px 0;
+}
+#name {
+    width: 36px;
+    height: 36px;
+    border-radius: 10%;
+    font-size: 1px;
+    color: white;;
+    text-align: center;
+    line-height: 10px;
+    margin: 20px 0;
+}
+
+/* Centered text */
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  #name {
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 36px;
+    line-height: 100px;
+  }
+
+
+  #profileImage {
+    width: 36px;
+    height: 36px;
+    border-radius: 100%;
+    background: #512DA8;
+    font-size: 35px;
+    color: #fff;
+    text-align: center;
+    line-height: 150px;
+  }
+
+  .circle {
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    border-radius: 50%;
+    font-size: 15px;
+    color: #fff;
+    text-align: center;
+    background: #1f28d1;
+  }

@@ -1,0 +1,207 @@
+<div class="tab-pane fade show active" id="consumer_category" role="tabpanel" aria-labelledby="consumercategorytab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Category Name" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_consumer_category">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+            <div class="plan-card" style="width:280px;" *ngFor="let item of consumer_categoryList.results| filter:searchText">
+               <div class="plan-card-header">
+                   <div class="row">
+                       <div class="col-12">
+                           <h4 class="ttl" style="word-wrap: break-word;">{{item.name}}</h4>
+                            <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_consumer_category"><i class="icons8 icons8-edit"></i></span>
+                       </div>
+                       <div class="col-12">
+                           <input type="hidden" value="{{item.id_string}}"/>
+                       </div>
+                       <div class="col-12">
+   
+                       </div>
+                   </div>                                    
+               </div>
+               <div class="plan-card-body">
+                   <div class="row">
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Product</p>
+                            <h6 class="h6 mb-3">{{item.utility_product.name}}</h6>
+                        </div>
+                       <div class="col-6">
+                           <p class="p p-13 mb-1">Created by</p>
+                           <h6 class="h6 mb-3">Admin</h6>
+                       </div>
+                       
+                   </div>
+                   <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                    </div>
+                </div>                                  
+               </div>
+           </div> 
+       </div>   
+</div>
+</div>
+
+<!--Basic Consumer Category Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_consumer_category" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add Consumer Category</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Product</label>
+                                        <ng-select [items]="service_List.results" bindLabel="name" bindvalue="id_string" placeholder="Select Product" appendTo="body" formControlName="utilityProductControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.utilityProductControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.utilityProductControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.utilityProductControl.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Category</label>
+                                        <input type="text" class="form-control" placeholder="Enter Consumer Category"  formControlName="categoryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.categoryNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.categoryNameControl.errors.required">{{message.categorydrop}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.categoryNameControl.errors.maxlength">{{message.categoryMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.categoryNameControl.errors.whitespace && !ad.categoryNameControl.errors.required">{{message.invalidCategory}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.categoryNameControl.errors.pattern">{{message.categoryNameShouldBeLetter}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddConsumerCategorydata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Consumer Category successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Consumer Category Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--Basic Consumer Category Add End-->
+
+<!--Basic Consumer Category Edit Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_consumer_category" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="editSubTypeModalLabel">Edit Consumer Category</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Product</label>
+                                        <ng-select [items]="service_List.results" bindLabel="name" bindvalue="id_string" placeholder="Select Product" appendTo="body" formControlName="utilityProductControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.utilityProductControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.utilityProductControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.utilityProductControlEdit.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Category</label>
+                                        <input type="text" class="form-control" placeholder="Enter Consumer Category"  formControlName="categoryNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.categoryNameControlEdit.errors.required">{{message.categorydrop}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.categoryNameControlEdit.errors.maxlength">{{message.categoryMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.categoryNameControlEdit.errors.whitespace && !ade.categoryNameControlEdit.errors.required">{{message.invalidCategory}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.categoryNameControlEdit.errors.pattern">{{message.categoryNameShouldBeLetter}}</div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditConsumerCategorydata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Basic Consumer Category Edit Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Consumer Category successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Consumer Sub Category Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+

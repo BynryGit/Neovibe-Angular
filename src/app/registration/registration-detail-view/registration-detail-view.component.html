@@ -1,0 +1,270 @@
+<section class="pr-section applicant-details-sec" *ngIf="registration != null">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <button class="btn bttn-transparent bttn-back d-inline-block" [routerLink]="['/consumerops/registration']"></button>
+            <div class="inner-page-title d-inline-block"><h4 class="h4">Registration details </h4></div>
+        </div>
+        <div class="col-6">
+            <div class="inner-page-pagination">
+                <nav class="">
+                    <ul class="pagination">
+                        <li class="{{item.listClass}}" *ngFor="let item of buttons">
+                            <a class="page-link" href="{{item.href}}">{{item.name}}<button class="btn bttn-prev"><fa-icon [icon]="item.icon"></fa-icon></button></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <!-- Registration detail block start -->
+        <div class="col-auto pr-0">
+            <div class="applicant-block-lt inner-wrap" style="height: 100%;">
+                <div class="applicant-block-lt-header">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <div class="enqry-sts-blk" [ngSwitch]="registration.state">
+                                <div *ngSwitchCase="'CREATED'">
+                                  <div class="badge badge-label-success">Created</div>
+                                </div>
+                                <div *ngSwitchCase="'PENDING'">
+                                  <div class="badge badge-label-warning">Pending</div>
+                                </div>
+                                <div *ngSwitchCase="'APPROVED'">
+                                  <div class="badge badge-label-success">Approved</div>
+                                </div>
+                                <div *ngSwitchCase="'REJECTED'">
+                                  <div class="badge badge-label-danger">Rejected</div>
+                                </div>
+                                <div *ngSwitchCase="'HOLD'">
+                                  <div class="badge badge-label-warning">Hold</div>
+                                </div>
+                                <div *ngSwitchCase="'CANCELED'">
+                                  <div class="badge badge-label-danger">Canceled</div>
+                                </div>
+                                <div *ngSwitchCase="'COMPLETED'">
+                                  <div class="badge badge-label-success">Completed</div>
+                                </div>
+                                <div *ngSwitchCase="'ARCHIVED'">
+                                  <div class="badge badge-label-success">Archived</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto align-self-center">
+                            <h4 class="sh-ttl">Reg No: {{registration.registration_no}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="dtls-block">
+                    <div class="block-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="profile-card st">
+                                    <div class="media">
+                                       <!--  <div class="img-blk">
+                                            <img class="img-abs st" src="../../assets/images/john-doe.png" alt="img">
+                                        </div> -->  
+                                        <div class="img-blk text-uppercase" >
+                                            {{first_name_c}}{{last_name_c}}
+                                        </div>                                                                    
+                                        <div class="media-body">
+                                            <p class="p">{{registration?.first_name}} {{registration?.last_name}}</p>
+                                            <p class="p" style="margin-bottom: 0px;">{{registration.phone_mobile}}</p>
+                                            <p class="p">{{registration.utility}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                <br>
+                <div class="info-block">
+                    <div class="applicant-data">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="bttn-toggle">
+                                    <div class="toggle-button-wrap mt-0">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <!-- <li class="nav-item">
+                                                <a class="nav-link active" id="summry-tab" data-toggle="tab" href="#summry" role="tab" aria-controls="summry" aria-selected="true">Summary</a>
+                                            </li> -->
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="profl-tab" data-toggle="tab" href="#profl" role="tab" aria-controls="profl" aria-selected="false">Profile</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content" id="myTabContent">
+                                    <!-- <div class="custom-tab-pane tab-pane fade show active" id="summry" role="tabpanel" aria-labelledby="summry-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="custom-tab-pane tab-pane show active" id="profl" role="tabpanel" aria-labelledby="profl-tab">
+                                        <div class="row">
+                                            <div class="col-6" *ngFor="let item of profile">
+                                                <p class="p p-13">{{item?.name}}</p>
+                                                <h6 class="h6">{{item?.value}}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Registration detail block end -->
+        <div class="col"> 
+            <div class="applicant-block-rt inner-wrap">
+            	<!-- Registration tabs list start -->
+                <div class="nav-block">
+                    <nav class="inner-form-tabs">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="{{item.class}}" id="{{item.id}}" data-toggle="tab" href="{{item.href}}" role="tab" aria-controls="{{item.ariaControls}}" aria-selected="{{item.ariaSelected}}" *ngFor="let item of tabList">{{item.name}}</a>
+                        </div>
+                    </nav>
+                </div>
+                <!-- Registration tabs list end -->
+                <div class="applicant-block-rt-body"> 
+                    <div class="tab-content" >
+                    	<!-- Tab panel for address details start -->
+                    	<div class="tab-pane fade show active" id="nav-addr-dtls" role="tabpanel" aria-labelledby="nav-addr-dtls-tab">
+                            <app-address-details [data]="address" [registrationId]="idString"></app-address-details>
+                        </div>
+                        <!-- Tab panel for address detail end -->
+
+                        <div class="tab-pane fade" id="nav-services" role="tabpanel" aria-labelledby="nav-services-tab">
+                            <div class="row">
+                                <div class="col-12" *ngIf="contracts.length != 0">
+                                    <div class="row">
+                                        <div class="col-2">
+                                            <p class="p p-13">Product</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="p p-13">Categoty</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="p p-13">Sub category</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="p p-13">Contract</p>
+                                        </div>
+                                        <div class="col-2">
+                                            <p class="p p-13">Deposite</p>
+                                        </div>
+                                    </div>
+                                    <div *ngFor="let item of contracts">
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <h6 class="h6">{{item.product}}</h6>
+                                            </div>
+                                            <div class="col-2">
+                                                <h6 class="h6">{{item.category}}</h6>
+                                            </div>
+                                            <div class="col-2">
+                                                <h6 class="h6">{{item.sub_category}}</h6>
+                                            </div>
+                                            <div class="col-2">
+                                                <h6 class="h6">{{item.contract}}</h6>
+                                            </div>
+                                            <div class="col-2">
+                                                <h6 class="h6">{{item.deposite}}</h6>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab panel for KYC detail start -->
+                        <div class="tab-pane fade" id="nav-kyc" role="tabpanel" aria-labelledby="nav-kyc-tab">
+                            <app-kyc-details [docsData]="kycDocs"></app-kyc-details>
+                        </div>
+                        <!-- Tab panel for KYC detail end -->
+
+                        <!-- Tab panel for Payment detail start -->
+                        <div class="tab-pane fade" id="nav-paymnt" role="tabpanel" aria-labelledby="nav-paymnt-tab">
+                            <app-payment-details></app-payment-details>
+                        </div>
+                        <!-- Tab panel for Payment detail end -->
+
+                        <!-- Tab panel for Note detail start -->
+                        <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
+                            <app-note-details [data]="notes"></app-note-details>
+                        </div>
+                        <!-- Tab panel for Note detail end -->
+
+                        <!-- Tab panel for Timeline detail start -->
+                        <div class="tab-pane fade" id="nav-timeline" role="tabpanel" aria-labelledby="nav-timeline-tab">
+                            <app-timeline-details [data]="timeLine"></app-timeline-details>
+                        </div>
+                        <!-- Tab panel for Timeline detail end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Actions button start -->
+    <div class="row justify-content-center mt-4">
+        <div class="col">
+            <button class="btn btn-outline-light3 bttn-print st"><fa-icon [icon]="faPrint"></fa-icon>Print</button>
+        </div>
+        <div class="col-auto pl-1">
+            <button (click)="rejectRegistration()" *ngIf="registration.state == 'CREATED' || registration.state === 'HOLD' " class="btn btn-outline-light3 st" [disabled]="isDisabled">Reject</button>
+        </div>
+        <div class="col-auto pl-1">
+            <button (click)="holdRegistration()" *ngIf="registration.state == 'CREATED'" class="btn btn-outline-light3 st" [disabled]="isDisabled">Hold</button>
+        </div>
+        <div class="col-auto pl-1">
+            <button (click)="buttonClicked(registration.state)" *ngIf="registration.state == 'CREATED' || registration.state === 'HOLD'" class="btn btn-secondary st" [disabled]="isDisabled">Approve</button>
+        </div>
+    </div>
+    <!-- Actions button end -->
+    <div class="row">
+        <div class="col">
+            <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+                <div>Registration Approved Successfully!!</div>
+            </ngb-toast>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ngb-toast class="success" *ngIf="rejectToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectToast = false; autohide = true">
+                <div>Registration Rejected Successfully!!</div>
+            </ngb-toast>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ngb-toast class="success" *ngIf="holdToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="holdToast = false; autohide = true">
+                <div>Registration Successfully Put On-Hold!!</div>
+            </ngb-toast>
+        </div>
+    </div>
+    <!-- Error Pop-Up Start -->
+    <div class="row">
+        <div class="col">
+        <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+                <div>Request Unable To Proceed!!</div>
+            </ngb-toast>
+        </div>
+    </div>
+    <!-- Error Pop-Up End -->
+</section>

@@ -1,0 +1,171 @@
+<div class="tab-pane fade" id="service_service" role="tabpanel" aria-labelledby="service_service_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_service" (click)="onAddClick()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+         <div class="plan-card" style="width:280px;" *ngFor="let item of service_serviceList.results | filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                         <span class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_service" (click)="onCardClickEvent(item)"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Service Name</p>
+                        <h6 class="h6 mb-3">{{item.name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Service Type</p>
+                        <h6 class="h6 mb-3">{{item.service_sub_type.service_type.name}}</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Service SubType</p>
+                        <h6 class="h6 mb-3">{{item.service_sub_type.name}}</h6>
+                    </div>
+                    <span class="col-6">
+                        <p class="p p-13 mb-1">Services</p>
+                        <span class="h6 mb-3" *ngFor="let services of item.service_obj; let last = last">
+                            {{services.value}}<ng-container *ngIf="!last">,</ng-container>
+                        </span>
+                    </span>   
+                </div>                                  
+            </div>
+        </div> 
+    </div>           
+</div>
+<!--Add Services Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_service" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Service Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Service Type</label>
+                                    <ng-select [items]="service_typeList.results" bindLabel="name" bindvalue="id_string" [(ngModel)]="service_typeObj.bindvalue" placeholder="Select Service Type" appendTo="body">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Service Sub Type</label>
+                                    <ng-select [items]="service_subtypeList.results" bindLabel="name" bindvalue="id_string" [(ngModel)]="service_subtypeObj.bindvalue" placeholder="Select Service SubType" appendTo="body">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <form name="form" [formGroup]="serviceDetailsForm">
+                                <div formArrayName="serviceControl">
+                                    <div class="form-row" *ngFor="let item of ServiceDetails.controls; let i=index" [formGroupName]="i">
+                                            <div class="col">
+                                                <label>Service</label>
+                                                <ng-select [items]="utility_productList.results" bindLabel="name" formControlName="service_details" bindvalue="id_string" placeholder="Select Service" appendTo="body">
+                                                </ng-select>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <button class="btn bttn-transparent bttn-add" type="button" (click)="addServiceDetailsRow()">Add</button>
+                                </div>
+                            </form>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Service Name" [(ngModel)]="service_Obj.name" name = "add_service_name"/>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onAddServiceData()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+ </div>
+ <!--Add Services Ends-->
+
+ <!--Edit Services Starts-->
+ <div class="pr-modal">
+    <div class="modal right fade" id="edit_service" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Service Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Service Sub Type</label>
+                                    <ng-select [items]="service_subtypeList.results" bindLabel="name" bindvalue="id_string" [(ngModel)]="service_subtype_editObj.bindvalue" placeholder="Select Service SubType" appendTo="body">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Service Name" [(ngModel)]="service_edit_Obj.name" name = "edit_service_name"/>
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onEditServiceData()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+ </div>
+ <!--Edit Servies Ends-->

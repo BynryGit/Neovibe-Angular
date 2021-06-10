@@ -1,0 +1,14 @@
+<div class="d-inline-block">
+    <!-- <select #selectElem class="filter-select record-select" [(ngModel)]="facilityId" (change)='onOptionsSelected(selectElem.value)'>
+        <option *ngFor="let utility of utilities" [value]="utility.id_string" [selected]="utility.selected == true">
+            {{utility.name}}
+        </option>
+    </select> -->
+    <select class="form-control" id="id_string" name="id_string" (ngModelChange)='onOptionsSelected($event)'
+    [(ngModel)]="facilityId">
+        <option [value]="utility.id_string" *ngFor="let utility of utilities" [selected]="true">
+            {{utility.short_name}}
+        </option>
+    </select>
+</div>
+ 

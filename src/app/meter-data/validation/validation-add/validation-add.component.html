@@ -1,0 +1,147 @@
+<!-- Validation Add Model Start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="validationAddModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="validationAddModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="validationAddModalLabel">Add/Upload Reading</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">                                
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="block-body" style="min-height: unset;">
+                                                <div class="custom-control custom-radio pr-custom-radio custom-control-inline mb-0">
+                                                    <input type="radio" id="uploadreading" name="validationradio"
+                                                        class="custom-control-input" checked (change)="uploadreading" #uploadreading>
+                                                    <label class="custom-control-label" for="uploadreading">Add Reading</label>
+                                                </div>
+                                                <div class="custom-control custom-radio pr-custom-radio custom-control-inline mb-0">
+                                                    <input type="radio" id="uploadroute" name="validationradio"
+                                                        class="custom-control-input" (change)="uploadroute" #uploadroute>
+                                                    <label class="custom-control-label" for="uploadroute">Upload Route</label>
+                                                </div>
+                                            </div>                                            
+                                        </div>                                        
+                                    </div>
+                                </div>
+
+                                <ng-container *ngIf="uploadreading.checked">
+                                    
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Schedule Log *</label>
+                                            <ng-select appendTo="body" [items]="schedule_log_list" bindLabel="name" placeholder="Select Schedule Log" [(ngModel)]="schedule_log_obj.schedule_log" name="">
+                                            </ng-select>
+                                            <div *ngIf="invalid_schedule_log">
+                                                <div style="color: red;">{{ErrorMessage.ScheduleLog}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Route *</label>
+                                            <ng-select appendTo="body" [items]="route_list" bindLabel="name" placeholder="Select Route" [(ngModel)]="route_obj.route" name="">
+                                            </ng-select>
+                                            <div *ngIf="invalid_route">
+                                                <div style="color: red;">{{ErrorMessage.Route}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Meter No *</label>
+                                            <input type="text" class="form-control" [(ngModel)]="meter_Obj.meter_no" placeholder="Enter Meter No" name="name">
+                                            <div *ngIf="invalid_meter">
+                                                <div style="color: red;">{{ErrorMessage.meterNumberRequired}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Current Reading *</label>
+                                            <input type="text" class="form-control" [(ngModel)]="current_reading_Obj.current_reading" placeholder="Enter Current reading" name="name">
+                                            <div *ngIf="invalid_reading">
+                                                <div style="color: red;">{{ErrorMessage.Reading}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Meter Status *</label>
+                                            <ng-select appendTo="body" [items]="meter_status_list" bindLabel="name" placeholder="Select Meter Status" [(ngModel)]="meter_status_obj.status" name="">
+                                            </ng-select>
+                                            <div *ngIf="invalid_status">
+                                                <div style="color: red;">{{ErrorMessage.meterStatusCantBeEmpty}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Reader Status *</label>
+                                            <ng-select appendTo="body" [items]="reader_status_list" bindLabel="name" placeholder="Select Reader Status" [(ngModel)]="reader_status_obj.status" name="">
+                                            </ng-select>
+                                            <div *ngIf="invalid_reader_status">
+                                                <div style="color: red;">{{ErrorMessage.rederStatusCantBeEmpty}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer pr-modal-footer">
+                                        <div class="row justify-content-end">
+                                            <div class="col-auto">
+                                                <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                                    aria-label="Close">Cancel</button>
+                                            </div>
+                                            <div class="col-auto pl-1 pr-0">
+                                                <button class="btn btn-secondary st">Add</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <ng-container *ngIf="uploadroute.checked">
+                                    
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Month</label>
+                                            <ng-select class="filter-select" [items]="month" bindLabel="name" placeholder="Select Month" name="name">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer pr-modal-footer">
+                                        <div class="row justify-content-end">
+                                            <div class="col-auto">
+                                                <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                                    aria-label="Close">Cancel</button>
+                                            </div>
+                                            <div class="col-auto pl-1 pr-0">
+                                                <button class="btn btn-secondary st">Upload</button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Validation Add Model End -->

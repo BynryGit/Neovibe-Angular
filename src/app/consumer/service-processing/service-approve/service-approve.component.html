@@ -1,0 +1,220 @@
+<!-- Complaint Approve Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="serviceApproveModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="serviceApproveModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="serviceApproveModalLabel">Service Request</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancel()">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block"> 
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="title-divider">Service Request Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Request No</p>
+                                                                    <h6 class="h6">{{serviceData?.sa_number}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Consumer No</p>
+                                                                    <h6 class="h6">{{serviceData?.consumer_service_contract_detail_id?.consumer_no}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Product</p>
+                                                                    <h6 class="h6">{{serviceData?.work_order_master_id?.utility_product_id?.name}}</h6>
+                                                                </div>
+                                                                <!-- <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Request Description</p>
+                                                                    <h6 class="h6">{{serviceData?.sa_description}}</h6>
+                                                                </div> -->
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Service Request Date</p>
+                                                                    <h6 class="h6">{{serviceData?.sa_date | date : 'dd MMM yy'}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Service Request For</p>
+                                                                    <h6 class="h6">{{serviceData?.work_order_master_id?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Service Request Status</p>
+                                                                    <div class="enqry-sts-blk" [ngSwitch]="serviceData?.state">
+                                                                        <div *ngSwitchCase="'COMPLETED'">
+                                                                          <div class="badge badge-label-success">COMPLETED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'CREATED'">
+                                                                          <div class="badge badge-label-pending">CREATED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'IN PROGRESS'">
+                                                                          <div class="badge badge-label-unfinished">IN PROGRESS</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'REJECTED'">
+                                                                            <div class="badge badge-label-danger">REJECTED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'HOLD'">
+                                                                            <div class="badge badge-label-pending">HOLD</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'REQUESTED'">
+                                                                            <div class="badge badge-label-pending">REQUESTED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                            <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Service Remark</p>
+                                                                    <h6 class="h6">{{serviceData?.sa_user_remark}}</h6>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </div>    
+                                                    
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="title-divider">Recurring Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Is Recurring</p>
+                                                                    <h6 class="h6">{{serviceData?.recurring_id?.value}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Frequency</p>
+                                                                    <h6 class="h6">{{serviceData?.frequency_id?.value}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Repeat Every</p>
+                                                                    <h6 class="h6">{{serviceData?.repeat_every_id?.value}}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="title-divider">Address Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">State</p>
+                                                                    <h6 class="h6">{{serviceData?.consumer_service_contract_detail_id?.consumer_id.billing_state?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">City</p>
+                                                                    <h6 class="h6">{{serviceData?.consumer_service_contract_detail_id?.consumer_id.billing_city?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Area</p>
+                                                                    <h6 class="h6">{{serviceData?.consumer_service_contract_detail_id?.consumer_id.billing_area?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Area</p>
+                                                                    <h6 class="h6">{{serviceData?.consumer_service_contract_detail_id?.consumer_id.billing_sub_area?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Zipcode</p>
+                                                                    <h6 class="h6">{{serviceData?.consumer_service_contract_detail_id?.consumer_id?.billing_zipcode}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Address</p>
+                                                                    <h6 class="h6">{{serviceData?.consumer_service_contract_detail_id?.consumer_id?.billing_address_line_1}}</h6>
+                                                                </div>                                                                                                                                                                                                                                                                                                                    
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                                                                                                                                                                                               
+                                                    <form name="form" [formGroup]="remarkAdd" *ngIf="serviceData.state === 'REQUESTED' || serviceData.state === 'HOLD' ">
+                                                        <div formArrayName="remarkItemsControl">
+                                                            <div class="form-row" *ngFor="let item of remarkItems.controls; let i=index" [formGroupName]="i"> 
+                                                                    <div class="col">
+                                                                        <label>Remark</label>
+                                                                        <textarea class="form-control big-textarea" formControlName="remark" name="add_remark" [ngClass]="{'is-invalid':onRejectOrHold && remarkItems.controls[i].get('remark').errors}"></textarea>
+                                                                        <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="onRejectOrHold && remarkItems.controls[i].get('remark').errors?.required">Please enter remark</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close" (click)="onCancel()">Cancel</button>
+                        </div>                        
+                        <div class="col-auto pl-1" *ngIf="serviceData.state === 'REQUESTED' || serviceData.state === 'HOLD' ">
+                            <button class="btn btn-outline-light3 st" (click)="onServiceReject()" >Reject</button>
+                        </div>
+                        <div class="col-auto pl-1" *ngIf="serviceData.state === 'REQUESTED'">
+                            <button class="btn btn-outline-light3 st" (click)="onServiceHold()">Hold</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0" *ngIf="serviceData.state === 'REQUESTED' || serviceData.state === 'HOLD' ">
+                            <button class="btn btn-secondary st" (click)="onServiceApprove()" >Approve</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="approveToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="approveToast = false; autohide = true">
+            <div>Service Request Approved Successfully!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="rejectToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectToast = false; autohide = true">
+            <div>Service Request Rejected Successfully!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="holdToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="holdToast = false; autohide = true">
+            <div>Service Request On Hold!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>Service Request Unable To Proceed!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="rejectAndHoldToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectAndHoldToast = false; autohide = true">
+            <div>Please enter remark!!</div>
+        </ngb-toast>
+    </div>
+</div>

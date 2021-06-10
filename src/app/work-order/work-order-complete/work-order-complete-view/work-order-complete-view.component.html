@@ -1,0 +1,176 @@
+<!-- Detail View Of service Appointment -->
+<div class="pr-modal">
+    <div class="modal right fade" id="completeWorkOrderModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="completeWorkOrderModalLabel">
+        <div class="modal-dialog" role="document" style="width: 520px;max-width: unset;">
+            <div class="modal-content">
+
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="completeWorkOrderModalLabel">Appointment Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" (click)="hideDetailModel()"
+                        aria-label="Close">&times;</button>
+                </div>
+
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="srvc-info-graphic colr1">
+                                                <img src="../../../../assets/images/service-card-plumber-bg1.png" alt="img" class="st">
+                                            </div>
+                                            <div class="block-body">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h4 > Name :<span
+                                                            class="h4 text-primary">{{appointmentDetails?.work_order_master_id?.name}}</span>
+                                                            </h4>
+                                                        <p class="p p-13 mb-1">Number :<span
+                                                                class="text-right text-dark">{{appointmentDetails?.sa_number}}</span>
+                                                        </p>
+                                                        <p class="p p-13 mb-1">Date :
+                                                            <span class="text-right text-secondary">{{appointmentDetails?.sa_date|date:'dd MMM yyyy hh:mm a'}}</span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                    <div class="col">
+                                                        <h4 >Consumer: <span
+                                                            class="h4 text-primary">{{ appointmentDetails?.consumer_service_contract_detail_id?.consumer_id.first_name }}&nbsp;{{ appointmentDetails?.consumer_service_contract_detail_id?.consumer_id?.last_name }}&nbsp;&nbsp;<br>({{ appointmentDetails?.consumer_service_contract_detail_id?.consumer_id?.consumer_no }})</span>
+                                                            </h4>
+                                                        <p class="p p-13 mb-1">Contract  :
+                                                            <span
+                                                                class="text-right text-dark">{{appointmentDetails?.consumer_service_contract_detail_id?.consumer_id?.phone_mobile}}</span>
+                                                        </p>
+                                                        <p class="p p-13 mb-1">Status :
+                                                            <span class="text-right text-secondary">{{appointmentDetails?.state}}</span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           <div class="info-block">
+                                                <div class="applicant-data">
+                                                    <nav style="border: white;" class="tabbable" id="nav-tabs">
+                                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                            
+                                                           
+                                                            
+                                                            <a style="color: #83848e;" class="nav-item nav-link st active" id="material-dtls-tab"
+                                                                data-toggle="tab" href="#material-dtls" role="tab"
+                                                                aria-controls="material-dtls"
+                                                                aria-selected="false">Materials</a>   
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="parameter-dtls-tab"
+                                                                data-toggle="tab" href="#parameter-dtls" role="tab"
+                                                                aria-controls="parameter-dtls"
+                                                                aria-selected="false">Readings</a>  
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="img-dtls-tab"
+                                                                data-toggle="tab" href="#img-dtls" role="tab"
+                                                                aria-controls="img-dtls"
+                                                                aria-selected="false">Images</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="remark-dtls-tab"
+                                                                data-toggle="tab" href="#remark-dtls" role="tab"
+                                                                aria-controls="remark-dtls"
+                                                                aria-selected="false">Remark</a>
+                                                           
+                                                            
+                                                        </div>
+                                                    </nav>
+                                                </div>
+                                                <div class="applicant-block-rt-body">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade show active" id="material-dtls"
+                                                            role="tabpanel" aria-labelledby="material-dtls-tab">
+                                                            <div class="block-body inner-form">
+                                                               
+                                                               <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="meter-listing-blk"  style="margin-left: 8px;">
+                                                                            <ul class="list-group list-group-horizontal">
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Type</p></div>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let material_type of appointmentDetails?.work_order_master_id?.json_obj?.material_details let last = last">
+                                                                                            {{material_type?.typeControl.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Sub Type</p></div>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let material_sub_type of appointmentDetails?.work_order_master_id?.json_obj?.material_details let last = last">
+                                                                                        {{material_sub_type?.materialSubTypeControl?.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Name</p></div>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let material_name of appointmentDetails?.work_order_master_id?.json_obj?.material_details let last = last">
+                                                                                        {{material_name?.material_name?.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                </span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="parameter-dtls"
+                                                            role="tabpanel" aria-labelledby="parameter-dtls-tab">
+                                                            <div class="block-body inner-form">
+                                                               
+                                                               <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="meter-listing-blk"  style="margin-left: 8px;">
+                                                                            <ul class="list-group list-group-horizontal">
+                                                                                <li class="list-group-item">
+                                                                                    <p class="p p-13">Parameter Name</p>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let parameter_name of appointmentDetails?.work_order_master_id?.json_obj?.parameter_details let last = last">
+                                                                                            {{parameter_name?.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <p class="p p-13">Parameter Unit</p>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let parameter_unit of appointmentDetails?.work_order_master_id?.json_obj?.parameter_details let last = last">
+                                                                                           {{parameter_unit?.unit}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="img-dtls"
+                                                            role="tabpanel" aria-labelledby="img-dtls-tab">
+                                                            <div class="row">
+                                                                <div class="block-body inner-form" style="width: 70%;height: 270%; margin-left: 10%">
+                                                               
+                                                                <img src="../../../../../assets/images/meter-img.png" alt="meter img" class="img-abs st" >
+                                                        </div>
+                                                            </div>
+                                                            
+                                                           
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="remark-dtls"
+                                                            role="tabpanel" aria-labelledby="remark-dtls-tab">
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                               </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+
+            </div>
+        </div>
+    </div>
+</div>

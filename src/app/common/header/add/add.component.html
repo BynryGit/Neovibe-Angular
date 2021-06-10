@@ -1,0 +1,12 @@
+<div class="d-inline-block" >
+    <div class="dropdown plus-dropdown" dropdown dropdown-append-to-body>
+      <a class="btn dropdown-toggle btn-primary bttn-icon rounded" role="button" id="headerDropdown1" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false"><fa-icon [icon]="faPlus"></fa-icon>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="headerDropdown1"  >
+        <div *ngFor="let addMenu of addMenus.data">
+          <li class="dropdown-item active" [ngClass]="{'active': addMenu.id == 1}" >{{addMenu.module}}</li>
+        </div>
+      </div>
+    </div>
+</div>

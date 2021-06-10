@@ -1,0 +1,388 @@
+<!-- Complaint Approve Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="connectApproveModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="connectApproveModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="connectApproveModalLabel">Connection Request</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancel()">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block"> 
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="title-divider">Connection Request Details</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="info-block">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Utility Name</p>
+                                                                    <h6 class="h6">{{connectionData?.utility}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Consumer No</p>
+                                                                    <h6 class="h6">{{connectionData?.consumer_no}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Consumer Email</p>
+                                                                    <h6 class="h6 text-lowercase">{{connectionData?.consumer_id?.email}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Mobile Number</p>
+                                                                    <h6 class="h6">{{connectionData?.consumer_id?.phone_mobile}}</h6>
+                                                                </div>
+                                                                <!-- <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Product</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.category?.utility_product?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Category</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.category?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Category</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.sub_category?.name}}</h6>
+                                                                </div> -->
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Request Date</p>
+                                                                    <h6 class="h6">{{connectionData?.created_date | date : 'dd MMM yy'}}</h6>
+                                                                </div>
+                                                                <!-- <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Disconnect Request For</p>
+                                                                    <h6 class="h6">{{disconnectData?.work_order_master_id?.name}}</h6>
+                                                                </div> -->
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Request Status</p>
+                                                                    <div class="enqry-sts-blk" [ngSwitch]="connectionData?.state">
+                                                                        <div *ngSwitchCase="'COMPLETED'">
+                                                                          <div class="badge badge-label-success">COMPLETED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'CREATED'">
+                                                                          <div class="badge badge-label-pending">CREATED</div>
+                                                                        </div>
+                                                                        <!-- <div *ngSwitchCase="'IN PROGRESS'">
+                                                                          <div class="badge badge-label-unfinished">IN PROGRESS</div>
+                                                                        </div> -->
+                                                                        <div *ngSwitchCase="'REJECTED'">
+                                                                            <div class="badge badge-label-danger">REJECTED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'HOLD'">
+                                                                            <div class="badge badge-label-pending">HOLD</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'REQUESTED'">
+                                                                            <div class="badge badge-label-pending">REQUESTED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'NOT ASSIGNED'">
+                                                                            <div class="badge badge-label-warning">NOT ASSIGNED</div>
+                                                                        </div>
+                                                                        <div *ngSwitchCase="'CONNECTED'">
+                                                                            <div class="badge badge-label-success">CONNECTED</div>
+                                                                        </div>
+                                                                        <!-- <div *ngSwitchCase="'APPROVED'">
+                                                                            <div class="badge badge-label-success">APPROVED</div>
+                                                                            </div> -->
+                                                                        <div *ngSwitchCase="'APPROVED'">
+                                                                            <div class="badge badge-label-pending">IN PROGRESS</div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Disconnect Remark</p>
+                                                                    <h6 class="h6">{{disconnectData?.sa_user_remark}}</h6>
+                                                                </div> -->
+                                                            </div>
+                                                        </div>
+                                                    </div>    
+                                                    
+                                                
+
+                                                    <!-- <div class="row"> -->
+                                                        <div class="col-12">
+                                                            <ngb-accordion [closeOthers]="true">
+                                                                <ngb-panel>
+                                                                    <ng-template ngbPanelHeader let-opened="opened">
+                                                                        <button ngbPanelToggle class="btn btn-link stretched-link st" (click)="toggleDisplay()">Service Contract Details</button>
+                                                                    </ng-template>
+                                                                </ngb-panel>
+                                                            </ngb-accordion>
+                                                            <!-- <div class="title-divider" (click)="toggleDisplay()">Service Contract Details</div> -->
+                                                            <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-light3 st dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:230px" (click)="toggleDisplay()">
+                                                            Service Contract Details 
+                                                            </button> -->
+                                                        </div>
+                                                    <!-- </div> -->
+                                                    <!-- <div class="dropdown tool-dropdown"> -->
+                                                        <!-- <button class="btn btn-outline-light3 st dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                          contract &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                                        </button> -->
+                                                    <!-- </div> -->
+                                                    <div class="info-block" [hidden]="!isDisplay">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Contract</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Category</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.category?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Category</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.sub_category?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Product</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.category?.utility_product?.name}}</h6>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br>
+                                                    <!-- <div class="row"> -->
+                                                        <div class="col-12">
+                                                            <!-- <div class="title-divider">Deposit Details</div> -->
+                                                            <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-light3 st dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:230px" (click)="toggleShow()">
+                                                            Deposit Details
+                                                            </button> -->
+                                                            <ngb-accordion [closeOthers]="true">
+                                                                <ngb-panel>
+                                                                    <ng-template ngbPanelHeader let-opened="opened">
+                                                                        <button ngbPanelToggle class="btn btn-link stretched-link st" (click)="toggleShow()">Deposit Details</button>
+                                                                    </ng-template>
+                                                                </ngb-panel>
+                                                            </ngb-accordion>
+                                                        </div>
+                                                    <!-- </div> -->
+                                                    <!-- <div class="info-block" [hidden]="!isShow"> -->
+                                                        <div class="applicant-data" [hidden]="!isShow">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Contract</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Deposit Amount</p>
+                                                                    <h6 class="h6">{{connectionData?.contract?.deposite_amount | number:'.2'}}</h6>
+                                                                </div>                                                               
+                                                            </div>
+                                                        </div>
+                                                    <!-- </div> -->
+                                                    <br>
+                                                    <!-- <div class="row"> -->
+                                                        <div class="col-12">
+                                                            <!-- <div class="title-divider">Deposit Details</div> -->
+                                                            <!-- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-outline-light3 st dropdown-toggle" type="button" id="dropdownMenuButton"
+                                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:230px" (click)="toggleAddress()">
+                                                            Address Details
+                                                            </button>  -->
+                                                            <ngb-accordion [closeOthers]="true">
+                                                                <ngb-panel>
+                                                                    <ng-template ngbPanelHeader let-opened="opened">
+                                                                        <button ngbPanelToggle class="btn btn-link stretched-link st" (click)="toggleAddress()">Address Details</button>
+                                                                    </ng-template>
+                                                                </ngb-panel>
+                                                            </ngb-accordion>
+                                                        </div>
+                                                    <!-- </div> -->
+                                                    <div class="info-block" [hidden]="!isAddress">
+                                                        <div class="applicant-data">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">State</p>
+                                                                    <h6 class="h6">{{connectionData?.consumer_id?.billing_state?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">City</p>
+                                                                    <h6 class="h6">{{connectionData?.consumer_id?.billing_city?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Area</p>
+                                                                    <h6 class="h6">{{connectionData?.consumer_id?.billing_area?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Sub Area</p>
+                                                                    <h6 class="h6">{{connectionData?.consumer_id?.billing_sub_area?.name}}</h6>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13" style="margin-bottom: 5px;">Premise</p>
+                                                                    <h6 class="h6">{{connectionData?.consumer_id?.premise?.name}}</h6>
+                                                                </div>                                                               
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <form name="form" [formGroup]="premiseMeterForm" *ngIf="connectionData.state === 'CREATED' || connectionData.state === 'HOLD' ">
+                                                        <div formArrayName="premiseItemsControl">
+                                                            <div class="form-row" *ngFor="let item of premiseItems.controls; let i=index" [formGroupName]="i">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->                                                                    
+                                                                    <div class="col-12">
+                                                                        <label>Premise</label>
+                                                                        <ng-select bindLabel="name" [items]="premiselist"  appendTo="body" formControlName="premise" [clearable]="false" [ngClass]="{'is-invalid':onApprove && premiseItems.controls[i].get('premise').errors}" placeholder="Select premise" name="premise" (change)="onPremiseClick(i)"></ng-select>
+                                                                        <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="onApprove && premiseItems.controls[i].get('premise').errors?.required">Please select premise</label>
+                                                                    </div>                                                                                                                                
+                                                                <!-- </div> -->
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->
+                                                                    <!-- <div class="col-12" *ngIf="meterStore.length !=0">
+                                                                        <label>Meters</label>
+                                                                        <ng-select [items]="meterStore" bindLabel="meter_no" placeholder="Meters" name="subType" [clearable]="false" id="subType" formControlName="meter"></ng-select>                                                                  
+                                                                    </div> -->
+                                                                    <br>                                                                <!-- </div> -->
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->
+                                                                    <!-- <div class="col-12" *ngIf="workMaster.length !=0">
+                                                                        <label>Work Order</label>
+                                                                        <ng-select bindLabel="name" [items]="workMaster" formControlName="workOrderMaster" [clearable]="false" placeholder="Select work order" id="master" name="master"></ng-select>
+                                                                    </div>
+                                                                    <br> -->
+                                                                <!-- </div> -->
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <div class="form-row" *ngIf="connectionData.state === 'CREATED' || connectionData.state === 'HOLD' ">
+                                                        <div class="col">
+                                                        <form [formGroup]="connectionapprove" novalidate >
+                                                            <label>Select meter option from following</label>
+                                                            <ng-select [searchable]="false" [clearable]="false" formControlName="connectionMeter" [ngClass]="{'is-invalid':onApprove && ca.connectionMeter.errors}" appendTo="body" placeholder="Select option" name="name">
+                                                                <ng-option [value]="'yes'">New Meter</ng-option>
+                                                                <ng-option [value]="'no'">Existing Meter</ng-option>
+                                                            </ng-select>
+                                                            <div *ngIf="onApprove && ca.connectionMeter.errors" class="invalid-feedback">
+                                                                <div *ngIf="ca.connectionMeter.errors">Please select meter option!</div>
+                                                            </div>
+                                                        </form>
+                                                        </div>
+                                                    </div>
+
+                                                    <form name="form" [formGroup]="meterSelect">
+                                                        <div formArrayName="meterItemsControl">
+                                                            <div class="form-row" *ngFor="let item of meterItems.controls; let i=index" [formGroupName]="i">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                <div class="col-12" *ngIf="meterStore.length !=0 && connectionapprove.value.connectionMeter === 'no'">
+                                                                    <label>Meters</label>
+                                                                    <ng-select [items]="meterStore" bindLabel="meter_no" placeholder="Meters" name="subType" [clearable]="false" id="subType" formControlName="meter"></ng-select>                                                                  
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+
+                                                    <form name="form" [formGroup]="workOrderDetailsForm" *ngIf="connectionData.state === 'CREATED' || connectionData.state === 'HOLD' ">
+                                                        <div formArrayName="workItemsControl">
+                                                            <div class="form-row" *ngFor="let item of workItems.controls; let i=index" [formGroupName]="i">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->                                                                    
+                                                                    <div class="col-12">
+                                                                        <label>Work Order Type</label>
+                                                                        <ng-select bindLabel="name" [items]="workOrderTypelist.results"  appendTo="body" formControlName="workOrderType" [ngClass]="{'is-invalid':onApprove && workItems.controls[i].get('workOrderType').errors}"  [clearable]="false" placeholder="Select type" name="workOrderType" (change)="onWorkorderType(i)"></ng-select>
+                                                                        <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="onApprove && workItems.controls[i].get('workOrderType').errors?.required">Please select work order type</label>
+                                                                    </div>                                                                                                                                
+                                                                <!-- </div> -->
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->
+                                                                    <div class="col-12" *ngIf="workSubType.length !=0">
+                                                                        <label>Work Order Sub Type</label>
+                                                                        <ng-select [items]="workSubType" bindLabel="name" placeholder="Select sub type" name="subType" [clearable]="false" id="subType" formControlName="workOrderSubType" (change)="onWorkorderSubType(i)"></ng-select>                                                                    
+                                                                    </div>
+                                                                    <br>
+                                                                <!-- </div> -->
+                                                                <!-- <div class="form-row" *ngIf="complaintapprove.value.complaintType === 'yes'"> -->
+                                                                    <div class="col-12" *ngIf="workMaster.length !=0">
+                                                                        <label>Work Order</label>
+                                                                        <ng-select bindLabel="name" [items]="workMaster" formControlName="workOrderMaster" [clearable]="false" placeholder="Select work order" id="master" name="master"></ng-select>
+                                                                    </div>
+                                                                    <br>
+                                                                <!-- </div> -->
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                                                                                                                                                                                               
+                                                    <form name="form" [formGroup]="remarkAdd" *ngIf="connectionData.state === 'CREATED' || connectionData.state === 'HOLD' ">
+                                                        <div formArrayName="remarkItemsControl">
+                                                            <div class="form-row" *ngFor="let item of remarkItems.controls; let i=index" [formGroupName]="i"> 
+                                                                    <div class="col">
+                                                                        <label>Remark</label>
+                                                                        <textarea class="form-control big-textarea" formControlName="remark" name="add_remark" [ngClass]="{'is-invalid':onRejectOrHold && remarkItems.controls[i].get('remark').errors}"></textarea>
+                                                                        <label style="font-size: 80%;color: #ED6868; font-weight: normal; font-style: normal;" *ngIf="onRejectOrHold && remarkItems.controls[i].get('remark').errors?.required">Please enter remark</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close" (click)="onCancel()">Cancel</button>
+                        </div>                        
+                        <div class="col-auto pl-1" *ngIf="connectionData.state === 'CREATED' || connectionData.state === 'HOLD' ">
+                            <button class="btn btn-outline-light3 st" (click)="onRejectConsumer()" >Reject</button>
+                        </div>
+                        <div class="col-auto pl-1" *ngIf="connectionData.state === 'CREATED'">
+                            <button class="btn btn-outline-light3 st" (click)="onHoldConsumer()">Hold</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0" *ngIf="connectionData.state === 'CREATED' || connectionData.state === 'HOLD' ">
+                            <button class="btn btn-secondary st" (click)="OnApproveConsumer()" >Approve</button>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Work Order Successfully Raised For Meter Installation!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="rejectToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectToast = false; autohide = true">
+            <div>Connection Request Rejected Successfully!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="holdToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="holdToast = false; autohide = true">
+            <div>Connection Request on-Hold!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>Connection Request Unable To Proceed!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="newerrortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="newerrortoast = false; autohide = true">
+            <div>Please fill all details!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+    <ngb-toast *ngIf="rejectAndHoldToast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="rejectAndHoldToast = false; autohide = true">
+            <div>Please enter remark!!</div>
+        </ngb-toast>
+    </div>
+</div>

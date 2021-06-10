@@ -1,0 +1,79 @@
+
+<div class="row">
+	<div class="col">
+		<div class="listview-table-wrap">
+			<label class="p p-12">Showing Last 6 month records</label>
+			<br>
+			<table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+				<thead>
+					<tr>
+						<th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+					</tr>
+				</thead>
+				<tbody *ngIf="!processing">
+                    <tr *ngFor="let item of serviceAppointments">
+                       
+                        <td class="showOnHover"><a 
+                                (click)="showDetailModel(item.id_string)">{{item.sa_number}}</a>
+                            <span class="show">
+                                <span class="enqry-no-blk">{{item.sa_number}}</span> <span></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                <span class="flag-green" *ngIf="item?.consumer_service_contract_detail_id?.consumer_id?.is_vip"></span>
+                                <div class="list-blk">
+                                    <p><span>{{item?.consumer_service_contract_detail_id?.consumer_id?.billing_area?.name}}</span><span>Area</span></p>
+                                    <p><span>{{item?.consumer_service_contract_detail_id?.consumer_id?.billing_sub_area?.name}}</span><span>Sub Area</span></p>
+                                    <p><span>{{item?.sa_date | date : 'dd MMM yy hh:mm a'}}</span><span>Requested Date</span></p>
+                                </div>
+
+                            </span>
+                        </td>
+                        <td>{{item?.consumer_service_contract_detail_id?.consumer_id?.first_name}} &nbsp;{{item?.consumer_service_contract_detail_id?.consumer_id?.last_name}}</td>
+                        <td>{{item?.work_order_master_id?.utility_work_order_sub_type?.work_order_sub_type?.work_order_type?.name}}</td>
+                        <td>{{item?.work_order_master_id?.utility_work_order_sub_type?.work_order_sub_type?.name}}</td>
+                        <td>{{item?.consumer_service_contract_detail_id?.consumer_id?.billing_area?.name}}</td>
+                        <td>{{item?.consumer_service_contract_detail_id?.consumer_id?.billing_sub_area?.name}}</td>
+                        <td>{{item?.sa_date | date:'dd MMM yyyy'}}</td>
+                        <td>
+                            <div class="enqry-sts-blk">
+                                <div *ngIf="item.state == 'COMPLETED'">
+                                    <div class="badge badge-label-danger">Completed</div>
+                                </div>
+                                <div *ngIf="item.state == 'ASSIGNED'">
+                                    <div class="badge badge-label-success">Assigned</div>
+                                </div>
+                                <div *ngIf="item.state == 'NOT ASSIGNED'">
+                                    <div class="badge badge-label-warning">Not Assigned</div>
+                                </div>
+                                <div *ngIf="item.state == 'REJECTED'">
+                                    <div class="badge badge-label-danger">Rejected</div>
+                                </div>
+                                <div *ngIf="item.state == 'ACCEPTED'">
+                                    <div class="badge badge-label-finished">Accepted</div>
+                                </div>
+                            </div>
+
+                        </td>
+                        <td class="action-col">
+                            <ul class="list-group list-group-horizontal action-list">	
+								<li class="list-group-item st" style="margin-right: 25%;" ngbTooltip="View" [openDelay]="200" [closeDelay]="200" (click)="ViewCompleteWorkOrderDetail(item.id_string)">
+									<i class="icons8 icons8-eye"></i>
+								</li>
+							</ul>
+                        </td>
+                    </tr>
+                </tbody>
+				<tbody>
+					<tr *ngIf="serviceAppointments?.length == 0">
+						<td colspan="3" class="no-data-available">No matching records found</td>
+					</tr>
+				</tbody>
+				<tbody >
+					<tr *ngIf="processing">
+						<td colspan="3"> .....</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+<app-work-order-complete-view></app-work-order-complete-view>

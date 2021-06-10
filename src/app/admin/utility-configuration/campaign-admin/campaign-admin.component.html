@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="type-tab" data-toggle="tab" href="#campaign_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="subtype-tab" data-toggle="tab" href="#campaign_subtype" role="tab"
+                        aria-controls="country" aria-selected="true">Subtype</a> 
+                    <a class="nav-item nav-link st" id="channel-tab" data-toggle="tab" href="#campaign_channel"
+                        role="tab" aria-controls="state" aria-selected="true">Channel</a>      
+                    <a class="nav-item nav-link st" id="frequency-tab" data-toggle="tab" href="#campaign_frequency"
+                        role="tab" aria-controls="state" aria-selected="true">Frequency</a>  
+                    <a class="nav-item nav-link st" id="advtype-tab" data-toggle="tab" href="#adv_type"
+                        role="tab" aria-controls="state" aria-selected="true">Adv Type</a> 
+                    <a class="nav-item nav-link st" id="advsubtype-tab" data-toggle="tab" href="#adv_subtype"
+                        role="tab" aria-controls="state" aria-selected="true">Adv Subtype</a>          
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-campaign-type [operator]="testing()"></app-campaign-type>
+<app-campaign-subtype [operator]="testing()"></app-campaign-subtype>
+<app-campaign-frequency [operator]="testing()"></app-campaign-frequency>
+<app-campaign-channel [operator]="testing()"></app-campaign-channel> 
+<app-campaign-adv-type [operator]="testing()"></app-campaign-adv-type>
+<app-campaign-adv-subtype [operator]="testing()"></app-campaign-adv-subtype> 

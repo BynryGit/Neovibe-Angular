@@ -1,0 +1,214 @@
+<div class="row">
+    <div class="col">
+    <div class="tab-content">
+            <div class="row justify-content-end">
+                <div class="col">
+                    <form class="pr-search-form d-inline-block">
+                        <span class="s-icon"></span>
+                        <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+                    </form>
+                </div>
+                <div class="col-auto pl-0">
+                    <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_numformat" (click)="removeOption()">
+                        <fa-icon [icon]="faPlus"></fa-icon>Add
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="listview-table-wrap">  
+                        <label class="p p-12">Showing Last 6 month records</label>                                          
+                        <!-- <table datatable class="pr-datatable table table-hover" [dtOptions]="dtOptions2">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="sm-col"><span>Module</span></th>
+                                    <th scope="col"><span>Prefix</span></th>
+                                    <th scope="col"><span>Prefix Format</span></th>
+                                    <th scope="col"><span>Starting</span></th>
+                                    <th scope="col"><span>Current</span></th>
+                                    <th scope="col" class="action-col"><span>Action</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of collection.data">
+                                    <td>
+                                        <div [ngSwitch]="item.module">
+                                            <div *ngSwitchCase="'Registration'">Registration</div>
+                                            <div *ngSwitchDefault>Registration</div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div [ngSwitch]="item.prefix">
+                                            <div *ngSwitchCase="'Yes'">Yes</div>
+                                            <div *ngSwitchCase="'No'">No</div>
+                                            
+                                            <div *ngSwitchDefault>Yes</div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div [ngSwitch]="item.format">
+                                            <div *ngSwitchCase="'INFRA'">INFRA</div>
+                                            <div *ngSwitchCase="'BEECH'">BEECH</div> 
+                                            <div *ngSwitchDefault>Infra</div>
+                                        </div>
+                                    </td>
+                                    <th scope="row" class="sb-col">{{item.billId_start}}</th>
+                                    <th scope="row" class="sb-col">{{item.billId_current}}</th>
+                                    <td class="action-col">
+                                        <span class="show">
+                                            <ul class="list-group list-group-horizontal action-list">
+                                                <li class="list-group-item st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="View"
+                                                    [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_numformat">
+                                                <i class="icons8 icons8-edit"></i>                                                                       
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>   -->
+                        <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of numformatList">
+                                    <td *ngFor="let sub_modules of item.sub_module| filter:searchText">{{sub_modules.name}}</td>
+                                    <td>{{item.is_prefix}}</td>
+                                    <td>{{item.prefix}}</td>
+                                    <td>{{item.startingno}}</td>
+                                    <td>{{item.currentno}}</td>
+                                    <td class="action">
+                                        <ul class="list-group list-group-horizontal action-list">
+                                            <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_numformat" (click)="onCardClickEvent(item)">
+                                                <i class="icons8 icons8-edit"></i>
+                                            </li>
+                                            <div class="col-12">
+                                                <input type="hidden" value="{{item.id_string}}"/>
+                                            </div>
+                                          
+                                        </ul>
+                                    </td>
+                                </tr> 
+                            </tbody>
+                        </table>                                             
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+
+<!--Basic Num Format Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_numformat" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addSubareaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Number Format</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label> Sub Module</label>
+                                    <ng-select appendTo="body"  [items]="submoduleList" bindLabel="name" bindvalue="id_string" placeholder="Select Sub Module" id="num_format_option" [(ngModel)]="numformatObj.bindvalue">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                 <form [formGroup]="adjustbilltype" novalidate >
+                                    <label>Prefix</label>
+                                    <ng-select [searchable]="false" [clearable]="false" formControlName="billtype" appendTo="body" placeholder="Select prefix" name="name">
+                                        <ng-option [value]="'yes'">Yes</ng-option>
+                                        <ng-option [value]="'no'">No</ng-option>
+                                    </ng-select>
+                                </form>
+                                </div>
+                            </div>
+                            <div class="form-row" *ngIf="adjustbilltype.value.billtype === 'yes'">
+                                <div class="col">
+                                    <label>Prefix Format</label>
+                                    <input type="text" class="form-control" placeholder="Enter Prefix Format" [(ngModel)]="numformatObj.prefix"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Starting Number</label>
+                                    <input type="text" class="form-control" placeholder="Enter Starting Number" [(ngModel)]="numformatObj.startingno"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Current Number</label>
+                                    <input type="text" class="form-control" placeholder="Enter Currrent Number" [(ngModel)]="numformatObj.currentno"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onAddNumformatdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--Basic Num Add Modals End-->
+
+<!--Basic Num Edit Modals Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_numformat" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit NumFormat</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label> Sub Module</label>
+                                    <ng-select appendTo="body" [items]="submoduleList" bindLabel="label" bindvalue="id_string" placeholder="Select Sub Module" name="doctp1" [(ngModel)]="numformatObj.bindvalue">
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close" (click)="onEditNumformatdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Basic Num Edit Modals End-->

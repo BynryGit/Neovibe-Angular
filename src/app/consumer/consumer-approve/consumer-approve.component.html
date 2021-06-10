@@ -1,0 +1,61 @@
+<!-- Consumer approve Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="consumerApproveModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="consumerApproveModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="consumerApproveModalLabel">Approve Consumer</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <form [formGroup]="approveForm">
+                                    <ng-container>
+                                        <div class="form-row" *ngIf="workOrders.length != 0">
+                                            <div class="col">
+                                                <label>Select Work Order</label>
+                                                <ng-select [items]="workOrders" bindLabel="name" appendTo="body" placeholder="Select Work order" name="workOrder" formControlName="workOrder" [clearable]="false" [ngClass]="{'is-invalid':approveFormSubmitted && af.workOrder.errors}"></ng-select>
+                                                <div *ngIf="approveFormSubmitted && af.workOrder.errors" class="invalid-feedback">
+                                                    <div *ngIf="af.workOrder.errors.required">{{message.workOrderRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Appointment Date</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date" (click)="d.toggle()" container="body" [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                                                    <div class="input-group-append">
+                                                        <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="approveFormSubmitted && af.date.errors" class="invalid-feedback">
+                                                    <div *ngIf="af.date.errors.required">{{message.appointmentDateRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <div class="modal-footer pr-modal-footer">
+					                    <div class="row justify-content-end">
+					                        <div class="col-auto">
+					                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+					                                aria-label="Close">Cancel</button>
+					                        </div>
+					                        <div class="col-auto pl-1 pr-0">
+					                            <button class="btn btn-secondary st" (click)="onApproveFormSubmit()">Submit</button>
+					                        </div>
+					                    </div>
+					                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Consumer approve Modal -->

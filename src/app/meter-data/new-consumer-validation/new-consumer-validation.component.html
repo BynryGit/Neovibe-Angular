@@ -1,0 +1,209 @@
+<section class="pr-section applicant-details-sec">
+    <div class="row justify-content-start">
+        <div class="col-auto pr-0 align-self-center">
+            <div class="bck-bttn-width">
+                <button class="btn bttn-transparent bttn-back d-inline-block" [routerLink]="['/meter-data/validation']">New Consumer</button>
+            </div>            
+        </div>
+        <div class="col align-self-center">
+            <div class="row">
+                <div class="col align-self-center">
+                    <h4 class="h4 mb-0">Meter Reading Details</h4>
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto pr-0">
+            <div class="applicant-block-lt inner-wrap">
+                <div class="applicant-block-lt-header">
+                    <div class="row">
+                        <div class="col-auto align-self-center">
+                            <h4 class="sh-ttl">CRN: {{new_consumer_details?.consumer_no}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="dtls-block">
+                    <div class="block-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="profile-card st">
+                                    <div class="media">
+                                        <div class="img-blk">
+                                            {{new_consumer_details?.consumer_details?.first_name | slice:0:1}} {{new_consumer_details?.consumer_details?.last_name | slice:0:1}}
+                                        </div>
+                                        <div class="media-body">
+                                            <h5>{{new_consumer_details?.consumer_details?.first_name}} {{new_consumer_details?.consumer_details?.last_name}}</h5>
+                                            <p class="p eml mb-2">{{new_consumer_details?.consumer_details?.email}}</p>
+                                            <p class="p mb-0 d-inline-block mr-2">{{new_consumer_details?.consumer_details?.phone_mobile}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="info-block">
+                    <div class="applicant-data">            
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="bttn-toggle">
+                                    <div class="toggle-button-wrap mt-0">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="profl-tab" data-toggle="tab" href="#profl" role="tab"
+                                                    aria-controls="profl" aria-selected="true">Profile</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="mr-tab" data-toggle="tab" href="#mr"
+                                                    role="tab" aria-controls="mr" aria-selected="false">MR</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>            
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="custom-tab-pane tab-pane fade show active" id="profl" role="tabpanel" aria-labelledby="profl-tab">         
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            <div class="col-6" *ngFor="let item of user_summary">
+                                                                <p class="p p-13 d-inline-block">{{item.name}}</p>
+                                                                <h6 class="h6">{{item.value}}</h6>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="title-divider">Meter Details</div>
+                                            </div>
+                                        </div>            
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter No.</p>
+                                                <h6 class="h6">{{new_consumer_details?.meter_details?.meter_no}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter Make</p>
+                                                <h6 class="h6">{{new_consumer_details?.meter_details?.meter_make}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter Digit</p>
+                                                <h6 class="h6">{{new_consumer_details?.meter_details?.meter_digit}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Install Date</p>
+                                                <h6 class="h6">{{new_consumer_details?.meter_details?.install_date | date : 'dd MMM yy'}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Meter Status</p>
+                                                <h6 class="h6">{{new_consumer_details?.meter_status_id?.name}}</h6>
+                                            </div>
+                                            <div class="col-6">
+                                                <p class="p p-13 d-inline-block">Reader Status</p>
+                                                <h6 class="h6">{{new_consumer_details?.reader_status_id?.name}}</h6>
+                                            </div>
+                                        </div> 
+                                    </div>
+
+                                    <div class="custom-tab-pane tab-pane fade" id="mr" role="tabpanel" aria-labelledby="mr-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            <div class="col-6" *ngFor="let item of mr_summary">
+                                                                <p class="p p-13">{{item.name}}</p>
+                                                                <h6 class="h6">{{item.value}}</h6>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col">
+            <div class="applicant-block-gen">
+                <div class="meter-block">
+                    <div class="header-sec border-bottom-0">
+                        <div class="row justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-secondary st">Submit</button>
+                            </div>
+                            <div class="col-auto pr-0">
+                                <button class="btn btn-outline-light3 st" (click)="DiscardConsumer(new_consumer_details.id_string, new_consumer_details.utility.id_string, new_consumer_details.schedule_log_id.id_string, new_consumer_details.read_cycle_id.id_string, new_consumer_details.route_id.id_string, new_consumer_details.consumer_no, new_consumer_details.meter_no)">Discard</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="body-sec">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="meter-reading-blk-wrap">
+                                    <div class="meter-reading-blk">
+                                        <div class="media">
+                                            <div class="meter-image-blk">
+                                                <span class="p p-13 meter-type colr1">Current Meter</span>
+                                                <div class="meter-image-card">
+                                                    <div class="img-blk">
+                                                        <img class="img-abs st" src="{{new_consumer_details?.meter_image}}" alt="meter img">
+                                                    </div>
+                                                    <p class="p fw-500">Meter No: <span class="text-primary">{{new_consumer_details?.meter_details?.meter_no}}</span></p>
+                                                </div>                                    
+                                            </div>
+                                            <div class="media-body">
+                                                <div class="meter-listing-blk">
+                                                    <div class="list-group list-group-horizontal">
+                                                        <div class="list-group-item">
+                                                            <div class="row">
+                                                                <div class="col-4">
+                                                                    <p class="p p-13">Meter No</p>                                          
+                                                                    <h6 class="ttl">{{new_consumer_details?.meter_no}}</h6>
+                                                                    <br>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13">Current Reading</p>                                          
+                                                                    <h6 class="ttl">{{new_consumer_details?.current_meter_reading}}</h6>
+                                                                    <br>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13">Meter Status</p>                                          
+                                                                    <h6 class="ttl">{{new_consumer_details?.meter_status_id?.name}}</h6>
+                                                                    <br>
+                                                                </div>
+                                                                <div class="col-4">
+                                                                    <p class="p p-13">Reader Status</p>                                          
+                                                                    <h6 class="ttl">{{new_consumer_details?.reader_status_id?.name}}</h6>
+                                                                    <br>
+                                                                </div>                                                        
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+</section>

@@ -1,0 +1,730 @@
+<app-stepper-form [operator]="testing()">
+    <div class="col pl-0">
+        <div class="cust-form-col-rt">
+            <div class="row">
+                <div class="col-12">
+                    <div class="registration-inner inner-wrap tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="user-dtls" role="tabpanel"
+                            aria-labelledby="user-dtls-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">User Details</h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form" [formGroup]="userDetailsForm"
+                                                   >
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <label>First Name</label>
+                                                            <input type="text" class="form-control"
+                                                                name="ufirstName" placeholder="First Name"
+                                                                formControlName="firstNameControl"
+                                                                [ngClass]="{ 'is-invalid': userDetailsFormSubmitted && ud.firstNameControl.errors }" />
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.firstNameControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.firstNameControl.errors.required">
+                                                                    {{message.firstNameCantBeEmpty}}</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.firstNameControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.firstNameControl.errors.pattern">{{message.validFirstName}}</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.firstNameControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ud.firstNameControl.errors.whitespace && !ud.firstNameControl.errors.required">{{message.invalidFirstName}}</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.firstNameControl.errors"
+                                                                class="invalid-feedback">
+                                                            <div *ngIf="ud.firstNameControl.errors.maxlength">
+                                                                    {{message.firstNameMaxLength}}</div>
+                                                            </div>
+                                                            
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <label>Middle Name</label>
+                                                            <input type="text" class="form-control"
+                                                                name="uMiddleName" placeholder="Middle Name"
+                                                                formControlName="middleNameControl"
+                                                                [ngClass]="{ 'is-invalid': userDetailsFormSubmitted && ud.middleNameControl.errors }"/>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.middleNameControl.errors"
+                                                                class="invalid-feedback">
+                                                            <div *ngIf="ud.middleNameControl.errors.required">Middle Name can't be empty.</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.middleNameControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.middleNameControl.errors.pattern">{{message.validMiddleName}}</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.middleNameControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ud.middleNameControl.errors.whitespace && !ud.middleNameControl.errors.required">{{message.invalidMiddleName}}</div>
+                                                            </div>  
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.middleNameControl.errors"
+                                                                class="invalid-feedback">
+                                                            <div *ngIf="ud.middleNameControl.errors.maxlength">
+                                                                    {{message.middleNameMaxLength}}</div>
+                                                            </div>
+                                                             
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <label>Last Name</label>
+                                                            <input type="text" class="form-control"
+                                                                name="uLastName" placeholder="Last Name"
+                                                                formControlName="lastNameControl"
+                                                                [ngClass]="{ 'is-invalid': userDetailsFormSubmitted && ud.lastNameControl.errors }" />
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.lastNameControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.lastNameControl.errors.required">{{message.lastNameCantBeEmpty}}</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.lastNameControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.lastNameControl.errors.pattern">{{message.validLastName}}</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.lastNameControl.errors" class="invalid-feedback">
+                                                                <div *ngIf="ud.lastNameControl.errors.whitespace && !ud.lastNameControl.errors.required">{{message.invalidLastName}}</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.lastNameControl.errors"
+                                                            class="invalid-feedback">
+                                                            <div *ngIf="ud.lastNameControl.errors.maxlength">
+                                                                    {{message.lastNameMaxLength}}</div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <label>Contact</label>
+                                                            <input  type="number" class="form-control" value="" 
+                                                                name="uContact" placeholder="Contact No"
+                                                                formControlName="mobileNoControl" onKeyPress="if(this.value.length==10) return false;"
+                                                                [ngClass]="{ 'is-invalid': userDetailsFormSubmitted && ud.mobileNoControl.errors }" />
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.mobileNoControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.mobileNoControl.errors.pattern">Please Enter Valid Contact No.!</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.mobileNoControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.mobileNoControl.errors.required">Contact
+                                                                    can't be empty!</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="col">
+                                                            <label>Email ID</label>
+                                                            <input type="email" class="form-control"
+                                                                placeholder="Email ID" value="" name="uemail"
+                                                                formControlName="emailControl"
+                                                                [ngClass]="{ 'is-invalid': userDetailsFormSubmitted && ud.emailControl.errors }" />
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.emailControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.emailControl.errors.pattern">Please Enter Valid Email ID !</div>
+                                                            </div>
+                                                            <div *ngIf="userDetailsFormSubmitted && ud.emailControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="ud.emailControl.errors.required">Email ID
+                                                                    can't be empty!</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <label>Address</label>
+                                                            <input type="text" class="form-control"
+                                                                formControlName="addressControl" placeholder="Address"
+                                                                value="" name="textValue" />
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="form-row">
+                                                    <div class="col">
+                                                        <label>Profile Photo </label>
+                                                        <input type="file" >
+                                                    </div>
+                                                </div> -->
+                                                    <div class="row justify-content-center form-bttn-row br-top">
+                                                        <div class="col-auto">
+                                                            <button id="cancel_1" [routerLink]="['/user']" class="btn btn-outline-light st">Cancel</button>
+                                                        </div>
+                                                        <div class="col-auto pl-1 pr-4">
+                                                            <button class="btn btn-secondary st"
+                                                                id="proceed_1"  (click)="onUserDetailsFormSubmit()">Proceed</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="tab-pane fade" id="user-privillages" role="tabpanel"
+                            aria-labelledby="user-privillages-tab">
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">User Configuration</h4>
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="details-list">
+                                        <ul class="list-group list-group-horizontal justify-content-end">
+                                            <li class="list-group-item"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="registration-form inner-form">
+
+                                        <div class="row inner-form-wrap">
+                                            <div class="col-12">
+                                                <form name="form" [formGroup]="privilageDetailsForm"
+                                                    >
+
+                                                    <div class="form-row">
+                                                        <div class="col-6" *ngIf="roleTypeList.length !=0">
+                                                            <label>Select Type</label>
+                                                            <ng-select [items]="roleTypeList" bindLabel="name"
+                                                                (change)="getRoleType($event)" appendTo="body"
+                                                                placeholder="Select Type"
+                                                                formControlName="roleTypeControl" name="name"
+                                                                [ngClass]="{ 'is-invalid': privilageDetailsFormSubmitted && pd.roleTypeControl.errors }">
+                                                            </ng-select>
+                                                            <div *ngIf="privilageDetailsFormSubmitted && pd.roleTypeControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="pd.roleTypeControl.errors.required">{{message.roleTypeCantBeEmpty}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label>Select Sub Type</label>
+                                                            <ng-select [items]="roleSubType" bindLabel="name"
+                                                                formControlName="roleSubTypeControl" appendTo="body"
+                                                                placeholder="Select Sub Type"
+                                                                (change)="getRoleList($event)" name="name" [ngClass]="{ 'is-invalid': privilageDetailsFormSubmitted && pd.roleSubTypeControl.errors }">
+                                                            </ng-select>
+                                                            <div *ngIf="privilageDetailsFormSubmitted && pd.roleSubTypeControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="pd.roleSubTypeControl.errors.required">{{message.roleSubTypeCantBeEmpty}}</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+
+                                                        <div class="col-6">
+                                                            <label>Form Factor</label>
+                                                            <ng-select [items]="formFactorList" bindLabel="name"
+                                                                formControlName="formFactorControl" appendTo="body"
+                                                                placeholder="Select Form Factor" name="name" [ngClass]="{ 'is-invalid': privilageDetailsFormSubmitted && pd.formFactorControl.errors }">
+                                                            </ng-select>
+                                                            <div *ngIf="privilageDetailsFormSubmitted && pd.formFactorControl.errors"
+                                                                class="invalid-feedback">
+                                                                <div *ngIf="pd.formFactorControl.errors.required">{{message.formFactorCantBeEmpty}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6" *ngIf="showVendorDropDown">
+                                                            <label>Vendor</label>
+                                                            <ng-select [items]="vendorList" bindLabel="name"
+                                                                formControlName="vendorControl" appendTo="body"
+                                                                placeholder="Select Vendor" name="name">
+                                                            </ng-select>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="title-divider">Utility</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="form-row">
+                                                                <div class="col-6" *ngIf="showUtilityDropdown">
+                                                                    <label>Select Utility</label>
+                                                                    <ng-select [items]="utilityLists" bindLabel="name"
+                                                                        formControlName="utilityControl" appendTo="body"
+                                                                        placeholder="Select Utility" name="name"
+                                                                        (change)="displayCart($event)">
+                                                                    </ng-select>
+                                                                    <div *ngIf="privilageDetailsFormSubmitted && pd.utilityControl.errors" style="font-size: 13px !important;
+                                                                    color: #e74a3b !important;">
+                                                                    <div *ngIf="pd.utilityControl.errors.required">{{message.utilityRequired}}</div>
+                                                                    </div>
+                                                                   
+                                                                </div>
+                                                                <!-- <div class="col-6" *ngIf="showUtilityDropdown && loginUser == 'Tenant'">
+                                                                    <label>Select Utility</label>
+                                                                    <ng-select [items]="utilityLists" bindLabel="name"
+                                                                        formControlName="utilityControl" appendTo="body"
+                                                                        placeholder="Select Utility" name="name"
+                                                                        (change)="displayCart($event)">
+                                                                    </ng-select>
+                                                                </div> -->
+                                                                <div class="col-5" *ngIf="showUtilityAddButton">
+                                                                    <label>Select Utility</label>
+                                                                    <ng-select [items]="utilityLists" bindLabel="name"
+                                                                        formControlName="utilityControl" appendTo="body"
+                                                                        placeholder="Select Utility" name="name">
+                                                                    </ng-select>
+                                                                    <div *ngIf="privilageDetailsFormSubmitted && pd.utilityControl.errors"
+                                                                    class="invalid-feedback">
+                                                                    <div *ngIf="pd.utilityControl.errors.required">{{message.utilityRequired}}</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-1" *ngIf="showUtilityAddButton">
+                                                                    <label></label>
+                                                                    <button class="btn bttn-transparent bttn-add"
+                                                                        style="padding-top: 9%;" type="button"
+                                                                        (click)="selectUtility()">Add</button>
+                                                                </div>
+                                                                <div class="col-6" *ngIf="showCityDropdown">
+                                                                    <label>County</label>
+                                                                    <ng-select [items]="cityList" bindLabel="name"
+                                                                        formControlName="cityControl"
+                                                                        placeholder="Select County" name="name">
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="col" *ngIf="showAreaDropdown">
+                                                                    <label>Select Area</label>
+                                                                    <ng-select [multiple]="true" [items]="areaList" bindLabel="name"
+                                                                        placeholder="Select Area"
+                                                                        formControlName="areaControl" name="name">
+                                                                    </ng-select>
+                                                                </div>
+                                                                <div class="col" *ngIf="showSkillDropdown">
+                                                                    <label>Select Skills</label>
+                                                                    <ng-select [multiple]="true" [items]="skillsList" bindLabel="skill"
+                                                                        formControlName="skillControl"
+                                                                        placeholder="Select Skills" name="name">
+                                                                    </ng-select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row" formArrayName="utilityDivControl"
+                                                        *ngIf="Utilitys.value">
+                                                        <div class="col-4"
+                                                            *ngFor="let item of Utilitys.value; let i=index"
+                                                            [formGroupName]="i">
+                                                            <button class="bttn-transparent bttn-icon"
+                                                                style="float: right;" (click)="removeTransactionRow(i)">
+                                                                <fa-icon [icon]="faTrash"></fa-icon>
+                                                            </button>
+
+                                                            <input type="text" value="Utilitys.value"
+                                                                formControlName="utilityControl" hidden />
+
+                                                            <div class="utility-card st active fixed-width">
+                                                                <h5 class="ttl">{{item.utilityControl.name}}</h5>
+                                                                <p class="p p-13">Created On<span class="dt">09 Jan
+                                                                        2020</span></p>
+                                                                <svg class="icon st" width="25" height="32"
+                                                                    viewBox="0 0 25 32" fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <g opacity="0.6">
+                                                                        <path
+                                                                            d="M13.8879 0.00191313C13.6838 0.012901 13.4871 0.082318 13.3213 0.2019C3.54327 7.4449 0 12.819 0 20.0897C0 22.5264 1.77224 26.6337 3.44416 28.6001C5.11608 30.5665 7.55079 31.9999 10.3993 31.9999C10.6158 32.003 10.8281 31.9401 11.008 31.8196C11.188 31.6991 11.327 31.5267 11.4066 31.3254C11.4861 31.124 11.5026 30.9031 11.4536 30.6922C11.4047 30.4813 11.2927 30.2902 11.1326 30.1445C10.2134 29.2847 9.33267 27.5836 9.33267 25.6003C9.33267 24.176 9.93517 22.5038 11.4437 20.7228C11.5749 21.4206 11.8016 22.0521 12.1103 22.6005C12.7897 23.8076 13.7317 24.6552 14.4879 25.4114C15.2441 26.1676 15.7808 26.8091 15.9545 27.4557C16.1281 28.1023 16.063 28.9275 15.1768 30.3778C15.0781 30.5395 15.0243 30.7246 15.0209 30.914C15.0175 31.1035 15.0646 31.2904 15.1574 31.4555C15.2502 31.6207 15.3853 31.7582 15.5488 31.8539C15.7123 31.9496 15.8984 32 16.0878 31.9999C21.0169 31.9999 24.9761 27.1865 24.9761 21.6894C24.9761 17.82 22.9674 15.3008 20.8431 12.5011C18.7187 9.70149 16.3651 6.49409 14.9879 0.812973C14.9285 0.57041 14.7858 0.356377 14.5848 0.208167C14.3839 0.0599575 14.1372 -0.0130331 13.8879 0.00191313ZM13.4102 2.8684C14.923 7.94044 17.2149 11.234 19.1543 13.7899C21.2964 16.613 22.8429 18.5404 22.8429 21.6894C22.8429 25.3653 20.6163 28.4844 17.8877 29.4889C18.167 28.5482 18.2183 27.6761 18.0099 26.9002C17.6614 25.6026 16.7982 24.7108 15.9989 23.9115C15.1996 23.1122 14.4307 22.3822 13.9657 21.5561C13.5007 20.73 13.2671 19.8166 13.5769 18.3452C13.6223 18.1266 13.5981 17.8992 13.5074 17.6951C13.4168 17.491 13.2645 17.3205 13.0718 17.2076C12.8791 17.0947 12.6559 17.0451 12.4336 17.0658C12.2112 17.0866 12.001 17.1765 11.8325 17.323C8.68076 20.035 7.19948 22.9187 7.19948 25.6003C7.19948 26.9983 7.52523 28.2595 8.03276 29.3556C6.90252 28.9007 5.89093 28.1793 5.07739 27.2224C3.73053 25.6383 2.1332 21.9387 2.1332 20.0897C2.1332 13.634 5.04177 9.44563 13.4102 2.8684Z"
+                                                                            fill="#B0B4CD" />
+                                                                    </g>
+                                                                </svg>
+                                                            </div>
+                                                            <div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="title-divider">Roles</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+
+                                                        <!-- <div class="col-6">
+                                                            <label>Department</label>
+                                                            <ng-select [items]="departmentList" bindLabel="name"
+                                                                formControlName="departmentControl" appendTo="body"
+                                                                placeholder="Select Department" name="name">
+                                                            </ng-select>
+                                                        </div> -->
+
+                                                        <div class="col-6">
+                                                            <div class="form-row">
+                                                                <div class="col">
+                                                                    <label>Select Role</label>
+                                                                    <ng-select [items]="roleList" bindLabel="role"
+                                                                        (change)="getRoleCartData($event)" formControlName="roleControl"
+                                                                        appendTo="body" placeholder="Select Role"
+                                                                        name="name" [ngClass]="{ 'is-invalid': privilageDetailsFormSubmitted && pd.roleControl.errors }">
+                                                                    </ng-select>
+                                                                    <div *ngIf="privilageDetailsFormSubmitted && pd.roleControl.errors"
+                                                                    class="invalid-feedback">
+                                                                        <div *ngIf="pd.roleControl.errors.required">{{message.roleCantBeEmptyDrop}}</div>
+                                                                    </div>
+                                                                    
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col" formArrayName="roleDivControl">
+                                                        <div class="row" *ngFor="let item of Roles.value; let i=index"
+                                                            [formGroupName]="i">
+                                                            <div class="col-auto align-self-center action-col">
+                                                                <button class="bttn-transparent bttn-icon"
+                                                                    (click)="removePrivilegeRow(i)">
+                                                                    <fa-icon [icon]="faTrash"></fa-icon>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-5">
+                                                                <input type="text" value="Roles.value"
+                                                                    formControlName="roleControl" hidden />
+                                                                <div class="privillages-card st">
+                                                                    <div class="media">
+                                                                        <div class="img-blk">
+                                                                            <img class="img-abs st" width="25"
+                                                                                height="32" viewBox="0 0 25 32"
+                                                                                src="../../../assets/images/avatar.png"
+                                                                                alt="img">
+                                                                        </div>
+                                                                        <div class="media-body">
+                                                                            <h5>{{item.roleControl.role}}</h5>
+                                                                            <p class="p p-13">
+                                                                                {{item.roleControl.role_ID}}</p>
+                                                                            <button
+                                                                                class="btn txt-link txt-link-view">Can
+                                                                                View</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-6">
+                                                                <!-- <ngb-accordion #acc="ngbAccordion" (panelChange)='panelShadow($event, acc)'  [activeIds]="activeIds">
+                                                                <ngb-panel (click)="openAll(acc,i)" *ngFor="let module of item.roleControl.modules.module; let i= index" title="{{module.name}}" id="panel-{{i}}">
+                                                                    <ng-template ngbPanelContent>
+                                                                        <div class="data-block">
+                                                                            <div class="row data-row" *ngFor="let submodule of module.sub_module ">
+                                                                                <div class="col-6 align-self-center">
+                                                                                    <p class="p p-13">{{submodule.name}}</p>
+                                                                                </div>
+                                                                                <div class="col-6 align-self-center text-right" *ngFor="let privilege of submodule.privilege">
+                                                                                    <label class="txt-link-view">{{privilege.name}}</label>
+                                                                                    
+                                                                                </div>
+                                                                            </div>                                                                        
+                                                                        </div>
+                                                                    </ng-template>
+                                                                </ngb-panel>
+                                                              </ngb-accordion>
+                                                            
+                                                              <button (click)="activeIds=[]" >close all</button>
+                                                                <button (click)="openAll()" >open all</button> -->
+                                                                <!-- <ngb-accordion [closeOthers]="true" id="moduleSubModule">
+                                                                        <ngb-panel *ngFor="let module of item.roleControl.modules.module">
+                                                                            <ng-template ngbPanelTitle>
+                                                                                <button ngbPanelToggle class="btn btn-link stretched-link st">{{module.name}}</button>
+                                                                            </ng-template>
+                                                                            <ng-template ngbPanelContent>
+                                                                                <div class="data-block">
+                                                                                    <div class="row data-row" *ngFor="let submodule of module.sub_module ">
+                                                                                        <div class="col-6 align-self-center">
+                                                                                            <p class="p p-13">{{submodule.name}}</p>
+                                                                                        </div>
+                                                                                        <div class="col-6 align-self-center text-right" *ngFor="let privilege of submodule.privilege">
+                                                                                            <label class="txt-link-view">{{privilege.name}}</label>
+                                                                                            
+                                                                                        </div>
+                                                                                    </div>                                                                        
+                                                                                </div>
+                                                                            </ng-template>
+                                                                        </ngb-panel>
+                                                                </ngb-accordion> -->
+
+                                                                <div class="row customeAcc">
+                                                                  
+                                                                    <div class="col">
+                                                                        <label *ngIf="i==0"><h3>Modules</h3></label>
+                                                                        <div class="tabs">
+                                                                            <div class="tab" *ngFor="let module of item.roleControl.modules.module;let k=index">
+                                                                                <input type="radio" id="rd1_{{k}}_{{module.id_string}}" name="rd">
+                                                                                <label class="tab-label" for="rd1_{{k}}_{{module.id_string}}" *ngIf="module.name != 'DemoM'">{{module.name}}</label>
+                                                                                <div class="tab-content" id={{module.id_string}}_{{k}}_{{j}}_{{submodule.id_string}} *ngFor="let submodule of module.sub_module;let j=index " style="color: green;">
+                                                                                    <div class="data-block">
+                                                                                        <div class="row data-row" >
+                                                                                            <div class="col-6 align-self-center">
+                                                                                                <p class="p p-13">{{submodule.name}}</p>
+                                                                                            </div>
+                                                                                            <div class="col-6 align-self-center text-right" *ngFor="let privilege of submodule.privilege">
+                                                                                                <label class="txt-link-view">{{privilege.name}}</label>
+                                                                                                
+                                                                                            </div>
+                                                                                        </div>                                                                        
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- <ngb-accordion [closeOthers]="true" id="moduleSubModule">
+                                                                <ngb-panel *ngFor="let module of item.roleControl.modules.module">
+                                                                    <ng-template ngbPanelHeader let-opened="opened">
+                                                                        <button ngbPanelToggle class="btn btn-link stretched-link st">{{module.name}}</button>
+                                                                    </ng-template>
+                                                                    <ng-template ngbPanelContent>
+                                                                        <div class="data-block">
+                                                                            <div class="row data-row" *ngFor="let submodule of module.sub_module ">
+                                                                                <div class="col-6 align-self-center">
+                                                                                    <p class="p p-13">{{submodule.name}}</p>
+                                                                                </div>
+                                                                                <div class="col-6 align-self-center text-right" *ngFor="let privilege of submodule.privilege">
+                                                                                    <label class="txt-link-view">{{privilege.name}}</label>
+                                                                                    
+                                                                                </div>
+                                                                            </div>                                                                        
+                                                                        </div>
+                                                                    </ng-template>
+                                                                </ngb-panel>
+                                                            
+                                                            </ngb-accordion> -->
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="row justify-content-center form-bttn-row br-top">
+                                                        <div class="col-auto">
+                                                            <button id="cancel_2" (click)="onPrivilegeCancelClick()" class="btn btn-outline-light st">Cancel</button>
+                                                        </div>
+                                                        <div class="col-auto pl-1 pr-4">
+                                                            <button class="btn btn-secondary st"
+                                                                id="proceed_4" (click)="onPrivilageDetailsFormSubmit()">Proceed</button>
+                                                        </div>
+                                                    </div>
+
+                                                </form>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="user-rvw-sbmt" role="tabpanel"
+                            aria-labelledby="user-rvw-sbmt-tab">
+
+                            <div class="row br-btm">
+                                <div class="col-auto align-self-center">
+                                    <h4 class="h4 ttl">Review &amp; Submit</h4>
+                                </div>
+                                <div class="col align-self-center">
+                                    <div class="details-list">
+                                        <ul class="list-group list-group-horizontal justify-content-end">
+                                            <li class="list-group-item"></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="review-submit-wrap">
+
+                                        <div class="review-submit-card">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">User Details</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">First Name</p>
+                                                            <h6 class="h6" style="word-wrap: break-word;">
+                                                                {{this.userDetailsForm.value.firstNameControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Last Name</p>
+                                                            <h6 class="h6" style="word-wrap: break-word;">
+                                                                {{this.userDetailsForm.value.lastNameControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Contact</p>
+                                                            <h6 class="h6">
+                                                                {{this.userDetailsForm.value.mobileNoControl}}</h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Email ID</p>
+                                                            <h6 class="h6" style="word-wrap: break-word;">{{this.userDetailsForm.value.emailControl}}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Address</p>
+                                                            <h6 class="h6">{{this.userDetailsForm.value.addressControl}}
+                                                            </h6>
+                                                        </div>
+                                                        <div class="col-3" *ngIf="showCityDropdown">
+                                                            <p class="p p-13">County</p>
+                                                            <h6 class="h6" style="word-wrap: break-word;">
+                                                                {{this.privilageDetailsForm.value.cityControl?.name}}
+                                                            </h6>
+                                                        </div>
+                                                        <div class="col-3" *ngIf="showAreaDropdown">
+                                                            <p class="p p-13">Area</p>
+                                                            <h6 class="h6" style="word-wrap: break-word;">
+                                                                {{this.privilageDetailsForm.value.areaControl?.name}}
+                                                            </h6>
+                                                        </div>
+                                                        <div class="col-3" *ngIf="showSkillDropdown">
+                                                            <p class="p p-13">Skill</p>
+                                                            <h6 class="h6">
+                                                                {{this.privilageDetailsForm.value.skillControl?.skill}}
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="review-submit-card">
+                                            <div class="review-submit-card-header">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="ttl">Privilege</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="review-submit-card-body">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13"> Type</p>
+                                                            <h6 class="h6">
+                                                                {{this.privilageDetailsForm.value.roleTypeControl?.name}}
+                                                            </h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Sub Type</p>
+                                                            <h6 class="h6">
+                                                                {{this.privilageDetailsForm.value.roleSubTypeControl?.name}}
+                                                            </h6>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Form Factor</p>
+                                                            <h6 class="h6">
+                                                                {{this.privilageDetailsForm.value.formFactorControl?.name}}
+                                                            </h6>
+                                                        </div>
+                                                        <!-- <div class="col-3">
+                                                            <p class="p p-13">Department</p>
+                                                            <h6 class="h6">
+                                                                {{this.privilageDetailsForm.value.departmentControl?.name}}
+                                                            </h6>
+                                                        </div> -->
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-3">
+                                                            <p class="p p-13"> Utility</p>
+                                                            <div
+                                                                *ngFor="let utility of privilageDetailsForm.value.utilityDivControl; let i = index">
+                                                                <h6 class="h6">
+                                                                    {{i+1}}&nbsp;&nbsp;{{utility.utilityControl.name}}
+                                                                </h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-3">
+                                                            <p class="p p-13">Role</p>
+                                                            <div
+                                                                *ngFor="let role of privilageDetailsForm.value.roleDivControl; let i = index">
+                                                                <h6 class="h6">
+                                                                    {{i+1}}&nbsp;&nbsp;{{role.roleControl.role}}</h6>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center form-bttn-row">
+                                <div class="col-auto">
+                                    <button id="cancel_3" (click)="onReviewCancelClick()" class="btn btn-outline-light3 st">Cancel</button>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn btn-secondary st" id="proceed_5"
+                                        (click)="onUserSubmit()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="showtoast = false; autohide = true">
+                <div>New User Successfully Created!!</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="showexceptiontoast = false; autohide = true">
+                <div>User already exists !</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="userIDgenerationToast" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="userIDgenerationToast = false; autohide = true">
+                <div>User ID generation Failed !</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="userDetailsToast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="userDetailsToast = false; autohide = true">
+            <div>Please Enter Valid data for User Details !</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="privilegeDetailsToast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="privilegeDetailsToast = false; autohide = true">
+            <div>Please Enter Valid data for User Configuration !</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="userDetailPrivilegeDetailToast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="userDetailPrivilegeDetailToast = false; autohide = true">
+            <div>Please Enter Valid data for User Details and User Configuration !</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="allFieldstoast" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="allFieldstoast = false; autohide = true">
+                <div>Please Enter All the Fields. !</div>
+            </ngb-toast>
+            <ngb-toast class="success" *ngIf="dataInvalidMsg" header="dwd" [delay]="4000" [autohide]="autohide"
+                (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+                (hide)="dataInvalidMsg = false; autohide = true">
+                <div>Data is invalid !</div>
+            </ngb-toast>
+        </div>
+    </div>
+</app-stepper-form>

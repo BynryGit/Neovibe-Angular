@@ -1,0 +1,441 @@
+
+
+<div class="tab-pane fade show active" id="role_role" role="tabpanel" aria-labelledby="role_role_tab">
+
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Role Name, Type, Sub Type" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+       
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addRole_Role_Modal">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="filters-wrap">
+                <div class="collapse" id="filterCollapse2">
+                    <div class="filter-wrap-inner">
+                        <div class="row">
+                            <div class="col-12">
+                                <ul class="list-group list-group-horizontal">
+                                    <li class="list-group-item">
+                                        <label>Status</label>
+                                        <ng-select class="filter-select" [items]="filterStatus" bindLabel="name"
+                                            placeholder="Select Status" [(ngModel)]="selectFilterStatus" name="name">
+                                        </ng-select>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <label>Department</label>
+                                        <ng-select class="filter-select" [items]="filterDepartment" bindLabel="name"
+                                            placeholder="Select Department" [(ngModel)]="selectFilterDepartment" name="name">
+                                        </ng-select>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row filter-cta-row">
+                            <div class="col-auto pr-2">
+                            <button class="btn btn-outline-secondary st">Apply</button>
+                            </div>
+                            <div class="col-auto pl-2">
+                            <button class="btn btn-light2 st">Cancel</button>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 12 month records</label>                                          
+                <table datatable *ngIf="showTable" class="pr-datatable table table-hover" [dtOptions]="dtOptions">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="sm-col"><span>Name</span></th>
+                            <th scope="col"><span>Type</span></th>
+                            <th scope="col"><span>Sub Type</span></th>
+                            <th scope="col"><span>Status</span></th>
+                            <!-- <th scope="col"><span>Form Factor</span></th>
+                            <th scope="col"><span>Department</span></th> -->
+                            <th scope="col"><span>Created On</span></th>
+                            <th scope="col" class="action-col"><span>Action</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet | filter : searchText" >
+                            <td class="showOnHover">{{item.role}}
+                                <span class="show">
+                                    <span class="enqry-no-blk">{{item.role_type.name}}</span>
+                                    <span class="enqry-name-blk">{{item.role_sub_type.name}}</span>
+                                    <!-- <div class="enqry-sts-blk" [ngSwitch]="item?.status?.status">
+                                        <div *ngSwitchCase="'Active'">
+                                            <div class="badge badge-label-success">{{Active}}</div>
+                                        </div>
+                                        <div *ngSwitchCase="'Pending'">
+                                            <div class="badge badge-label-warning">Pending</div>
+                                        </div>
+                                        <div *ngSwitchCase="'Rejected'">
+                                            <div class="badge badge-label-danger">Rejected</div>
+                                        </div>
+                                    </div> -->
+                                    <br><br>
+                                    <div class="list-blk">
+                                        <p><span>Old Alwal</span><span>Sub Area</span></p>
+                                        <p><span>Venkatesh</span><span>Vendor</span></p>
+                                        <p><span>Venkatesh.co</span><span>Agency</span></p>
+                                    </div>
+                                </span>
+                            </td>
+                            <td>{{item.role_type.name}}</td>
+                            <td>{{item.role_sub_type.name}}</td>
+                            <td>
+                                <div [ngSwitch]="item.status">
+                                    <div *ngSwitchCase="'inactive'">
+                                        <div class="badge badge-label-danger">Inactive</div>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <div class="badge badge-label-success">Active</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <!-- <th scope="row" class="sb-col">{{item.form_factor.name}}</th>
+                            <th scope="row" class="sb-col">{{item.department.name}}</th> -->
+                            <td>{{item.created_date | date : 'dd MMM yy'}}</td>
+                            <td class="action-col">
+                                <span class="show">
+                                    <ul class="list-group list-group-horizontal action-list">
+                                        <li class="list-group-item st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="View" (click)="getRoleDetails(item.id_string)"
+                                            [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#view_Role">
+                                            <i class="icons8 icons8-eye"></i>
+                                        </li>
+                                        <li class="list-group-item st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Edit"
+                                            [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editRole_Role_Modal">
+                                            <i class="icons8 icons8-edit"></i>    
+                                        </li>
+                                    </ul>
+                                </span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                            
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!--Basic Role-Role Add Start-->
+<div class="pr-modal" >
+    <div class="modal right fade" id="addRole_Role_Modal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addTypeModalLabel">
+            <div class="modal-dialog" role="document" style="min-width:570px;">        
+                <div class="modal-content">    
+                    <div class="modal-header pr-modal-header">
+                        <h4 class="modal-title" id="addRole_Type_Label">Add Role</h4>
+                        <button type="button" class="close" (click)="onCloseClick();activeIds=[]" data-dismiss="modal" aria-label="Close">&times;</button>
+                    </div>
+                    <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="inner-form">
+                                    <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Role</label>
+                                                <!-- [ng-modal] -->
+                                                <input type="text" class="form-control" placeholder="Role" name="role" formControlName="roleNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.roleNameControl.errors }"/>
+                                                <!-- <div *ngIf="submitValidate && addRoleForm.controls.roleControl?.errors" class="invalid-feedback">
+                                                    {{addRoleForm.controls.roleControl?.errors | json}}
+                                                    <div *ngIf="addRoleForm.controls.roleControl.errors?.required">Role can't be empty!</div>
+                                                </div> -->
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleNameControl.errors.required">{{message.roleCantBeEmpty}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleNameControl.errors.maxlength">{{message.roleMaxLength}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleNameControl.errors.whitespace && !ad.roleNameControl.errors.required">{{message.invalidRole}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleNameControl.errors.pattern">{{message.validRole}}</div>
+                                                </div>
+                                            </div>                                    
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Description</label>
+                                                <textarea class="form-control big-textarea" placeholder="Enter Description" name="role" formControlName="roleDescriptionControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.roleDescriptionControl.errors }"></textarea>
+                                                <!-- <div *ngIf="addRoleFormSubmitted && ar.descriptionControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ar.descriptionControl.errors.required">Description can't be empty!</div>
+                                                </div> -->
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleDescriptionControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleDescriptionControl.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                                </div>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleDescriptionControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleDescriptionControl.errors.whitespace && !ad.roleDescriptionControl.errors.required">{{message.invalidDescription}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Type</label>
+                                                <ng-select [items]="roleTypeList" bindLabel="name" (change)="getSubModule($event)"
+                                                    appendTo="body" placeholder="Select Type"  formControlName="roleTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.roleTypeControl.errors }"
+                                                    name="name">
+                                                </ng-select>
+                                                <!-- <div *ngIf="addRoleFormSubmitted && ar.roleTypeControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ar.roleTypeControl.errors.required">Mobile no. can't be empty!</div>
+                                                </div> -->
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleTypeControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleTypeControl.errors.required">{{message.roleTypeCantBeEmpty}}</div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <label>Sub Type</label>
+                                                <ng-select [items]="roleSubType" bindLabel="name" 
+                                                appendTo="body" placeholder="Select Sub Type" formControlName="roleSubTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.roleSubTypeControl.errors }"
+                                                name="name">
+                                                </ng-select>
+                                                <div *ngIf="applicantDetailsFormSubmitted && ad.roleSubTypeControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="ad.roleSubTypeControl.errors.required">{{message.roleSubTypeCantBeEmpty}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- <div class="form-row"> -->
+                                        <!-- <div class="col">
+                                            <label>Form Factor</label>
+                                            <ng-select [items]="formFactorList" bindLabel="name" 
+                                            appendTo="body" placeholder="Select Form Factor" [(ngModel)]="roleObj.form_factor"
+                                            name="name">
+                                        </ng-select> -->
+                                        <!-- <div *ngIf="addRoleFormSubmitted && ar.formFactorControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ar.formFactorControl.errors.required">Mobile no. can't be empty!</div>
+                                        </div> -->
+                                        <!-- </div> -->
+                                        <!-- <div class="col">
+                                            <label>Department</label>
+                                            <ng-select [items]="departmentList" bindLabel="name" 
+                                            appendTo="body" placeholder="Select Department" [(ngModel)]="roleObj.department"
+                                            name="name">
+                                            </ng-select> -->
+                                            <!-- <div *ngIf="addRoleFormSubmitted && ar.departmentControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ar.departmentControl.errors.required">Mobile no. can't be empty!</div>
+                                            </div> -->
+                                        <!-- </div> -->
+                                    <!-- </div> -->
+                                    <br><br>
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <div class="role-divider text-dark my-0">Modules</div>
+                                        </div>
+                                    </div>
+                                    </form>
+                                </div>
+                                <div>
+                                
+                                    <div class="col-12" *ngFor="let moduleList of moduleSubModuleList; let i=index">    
+                                        <ngb-accordion [closeOthers]="true" [activeIds]="activeIds">
+                                            <ngb-panel *ngIf="moduleList?.module?.name != 'DemoM'" id="panel-{{i}}">
+                                                <ng-template ngbPanelHeader>
+                                                    <button ngbPanelToggle (click)="onPannelToggleClick()" class="btn btn-link stretched-link st">{{moduleList?.module?.name}}</button>
+                                                </ng-template>
+                                                <ng-template ngbPanelContent>
+                                                    <div class="data-block" *ngFor="let subModule of moduleList.module.sub_modules; let j=index">
+                                                        <div class="row data-row" style="margin-left: 4px; margin-right: 1px;">
+                                                            <div class="col-6 align-self-center">
+                                                                <p class="p p-13">{{subModule.name}}</p>
+                                                            </div>
+                                                            <div class="col-6 align-self-center text-center" >
+                                                                <!-- <ng-select multiple="true" class="small-select view disable-arrow disable-dropdown disable-clear-all" [items]="privilegeList" 
+                                                                [searchable]="false" [clearable]="false"  bindLabel="name" placeholder="Select" name="name" [(ngModel)]="
+                                                                subModule.privilege" (change)="onChange($event,j,subModule,moduleList.module.id_string,moduleList.module.sub_modules)" id="{{j}}">
+                                                            </ng-select> -->
+
+                                                            <!-- <ng-select [multiple]="true" [items]="privilegeList" bindLabel="name" appendTo="body" placeholder="Select"  name="name"  [clearable]="false"  
+                                                            (change)="onChange($event,j,subModule,moduleList.module.id_string,moduleList.module.sub_modules)" id="{{j}}">
+                                                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" id="item-{{index}}" class="custom-control-input"/>
+                                                                        <label class="custom-control-label" for="item-{{index}}"></label>
+                                                                        {{item.name}}
+                                                                    </div>
+                                                                </ng-template>
+                                                            </ng-select> -->
+                                                            <ng-select  multiple="true" [items]="privilegeList" bindLabel="name" (change)="onChange($event,j,subModule,moduleList.module.id_string,moduleList.module.sub_modules)" id="{{j}}"
+                                                            appendTo="body" placeholder="Select"  [(ngModel)]="subModule.privilege"
+                                                            name="name">
+                                                            </ng-select>
+                                                            <!-- <ng-select class="small-select view disable-arrow disable-dropdown disable-clear-all" [items]="privilegeList" 
+                                                            [searchable]="false" [clearable]="false"  bindLabel="name" placeholder="Select" name="name" [(ngModel)]="
+                                                            subModule.privilege" (change)="onChange($event,j,subModule,moduleList.module.id_string,moduleList.module.sub_modules)" id="{{j}}">
+                                                            </ng-select> -->
+
+                                                                <!-- <ng-select multiple="true" class="small-select view disable-arrow disable-dropdown disable-clear-all" [items]="privilegeList" 
+                                                                [searchable]="false" [clearable]="false"  bindLabel="name" placeholder="Select" name="name" [(ngModel)]="
+                                                                subModule.privilege" (change)="onChange($event,j,subModule,moduleList.module.id_string,moduleList)" id="{{j}}">
+                                                                </ng-select> -->
+                                                            </div>
+                                                        </div>                                                    
+                                                    </div>
+                                                </ng-template>
+                                            </ngb-panel>
+                                        </ngb-accordion>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </ngx-simplebar>
+                    <div class="modal-footer pr-modal-footer">
+                        <div class="row justify-content-end">
+                            <div class="col-auto">
+                                <button class="btn btn-outline-light3 st" (click)="onCancelClick();activeIds=[]" data-dismiss="modal" aria-label="Close">Cancel</button>
+                            </div>
+                            <div class="col-auto pl-1 pr-0">
+                                <button class="btn btn-secondary st" (click)="onAddRoleSubmit()"  id="add_role">Add</button>
+                            </div>
+                        </div>
+                    </div> 
+                </div>        
+            </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Role successfully Created!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Role Already Exists!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="moduleToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="moduleToast = false; autohide = true">
+            <div>Please Select Modules to attach to the Role.</div>
+        </ngb-toast>
+    </div>
+</div>
+<!--Basic Role-Role Add End-->
+
+<!--Basic Role-Role View Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="view_Role" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addTypeModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:470px;">
+        <div class="modal-content" >    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_Type_Label">Role</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+    
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body" *ngIf="roleDetailsList">
+                <div class="row">
+                    <div class="col-12">
+                <div class="inner-form">
+                    <div class="row">
+                        <div class="col-12">
+                                <div class="row justify-content-center">
+                                    <div class="col-auto img-blk">
+                                        <img  class="img-role" src="../../../assets/images/avatar.png" alt="img">
+                                    </div>                                                         
+                                </div>
+                                <br>
+                                <div class="row justify-content-center">
+                                    <div class="col-auto">
+                                            <h5 class="role-header">{{roleDetailsList.role}}</h5>
+                                            <p class="p p-13" style="text-align: center;">{{roleDetailsList.role_type.key}} | {{roleDetailsList.role_sub_type.key}}</p>
+                                      </div>
+                                </div> 
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="meter-listing-blk">
+                                            <ul class="list-group list-group-horizontal">
+                                                <!-- <li class="list-group-item">                                            
+                                                    <h6 class="ttl" style="text-align: left; margin-left:35px;">{{roleDetailsList.form_factor.name}}</h6>
+                                                    <div class="bg"><p class="p p-13">Form Factor</p></div> 
+                                                </li>
+                                                <li class="list-group-item">                                            
+                                                    <h6 class="ttl">{{roleDetailsList.department.name}}</h6>
+                                                    <div class="bg"><p class="p p-13">Department</p></div> 
+                                                </li> -->
+                                                <li class="list-group-item">                                            
+                                                    <h6 class="ttl">{{roleDetailsList.created_date | date : 'dd MMM yy'}}</h6>
+                                                    <div class="bg"><p class="p p-13">Created On</p></div> 
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>                               
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="title-divider text-dark my-0">Modules</div>
+                         </div>
+                    </div>   
+                    </div>
+                        <div class="col-12" *ngFor="let module of roleDetailsList.modules.module">
+                            <ngb-accordion [closeOthers]="true">
+                                <ngb-panel *ngIf="module.name != 'DemoM'">
+                                    <ng-template ngbPanelHeader let-opened="opened">
+                                        <button ngbPanelToggle class="btn btn-link stretched-link st">{{module.name}}</button>
+                                    </ng-template>
+                                    <ng-template ngbPanelContent>
+                                        <div class="data-block" *ngFor="let submodule of module.sub_module">
+                                            <div class="row data-row" style="margin-left: 4px; margin-right: 1px;">
+                                                <div class="col-6 align-self-center">
+                                                    <p class="p p-13">{{submodule.name}}</p>
+                                                </div>
+                                                <div class="col-6 align-self-center text-right" >
+                                                    <label *ngFor="let privilege of submodule.privilege"> {{privilege.name}} &nbsp;&nbsp;</label>
+                                                   
+                                                </div>
+                                            </div>                                          
+                                           
+                                        </div>
+                                    </ng-template>
+                                </ngb-panel>
+                            </ngb-accordion>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col">
+        
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showtoast = false; autohide = true">
+            <div>New Role Successfully Created!!</div><br>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div>Role already exists !</div><br>
+        </ngb-toast>
+    </div>
+</div> -->

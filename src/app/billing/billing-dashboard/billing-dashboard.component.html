@@ -1,0 +1,567 @@
+<!-- As per discussion with nilesh sir on 25th of June we are making breadcrumbs static in individual pages for time being for demo pupose -->
+  
+  <section class="pr-section dashboard-section">  
+    <div class="row dash-wrap">
+      <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash" style="background-image: url('../../assets/images/dashboard-card-img2.png');">
+  
+          <div class="clearfix">
+            <ng-select [readOnly]="true" class="status-select running d-inline-block" [items]="newStatus" [searchable]="false" [clearable]="false" bindLabel="status" placeholder="" [(ngModel)]="selectedNewStatus" name="status" bindValue="status">
+            </ng-select>
+            <ng-select [readOnly]="true" (change)="timeChange()" class="time-select d-inline-block" [items]="timeStatus" [searchable]="false" [clearable]="false" bindLabel="tim" placeholder="" [(ngModel)]="selectedTimeStatus" name="tim" bindValue="tim"> 
+            </ng-select>
+          </div>
+          
+          <span class="num h1">{{value}}</span>
+          <span class="p dtl">Work Orders</span>
+        </div>
+      </div>
+      <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash" style="background-image: url('../../assets/images/dashboard-card-img2.png');">
+  
+          <div class="clearfix">
+            <ng-select class="status-select active d-inline-block" [items]="runningStatus" [searchable]="false" [clearable]="false" bindLabel="status2" placeholder="" [(ngModel)]="selectedRunningStatus" name="status2" bindValue="status2">
+            </ng-select>
+            <ng-select class="time-select d-inline-block" (change)="time2change()" [items]="timeStatus2" [searchable]="false" [clearable]="false" bindLabel="tim2" placeholder="" [(ngModel)]="selectedTimeStatus2" name="tim2" bindValue="tim2">
+            </ng-select>
+          </div>
+  
+          <span class="num h1">{{value1}}</span>
+          <span class="p dtl">Work Orders</span>
+        </div>
+      </div>
+      <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash" style="background-image: url('../../assets/images/dashboard-card-img2.png');">
+  
+          <div class="clearfix">
+            <ng-select class="status-select pending d-inline-block" [items]="runningStatus2" [searchable]="false" [clearable]="false" bindLabel="status3" placeholder="" [(ngModel)]="selectedRunningStatus2" name="status3" bindValue="status3">
+            </ng-select>
+            <ng-select class="time-select d-inline-block" (change)="time3change()" [items]="timeStatus3" [searchable]="false" [clearable]="false" bindLabel="tim3" placeholder="" [(ngModel)]="selectedTimeStatus3" name="tim3" bindValue="tim3">
+            </ng-select>
+          </div>
+  
+          <span class="num h1">{{value2}}</span>
+          <span class="p dtl">Work Orders</span>
+        </div>
+      </div>
+      <div class="col-xl-3 col-4 dash-col">
+        <div class="sm-dash" style="background-image: url('../../assets/images/dashboard-card-img2.png');">
+  
+          <div class="clearfix">
+            <ng-select class="status-select missed d-inline-block" [items]="runningStatus3" [searchable]="false" [clearable]="false" bindLabel="status3" placeholder="" [(ngModel)]="selectedRunningStatus3" name="status3" bindValue="status3">          
+            </ng-select>
+            <ng-select class="time-select d-inline-block" (change)="time4change()" [items]="timeStatus4" [searchable]="false" [clearable]="false" bindLabel="tim4" placeholder="" [(ngModel)]="selectedTimeStatus4" name="tim4" bindValue="tim4" appendTo="body">
+            </ng-select>
+          </div>
+  
+          <span class="num h1">{{value3}}</span>
+          <span class="p dtl">Work Orders</span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-5">
+        <div class="chart-wrap inner-wrap h-100">
+  
+          <div class="row">
+            <div class="col-4">
+              <h4 class="ttl">Work Orders</h4>
+            </div>
+            <div class="col-8">
+              <div class="clearfix text-right">
+                <ng-select class="sm-select d-inline-block" [items]="type" [searchable]="false" [clearable]="false" bindLabel="typ" placeholder="" [(ngModel)]="selectedType" name="typ" bindValue="typ" appendTo="body">
+                </ng-select>
+                <ng-select class="sm-select dark d-inline-block" [items]="month" [searchable]="false" [clearable]="false" bindLabel="mnth" placeholder="" [(ngModel)]="selectedMonth" name="mnth" bindValue="mnth" appendTo="body">
+                </ng-select>
+              </div>            
+            </div>
+            <div class="col-12">
+              <div class="bttn-toggle">
+                <div class="toggle-button-wrap">
+                  <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="this-month-tab" data-toggle="tab" href="#this-month" role="tab" aria-controls="this-month" aria-selected="true">This Month</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="last-month-tab" data-toggle="tab" href="#last-month" role="tab" aria-controls="last-month" aria-selected="false">Last Month</a>
+                    </li>
+                  </ul> -->
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row" *ngIf="selectedType ==='Blmg' && selectedMonth ==='Last 30 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType ==='Blmg' && selectedMonth ==='Last 60 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData2" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData2" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType ==='Blmg' && selectedMonth ==='Last 90 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData3" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData3" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType ==='Monticello' && selectedMonth ==='Last 30 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData4" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData4" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row" *ngIf="selectedType ==='Monticello' && selectedMonth ==='Last 60 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData5" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData5" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType ==='Monticello' && selectedMonth ==='Last 90 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData6" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData6" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType ==='Pghse' && selectedMonth ==='Last 30 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData7" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData7" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType ==='Pghse' && selectedMonth ==='Last 60 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData8" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData8" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType ==='Pghse' && selectedMonth ==='Last 90 days'">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="this-month" role="tabpanel" aria-labelledby="this-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData9" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="last-month" role="tabpanel" aria-labelledby="last-month-tab">
+                  <canvas class="week-barchart-size" baseChart [datasets]="barChartData9" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+      </div>
+  
+      <div class="col-4 px-0">
+        <div class="chart-wrap inner-wrap h-100">
+          <div class="row">
+            <div class="col-4">
+              <h4 class="ttl">Work Orders</h4>
+            </div>
+            <div class="col-8">
+              <div class="clearfix text-right">
+                <ng-select class="sm-select d-inline-block" [items]="type2" [searchable]="false" [clearable]="false" bindLabel="typ" placeholder="" [(ngModel)]="selectedType2" name="typ" bindValue="typ" appendTo="body">
+                </ng-select>
+                <ng-select class="sm-select dark d-inline-block" [items]="month2" [searchable]="false" [clearable]="false" bindLabel="mnth" placeholder="" [(ngModel)]="selectedMonth2" name="mnth" bindValue="mnth" appendTo="body">
+                </ng-select>
+              </div>            
+            </div>
+          </div>
+          <div class="row" *ngIf="selectedType2 ==='Monticello' && selectedMonth2 ==='Last 30 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Monticello' && selectedMonth2 ==='Last 60 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData1" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Monticello' && selectedMonth2 ==='Last 90 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData2" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Blmg' && selectedMonth2 ==='Last 30 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData3" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Blmg' && selectedMonth2 ==='Last 60 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData4" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Blmg' && selectedMonth2 ==='Last 90 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData5" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Pghse' && selectedMonth2 ==='Last 30 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData6" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Pghse' && selectedMonth2 ==='Last 60 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData7" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="selectedType2 ==='Pghse' && selectedMonth2 ==='Last 90 days'">
+            <div class="col-12 mt-5">
+              <div class="reg-blk">
+                <p>248</p>
+                <br>
+                <span>Total</span>
+              </div>            
+              <canvas class="doughnut-chart-size" baseChart [options]="doughnutChartOptions" [datasets]="doughnutChartData8" [labels]="doughnutChartLabels" [chartType]="doughnutChartType"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-3">
+  
+        <ngx-simplebar [options]="scrollOptions" class="scroll-height">
+          <div class="dash-detls-wrap inner-wrap h-100">
+  
+            <div class="row">
+              <div class="col-12">
+                <h4 class="ttl">Accounts</h4>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-12">
+                <h4 class="m-ttl">Count</h4>
+              </div>
+              <div class="col-6">
+                <h5 class="sttl">248</h5>
+                <p class="p p-13">Total</p>
+              </div>
+              <div class="col-6">
+                <h5 class="sttl" style="margin-left: -48px;">164</h5>
+                <p class="p p-13" style="margin-left: -48px;">Active</p>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-12">
+                <h4 class="m-ttl">SubCategory - Active</h4>
+              </div>
+              <div class="col-4">
+                <h5 class="sttl">87</h5>
+                <p class="p p-13">Industrial</p>
+              </div>
+              <div class="col-4">
+                <h5 class="sttl">90</h5>
+                <p class="p p-13">Private</p>
+              </div>
+              <div class="col-4">
+                <h5 class="sttl">71</h5>
+                <p class="p p-13" style="margin-left: -15px;">Municipal</p>
+              </div>
+            </div>
+  
+            <div class="row">
+              <div class="col-12">
+                <h4 class="m-ttl">Top 3 Counties</h4>
+              </div>
+              <div class="col-4">
+                <h5 class="sttl">74</h5>
+                <p class="p p-13">Monticello</p>
+              </div>
+              <div class="col-4">
+                <h5 class="sttl">42</h5>
+                <p class="p p-13" style="word-wrap: break-word;">Bloomingburg</p>
+              </div>
+              <div class="col-4">
+                <h5 class="sttl">33</h5>
+                <p class="p p-13" style="word-wrap: break-word;">Poughkeepsie</p>
+              </div>
+            </div>
+  
+
+  
+          </div>
+        </ngx-simplebar>
+  
+      </div>
+  
+    </div>
+  
+    <div class="row mt-4">
+      <div class="col-9 pr-0">
+        <div class="chart-wrap inner-wrap">        
+  
+          <div class="row">
+            <div class="col-4">
+              <h4 class="ttl">Summary</h4>
+            </div>
+            <div class="col-8">
+              <div class="clearfix text-right">
+                <ng-select class="sm-select d-inline-block" [items]="area3" [searchable]="false" [clearable]="false" bindLabel="are2" placeholder="" [(ngModel)]="selectedArea3" name="are2" bindValue="are2" appendTo="body">
+                </ng-select>
+                <ng-select class="sm-select dark d-inline-block" [items]="month3" [searchable]="false" [clearable]="false" bindLabel="mnth" placeholder="" [(ngModel)]="selectedMonth3" name="month" bindValue="mnth" appendTo="body">
+                </ng-select>
+              </div>            
+            </div>
+            <div class="col-12">
+              <div class="bttn-toggle">
+                <div class="toggle-tabs-wrap">
+                  <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="tgl-survey-tab" data-toggle="tab" href="#tgl-survey" role="tab" aria-controls="tgl-survey" aria-selected="true">Leads</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="tgl-cmpng-tab" data-toggle="tab" href="#tgl-cmpng" role="tab" aria-controls="tgl-cmpng" aria-selected="false">Accounts</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="tgl-reg-tab" data-toggle="tab" href="#tgl-reg" role="tab" aria-controls="tgl-reg" aria-selected="false">WorkOrders</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="tgl-consmr-tab" data-toggle="tab" href="#tgl-consmr" role="tab" aria-controls="tgl-consmr" aria-selected="false">Operators</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="tgl-consmr-tab" data-toggle="tab" href="#tgl-invoice" role="tab" aria-controls="tgl-invoice" aria-selected="false">Invoice</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="tgl-consmr-tab" data-toggle="tab" href="#tgl-payment" role="tab" aria-controls="tgl-payment" aria-selected="false">Payment</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-12">
+              <div class="tab-content" id="myTabContent">
+                <div class="custom-tab-pane tab-pane fade show active" id="tgl-survey" role="tabpanel" aria-labelledby="tgl-survey-tab">
+                  <canvas class="month-barchart-size" baseChart [datasets]="surveyBarChartData" [labels]="surveyBarChartLabels" [options]="surveyBarChartOptions" [plugins]="surveyBarChartPlugins" [legend]="surveyBarChartLegend" [chartType]="surveyBarChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="tgl-cmpng" role="tabpanel" aria-labelledby="tgl-cmpng-tab">
+                  <canvas class="month-barchart-size" baseChart [datasets]="surveyBarChartData" [labels]="surveyBarChartLabels" [options]="surveyBarChartOptions" [plugins]="surveyBarChartPlugins" [legend]="surveyBarChartLegend" [chartType]="surveyBarChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="tgl-reg" role="tabpanel" aria-labelledby="tgl-reg-tab">
+                  <canvas class="month-barchart-size" baseChart [datasets]="surveyBarChartData4" [labels]="surveyBarChartLabels" [options]="surveyBarChartOptions4" [plugins]="surveyBarChartPlugins" [legend]="surveyBarChartLegend" [chartType]="surveyBarChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="tgl-consmr" role="tabpanel" aria-labelledby="tgl-consmr-tab">
+                  <canvas class="month-barchart-size" baseChart [datasets]="surveyBarChartData2" [labels]="surveyBarChartLabels" [options]="surveyBarChartOptions2" [plugins]="surveyBarChartPlugins" [legend]="surveyBarChartLegend" [chartType]="surveyBarChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="tgl-invoice" role="tabpanel" aria-labelledby="tgl-invoice-tab">
+                  <canvas class="month-barchart-size" baseChart [datasets]="surveyBarChartData3" [labels]="surveyBarChartLabels" [options]="surveyBarChartOptions3" [plugins]="surveyBarChartPlugins" [legend]="surveyBarChartLegend" [chartType]="surveyBarChartType">
+                  </canvas>
+                </div>
+                <div class="custom-tab-pane tab-pane fade" id="tgl-payment" role="tabpanel" aria-labelledby="tgl-payment-tab">
+                  <canvas class="month-barchart-size" baseChart [datasets]="surveyBarChartData5" [labels]="surveyBarChartLabels" [options]="surveyBarChartOptions4" [plugins]="surveyBarChartPlugins" [legend]="surveyBarChartLegend" [chartType]="surveyBarChartType">
+                  </canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+  
+      <div class="col-3">
+  
+        <div class="dash-detls-wrap inner-wrap h-100">
+          
+          <div class="row">
+            <div class="col-12">
+              <h4 class="ttl">Operators</h4>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-12">
+              <h4 class="m-ttl">Status</h4>
+            </div>
+            <div class="col-6">
+              <h5 class="sttl">31</h5>
+              <p class="p p-13">Total</p>
+            </div>
+            <div class="col-6">
+              <h5 class="sttl" style="margin-left: -48px;">27</h5>
+              <p class="p p-13" style="margin-left: -48px;">Active</p>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-12">
+              <h4 class="m-ttl">Top 3 Counties</h4>
+            </div>
+            <div class="col-4">
+              <h5 class="sttl">09</h5>
+              <p class="p p-13" style="word-wrap: break-word;">Bloomingburg</p>
+            </div>
+            <div class="col-4">
+              <h5 class="sttl">07</h5>
+              <p class="p p-13" style="word-wrap: break-word;">Poughkeepsie</p>
+            </div>
+            <div class="col-4">
+              <h5 class="sttl">04</h5>
+              <p class="p p-13" style="margin-left: -15px;">Monticello</p>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-12">
+              <h4 class="m-ttl">Top 3 Skills</h4>
+            </div>
+            <div class="col-4">
+              <h5 class="sttl">10</h5>
+              <p class="p p-13" style="word-wrap: break-word;">Grade IIA/C/D</p>
+            </div>
+            <div class="col-4">
+              <h5 class="sttl">06</h5>
+              <p class="p p-13" style="word-wrap: break-word;">Grade 2A</p>
+            </div>
+            <div class="col-4">
+              <h5 class="sttl">04</h5>
+              <p class="p p-13" style="word-wrap: break-word;">Comp IIA Water</p>
+            </div>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+  </section>
+  
+  
+  

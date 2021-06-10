@@ -1,0 +1,56 @@
+<div class="dropdown bento-dropdown">
+    <button class="btn bentobttn dropdown-toggle" type="button" id="bentoDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="bentoDropdownMenu">
+      <div class="dropdown-menu-container">
+        <div class="row">
+          <div class="col-9 px-0 cust-col-9">            
+            <div class="bento-dropdown-lt">
+              <ngx-simplebar [options]="menuScrollOptions" class="bento-dropdown-lt-scroll">                
+                <div class="row" *ngIf="finalModuleList != ''">
+                  <div class="col-sm-4" *ngFor="let module of finalModuleList">
+                    <div class="media bento-menu-blk" (mouseover)="mouseHovered(module.name)" (click)="selectModuleId(module.id_string,module.name,module.role_id_string)">
+                      <div class="img-blk align-self-center">
+                        <img src="{{module.img}}" alt="">
+                      </div>                        
+                      <div class="media-body align-self-center" *ngIf="module.name !='DemoM'">
+                        <h6 class="h6">{{module?.name}}</h6>
+                        <p class="p p-12">{{module?.short_desc}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ngx-simplebar>              
+            </div>
+          </div>
+          <div class="col-3 px-0 cust-col-3">
+            <div class="bento-dropdown-rt">
+              <div class="row" >
+                <div class="col-12">
+                  <h3 class="h3">{{selectedVal?.label}}</h3>
+                  <p class="p">{{selectedVal?.long_desc}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="img-blk">
+              <img src="{{selectedVal?.img1}}" alt="">                
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>    
+  </div>
+
+ 
+ 
+  <div class="row" >
+    <div class="col">
+        <!-- <ngb-toast class="success" *ngIf="showErrorMsg"  header="dwd" [delay]="4000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="showtoast = false; autohide = true">
+            <div>Oops!! Your Token Is Expired Please LogIn Again.. </div>
+            <button style="height:10px;
+            width:10px;" [routerLink]="'/login'">Ok</button>
+        </ngb-toast> -->
+        
+    </div>
+  </div>

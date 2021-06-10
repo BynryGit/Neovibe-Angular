@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="meter-type-tab" data-toggle="tab" href="#meter_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="meter-activity-tab" data-toggle="tab" href="#meter_activity" role="tab"
+                        aria-controls="country" aria-selected="false">Activity</a>
+                    <a class="nav-item nav-link st" id="meter-route-tab" data-toggle="tab" href="#meter_route"
+                        role="tab" aria-controls="state" aria-selected="true">Route</a> 
+                    <a class="nav-item nav-link st" id="meter-bill-tab" data-toggle="tab" href="#meter_bill"
+                        role="tab" aria-controls="state" aria-selected="true">Bill Cycles</a>    
+                    <a class="nav-item nav-link st" id="meter-read-tab" data-toggle="tab" href="#meter_assignments"
+                        role="tab" aria-controls="state" aria-selected="true">Reading Assignments</a>       
+                    <a class="nav-item nav-link st" id="meter-validate-tab" data-toggle="tab" href="#meter_validation"
+                        role="tab" aria-controls="state" aria-selected="true">Validation Assignments</a>                       
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-meter-data-admin-type [operator]="testing()"></app-meter-data-admin-type>
+<app-meter-data-admin-validation-assignments [operator]="testing()"></app-meter-data-admin-validation-assignments>
+<app-meter-data-admin-route [operator]="testing()"></app-meter-data-admin-route>
+<app-meter-data-admin-reading-assignments [operator]="testing()"></app-meter-data-admin-reading-assignments>
+<app-meter-data-admin-bill-cycle [operator]="testing()"></app-meter-data-admin-bill-cycle>
+<app-meter-data-admin-activity [operator]="testing()"></app-meter-data-admin-activity>

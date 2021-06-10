@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="email-template-tab" data-toggle="tab" href="#email_template"
+                        role="tab" aria-controls="region" aria-selected="true">Email Template</a>
+                    <a class="nav-item nav-link st" id="sms-template-tab" data-toggle="tab" href="#sms_template" role="tab"
+                        aria-controls="country" aria-selected="false">SMS Template</a>
+                    <a class="nav-item nav-link st" id="notifications-template-tab" data-toggle="tab" href="#notifications_template" role="tab"
+                        aria-controls="country" aria-selected="false">Notifications Template</a>
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-email-template [operator]="testing()"></app-email-template>
+<app-sms-template [operator]="testing()"></app-sms-template>
+<app-notifications-template [operator]="testing()"></app-notifications-template>
+

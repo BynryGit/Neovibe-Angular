@@ -1,0 +1,118 @@
+<!-- Consumer outage Modal -->
+<div class="pr-modal">
+  <div class="modal right fade" id="outageModal" data-backdrop="false" tabindex="-1" role="dialog"
+    aria-labelledby="outageModalLabel">
+    <div class="modal-dialog" role="document" style="min-width:570px;">
+      <div class="modal-content">
+        <div class="modal-header pr-modal-header">
+          <h4 class="modal-title" id="outageModalLabel">Outage/Emergency</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+        </div>
+        <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="inner-form">
+                <form [formGroup]="addOutageForm">
+                  <ng-container>
+                    <!-- Select product Option -->
+                    <div class="form-row" *ngIf="product_list.length != 0">
+                      <div class="col">
+                        <label>Select product</label>
+                        <ng-select [items]="product_list"
+                        bindLabel="name"
+                        placeholder="Select product"
+                        appendTo="body"
+                        name="name"
+                        formControlName="product"
+                        [clearable]="false"
+                        (change)="filterSubCategory()"
+                        [ngClass]="{'is-invalid':outageFormSubmitted && af.product.errors}">
+                        </ng-select>
+                        <div *ngIf="outageFormSubmitted && af.product.errors" class="invalid-feedback">
+                          <div *ngIf="af.product.errors.required">Please select the product first </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select product end  -->
+
+                    <!-- Select product Option -->
+                    <div class="form-row" *ngIf="categoryList.length != 0">
+                      <div class="col">
+                        <label>Select category</label>
+                        <ng-select [items]="categoryList" 
+                        bindLabel="name" 
+                        placeholder="Select category" 
+                        appendTo="body"
+                        name="name" 
+                        formControlName="category" 
+                        [clearable]="false"
+                        [ngClass]="{'is-invalid':outageFormSubmitted && af.category.errors}">
+                        </ng-select>
+                        <div *ngIf="outageFormSubmitted && af.category.errors" class="invalid-feedback">
+                          <div *ngIf="af.category.errors.required">Please select category</div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- select product end  -->
+
+
+                    <div class="form-group">
+                      <div class="col outerOutage">
+                        <label class="OutageLabel">Outage Date</label>
+                        <input type="text" class="form-control outageDateField" [owlDateTime]="dt1"
+                          [owlDateTimeTrigger]="dt1" placeholder="Date Time" formControlName="date_time">
+                        <owl-date-time #dt1></owl-date-time>
+                        <div *ngIf="outageFormSubmitted && af.date_time.errors" class="invalid-feedback">
+                          <div *ngIf="af.date_time.errors.required">Please select Date and Time</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- outage remark  -->
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Remark</label>
+                        <textarea rows="4" class="form-control big-textarea text_area_style" name="add_description"
+                          placeholder="Enter consumer remark" formControlName="user_remark"
+                          id="add_description_outage"></textarea>
+                      </div>
+                    </div>
+                    <!-- outage remark end  -->
+                  </ng-container>
+                  <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                      <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                          aria-label="Close">Cancel</button>
+                      </div>
+                      <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddOutageFormSubmit()">Submit</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </ngx-simplebar>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Consumer outage Modal -->
+
+<div class="row">
+  <div class="col">
+
+      <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+          (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+          (hide)="showtoast = false; autohide = true">
+          <div>outage is successfully reported !!</div><br>
+      </ngb-toast>
+      <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+          (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+          (hide)="showexceptiontoast = false; autohide = true">
+          <div>{{ exception_message }}</div><br>
+      </ngb-toast>
+  </div>
+</div>

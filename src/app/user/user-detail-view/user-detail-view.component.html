@@ -1,0 +1,478 @@
+<section class="pr-section applicant-details-sec">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <button class="btn bttn-transparent bttn-back d-inline-block" [routerLink]="['/user']"></button>
+            <div class="inner-page-title d-inline-block"><h4 class="h4">User details </h4></div>
+        </div>
+        <div class="col-6">
+            <div class="inner-page-pagination">
+                <nav class="">
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="/user/details">Previous<button class="btn bttn-prev"><fa-icon [icon]="faChevronLeft"></fa-icon></button></a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="/user/details"><button class="btn bttn-next"><fa-icon [icon]="faChevronRight"></fa-icon></button>Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto pr-0">
+            <div class="applicant-block-lt inner-wrap">
+                <div class="applicant-block-lt-header">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <div class="badge badge-label-success">{{basicDetails?.status?.status}}</div>
+                        </div>
+                        <div class="col-auto align-self-center">
+                            <h4 class="sh-ttl">User ID: {{basicDetails?.user_id}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="dtls-block">
+                    <div class="block-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="profile-card st">
+                                    <div class="media">
+                                        <div class="img-blk">
+                                            <img class="img-abs st" src="../../assets/images/john-doe.png" alt="img">
+                                        </div>                                                                        
+                                        <div class="media-body">
+                                            <span class="edt" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [routerLink]="['/user/add-user-details']"
+                                            [openDelay]="300" [closeDelay]="500" container="body"><i class="icons8 icons8-edit"></i></span>
+                                            <h5 style="word-wrap: break-word;">{{basicDetails?.first_name}}</h5>
+                                            <p class="p">{{basicDetails?.phone_mobile}}</p>
+                                            <p class="p eml" style="word-wrap: break-word;">{{basicDetails?.email}}</p>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+
+                <div class="info-block">
+                    <div class="applicant-data">
+
+                        <div class="row">
+                            <div class="col-6">
+                                <p class="p p-13 text-truncate">Type</p>
+                                <h6 class="h6">{{basicDetails?.user_type?.name}}</h6>
+                              </div>
+                            <div class="col-6">
+                                <p class="p p-13">Sub Type</p>
+                                <h6 class="h6">{{basicDetails?.user_sub_type?.name}}</h6>
+                            </div>
+                            <div class="col-6" >
+                                <p class="p p-13">Role</p>
+                                <h6 class="h6" *ngFor="let roles of rolePrivilages">{{roles?.role}}</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Form Factor</p>
+                                <h6 class="h6">{{basicDetails?.form_factor?.name}}</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Utility</p>
+                                <h6 class="h6" *ngFor="let utility of utilitysList; let i = index">{{i+1}}. {{utility.name}}</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Tenant</p>
+                                <h6 class="h6">{{basicDetails?.tenant.name}}</h6>
+                            </div>
+                            <div class="col-6" *ngIf="basicDetails?.city?.name != null">
+                                <p class="p p-13">County</p>
+                                <h6 class="h6">{{basicDetails?.city?.name}}</h6>
+                            </div>
+                            <div class="col-6" *ngIf="basicDetails?.department?.name != null">
+                                <p class="p p-13">Department</p>
+                                <h6 class="h6">{{basicDetails?.department?.name}}</h6>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12" >
+                                <div class="title-divider">Bank Details</div>
+                            </div>
+                        </div> 
+
+                        <div class="row ">
+                            <div class="col-6">
+                                <p class="p p-13 text-truncate">Bank Name</p>
+                                <h6 class="h6">Axis</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Account No</p>
+                                <h6 class="h6">12345678</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13 text-truncate">IFSC Code</p>
+                                <h6 class="h6">Axis234567</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Pan Card</p>
+                                <h6 class="h6">ATM12345678</h6>
+                            </div>
+                        </div>
+
+                        <div class="row" *ngIf="basicDetails?.user_sub_type.name == 'vendor'">
+                            <div class="col-12" >
+                                <div class="title-divider">Vendor Details</div>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="basicDetails?.user_sub_type.name == 'vendor'">
+                            <div class="col-6">
+                                <p class="p p-13">Name</p>
+                                <h6 class="h6">{{basicDetails?.supplier?.name}}</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Contact </p>
+                                <h6 class="h6">{{basicDetails?.supplier?.phone_no}}</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Email ID</p>
+                                <h6 class="h6">{{basicDetails?.supplier?.email_id}}</h6>
+                            </div>
+                            <div class="col-6">
+                                <p class="p p-13">Address</p>
+                                <h6 class="h6">{{basicDetails?.supplier?.address_line_1}}</h6>
+                            </div>
+                        </div>
+
+                    </div>
+                     
+                </div>
+            </div>
+        </div>
+        <div class="col"> 
+            <div class="applicant-block-rt inner-wrap">
+                <div class="nav-block">
+                    <nav class="inner-form-tabs">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link st active" id="nav-priv-dtls-tab" data-toggle="tab" href="#nav-priv-dtls"
+                                role="tab" aria-controls="nav-priv-dtls" aria-selected="true">Privilage</a>
+                            <a class="nav-item nav-link st" id="nav-skill-tab" data-toggle="tab" href="#nav-skill" role="tab"
+                                aria-controls="nav-skill" aria-selected="false">Skill</a>
+                            <a class="nav-item nav-link st" id="nav-area-tab" data-toggle="tab" href="#nav-area"
+                                role="tab" aria-controls="nav-area" aria-selected="true">Area</a>
+                            <a class="nav-item nav-link st" id="nav-doc-tab" data-toggle="tab" href="#nav-doc" role="tab"
+                                aria-controls="nav-doc" aria-selected="false">Document</a>
+                            <a class="nav-item nav-link st" id="nav-notes-tab" data-toggle="tab" href="#nav-notes" role="tab"
+                                aria-controls="nav-notes" aria-selected="false">Note</a>
+                            <a class="nav-item nav-link st" id="nav-timeline-tab" data-toggle="tab" href="#nav-timeline" role="tab"
+                                aria-controls="nav-timeline" aria-selected="false">Life Cycle</a>
+                        </div>
+                    </nav>
+                </div>
+
+                <div class="applicant-block-rt-body">
+                    <div class="tab-content" >
+
+                        <div class="tab-pane fade show active" id="nav-priv-dtls" role="tabpanel" aria-labelledby="nav-priv-dtls-tab">
+                            <div class="block-body inner-form">
+
+                                <div class="row">
+                                    <div class="col-4" *ngFor="let role of rolePrivilages">
+                                        <div class="privillages-card st mt-0">
+                                            <div class="media">
+                                                <fa-icon [icon]="faPen" tooltipClass="pr-tooltip" placement="left" ngbTooltip="Edit" [openDelay]="300" [closeDelay]="500" data-toggle="modal" data-target="#addRoleModal"></fa-icon>
+                                                <div class="img-blk">
+                                                    <img class="img-abs st" src="../../../assets/images/avatar.png" alt="img">
+                                                </div>                                                                        
+                                                <div class="media-body">
+                                                  <h5>{{role.role_ID}}</h5>
+                                                  <p class="p p-13">{{role.role}}</p>
+                                                  <button class="btn txt-link txt-link-view">Can View</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="bttn-toggle">
+                                            <div class="toggle-button-wrap">
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="dta-tab" data-toggle="tab" href="#dta" role="tab"
+                                                            aria-controls="this-month" aria-selected="true">Data</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="functional-tab" data-toggle="tab" href="#functional" role="tab"
+                                                            aria-controls="last-month" aria-selected="false">Functional</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+
+                                <div class="row">
+                                    <div class="col-12">
+                                      <div class="tab-content" id="myTabContent">
+                                        <div class="tab-pane fade show active" id="dta" role="tabpanel" aria-labelledby="dta-tab">
+
+                                            <div class="form-row">
+                                                <div class="col-4">
+                                                    <label>Select Utility</label>
+                                                    <ng-select [items]="utilitysList" bindLabel="name" appendTo="body" placeholder="Select Utility">
+                                                    </ng-select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-4" *ngFor="let utility of utilitysList">
+                                                    <div class="utility-card st active">
+                                                        <h5 class="ttl">{{utility.name}}</h5>
+                                                        <p class="p p-13">Created On<span class="dt">{{utility.created_date}}</span></p>
+                                                        <svg class="icon st" width="25" height="32" viewBox="0 0 25 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <g opacity="0.6">
+                                                            <path d="M13.8879 0.00191313C13.6838 0.012901 13.4871 0.082318 13.3213 0.2019C3.54327 7.4449 0 12.819 0 20.0897C0 22.5264 1.77224 26.6337 3.44416 28.6001C5.11608 30.5665 7.55079 31.9999 10.3993 31.9999C10.6158 32.003 10.8281 31.9401 11.008 31.8196C11.188 31.6991 11.327 31.5267 11.4066 31.3254C11.4861 31.124 11.5026 30.9031 11.4536 30.6922C11.4047 30.4813 11.2927 30.2902 11.1326 30.1445C10.2134 29.2847 9.33267 27.5836 9.33267 25.6003C9.33267 24.176 9.93517 22.5038 11.4437 20.7228C11.5749 21.4206 11.8016 22.0521 12.1103 22.6005C12.7897 23.8076 13.7317 24.6552 14.4879 25.4114C15.2441 26.1676 15.7808 26.8091 15.9545 27.4557C16.1281 28.1023 16.063 28.9275 15.1768 30.3778C15.0781 30.5395 15.0243 30.7246 15.0209 30.914C15.0175 31.1035 15.0646 31.2904 15.1574 31.4555C15.2502 31.6207 15.3853 31.7582 15.5488 31.8539C15.7123 31.9496 15.8984 32 16.0878 31.9999C21.0169 31.9999 24.9761 27.1865 24.9761 21.6894C24.9761 17.82 22.9674 15.3008 20.8431 12.5011C18.7187 9.70149 16.3651 6.49409 14.9879 0.812973C14.9285 0.57041 14.7858 0.356377 14.5848 0.208167C14.3839 0.0599575 14.1372 -0.0130331 13.8879 0.00191313ZM13.4102 2.8684C14.923 7.94044 17.2149 11.234 19.1543 13.7899C21.2964 16.613 22.8429 18.5404 22.8429 21.6894C22.8429 25.3653 20.6163 28.4844 17.8877 29.4889C18.167 28.5482 18.2183 27.6761 18.0099 26.9002C17.6614 25.6026 16.7982 24.7108 15.9989 23.9115C15.1996 23.1122 14.4307 22.3822 13.9657 21.5561C13.5007 20.73 13.2671 19.8166 13.5769 18.3452C13.6223 18.1266 13.5981 17.8992 13.5074 17.6951C13.4168 17.491 13.2645 17.3205 13.0718 17.2076C12.8791 17.0947 12.6559 17.0451 12.4336 17.0658C12.2112 17.0866 12.001 17.1765 11.8325 17.323C8.68076 20.035 7.19948 22.9187 7.19948 25.6003C7.19948 26.9983 7.52523 28.2595 8.03276 29.3556C6.90252 28.9007 5.89093 28.1793 5.07739 27.2224C3.73053 25.6383 2.1332 21.9387 2.1332 20.0897C2.1332 13.634 5.04177 9.44563 13.4102 2.8684Z" fill="#B0B4CD"/>
+                                                            </g>
+                                                        </svg>
+                                                    </div>
+                                                </div>                                                
+                                            </div>                                          
+
+                                        </div>
+
+                                        <div class="tab-pane fade" id="functional" role="tabpanel" aria-labelledby="functional-tab">
+
+                                            <div class="row">
+                                                <div class="col-12" *ngFor="let moduleList of moduleLists">
+
+                                                    <ngb-accordion [closeOthers]="true" >
+                                                        <ngb-panel *ngFor="let module of moduleList">
+                                                            <ng-template ngbPanelHeader let-opened="opened" >
+                                                                <button ngbPanelToggle class="btn btn-link stretched-link st" *ngIf="module.name != 'DemoM'">{{module.name}}</button>
+                                                            </ng-template>
+                                                            <ng-template ngbPanelContent>
+                                                                <div class="data-block" *ngFor="let subModule of module.sub_module">
+                                                                    <div class="row data-row">
+                                                                        <div class="col align-self-center">
+                                                                            <p class="p p-13">{{subModule.name}}</p>
+                                                                        </div>
+                                                                        <div class="col align-self-center" *ngFor="let privilages of subModule.privilege">
+                                                                            <p class="p p-12 p-info view">{{privilages.name}}</p>
+                                                                        </div>                                                                        
+                                                                    </div>                                                                    
+                                                                </div>
+                                                            </ng-template>
+                                                        </ngb-panel>
+                                                    </ngb-accordion>
+                                                </div>
+                                            </div>
+                                            <!-- <div class="row">
+                                                <div class="col-12">
+                                                    <div class="add-module-btn-wrap">
+                                                        <button type="button" class="btn bttn-transparent bttn-add"  role="button" data-toggle="modal" data-target="#addModuleModal">Add Module</button>
+                                                    </div>                                                    
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>                                
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-skill" role="tabpanel" aria-labelledby="nav-skill-tab">
+                            <div class="block-body inner-form">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="applicant-data">
+                                            
+                                            <div class="row">
+                                                <div class="col-12 text-right">
+                                                    <button class="btn btn-secondary st" (click)="addskills()"><fa-icon [icon]="faPlus"></fa-icon>Add Skills</button>
+                                                </div>
+                                            </div>
+                                            <form name="form" [formGroup]="skillDetailsForm" (ngSubmit)="onSillDetailsFormSubmit()">
+                                            <ng-container *ngIf="showskill">
+                                               
+                                                <div class="form-row">
+                                                    <div class="col-7" *ngIf="skillListByUtilitys.length !=0">
+                                                        <label>Select Skill</label>
+                                                        <ng-select [multiple]="true" [items]="skillListByUtilitys" bindLabel="skill" appendTo="body" placeholder="Select Skill" formControlName="skillControl">
+                                                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                                <div class="custom-control custom-checkbox">
+                                                                    <input type="checkbox" id="item-{{index}}" class="custom-control-input" />
+                                                                    <label class="custom-control-label" for="item-{{index}}"></label>
+                                                                    {{item.skill}}
+                                                                </div>
+                                                            </ng-template>
+                                                        </ng-select><br>
+                                                        <div class="row">
+                                                            <div class="col-4" >
+                                                                <button class="btn btn-outline-light3 st" (click)="toggle()">Cancel</button>
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <button class="btn btn-secondary st" (click)="toggle()">Add Skill</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
+                                                </div>
+                                            </ng-container>  
+                                        </form>
+
+                                            <div class="row" >
+                                                <div class="col-12" >
+                                                    <div class="skills-wrap" >
+                                                        <span class="tag tag-colr2" *ngFor="let skills of userSkills">{{skills.skill}}
+                                                            <a class="close">&times;</a>
+                                                        </span>                                                  
+                                                    </div>
+                                                </div>
+                                            </div>                                          
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                           
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-area" role="tabpanel" aria-labelledby="nav-area-tab">
+                            <div class="block-body inner-form">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="applicant-data">
+                                            <form name="form" [formGroup]="areaDetailsForm" (ngSubmit)="onAreaDetailsFormSubmit()">
+                                            <div class="form-row">
+                                                <div class="col-6" *ngIf="areaListByUtilitys.length !=0">
+                                                    <label>Select Area</label>
+                                                    <ng-select [multiple]="true" [items]="areaListByUtilitys" bindLabel="name" appendTo="body" placeholder="Select Area" formControlName="areaControl">
+                                                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input type="checkbox" id="item-{{index}}" class="custom-control-input" />
+                                                                <label class="custom-control-label" for="item-{{index}}"></label>
+                                                                {{item.name}}
+                                                            </div>
+                                                        </ng-template>
+                                                    </ng-select><br>
+                                                </div>  
+                                                <div class="col-3" style="margin-top: 25px;">
+                                                    <button class="btn btn-secondary st" (click)="toggle()">Add Area</button>
+                                                </div>
+                                                <div class="col-3" style="margin-top: 25px;">
+                                                    <button class="btn btn-outline-light3 st" (click)="toggle()">Cancel</button>
+                                                    
+                                                </div>                                                  
+                                            </div>
+                                            </form>
+                                            <div class="row">
+                                                <div class="col-3 pr-1">
+                                                    <div class="address-blk">
+                                                        <button class="btn bttn-sm bttn-white rounded bttn-billing st">Pune</button>
+                                                        <ul class="list-unstyled address-list spaced-address-list" *ngFor="let area of userArea">
+                                                            <li>{{area.name}}</li>
+                                                        </ul>
+                                                        <a class="btn bttn-txt text-primary" href="#"><fa-icon [icon]="faMapMarkerAlt"></fa-icon>View on Map</a>                                          
+                                                    </div>
+                                                </div>
+                                                <div class="col-9">
+                                                    <div class="map-wrap">
+                                                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3750.3651682590316!2d73.73074071491483!3d19.951139486591934!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bddecb29e50c0df%3A0x2a54768d77a5bfd3!2sPrismic%20Reflections%C2%AE!5e0!3m2!1sen!2sin!4v1590572082050!5m2!1sen!2sin" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-doc" role="tabpanel" aria-labelledby="nav-doc-tab">
+                            <div class="block-body inner-form">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="applicant-data">
+
+                                            <div class="form-row">
+                                                <div class="col-6">
+                                                    <label>Document Type</label>
+                                                    <!-- <ng-select [items]="docType" bindLabel="name" appendTo="body" placeholder="Select Document Type" [(ngModel)]="selectedDocType" name="name">
+                                                    </ng-select> -->
+                                                </div>
+                                            </div>
+
+                                            <div class="main">
+                                                <input (change)="onFilePicked($event)" placeholder="Upload File" type="file" />
+                                                <button class="btn btn-outline-secondary st" style="min-width: 175px;"(click)="onFileUpload()" class="myButton">Upload File</button>
+                                                <p *ngIf="errorMsg" style="color: red;"> Please Select file</p>
+                                              </div>
+
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="upload-wrapper">
+                                                        <div class="uploaded-items">
+                                                            <ul class="list-group list-group-horizontal-sm">
+                                                                <li class="list-group-item">
+                                                                    <div class="thumbnail">
+                                                                        <img class="st img-abs" src="../../assets/images/upload1.jpg" alt="img">
+                                                                    </div>
+                                                                    <!-- <span class="btn bttn-remove">x</span> -->
+                                                                    <p class="p p-12 file-name">Personal Details</p>
+                                                                </li>
+                                                                <li class="list-group-item">
+                                                                    <div class="thumbnail">
+                                                                        <img class="st img-abs" src="../../assets/images/upload2.jpg" alt="img">
+                                                                    </div>
+                                                                    <!-- <span class="btn bttn-remove">x</span> -->
+                                                                    <p class="p p-12 file-name">Personal Details</p>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
+                            <app-note-details [data]="notes"></app-note-details>
+                            <div class="row">
+                                <div class="col">
+                                    <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+                                        <div>Note successfully added!!</div>
+                                    </ngb-toast>
+                                    <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+                                        <div>Note Already Exists!!</div>
+                                    </ngb-toast>
+                                </div>
+                            </div>                          
+                        </div>
+
+                        <!-- Tab panel for Timeline detail start -->
+                        <div class="tab-pane fade" id="nav-timeline" role="tabpanel" aria-labelledby="nav-timeline-tab">
+                            <app-timeline-details [data]="timeLine"></app-timeline-details>
+                        </div>
+                        <!-- Tab panel for Timeline detail end -->
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="skillAddMsg" header="dwd" [delay]="4000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="skillAddMsg = false; autohide = true">
+            <div>Skill Successfully Added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="areaAddMsg" header="dwd" [delay]="4000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="areaAddMsg = false; autohide = true">
+            <div>Area Successfully Added!!</div>
+        </ngb-toast>
+        
+    </div>
+</div>

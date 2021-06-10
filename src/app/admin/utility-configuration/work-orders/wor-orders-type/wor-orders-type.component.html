@@ -1,0 +1,1101 @@
+<div class="tab-pane fade" id="work_type" role="tabpanel" aria-labelledby="work-type-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Work Order Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addwt">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table *ngIf="showTable" datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet | filter:searchText">
+                            <td>{{item.name}}</td>
+                            <td>{{item.utility_work_order_sub_type.utility_work_order_type.name}}</td>
+                            <td>{{item.utility_work_order_sub_type.name}}</td>
+                            <td>Admin</td>
+                            <td>{{item.created_date | date : 'dd MMM yy'}}</td>
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <!-- <li class="list-group-item st" (click)="onCardClickEvent(item)"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editwt">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <li class="list-group-item st" ngbTooltip="View"
+                                        [openDelay]="200" [closeDelay]="200">
+                                        <i class="icons8 icons8-eye"></i>
+                                    </li> -->
+                                    <ul class="list-group list-group-horizontal action-list">
+								<li class="list-group-item st" ngbTooltip="View"
+									[openDelay]="200" (click)="onViewClickEvent(item)" [closeDelay]="200" role="button" data-toggle="modal" data-target="#view_work_order">
+									<i class="icons8 icons8-eye"></i>
+								</li>
+								<li class="list-group-item st" (click)="onCardClickEvent(item)"  ngbTooltip="Edit"
+									[openDelay]="200" [closeDelay]="200" role="button" data-toggle="modal" data-target="#editwt">
+									<fa-icon [icon]="faPen"></fa-icon>
+								</li>
+							</ul>
+							<!-- <ul class="list-group list-group-horizontal action-list" *ngIf="onlyViewPrivilege">
+								<li class="list-group-item st" ngbTooltip="View"
+									[openDelay]="200" [closeDelay]="200">
+									<i class="icons8 icons8-eye"></i>
+								</li>
+
+							</ul> -->
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+</div>
+<!--Work Order Type Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="addwt" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:720px;">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add Work Order Details</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Work Order Name</label>
+                                        <input type="text" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.nameControl.errors }" class="form-control" placeholder="Enter Work Order Name" name="add_service_name" formControlName="nameControl"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.nameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.nameControl.errors.required">{{message.workOrderNameCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Work Order Type</label>
+                                        <ng-select appendTo="body" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.workOrderTypeControl.errors }" [items]="utility_work_orderTypeList.results" bindLabel="name" bindvalue="id_string" (change)="workOrderTypeChange()" placeholder="Select Work Order Type" name="select_work_order_type" formControlName="workOrderTypeControl">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.workOrderTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.workOrderTypeControl.errors.required">{{message.workOrderTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Work Order Sub Type</label>
+                                        <ng-select appendTo="body" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.workOrderSubTypeControl.errors }" [items]="utility_work_orderSubTypeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Work Order SubType" name="select_work_order_sub_type" formControlName="workOrderSubTypeControl">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.workOrderSubTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.workOrderSubTypeControl.errors.required">{{message.workOrderSubTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Products</label>
+                                            <ng-select [items]="productList.results" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.product_details.errors }" bindLabel="name" [multiple]="true" formControlName="product_details" bindvalue="id_string" placeholder="Select Service" appendTo="body">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.product_details.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.product_details.errors.required">{{message.productCantBeEmpty}}</div>
+                                            </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Description</label>
+                                        <input type="text" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.descriptionControl.errors }" class="form-control big-textarea" placeholder="Enter Service Description" name="add_service_description" formControlName="descriptionControl"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.descriptionControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.descriptionControl.errors.required">{{message.workOrderDescriptionCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Video Link</label>
+                                        <input type="text" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.urlControl.errors }" class="form-control" placeholder="Enter Vedio URL" name="add_service_vedio" formControlName="urlControl"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.urlControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.urlControl.errors.required">{{message.videoCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">File Upload</label>
+                                        <div class="upload-wrapper custom-dropzone" ngx-dropzone
+                                        [accept]="'image/*'" (change)="onSelect($event)">
+                                        <div class="upload-inner">
+                                            <div class="media">
+                                                <div class="media-body single">
+                                                    <ngx-dropzone-label>
+                                                        <div class="drag-drop">
+                                                            <img class="st img-fluid" src="../../assets/images/icons/upload-icon.png" alt="upload">
+                                                            <p class="p p-13">Drag & Drop files here</p>
+                                                            <p class="p p-13 font-weight-normal">Or</p>
+                                                            <button class="btn bttn-uplaod bttn-txt st">Browse Files</button>
+                                                        </div>
+                                                    </ngx-dropzone-label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="uploaded-items">
+                                        <ul class="list-group list-group-horizontal-sm">
+                                            <ngx-dropzone-image-preview class="list-group-item" ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f" [removable]="true" (removed)="onRemove(f)">
+                                                <ngx-dropzone-label
+                                                    class="p p-12 file-name">{{ f.name }}
+                                                </ngx-dropzone-label>
+                                            </ngx-dropzone-image-preview>
+                                        </ul>
+                                    </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Instructions</label>
+                                        <input type="text" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.instructionsControl.errors }" class="form-control" placeholder="Enter Instructions" name="add_service_vedio" formControlName="instructionsControl"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.instructionsControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.instructionsControl.errors.required">{{message.instructionCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Rate</label>
+                                        <input type="number" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.rateControl.errors }" class="form-control" placeholder="Enter Rate" name="add_service_vedio" formControlName="rateControl"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.rateControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.rateControl.errors.required">{{message.rateCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Tax (%)</label>
+                                        <input type="number" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.taxControl.errors }" class="form-control" placeholder="Enter Tax" name="add_service_vedio" formControlName="taxControl"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.taxControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.taxControl.errors.required">{{message.taxCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Completion Time</label>
+                                        <ngb-timepicker name="time_add" formControlName="time_add" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.time_add.errors }"  [seconds]="seconds" [spinners]="spinners">
+                                        </ngb-timepicker>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.time_add.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.time_add.errors.required">{{message.timeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-sm">
+                                        <label class="required">Work Order Symbol</label>
+                                        <ng-select [items]="symbol" (change)="symbolChange()" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.symbol_details.errors }" bindLabel="name" formControlName="symbol_details" bindvalue="id_string" placeholder="Select Symbol" appendTo="body">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.symbol_details.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.symbol_details.errors.required">{{message.symbolCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm">
+                                        <label>Symbol View</label>
+                                        <div class="circle1">
+                                            <img class="st img-fluid" src="{{selectedSymbol}}" alt="img">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Rules</label>
+                                        <ng-select appendTo="body" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.rulesControl.errors }" [multiple]="true" [items]="service_rulesList.results" bindLabel="rule" bindvalue="id_string" placeholder="Select Service Rules" formControlName="rulesControl" name="add_service_rules">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.rulesControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.rulesControl.errors.required">{{message.ruleCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Skills</label>
+                                        <ng-select type="text" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.skill.errors }" [multiple]="true" [items]="utility_skillList.results" bindLabel="skill" bindvalue="id_string" placeholder="Select Skills" formControlName="skill" name="add_skill">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.skill.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.skill.errors.required">{{message.skillsCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-row" id="showDropdown">
+                                    <div class="col">
+                                        <form [formGroup]="addType" novalidate >
+                                            <label>Types</label>
+                                            <ng-select appendTo="body" [searchable]="false" [clearable]="false" formControlName="servicetype" placeholder="Select Type" name="add_service_type">
+                                                <ng-option [value]="'material'">Material</ng-option>
+                                                <ng-option [value]="'skill'">Skills</ng-option>
+                                                <ng-option [value]="'tasks'">Tasks</ng-option>
+                                            </ng-select>
+                                        </form>
+                                    </div>
+                                </div> -->
+                            </form>
+                            <div class="row">
+                                <div class="col-12" >
+                                    <div class="title-divider">
+                                        Material Details
+                                    </div>
+                                </div>
+                            </div>
+                            <form name="form" [formGroup]="materialTypeDetailsForm">
+                                <div formArrayName="materialTypeControl">
+                                        <div class="form-row" *ngFor="let item of MaterialType.controls; let i=index" [formGroupName]="i">
+                                            <div class="col-sm">
+                                                <label class="required">Material Type</label>
+                                                <ng-select [ngClass]="{ 'is-invalid': materialDetailsFormSubmitted && md.materialTypeControl.controls[i].controls.typeControl.errors}" (change)="onMaterialTypeChange()" appendTo="body" formControlName="typeControl" [items]="material_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Material Type" name="add_material_type">
+                                                </ng-select>
+                                                <div *ngIf="materialDetailsFormSubmitted && md.materialTypeControl.controls[i].controls.typeControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="md.materialTypeControl.controls[i].controls.typeControl.errors.required">Material Type can't be empty!</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm" *ngIf="material_subtypeList.length !=0">
+                                                <label class="required">Material SubType</label>
+                                                <ng-select [ngClass]="{ 'is-invalid': materialDetailsFormSubmitted && md.materialTypeControl.controls[i].controls.materialSubTypeControl.errors}" (change)="onMaterialSubTypeChange()" appendTo="body" formControlName="materialSubTypeControl" [items]="material_subtypeList.results" bindLabel="name" bindvalue="id_string"  placeholder="Select Material SubType" name="add_material_subtype">
+                                                </ng-select>
+                                                <div *ngIf="materialDetailsFormSubmitted && md.materialTypeControl.controls[i].controls.materialSubTypeControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="md.materialTypeControl.controls[i].controls.materialSubTypeControl.errors.required">Material Sub Type can't be empty!</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm" *ngIf="material_nameList.length !=0">
+                                                <label class="required">Material Name</label>
+                                                <ng-select appendTo="body" formControlName="materialNameControl" [items]="material_nameList.results" bindLabel="name" bindvalue="id_string" formControlName="material_name" placeholder="Select Material Name" name="adds_name">
+                                                </ng-select>
+                                                <div *ngIf="materialDetailsFormSubmitted && md.materialTypeControl.controls[i].controls.materialNameControl.errors" class="invalid-feedback">
+                                                    <div *ngIf="md.materialTypeControl.controls[i].controls.materialNameControl.errors.required">Material Name can't be empty!</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto align-self-center action-col">
+                                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeMaterialsRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="form-row">
+                                    <button class="btn bttn-transparent bttn-add" type="button" (click)="addMaterialTypeRow()">Add</button>
+                                </div>
+                            </form>
+                          
+                            <form name="form" [formGroup]="taskDetailsForm">
+                                <div formArrayName="taskControl">
+                                        <div class="form-row" *ngFor="let item of Tasks.controls; let i=index" [formGroupName]="i">
+                                            <div class="col">
+                                                <label class="required">Tasks</label>
+                                                <input  type="text" class="form-control" placeholder="Enter Tasks" formControlName="task" name="add_task"/>
+                                                <div style="font-size: 13px !important;
+                                                color: #e74a3b !important;" *ngIf="taskDetailsFormSubmitted && td.taskControl.controls[i].controls.task.errors">
+                                                    <div *ngIf="td.taskControl.controls[i].controls.task.errors.required">Task Name can't be empty!</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="col-auto align-self-center action-col">
+                                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeTasksRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label></label>
+                                            <button class="btn bttn-transparent bttn-add" type="button" (click)="addTaskRow()">Add Tasks</button>
+                                        </div>
+                                </div>
+                            </form>
+                            <div class="row">
+                                <div class="col-12" >
+                                    <div class="title-divider">
+                                        Parameter Details
+                                    </div>
+                                </div>
+                            </div>
+                            <form name="form" [formGroup]="parameterDetailsForm">
+                                <div formArrayName="parameterTypeControl">
+                                        <div class="form-row" *ngFor="let item of ParameterDetail.controls; let i=index" [formGroupName]="i">
+                                            <div class="col-sm">
+                                                <label class="required">Parameter Name</label>
+                                                <input  type="text" class="form-control" placeholder="Enter Parameter Name" formControlName="parameterName" name="add_parameter_name"/>
+                                                <div style="font-size: 13px !important;
+                                                color: #e74a3b !important;" *ngIf="parameterDetailsFormSubmitted && pd.parameterTypeControl.controls[i].controls.parameterName.errors">
+                                                    <div *ngIf="pd.parameterTypeControl.controls[i].controls.parameterName.errors.required">Parameter Name can't be empty!</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <label class="required">Parameter Unit</label>
+                                                <input type="text" class="form-control" placeholder="Enter Parameter Unit" formControlName="parameterUnit" name="add_parameter_unit"/>
+                                                <div style="font-size: 13px !important;
+                                                color: #e74a3b !important;" *ngIf="parameterDetailsFormSubmitted && pd.parameterTypeControl.controls[i].controls.parameterUnit.errors">
+                                                    <div *ngIf="pd.parameterTypeControl.controls[i].controls.parameterUnit.errors.required">Parameter Unit can't be empty!</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm">
+                                                <label class="required">Parameter Type</label>
+                                                <input type="text" class="form-control" placeholder="Enter Parameter Type" formControlName="parameterType" name="add_parameter_type"/>
+                                                <div style="font-size: 13px !important;
+                                                color: #e74a3b !important;" *ngIf="parameterDetailsFormSubmitted && pd.parameterTypeControl.controls[i].controls.parameterType.errors">
+                                                    <div *ngIf="pd.parameterTypeControl.controls[i].controls.parameterType.errors.required">Parameter Type can't be empty!</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto align-self-center action-col">
+                                                <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeParameterRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                            </div>
+                                        </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <button class="btn bttn-transparent bttn-add" type="button" (click)="addParameterDetailRow()">Add</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st"  (click)="onServiceSubmit()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Work Order Details added successfully!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Work Order Details Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+
+<!--Edit Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="editwt" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:720px;">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="editSubTypeModalLabel">Edit Work Order Details</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Work Order Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Work Order Name" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.nameControlEdit.errors }" name="add_service_name" formControlName="nameControlEdit"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.nameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.nameControlEdit.errors.required">{{message.workOrderNameCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Work Order Type</label>
+                                        <ng-select appendTo="body" [items]="utility_work_orderTypeList.results" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.workOrderTypeControlEdit.errors }" bindLabel="name" bindvalue="id_string" (change)="workOrderTypeEditChange()" placeholder="Select Work Order Type" name="select_work_order_type" formControlName="workOrderTypeControlEdit">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.workOrderTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.workOrderTypeControlEdit.errors.required">{{message.workOrderTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Work Order Sub Type</label>
+                                        <ng-select appendTo="body" [items]="utility_work_orderSubTypeList.results" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.workOrderSubTypeControlEdit.errors }" bindLabel="name" bindvalue="id_string" placeholder="Select Work Order SubType" name="select_work_order_sub_type" formControlName="workOrderSubTypeControlEdit">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.workOrderSubTypeControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.workOrderSubTypeControlEdit.errors.required">{{message.workOrderSubTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Products</label>
+                                            <ng-select [items]="productList.results" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.product_detailsEdit.errors }" bindLabel="name" [multiple]="true" formControlName="product_detailsEdit" bindvalue="id_string" placeholder="Select Product" appendTo="body">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormEditSubmitted && ade.product_detailsEdit.errors" class="invalid-feedback">
+                                                <div *ngIf="ade.product_detailsEdit.errors.required">{{message.productCantBeEmpty}}</div>
+                                            </div>
+                                    </div>
+                                </div>
+                               
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Description</label>
+                                        <input type="text" class="form-control big-textarea" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors }" placeholder="Enter Service Description" name="add_service_description" formControlName="descriptionControlEdit"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.descriptionControlEdit.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Video</label>
+                                        <input type="text" class="form-control" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.urlControlEdit.errors }" placeholder="Enter Vedio URL" name="add_service_vedio" formControlName="urlControlEdit"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.urlControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.urlControlEdit.errors.required">{{message.videoCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Rate</label>
+                                        <input type="number" class="form-control" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.rateControlEdit.errors }" placeholder="Enter Rate" name="add_service_vedio" formControlName="rateControlEdit"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.rateControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.rateControlEdit.errors.required">{{message.rateCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Tax (%)</label>
+                                        <input type="number" class="form-control" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.taxControlEdit.errors }" placeholder="Enter Tax" name="add_service_vedio" formControlName="taxControlEdit"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.taxControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.taxControlEdit.errors.required">{{message.taxCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Completion Time</label>
+                                        <ngb-timepicker name="time" formControlName="time" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.time.errors }"  [seconds]="seconds" [spinners]="spinners">
+                                        </ngb-timepicker>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.time.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.time.errors.required">{{message.timeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Rules</label>
+                                        <ng-select appendTo="body" [multiple]="true" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.rulesControlEdit.errors }" [items]="service_rulesList.results" bindLabel="rule" bindvalue="id_string" placeholder="Select Service Rules" formControlName="rulesControlEdit" name="add_service_rules">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.rulesControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.rulesControlEdit.errors.required">{{message.ruleCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Skills</label>
+                                        <ng-select type="text" [multiple]="true" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.skillEdit.errors }" [items]="utility_skillList.results" bindLabel="skill" bindvalue="id_string" placeholder="Select Skills" formControlName="skillEdit" name="add_skill">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.skillEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.skillEdit.errors.required">{{message.skillCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                                <div class="row">
+                                    <div class="col-12" >
+                                        <div class="title-divider">
+                                            Material Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <form name="form" [formGroup]="materialTypeDetailsFormEdit">
+                                    <div formArrayName="materialTypeControlEdit">
+                                            <div class="form-row" *ngFor="let item of MaterialTypeEdit.controls; let i=index" [formGroupName]="i">
+                                                <div class="col-sm">
+                                                    <label class="required">Material Type</label>
+                                                    <ng-select  [ngClass]="{ 'is-invalid': materialDetailsFormEditSubmitted && mde.materialTypeControlEdit.controls[i].controls.typeControlEdit.errors}" (change)="onMaterialTypeEditChange()" appendTo="body" formControlName="typeControlEdit" [items]="material_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Material Type" name="add_material_type">
+                                                    </ng-select>
+                                                    <div *ngIf="materialDetailsFormEditSubmitted && mde.materialTypeControlEdit.controls[i].controls.typeControlEdit.errors" class="invalid-feedback">
+                                                        <div *ngIf="mde.materialTypeControlEdit.controls[i].controls.typeControlEdit.errors.required">Material Type can't be empty!</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm" *ngIf="material_subtypeList.length !=0">
+                                                    <label class="required">Material SubType</label>
+                                                    <ng-select [ngClass]="{ 'is-invalid': materialDetailsFormEditSubmitted && mde.materialTypeControlEdit.controls[i].controls.materialSubTypeControlEdit.errors}" (change)="onMaterialSubTypeEditChange()" appendTo="body" formControlName="materialSubTypeControlEdit" [items]="material_subtypeList.results" bindLabel="name" bindvalue="id_string"  placeholder="Select Material SubType" name="add_material_subtype">
+                                                    </ng-select>
+                                                    <div *ngIf="materialDetailsFormEditSubmitted && mde.materialTypeControlEdit.controls[i].controls.materialSubTypeControlEdit.errors" class="invalid-feedback">
+                                                        <div *ngIf="mde.materialTypeControlEdit.controls[i].controls.materialSubTypeControlEdit.errors.required">Material Sub Type can't be empty!</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm" *ngIf="material_nameList.length !=0">
+                                                    <label class="required">Material Name</label>
+                                                    <ng-select [ngClass]="{ 'is-invalid': materialDetailsFormEditSubmitted && mde.materialTypeControlEdit.controls[i].controls.materialNameControlEdit.errors}" appendTo="body" formControlName="materialNameControlEdit" [items]="material_nameList.results" bindLabel="name" bindvalue="id_string" formControlName="material_nameEdit" placeholder="Select Material Name" name="adds_name">
+                                                    </ng-select>
+                                                    <div *ngIf="materialDetailsFormEditSubmitted && mde.materialTypeControlEdit.controls[i].controls.materialNameControlEdit.errors" class="invalid-feedback">
+                                                        <div *ngIf="mde.materialTypeControlEdit.controls[i].controls.materialNameControlEdit.errors.required">Material Name can't be empty!</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto align-self-center action-col">
+                                                    <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeMaterialsRowEdit(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <button class="btn bttn-transparent bttn-add" type="button" (click)="addMaterialTypeRowEdit()">Add</button>
+                                    </div>
+                                </form>
+                                <form name="form" [formGroup]="taskDetailsFormEdit">
+                                    <div formArrayName="taskControlEdit">
+                                            <div class="form-row" *ngFor="let item of TasksEdit.controls; let i=index" [formGroupName]="i">
+                                                <div class="col">
+                                                    <label class="required">Tasks</label>
+                                                    <input type="text" class="form-control" placeholder="Enter Tasks" formControlName="taskEdit" name="add_task"/>
+                                                    <div style="font-size: 13px !important;
+                                                    color: #e74a3b !important;" *ngIf="taskDetailsFormEditSubmitted && tde.taskControlEdit.controls[i].controls.taskEdit.errors">
+                                                        <div *ngIf="tde.taskControlEdit.controls[i].controls.taskEdit.errors.required">Task Name can't be empty!</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto align-self-center action-col">
+                                                    <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeTasksRowEdit(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label></label>
+                                                <button class="btn bttn-transparent bttn-add" type="button" (click)="addTaskRowEdit()">Add Tasks</button>
+                                            </div>
+                                    </div>
+                                </form>
+                                <div class="row">
+                                    <div class="col-12" >
+                                        <div class="title-divider">
+                                            Parameter Details
+                                        </div>
+                                    </div>
+                                </div>
+                                <form name="form" [formGroup]="parameterDetailsFormEdit">
+                                    <div formArrayName="parameterTypeControlEdit">
+                                            <div class="form-row" *ngFor="let item of ParameterDetailEdit.controls; let i=index" [formGroupName]="i">
+                                                <div class="col-sm">
+                                                    <label class="required">Parameter Name</label>
+                                                    <input type="text" class="form-control" placeholder="Enter Parameter Name" formControlName="parameterNameEdit" name="add_parameter_name"/>
+                                                    <div style="font-size: 13px !important;
+                                                    color: #e74a3b !important;" *ngIf="parameterDetailsFormEditSubmitted && pde.parameterTypeControlEdit.controls[i].controls.parameterNameEdit.errors">
+                                                        <div *ngIf="pde.parameterTypeControlEdit.controls[i].controls.parameterNameEdit.errors.required">Parameter Name can't be empty!</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <label class="required">Parameter Unit</label>
+                                                    <input type="text" class="form-control" placeholder="Enter Parameter Unit" formControlName="parameterUnitEdit" name="add_parameter_unit"/>
+                                                    <div style="font-size: 13px !important;
+                                                    color: #e74a3b !important;" *ngIf="parameterDetailsFormEditSubmitted && pde.parameterTypeControlEdit.controls[i].controls.parameterUnitEdit.errors">
+                                                        <div *ngIf="pde.parameterTypeControlEdit.controls[i].controls.parameterUnitEdit.errors.required">Parameter Name can't be empty!</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm">
+                                                    <label class="required">Parameter Type</label>
+                                                    <input type="text" class="form-control" placeholder="Enter Parameter Type" formControlName="parameterTypeEdit" name="add_parameter_type"/>
+                                                    <div style="font-size: 13px !important;
+                                                    color: #e74a3b !important;" *ngIf="parameterDetailsFormEditSubmitted && pde.parameterTypeControlEdit.controls[i].controls.parameterTypeEdit.errors">
+                                                        <div *ngIf="pde.parameterTypeControlEdit.controls[i].controls.parameterTypeEdit.errors.required">Parameter Name can't be empty!</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-auto align-self-center action-col">
+                                                    <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeParameterRowEdit(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <button class="btn bttn-transparent bttn-add" type="button" (click)="addParameterDetailRowEdit()">Add</button>
+                                    </div>
+                                </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onServiceEditSubmit()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Edit Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Work Order Details successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Work Order Details Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--View Work Order Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="view_work_order" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="view_work_orderLabel">
+        <div class="modal-dialog" role="document" style="min-width:720px;max-width: unset;">
+            <div class="modal-content">
+
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="view_work_orderLabel">Work Order Details</h4>
+                    <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close">&times;</button>
+                </div>
+
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row" *ngIf="work_order_view_List != null">
+                        <div class="col-12">
+                            <div class="inner-form web-modal-body">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="srvc-info-graphic colr1">
+                                                <img class="st" src="../../../../assets/images/service-card-plumber-bg1.png" alt="img">
+                                            </div>
+                                            <!-- <div class="block-body">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h4 > Work Order Name : <span
+                                                            class="h4 text-primary">{{work_order_view_List.results.name}}</span>
+                                                            </h4>
+                                                        <p class="p p-13 mb-1">Work Order Type : <span
+                                                                class="text-right text-dark">{{work_order_view_List.results.utility_work_order_sub_type.utility_work_order_type.name}}</span>
+                                                        </p>
+                                                        <p class="p p-13 mb-1">Work Order Sub Type :
+                                                            <span class="text-right text-secondary">{{work_order_view_List.results.utility_work_order_sub_type.name}}</span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <div class="srvc-name-blk pb-0">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <h4 class="ttl">{{work_order_view_List.results.name}}</h4>
+                                                        <div class="rtng-blk-wrap">
+                                                            <div class="rtng-blk">
+                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                <fa-icon [icon]="faStar"></fa-icon>
+                                                                <span class="p text-dark pl-2 fw-500">4.2</span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- <p class="p ide">ID: {{selected_service?.sa_number}}</p> -->
+                                                    </div>
+                                                    <!-- <div class="col-auto">
+                                                        <h4 class="srvc-amt">{{selected_service?.work_order_master_id?.base_rate}}</h4>
+                                                        <span class="badge badge-label-success">{{selected_service?.state}}</span>
+                                                    </div> -->
+                                                </div>                                            
+                                            </div>
+                                            <div class="info-block">
+                                                <div class="applicant-data">
+                                                    <nav style="border: white;" class="tabbable" id="nav-tabs">
+                                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                            <a style="color: #83848e;" class="nav-item nav-link st active"
+                                                                id="overview-dtls-tab" data-toggle="tab"
+                                                                href="#overview-dtls" role="tab"
+                                                                aria-controls="overview-dtls"
+                                                                aria-selected="true">Overview</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link" id="task-dtls-tab"
+                                                                data-toggle="tab" href="#task-dtls" role="tab"
+                                                                aria-controls="task-dtls"
+                                                                aria-selected="true">Tasks</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link" id="rules-dtls-tab"
+                                                                data-toggle="tab" href="#rules-dtls" role="tab"
+                                                                aria-controls="rules-dtls"
+                                                                aria-selected="false">Rules</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link" id="skills-dtls-tab"
+                                                                data-toggle="tab" href="#skills-dtls" role="tab"
+                                                                aria-controls="skills-dtls"
+                                                                aria-selected="false">Skills</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link" id="material-dtls-tab"
+                                                                data-toggle="tab" href="#material-dtls" role="tab"
+                                                                aria-controls="material-dtls"
+                                                                aria-selected="false">Materials</a> 
+                                                            <a style="color: #83848e;" class="nav-item nav-link" id="parameter-dtls-tab"
+                                                                data-toggle="tab" href="#parameter-dtls" role="tab"
+                                                                aria-controls="parameter-dtls"
+                                                                aria-selected="false">Readings</a>  
+                                                            <a style="color: #83848e;" class="nav-item nav-link" id="nav-instructions-tab"
+                                                                data-toggle="tab" href="#nav-instructions" role="tab"
+                                                                aria-controls="nav-instructions"
+                                                                aria-selected="false">Help</a>
+                                                            </div>
+                                                    </nav>
+                                                    <!-- <div class="container-fluid">
+                                                        <nav class="tabbable">
+                                                          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">My Profile</a>
+                                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                                                            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+                                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                                                            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+                                                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                                                            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
+                                                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+                                                          </div>
+                                                        </nav>
+                                                        <div class="tab-content pt-2" id="nav-tabContent">
+                                                          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">Home</div>
+                                                          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">Profile</div>
+                                                          <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">Contact</div>
+                                                        </div>
+                                                      </div> -->
+                                                </div>
+                                                <div class="applicant-block-rt-body">
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane fade show active" id="overview-dtls"
+                                                            role="tabpanel" aria-labelledby="overview-dtls-tab">
+                                                          <div class="block-body inner-form">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <div class="listview-table-wrap" style="margin-top: 18px;">
+                                                                        <p class="p p-13">{{work_order_view_List?.results?.description}}</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="info-block bg-light-grey mt-3">
+                                                            <div class="applicant-data">
+                                                                <div class="row">
+                                                                    <div class="col-6">
+                                                                        <p class="p p-13">Work Order Type</p>
+                                                                        <h6 class="h6">{{work_order_view_List.results.utility_work_order_sub_type.utility_work_order_type.name}}</h6>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="p p-13">Work Order Sub Type</p>
+                                                                        <h6 class="h6">{{work_order_view_List.results.utility_work_order_sub_type.name}}</h6>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="p p-13">Created Date</p>
+                                                                        <h6 class="h6">{{work_order_view_List.results.created_date | date : 'dd MMM yy'}}</h6>
+                                                                    </div>
+                                                                    <div class="col-6">
+                                                                        <p class="p p-13">Completion Time</p>
+                                                                        <h6 class="h6">{{work_order_view_List.results.completion_time}}</h6>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>     
+                                                        </div>
+
+                                                       
+
+                                                        <div class="tab-pane fade show" id="task-dtls" role="tabpanel"
+                                                            aria-labelledby="task-dtls-tab">
+                                                           
+                                                        <div  class="block-body" >
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="applicant-data">
+                                                                        <div class="timeline-wrap">
+                                                                            <div class="media timeline-blk" *ngFor="let tasks of work_order_view_List.results.json_obj.task">
+                                                                                
+                                                                                <div class="media-body">
+                                                                                    <h4 class="ttl">{{tasks?.task}}</h4> 
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                            
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="skills-dtls" role="tabpanel"
+                                                        aria-labelledby="skills-dtls-tab">
+                                                       
+                                                    <div  class="block-body" >
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="applicant-data">
+                                                                    <div class="timeline-wrap">
+                                                                        <div class="media timeline-blk" *ngFor="let skills of work_order_view_List.results.json_obj.skill_details">
+                                                                            
+                                                                            <div class="media-body">
+                                                                                <h4 class="ttl">{{skills?.skill}}</h4> 
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                        
+                                                    </div>
+                                                        <div class="tab-pane fade show" id="rules-dtls" role="tabpanel"
+                                                            aria-labelledby="rules-dtls-tab">
+                                                           <div class="block-body"> 
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="applicant-data">
+                                                                            <div class="timeline-wrap">
+                                                                                <div class="media timeline-blk" *ngFor="let rules of work_order_view_List.results.json_obj.rule let last = last">
+                                                                                   
+                                                                                    <div class="media-body">
+                                                                                        <h4 class="ttl">{{rules?.name}}</h4> 
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="parameter-dtls"
+                                                            role="tabpanel" aria-labelledby="parameter-dtls-tab">
+                                                            
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="meter-listing-blk"  style="margin-left: 8px;">
+                                                                            <ul class="list-group list-group-horizontal">
+                                                                                <li class="list-group-item">
+                                                                                    <p class="p p-13">Parameter Name</p>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let parameter_name of work_order_view_List.results.json_obj.parameter_details let last = last">
+                                                                                            {{parameter_name.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <p class="p p-13">Parameter Unit</p>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let parameter_unit of work_order_view_List.results.json_obj.parameter_details let last = last">
+                                                                                           {{parameter_unit.unit}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="material-dtls"
+                                                            role="tabpanel" aria-labelledby="material-dtls-tab">
+                                                    
+                                                               
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="meter-listing-blk"  style="margin-left: 8px;">
+
+                                                                            <ul class="list-group list-group-horizontal">
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Type</p></div>
+                                                                                    <hr>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Sub Type</p></div>
+                                                                                    <hr>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Name</p></div>
+                                                                                    <hr>
+                                                                                </li>
+
+                                                                            </ul>
+
+                                                                            <div *ngFor="let material of work_order_view_List.results.json_obj.material_details let last = last">
+                                                                            <ul class="list-group list-group-horizontal">
+                                                                                <li class="list-group-item">
+                                                                                    <span class="ttl" style="margin-left: 10px;">
+                                                                                            {{material.typeControl.name}}
+                                                                                    </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <span class="ttl" style="margin-left: 10px;">
+                                                                                        {{material.materialSubTypeControl.name}}
+                                                                                    </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <span class="ttl" style="margin-left: 10px;">
+                                                                                        {{material.material_name.name}}
+                                                                                    </span>
+                                                                                </li>
+                                                                            </ul>
+                                                                            <hr>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                           
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="nav-instructions"
+                                                            role="tabpanel" aria-labelledby="nav-instructions-tab">
+                                                            <div class="block-body inner-form">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="col">
+                                                                            <h4 class="h4 text-primary" style="margin-top: 10px;">Instructions :</h4>
+                                                                            <div class="listview-table-wrap" style="margin-top: 18px;">
+                                                                                <p class="p p-13">{{work_order_view_List?.results?.instructions}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                                <hr>
+
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="col">
+                                                                            <h4 class="h4 text-primary" style="margin-top: 10px;">Attachments :</h4>
+                                                                            <div class="listview-table-wrap" style="margin-top: 18px;">
+                                                                                <h6 class="h6"><span class="pdf-red"></span><a href="https://smart360-bucket.s3.amazonaws.com/files/drinking_water_sample_collection.pdf" target="_blank">Drinking Water Collection.pdf</a></h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <br>
+                                                                <hr>
+                                                                
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="col">
+                                                                            <h4 class="h4 text-primary">Video :</h4>
+                                                                            <iframe style="align-items: center;" [src]="trustedDashboardUrl" width="650" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                                                                            allowfullscreen></iframe>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <hr>
+
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                       
+                                                                            <div class="col">
+                                                                               
+                                                                                    <h4 class="h4 text-primary">Expert Contact Details :</h4>
+                                    
+                                                                            </div>
+                                                                            <br>
+                                                            
+                                                                        <div class="row">
+                                                                            <div class="col-5">
+                                                                                <!-- <div class="profile-card st"> -->
+                                                                                    <div class="media" style="float: center;">
+                                                                                        <div class="img-blk" style="margin-left: 40px;">
+                                                                                            <div class="circle" style="margin-top:10px;margin-left:-30px;">
+                                                                                                {{first_name_c}}{{last_name_c}}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <!-- </div> -->
+                                                                            </div>
+                                                                            <div class="col-7" style="margin-left: -100px;">
+                                                                                <p class="p p-13 mb-1"><span class="mr-3">Name :
+                                                                                    </span><span
+                                                                                        class="text-right text-dark" style="word-wrap: break-word;">{{work_order_view_List?.results?.expert_name}}</span>
+                                                                                </p><br>
+                                                                                <p class="p p-13 mb-1"><span class="mr-3">Email
+                                                                                        : </span><span
+                                                                                        class="text-right text-dark" style="word-wrap: break-word;">{{work_order_view_List?.results?.expert_email}}</span>
+                                                                                </p><br>
+                                                                                <p class="p p-13 mb-1"><span
+                                                                                        class="mr-3">Contact No. : </span><span
+                                                                                        class="text-right text-dark" style="word-wrap: break-word;">{{work_order_view_List?.results?.expert_contact_no}}</span>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div><br>
+                                                                    <hr>
+                                                                </div>
+
+                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer  web-modal-footer">
+                    <div class="row w-100 justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0">
+                            <button class="btn btn-secondary st">Print</button>
+                        </div>
+                    </div>
+                </div>  
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>                        
+                        <div class="col-auto pl-1">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal" role="button" data-toggle="modal" data-target="" (click)="onEditButtonClick()">Edit</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0">
+                            <button class="btn btn-secondary st">Print</button>
+                        </div>
+                        <!-- <div class="col-auto pl-1 pr-0" *ngIf="complaintData.state !== 'CREATED'">
+                            <button class="btn btn-secondary st">Add Remark</button>
+                        </div> -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!--View Work Order Ends-->
+
+
+
+
+

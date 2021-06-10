@@ -1,0 +1,88 @@
+<div class="row">
+	<div class="col">
+		<div class="listview-table-wrap">
+			<label class="p p-12">Showing Last 6 month records</label>
+			<br>
+			<table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+				<thead>
+					<tr>
+						<th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+					</tr>
+				</thead>
+				<tbody *ngIf="!processing">
+					<tr *ngFor="let item of dataSet | filter : searchText">
+						<td class="showOnHover">{{item?.user_id}}
+							<span class="show">
+								<span class="enqry-no-blk">{{item?.user_id}}</span>
+								<span class="enqry-name-blk">{{item?.first_name}}</span>
+								<div class="enqry-sts-blk" [ngSwitch]="item?.status?.status">
+									<div *ngSwitchCase="'Active'">
+										<div class="badge badge-label-success">{{Active}}</div>
+									</div>
+									<div *ngSwitchCase="'Pending'">
+										<div class="badge badge-label-warning">Pending</div>
+									</div>
+									<div *ngSwitchCase="'Rejected'">
+										<div class="badge badge-label-danger">Rejected</div>
+									</div>
+								</div>
+								<div class="list-blk">
+									<p><span style="word-wrap: break-word;">{{item?.role}}</span><span>Role</span></p>
+									<p><span style="word-wrap: break-word;">{{item?.phone_mobile}}</span><span>Mobile No.</span></p>
+								</div>
+							</span>
+						</td>
+						<td>{{item?.first_name}}</td>
+						<td>{{item?.phone_mobile}}</td>
+						<td>{{item?.email}}</td>
+						<td>
+							<div class="enqry-sts-blk" [ngSwitch]="item?.status?.status">
+								<div *ngSwitchCase="'Active'">
+									<div class="badge badge-label-success">Active</div>
+								</div>
+								<div *ngSwitchCase="'New'">
+									<div class="badge badge-label-warning">New</div>
+								</div>
+								<div *ngSwitchCase="'Rejected'">
+									<div class="badge badge-label-danger">Rejected</div>
+								</div>
+							</div>
+						</td>
+						<td>{{item?.role}}</td>
+						<td class="action">
+							<ul class="list-group list-group-horizontal action-list"
+								*ngIf="onlyEditPrivilege || EditViewPrivilege">
+								<li class="list-group-item st" (click)="testing(item.id_string)" ngbTooltip="View"
+									[openDelay]="200" [closeDelay]="200">
+									<i class="icons8 icons8-eye"></i>
+								</li>
+								<li class="list-group-item st" (click)="testing(item.id)" ngbTooltip="Edit"
+									[openDelay]="200" [closeDelay]="200">
+									<fa-icon [icon]="faPen"></fa-icon>
+								</li>
+							</ul>
+							<ul class="list-group list-group-horizontal action-list" *ngIf="onlyViewPrivilege">
+								<li class="list-group-item st" (click)="testing(item.id_string)" ngbTooltip="View"
+									[openDelay]="200" [closeDelay]="200">
+									<i class="icons8 icons8-eye"></i>
+								</li>
+
+							</ul>
+
+						</td>
+					</tr>
+				</tbody>
+				<tbody *ngIf="dataSet?.length == 0">
+					<tr>
+						<td colspan="3" class="no-data-available">No matching records found</td>
+					</tr>
+				</tbody>
+				<tbody *ngIf="processing">
+					<tr>
+						<td colspan="3"> .....</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="finance_type_tab" data-toggle="tab" href="#finance_type"
+                        role="tab" aria-controls="region" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="finance_subtype_tab" data-toggle="tab" href="#finance_subtype" role="tab"
+                        aria-controls="country" aria-selected="false">Subtype</a>               
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-finance-type [operator]="testing()"></app-finance-type>
+<app-finance-subtype [operator]="testing()"></app-finance-subtype>

@@ -1,0 +1,277 @@
+<section class="pr-section applicant-details-sec">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <button class="btn bttn-transparent bttn-back d-inline-block" [routerLink]="['/meter-data/meter-detail']">Meter details</button>
+        </div>
+        <div class="col-6">
+            <div class="inner-page-pagination"> 
+                <nav class="">
+                    <ul class="pagination">
+                        <li class="{{item.listClass}}" *ngFor="let item of buttons">
+                            <a class="page-link" href="{{item.href}}">{{item.name}}<button class="btn bttn-prev"><fa-icon [icon]="item.icon"></fa-icon></button></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center"> 
+        <!-- Meter Detail Block Start -->
+        <div class="col-auto pr-0">
+            <div class="applicant-block-lt inner-wrap" style="height: 100%;">
+                <div class="applicant-block-lt-header">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <div>
+                                <div class="enqry-sts-blk" [ngSwitch]="meter_details?.state">
+                                    <div *ngSwitchCase="'ASSIGNED'">
+                                        <div class="badge badge-label-success">Assigned</div>
+                                    </div>
+                                    <div *ngSwitchDefault="'NOT-ASSIGNED'">
+                                        <div class="badge badge-label-pending">Not-Assigned</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto align-self-center">
+                            <h4 class="sh-ttl">Consumer No: {{meter_details?.consumer_detail.consumer_number}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="dtls-block">
+                    <div class="block-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="profile-card st">
+                                    <div class="media">
+                                        <div class="img-blk">
+                                            <img class="img-abs st" src="../../assets/images/dummy_meter_image.jpeg" alt="img">
+                                        </div>                                                                      
+                                        <div class="media-body">
+                                            <h4 class="sh-ttl">{{meter_details?.meter_no}}</h4>
+                                            <p class="p">{{meter_details?.utility_product_id?.name}}</p>
+                                            <p class="p" style="margin-bottom: 0px;">{{meter_details?.meter_make}}</p>
+                                            <div>
+                                                <div class="enqry-sts-blk" [ngSwitch]="meter_details?.meter_status?.name">
+                                                  <div *ngSwitchDefault="'NORMAL'">
+                                                      <div class="badge badge-label-success">Normal</div>
+                                                  </div>
+                                                  <div *ngSwitchCase="'FAULTY'">
+                                                      <div class="badge badge-label-pending">Faulty</div>
+                                                  </div>
+                                                  <div *ngSwitchCase="'RCNT'">
+                                                      <div class="badge badge-label-rejected">Rcnt</div>
+                                                  </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="info-block">
+                    <div class="applicant-data">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="bttn-toggle">
+                                    <div class="toggle-button-wrap mt-0">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="summry-tab" data-toggle="tab" href="#summry" role="tab" aria-controls="summry" aria-selected="true">Summary</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="custom-tab-pane tab-pane fade show active" id="summry" role="tabpanel" aria-labelledby="summry-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            <div class="col-6" *ngFor="let item of meter_summary">
+                                                                <p class="p p-13">{{item.name}}</p>
+                                                                <h6 class="h6">{{item.value}}</h6>
+                                                            </div>                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Meter Detail Block End -->
+
+        <div class="col"> 
+            <div class="applicant-block-rt inner-wrap">
+            	<!-- Meter Tabs List Start -->
+                <div class="nav-block">
+                    <nav class="inner-form-tabs">
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="{{item.class}}" id="{{item.id}}" data-toggle="tab" href="{{item.href}}" role="tab" aria-controls="{{item.ariaControls}}" aria-selected="{{item.ariaSelected}}" *ngFor="let item of tabList">{{item.name}}</a>
+                        </div>
+                    </nav>
+                </div>
+                <!-- Meter Tabs List End -->
+
+                <div class="applicant-block-rt-body"> 
+                    <div class="tab-content" >
+                        <!-- Tab Panel For Meter Reading Start -->
+                        <div class="tab-pane fade show active" id="nav-meter-reading" role="tabpanel" aria-labelledby="nav-meter-reading-tab">
+                            <!-- Meter Reading Table Start -->
+                            <div class="row">
+                                <div class="col">
+                                  <div class="listview-table-wrap">
+                                    <label class="p p-12">Showing Last 6 month records</label>
+                                    <br>
+                                    <table datatable id="table1" style="width: 100%;" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col" *ngFor="let item of meter_reading_blocks">
+                                            <span>{{item.name}}</span>
+                                          </th>
+                                        </tr>
+                                      </thead>
+                                      <tbody *ngIf="!processing">
+                                        <tr *ngFor="let item of dataSet">
+                                          <td>{{item.meter_no}}</td>
+                                          <td>{{item.consumer_no}}</td>
+                                          <td>{{item.current_meter_reading}}</td>
+                                          <td>
+                                            <div [ngSwitch]="item.reading_status">
+                                              <div *ngSwitchDefault="'VALIDATION-ONE'">
+                                                <div class="badge badge-label-pending">Validation One</div>
+                                              </div>
+                                              <div *ngSwitchCase="'VALIDATION-TWO'">
+                                                <div class="badge badge-label-pending">Validation Two</div>
+                                              </div>
+                                              <div *ngSwitchCase="'COMPLETED'">
+                                                <div class="badge badge-label-success">Completed</div>
+                                              </div>
+                                              <div *ngSwitchCase="'REVISIT'">
+                                                <div class="badge badge-label-rejected">Revisit</div>
+                                              </div>
+                                            </div>
+                                          </td>
+                                          <td class="action">
+                                            <ul class="list-group list-group-horizontal action-list">
+                                              <li class="list-group-item st" ngbTooltip="View" [openDelay]="200" [closeDelay]="200">
+                                                  <i class="icons8 icons8-eye"></i>
+                                              </li>
+                                            </ul>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                      <tbody *ngIf="dataSet?.length == 0">
+                                        <tr>
+                                          <td colspan="12" class="no-data-available">No matching records found</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody *ngIf="processing">
+                                        <tr >
+                                          <td colspan="12"> .....</td>						
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                            </div>            
+                            <!-- Meter Reading Table End -->                
+                        </div>
+                        <!-- Tab Panel For Meter Reading End -->
+
+                        <!-- Tab Panel For Work Order Start -->
+                        <div class="tab-pane fade" id="nav-work-order" role="tabpanel" aria-labelledby="nav-work-order-tab">
+                            <!-- Work Order Table Start -->
+                            <div class="row">
+                                <div class="col">
+                                <div class="listview-table-wrap">
+                                    <label class="p p-12">Showing Last 6 month records</label>
+                                    <br>
+                                    <table datatable id="table2" style="width: 100%;" [dtOptions]="dtOptions1" class="pr-datatable table table-hover">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col" *ngFor="let item of work_order_blocks">
+                                            <span>{{item.name}}</span>
+                                        </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngIf="!processing1">
+                                        <tr *ngFor="let item of dataSet1">
+                                        <td>{{item.meter_no}}</td>
+                                        <td>{{item.consumer_no}}</td>
+                                        <td>{{item.current_meter_reading}}</td>
+                                        <td>
+                                            <div [ngSwitch]="item.reading_status">
+                                            <div *ngSwitchDefault="'VALIDATION-ONE'">
+                                                <div class="badge badge-label-pending">Validation One</div>
+                                            </div>
+                                            <div *ngSwitchCase="'VALIDATION-TWO'">
+                                                <div class="badge badge-label-pending">Validation Two</div>
+                                            </div>
+                                            <div *ngSwitchCase="'COMPLETED'">
+                                                <div class="badge badge-label-success">Completed</div>
+                                            </div>
+                                            <div *ngSwitchCase="'REVISIT'">
+                                                <div class="badge badge-label-rejected">Revisit</div>
+                                            </div>
+                                            </div>
+                                        </td>
+                                        <td class="action">
+                                            <ul class="list-group list-group-horizontal action-list">
+                                            <li class="list-group-item st" ngbTooltip="View" [openDelay]="200" [closeDelay]="200">
+                                                <i class="icons8 icons8-eye"></i>
+                                            </li>
+                                            </ul>
+                                        </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody *ngIf="dataSet1?.length == 0">
+                                        <tr>
+                                        <td colspan="12" class="no-data-available">No matching records found</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody *ngIf="processing1">
+                                        <tr >
+                                        <td colspan="12"> .....</td>						
+                                        </tr>
+                                    </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </div>            
+                            <!-- Work Order Table End -->                             
+                        </div>
+                        <!-- Tab Panel For Work Order End -->    
+                        
+                        <!-- Tab Panel For Activity Log Start -->
+                        <div class="tab-pane fade" id="nav-activity-log" role="tabpanel" aria-labelledby="nav-activity-log-tab">
+                            <app-timeline-details [data]="activity_log"> </app-timeline-details>
+                        </div>
+                        <!-- Tab Panel For Activity Log End -->
+
+                        <!-- Tab Panel For Note Detail Start -->
+                        <div class="tab-pane fade" id="nav-notes" role="tabpanel" aria-labelledby="nav-notes-tab">
+                            <app-note-details [data]="meter_notes"></app-note-details>
+                        </div>
+                        <!-- Tab Panel For Note Detail End -->   
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>

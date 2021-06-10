@@ -1,0 +1,18 @@
+<div class="block-body">
+    <div class="row">
+        <div class="col">
+            <div class="applicant-data">
+                <div class="timeline-wrap">
+                    <div class="media timeline-blk" *ngFor="let item of timeLine">
+                        <button class="btn bttn-sm bttn-grey rounded bttn-billing st">{{item.created_date | date : 'dd MMM yy'}}</button>
+                        <div class="media-body">
+                            <h4 class="ttl">{{item.title}}</h4> 
+                            <p class="p p-12 time">{{item.time | date : 'shortTime'}}</p>
+                            <p class="p p-13 content">{{item.text}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

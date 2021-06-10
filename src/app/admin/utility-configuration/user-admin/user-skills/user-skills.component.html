@@ -1,0 +1,255 @@
+<div class="tab-pane fade" id="user_skill" role="tabpanel" aria-labelledby="skill-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_user_skill">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table *ngIf="showTable" datatable id="table_skills" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet | filter:searchText">
+                            <td>{{item.skill}}</td>
+                            <td>
+                                <div [ngSwitch]="item.status">
+                                    <div *ngSwitchCase="'{{item.is_active}}'">
+                                        <div class="badge badge-label-unpaid">Inactive</div>
+                                    </div>
+                                    <div *ngSwitchDefault>
+                                        <div class="badge badge-label-paid">Active</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Admin</td>
+                            <td>{{item.created_date | date : 'dd MMM yy'}}</td>
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_user_skill" (click)="onCardClickEvent(item)">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                  
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                    </tbody>
+                </table>  
+                                                      
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Add User Skill Start-->
+<div class="modal right fade" id="add_user_skill" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">    
+          <div class="modal-header pr-modal-header">
+              <h4 class="modal-title" id="addRole_subType_Label">Add User Skill</h4>
+              <button type="button" class="close" (click) = "onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+          </div>
+          <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="inner-form">
+                        <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Skill</label>
+                                    <input type="text" class="form-control" placeholder="Enter Skill" formControlName="skillNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.skillNameControl.errors }"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.skillNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.skillNameControl.errors.required">{{message.skillCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.skillNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.skillNameControl.errors.maxlength">{{message.skillMaxLength}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.skillNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.skillNameControl.errors.whitespace && !ad.skillNameControl.errors.required">{{message.invalidSkill}}</div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </form>
+                          <!-- <div class="form-row">
+                              <div class="col">
+                                  <label>Icon</label>
+                                  <input type="text" class="form-control" placeholder="" />
+                              </div>
+                          </div> -->
+                          <!-- <div class="form-row">
+                            <div class="col">
+                            <div class="upload-wrapper custom-dropzone" ngx-dropzone
+                            [accept]="'image/*'" (change)="onSelect($event)">
+                            <div class="upload-inner inline">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <ngx-dropzone-label>
+                                            <div class="drag-drop">
+                                                <img class="st img-fluid"
+                                                    src="../../assets/images/icons/upload-icon.png"
+                                                    alt="upload">
+                                                <p class="p p-13">Drag & Drop
+                                                    files here</p>
+                                                <p
+                                                    class="p p-13 font-weight-normal">
+                                                    Or</p>
+                                                <button
+                                                    class="btn bttn-uplaod bttn-txt st">Browse
+                                                    Files</button>
+                                            </div>
+                                        </ngx-dropzone-label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div> -->
+                      </div>
+                  </div>
+              </div>
+          </ngx-simplebar>
+          <div class="modal-footer pr-modal-footer">
+              <div class="row justify-content-end">
+                  <div class="col-auto">
+                      <button class="btn btn-outline-light3 st" (click) = "onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                  </div>
+                  <div class="col-auto pl-1 pr-0">
+                      <button class="btn btn-secondary st" (click)="onAddSubAreadata()">Add</button>
+                  </div>
+              </div>
+          </div> 
+      </div>
+    </div>
+  </div>
+<!--Add User Skill End-->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Skill successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Skill Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--Edit User Skill Start-->
+<div class="modal right fade" id="edit_user_skill" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">    
+          <div class="modal-header pr-modal-header">
+              <h4 class="modal-title" id="editSubTypeModalLabel">Edit User Skill</h4>
+              <button type="button" class="close" data-dismiss="modal" (click)="onCloseClick()" aria-label="Close">&times;</button>
+          </div>
+          <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+              <div class="row">
+                  <div class="col-12">
+                      <div class="inner-form">
+                        <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Skill</label>
+                                    <input type="text" class="form-control" placeholder="Enter Skill" formControlName="skillNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.skillNameControlEdit.errors }"/>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.skillNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.skillNameControlEdit.errors.required">{{message.skillCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.skillNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.skillNameControlEdit.errors.maxlength">{{message.skillMaxLength}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.skillNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.skillNameControlEdit.errors.whitespace && !ade.skillNameControlEdit.errors.required">{{message.invalidSkill}}</div>
+                                    </div>  
+                                </div>
+                            </div>
+                        </form>
+                          <!-- <div class="form-row">
+                              <div class="col">
+                                  <label>Icon</label>
+                                  <input type="text" class="form-control" placeholder="" name = "region"/>
+                              </div> 
+                          </div><br><br> -->
+                          <!-- <div class="form-row">
+                            <div class="col">
+                            <div class="upload-wrapper custom-dropzone" ngx-dropzone
+                            [accept]="'image/*'" (change)="onSelect($event)">
+                            <div class="upload-inner inline">
+                                <div class="media">
+                                    <div class="media-body">
+                                        <ngx-dropzone-label>
+                                            <div class="drag-drop">
+                                                <img class="st img-fluid"
+                                                    src="../../assets/images/icons/upload-icon.png"
+                                                    alt="upload">
+                                                <p class="p p-13">Drag & Drop
+                                                    files here</p>
+                                                <p
+                                                    class="p p-13 font-weight-normal">
+                                                    Or</p>
+                                                <button
+                                                    class="btn bttn-uplaod bttn-txt st">Browse
+                                                    Files</button>
+                                            </div>
+                                        </ngx-dropzone-label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </div> -->
+
+                      </div>
+                  </div>
+              </div>
+          </ngx-simplebar>
+          <div class="modal-footer pr-modal-footer">
+              <div class="row justify-content-end">
+                  <div class="col-auto">
+                      <button class="btn btn-outline-light3 st" (click) = "onCloseClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                  </div>
+                  <div class="col-auto pl-1 pr-0">
+                      <button class="btn btn-secondary st" (click)="onEditSkilldata()">Save</button>
+                  </div>
+              </div>
+          </div> 
+      </div>
+    </div>
+  </div>
+<!--Edit User Skill End-->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Skill successfully edited!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Skill Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

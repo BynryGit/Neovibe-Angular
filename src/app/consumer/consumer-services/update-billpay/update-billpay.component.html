@@ -1,0 +1,221 @@
+<!-- Payment Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="BillPaymentModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="paymentModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="paymentModalLabel">Payment</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="block-body" style="min-height: unset;">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h4 class="h4 text-primary">Invoice No. : ---</h4>
+                                                    </div>
+                                                    <!-- <div class="col">
+                                                        <h4 class="h4 text-primary">Meter No. : {{ selected_meter_no }}
+                                                        </h4>
+
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                            <div class="info-block">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Current Reading Date</p>
+                                                            <h6 class="h6">---</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Previous Reading Date</p>
+                                                            <h6 class="h6">---</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Consumer Status</p>
+                                                            <h6 class="h6">Active</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Current Reading </p>
+                                                            <h6 class="h6">---</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Previous Reading </p>
+                                                            <h6 class="h6">---</h6>
+                                                        </div>
+                                                        <!-- <div class="col-4">
+                                                        <p class="p p-13">Gas Units Consumed</p>
+                                                        <h6 class="h6">---</h6>
+                                                    </div> -->
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Rate</p>
+                                                            <h6 class="h6">---</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Tax</p>
+                                                            <h6 class="h6">---</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13">Consumption Charges</p>
+                                                            <h6 class="h6">---</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="title-divider text-dark my-0">Details</div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="info-block">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <p class="p p-13">Previous Due</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="h6 text-right pr-5">---</h6>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="p p-13">Payments</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="h6 text-right pr-5">---</h6>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="p p-13">Current Charges</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="h6 text-right pr-5">---</h6>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="p p-13">EMI Security Deposit</p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="h6 text-right pr-5">---</h6>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="p p-13">Amount Due before <span
+                                                                    class="text-secondary">03 Feb 2020</span></p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="h6 text-right pr-5">---</h6>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <p class="p p-13">Amount Due after <span
+                                                                    class="text-secondary">03 Feb 2020</span></p>
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <h6 class="h6 text-right pr-5">---</h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="title-divider text-dark my-0">Add payment</div>
+                                    </div>
+                                </div>
+                                <form [formGroup]="approveForm">
+                                <!-- Select Meter Option -->
+                                <!-- <div class="form-row" *ngIf="meter_list.length != 0">
+                                    <div class="col">
+                                        <label>Select Meter</label>
+                                        <ng-select [items]="meter_list" bindLabel="meter_no"
+                                            placeholder="Select Meter Number" appendTo="body" name="meter_no"
+                                            formControlName="meter" [clearable]="false" (change)="change_meter_no()"
+                                            [ngClass]="{'is-invalid':approveFormSubmitted && af.meter.errors}">
+                                        </ng-select>
+                                        <div *ngIf="approveFormSubmitted && af.meter.errors" class="invalid-feedback">
+                                            <div *ngIf="af.meter.errors.required">{{message.meterNumberRequired}}</div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- select meter end  -->
+                                <div class="form-row">
+                                    <div class="col-6" *ngIf="channel_list.length != 0">
+                                        <label>Payment Channel</label>
+                                        <ng-select [items]="channel_list" bindLabel="name"
+                                            placeholder="Select Payment channel" appendTo="body" name="channel"
+                                            formControlName="channel" [clearable]="false"
+                                            [ngClass]="{'is-invalid':approveFormSubmitted && af.channel.errors}">
+                                        </ng-select>
+                                        <div *ngIf="approveFormSubmitted && af.channel.errors" class="invalid-feedback">
+                                            <div *ngIf="af.channel.errors.required">Payment Channel Required</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6" *ngIf="mode_list.length != 0">
+                                        <label>Payment Mode</label>
+                                        <ng-select [items]="mode_list" bindLabel="name"
+                                            placeholder="Select Payment Mode" appendTo="body" name="mode"
+                                            formControlName="mode" [clearable]="false"
+                                            [ngClass]="{'is-invalid':approveFormSubmitted && af.mode.errors}">
+                                        </ng-select>
+                                        <div *ngIf="approveFormSubmitted && af.mode.errors" class="invalid-feedback">
+                                            <div *ngIf="af.mode.errors.required">Payment Mode Required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Transaction Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp"
+                                                ngbDatepicker #d="ngbDatepicker" formControlName="date"
+                                                (click)="d.toggle()" container="body"
+                                                [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button"
+                                                    (click)="d.toggle()">
+                                                    <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="approveFormSubmitted && af.date.errors" class="invalid-feedback">
+                                            <div *ngIf="af.date.errors.required">Date Required</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close">Cancel</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0">
+                            <button class="btn btn-secondary st" (click)="showtoast = true">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="pr-side-navbar z-99 pos-rel">
+  <div class="" data-toggle="buttons">
+    <button class="btn btn-primary bttn-transparent menubttn" (click)="bClickEvent()" [ngClass]="status ? 'open-subm' : 'close-subm'"><span></span></button>
+  </div>
+  <ul class="nav flex-column" *ngFor="let navData of finalSubModuleList;let i = index">
+    <li class="nav-item"  placement="right" ngbPopover="{{navData.ngbPopover}}" triggers="mouseenter:mouseleave" container="body" *ngIf="navData.sub_module">
+      <a class="nav-link" (click)="bClickEvent()" [ngClass]="{'active': i === 0}" (click)="showPopup(navData.sub_module,navData.link,i,navData.role_id_string,navData.module_id_string,navData.id_string)"><span><i (click)="bClickEvent()" class="{{navData.icon}}"></i></span>{{navData.sub_module}}</a>
+    </li>    
+  </ul>
+  <!-- [routerLink]="[navData.link]"  -->
+</div>
+  
+<div class="pr-sidebar-modal" [class]="{show : showPopUpFlag}">
+  <div class="modal left fade" id="consopsMeterDataModal" data-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="consopsMeterDataModalLabel" [class]="{show : showPopUpFlag}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">  
+        <div class="modal-header">
+          <h4 class="modal-title" id="consopsMeterDataModalLabel">{{meterData.title}}</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>  
+        <div class="modal-body" style="background-image: url('../../../assets/images/sidenav-illustration.png'); background-size: 130px Auto;">
+          <div class="pr-side-inner-navbar" *ngFor="let nav of meterData.data" >
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link active" [ngClass]="{'active': nav.id == 1}" (click)="MeterMenuClick()" [routerLink]="[nav.link]">{{nav.navData}}</a>                
+              </li>
+            </ul>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row" >
+  <div class="col">
+      <!-- <ngb-toast class="success" *ngIf="showErrorMsg"  header="dwd" [delay]="4000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="showtoast = false; autohide = true">
+          <div>Oops!! Your Token Is Expired Please LogIn Again.. </div><br>
+          <button style="height:35px;
+          width:50px;" [routerLink]="'/login'">Ok</button>
+      </ngb-toast> -->
+      <ngb-toast class="success" *ngIf="subModuleNotFound"  header="dwd" [delay]="4000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="subModuleNotFound = false; autohide = true">
+        <div>Oops!! SubModules are not assigned.. </div><br>
+        <!-- <button style="height:35px;
+        width:50px;" [routerLink]="'/login'">Ok</button> -->
+    </ngb-toast>
+  </div>
+</div>
+  
+
+  

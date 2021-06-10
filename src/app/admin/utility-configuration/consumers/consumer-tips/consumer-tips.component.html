@@ -1,0 +1,206 @@
+<div class="tab-pane fade" id="consumer_tips" role="tabpanel" aria-labelledby="consumer_tips_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Tip Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addTips">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:280px;" *ngFor="let item of tipList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl" style="word-wrap: break-word;">{{item.tip}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span  (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editTips"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">Yes</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+
+<!-- Add city modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="addTips" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCityModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Tips</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Tip</label>
+                                        <input type="text" class="form-control" placeholder="Enter Tip" formControlName="tipNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.tipNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.tipNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.tipNameControl.errors.required">{{message.tipCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.tipNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.tipNameControl.errors.whitespace && !ad.tipNameControl.errors.required">{{message.invalidTip}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.tipNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.tipNameControl.errors.maxlength">{{message.tipMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.tipNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.tipNameControl.errors.pattern">{{message.tipShouldBeLetter}}</div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Description</label>
+                                        <input type="text" class="form-control big-textarea" placeholder="Enter Description" formControlName="descriptionControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.descriptionControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.descriptionControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.descriptionControl.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.descriptionControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.descriptionControl.errors.whitespace && !ad.descriptionControl.errors.required">{{message.invalidDescription}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddTipdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Tip Details successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Tip Details Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add city modal end -->
+
+<!-- edit city modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="editTips" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCityModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Tips</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Tip</label>
+                                        <input type="text" class="form-control" placeholder="Enter Tip" formControlName="tipNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.tipNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.tipNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.tipNameControlEdit.errors.required">{{message.tipCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.tipNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.tipNameControlEdit.errors.whitespace && !ade.tipNameControlEdit.errors.required">{{message.invalidTip}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.tipNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.tipNameControlEdit.errors.maxlength">{{message.tipMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.tipNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.tipNameControlEdit.errors.pattern">{{message.tipShouldBeLetter}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Description</label>
+                                        <input type="text" class="form-control big-textarea" placeholder="Enter Description" formControlName="descriptionControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.descriptionControlEdit.errors.required">{{message.descriptionCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.descriptionControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.descriptionControlEdit.errors.whitespace && !ade.descriptionControlEdit.errors.required">{{message.invalidDescription}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                               
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditTipdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!-- edit city modal end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Tip Details successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Tip Details Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<!-- Consumer connect Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="connectModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="connectModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="connectModalLabel">Connect</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <form [formGroup]="approveForm">
+                                    <ng-container>
+                                            <!-- Select Meter Option -->
+                                            <div class="form-row" *ngIf="meter_list.length != 0">
+                                                        <div class="col">
+                                                            <label>Select Meter to Connect<span style="color: red;">*</span></label>
+                                                            <ng-select [items]="meter_list"
+                                                            bindLabel="meter_no"
+                                                            placeholder="Select Meter Number"
+                                                            appendTo="body"
+                                                            name="meter_no" 
+                                                            formControlName="meter"
+                                                            [clearable]="false"
+                                                            [ngClass]="{'is-invalid':approveFormSubmitted && af.meter.errors}">
+                                                            </ng-select>
+                                                            <div *ngIf="approveFormSubmitted && af.meter.errors" class="invalid-feedback">
+                                                                <div *ngIf="af.meter.errors.required">{{message.meterNumberRequired}}</div>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                            <!-- select meter end  -->
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Connection Date<span style="color: red;">*</span></label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="date" (click)="d.toggle()" container="body" [ngClass]="{'is-invalid':approveFormSubmitted && af.date.errors}">
+                                                    <div class="input-group-append">
+                                                        <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                                    </div>
+                                                    <div *ngIf="approveFormSubmitted && af.date.errors" class="invalid-feedback">
+                                                        <div *ngIf="af.date.errors.required">{{message.appointmentDateRequired}}</div>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                    <!-- connection remark  -->
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <label>Remark<span style="color: red;">*</span></label>
+                                            <div class="input-group">
+                                                <textarea class="form-control big-textarea" name="add_description" placeholder="Enter the remark" formControlName="user_remark" [ngClass]="{'is-invalid':approveFormSubmitted && af.user_remark.errors}"></textarea>
+                                                <div *ngIf="approveFormSubmitted && af.date.errors" class="invalid-feedback">
+                                                    <div *ngIf="af.user_remark.errors.required">Please enter remark</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- connection remark end  -->
+                                    </ng-container>
+                                    <div class="modal-footer pr-modal-footer">
+					                    <div class="row justify-content-end">
+					                        <div class="col-auto">
+					                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+					                                aria-label="Close" (click)="onCancelClick()">Cancel</button>
+					                        </div>
+					                        <div class="col-auto pl-1 pr-0">
+					                            <button class="btn btn-secondary st" (click)="onApproveFormSubmit()">Submit</button>
+					                        </div>
+					                    </div>
+					                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Consumer connect Modal -->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showtoast = false; autohide = true">
+            <div>Connection Request Added Successfully!!</div><br>
+        </ngb-toast>
+        <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div>{{ exception_message }}</div><br>
+        </ngb-toast>
+    </div>
+</div>

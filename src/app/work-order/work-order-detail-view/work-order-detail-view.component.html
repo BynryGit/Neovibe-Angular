@@ -1,0 +1,421 @@
+<!-- Detail View Of service Appointment -->
+<div class="pr-modal">
+    <div class="modal right fade" id="resorceDetailViewModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="resorceDetailViewModalLabel">
+        <div class="modal-dialog" role="document" style="width: 720px;max-width: unset;">
+            <div class="modal-content">
+
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="resorceDetailViewModalLabel">Appointment Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" (click)="hideDetailModel()"
+                        aria-label="Close">&times;</button>
+                </div>
+
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+                                            <div class="srvc-info-graphic colr1">
+                                                <img src="../../../../assets/images/service-card-plumber-bg1.png" alt="img" class="st">
+                                            </div>
+                                            <div class="block-body">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h4 > Name :<span
+                                                            class="h4 text-primary">{{appointmentDetails?.work_order_master_id?.name}}</span>
+                                                            </h4>
+                                                        <p class="p p-13 mb-1">Number :<span
+                                                                class="text-right text-dark">{{appointmentDetails?.sa_number}}</span>
+                                                        </p>
+                                                        <p class="p p-13 mb-1">Date :
+                                                            <span class="text-right text-secondary">{{appointmentDetails?.sa_date|date:'dd MMM yyyy hh:mm a'}}</span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                    <div class="col">
+                                                        <h4 >Consumer: <span
+                                                            class="h4 text-primary">{{ appointmentDetails?.consumer_service_contract_detail_id?.consumer_id.first_name }}&nbsp;{{ appointmentDetails?.consumer_service_contract_detail_id?.consumer_id?.last_name }}&nbsp;&nbsp;<br>({{ appointmentDetails?.consumer_service_contract_detail_id?.consumer_id?.consumer_no }})</span>
+                                                            </h4>
+                                                        <p class="p p-13 mb-1">Contract  :
+                                                            <span
+                                                                class="text-right text-dark">{{appointmentDetails?.consumer_service_contract_detail_id?.consumer_id?.phone_mobile}}</span>
+                                                        </p>
+                                                        <p class="p p-13 mb-1">Status :
+                                                            <span class="text-right text-secondary">{{appointmentDetails?.state}}</span>
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="info-block">
+                                                <div class="applicant-data">
+                                                    <nav style="border: white;" class="tabbable" id="nav-tabs">
+                                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                                            <a style="color: #83848e;" class="nav-item nav-link st active"
+                                                                id="overview-dtls-tab" data-toggle="tab"
+                                                                href="#overview-dtls" role="tab"
+                                                                aria-controls="overview-dtls"
+                                                                aria-selected="true">Overview</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="task-dtls-tab"
+                                                                data-toggle="tab" href="#task-dtls" role="tab"
+                                                                aria-controls="task-dtls"
+                                                                aria-selected="true">Tasks</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="rules-dtls-tab"
+                                                                data-toggle="tab" href="#rules-dtls" role="tab"
+                                                                aria-controls="rules-dtls"
+                                                                aria-selected="false">Rules</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="skills-dtls-tab"
+                                                                data-toggle="tab" href="#skills-dtls" role="tab"
+                                                                aria-controls="skills-dtls"
+                                                                aria-selected="false">Skills</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="material-dtls-tab"
+                                                                data-toggle="tab" href="#material-dtls" role="tab"
+                                                                aria-controls="material-dtls"
+                                                                aria-selected="false">Materials</a>   
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="parameter-dtls-tab"
+                                                                data-toggle="tab" href="#parameter-dtls" role="tab"
+                                                                aria-controls="parameter-dtls"
+                                                                aria-selected="false">Readings</a>  
+                                                           
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="completetask-dtls-tab"
+                                                            data-toggle="tab" href="#completetask-dtls" role="tab"
+                                                            aria-controls="completetask-dtls"
+                                                            aria-selected="false" *ngIf="appointmentDetails?.state == 'COMPLETED'">Report</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="nav-instructions-tab"
+                                                                data-toggle="tab" href="#nav-instructions" role="tab"
+                                                                aria-controls="nav-instructions"
+                                                                aria-selected="false">Help</a>
+                                                            <a style="color: #83848e;" class="nav-item nav-link st" id="nav-timeline-tab"
+                                                                data-toggle="tab" href="#nav-timeline" role="tab"
+                                                                aria-controls="nav-timeline"
+                                                                aria-selected="false">Activity Logs</a>
+                                                        </div>
+                                                    </nav>
+                                                </div>
+                                                <div class="applicant-block-rt-body">
+                                                    <div class="tab-content">
+                                                    <div class="tab-pane fade show active" id="overview-dtls"
+                                                        role="tabpanel" aria-labelledby="overview-dtls-tab">
+                                                      <div class="block-body inner-form">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="listview-table-wrap" style="margin-top: 18px;">                  
+                                                                    {{appointmentDetails?.work_order_master_id?.description}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="listview-table-wrap">
+                                                                    <label><b>Location</b></label><br>
+                                                                    <p>{{appointmentDetails?.consumer_service_contract_detail_id?.consumer_id?.billing_address_line_1}}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div><hr>
+                                                        <div class="row" *ngIf="appointmentDetails?.state == 'ASSIGNED' || appointmentDetails?.state == 'COMPLETED' || appointmentDetails?.state == 'ACCEPTED'">
+                                                            <div class="col-12">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="listview-table-wrap">
+                                                                            <h4><b>Contact :</b></h4><br>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="profile-card st">
+                                                                        <div class="media" style="float: center;">
+                                                                            <div class="img-blk">
+                                                                                <div class="circle">
+                                                                                       {{first_name}}{{last_name}}
+                                                                                  </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div>
+                                                                        <br>
+                                                                        <p class="p p-13 mb-1"><span class="mr-3">Name :
+                                                                            </span><span
+                                                                                class="text-right text-dark">{{resourceDetails?.first_name}}
+                                                                                &nbsp;{{resourceDetails?.last_name}}</span>
+                                                                        </p><br>
+                                                                        <p class="p p-13 mb-1"><span class="mr-3">Email
+                                                                                : </span><span
+                                                                                class="text-right text-dark">{{resourceDetails?.email}}</span>
+                                                                        </p><br>
+                                                                        <p class="p p-13 mb-1"><span
+                                                                                class="mr-3">Contact No. : </span><span
+                                                                                class="text-right text-dark">{{resourceDetails?.phone_mobile}}</span>
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div><br>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-pane fade show" id="task-dtls" role="tabpanel"
+                                                            aria-labelledby="task-dtls-tab">
+                                                           
+                                                        <div style="margin-left: 8px;" class="block-body" >
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="applicant-data">
+                                                                        <div class="timeline-wrap">
+                                                                            <div class="media timeline-blk" *ngFor="let tasks of appointmentDetails?.work_order_master_id?.json_obj?.task">
+                                                                                
+                                                                                <div class="media-body">
+                                                                                    <h4 class="ttl">{{tasks?.task}}</h4> 
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                            
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="rules-dtls" role="tabpanel"
+                                                            aria-labelledby="rules-dtls-tab">
+                                                           <div class="block-body" style="margin-left: 8px;"> 
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="applicant-data">
+                                                                            <div class="timeline-wrap">
+                                                                                <div class="media timeline-blk" *ngFor="let rules of appointmentDetails?.work_order_master_id?.json_obj?.rule">
+                                                                                   
+                                                                                    <div class="media-body">
+                                                                                        <h4 class="ttl">{{rules?.name}}</h4> 
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="skills-dtls" role="tabpanel"
+                                                                aria-labelledby="skills-dtls-tab">
+                                                            <div  class="block-body" >
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div class="applicant-data">
+                                                                            <div class="timeline-wrap">
+                                                                                <div class="media timeline-blk" *ngFor="let skills of appointmentDetails?.work_order_master_id?.json_obj?.skill_details">
+                                                                                    
+                                                                                    <div class="media-body">
+                                                                                        <h4 class="ttl">{{skills?.skill}}</h4> 
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="parameter-dtls"
+                                                            role="tabpanel" aria-labelledby="parameter-dtls-tab">
+                                                            <div class="block-body inner-form">
+                                                               
+                                                               <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="meter-listing-blk"  style="margin-left: 8px;">
+                                                                            <ul class="list-group list-group-horizontal">
+                                                                                <li class="list-group-item">
+                                                                                    <p class="p p-13">Parameter Name</p>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let parameter_name of appointmentDetails?.work_order_master_id?.json_obj?.parameter_details let last = last">
+                                                                                            {{parameter_name?.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <p class="p p-13">Parameter Unit</p>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let parameter_unit of appointmentDetails?.work_order_master_id?.json_obj?.parameter_details let last = last">
+                                                                                           {{parameter_unit?.unit}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="material-dtls"
+                                                            role="tabpanel" aria-labelledby="material-dtls-tab">
+                                                            <div class="block-body inner-form">
+                                                               
+                                                               <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="meter-listing-blk"  style="margin-left: 8px;">
+                                                                            <ul class="list-group list-group-horizontal">
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Type</p></div>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let material_type of appointmentDetails?.work_order_master_id?.json_obj?.material_details let last = last">
+                                                                                            {{material_type?.typeControl.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                    </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Sub Type</p></div>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let material_sub_type of appointmentDetails?.work_order_master_id?.json_obj?.material_details let last = last">
+                                                                                        {{material_sub_type?.materialSubTypeControl?.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                </span>
+                                                                                </li>
+                                                                                <li class="list-group-item">
+                                                                                    <div class="bg"><p class="p p-13">Material Name</p></div>
+                                                                                    <hr>
+                                                                                    <span class="ttl" *ngFor="let material_name of appointmentDetails?.work_order_master_id?.json_obj?.material_details let last = last">
+                                                                                        {{material_name?.material_name?.name}}<ng-container *ngIf="!last"><hr></ng-container>
+                                                                                </span>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="completetask-dtls"
+                                                            role="tabpanel" aria-labelledby="completetask-dtls-tab">
+                                                            <div class="block-body inner-form">           
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <label>Material :</label>
+                                                                        <p>Material 1</p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                           
+                                                        </div>
+                                                        <div class="tab-pane fade show" id="nav-instructions"
+                                                            role="tabpanel" aria-labelledby="nav-instructions-tab">
+                                                            <div class="block-body inner-form"> 
+                                                            <div class="block-body inner-form">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="col">
+                                                                            <h4 class="h4 text-primary" style="margin-top: 10px;">Instructions :</h4>
+                                                                            <div class="listview-table-wrap" style="margin-top: 18px;">
+                                                                                <p class="p p-13">{{appointmentDetails?.work_order_master_id?.instructions}}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                             <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="col">
+                                                                            <h4 class="h4 text-primary" style="margin-top: 10px;">Attachments :</h4>
+                                                                            <div class="listview-table-wrap" style="margin-top: 18px;">
+                                                                                <h6 class="h6"><span class="pdf-red"></span><a href="https://smart360-bucket.s3.amazonaws.com/files/drinking_water_sample_collection.pdf" target="_blank">Drinking Water Collection.pdf</a></h6>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <br>
+                                                                <hr>
+                                                              
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="col">
+                                                                            <h4 class="h4 text-primary">Video Link :</h4>
+                                                                            <iframe  [src]="trustedDashboardUrl" width="650" height="300" frameborder="0" webkitallowfullscreen mozallowfullscreen
+                                                                            allowfullscreen></iframe>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <hr>
+
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                       
+                                                                            <div class="col">
+                                                                               
+                                                                                    <h4 class="h4 text-primary">Expert Contact Details :</h4>
+                                    
+                                                                            </div>
+                                                                            <br>
+                                                            
+                                                                        <div class="row">
+                                                                            <div class="col-5">
+                                                                                <!-- <div class="profile-card st"> -->
+                                                                                    <div class="media" style="float: center;">
+                                                                                        <div class="img-blk" style="margin-left: 40px;">
+                                                                                            <div class="circle1" style="margin-bottom:10px;margin-left: -30px">
+                                                                                                {{first_name_c}}{{last_name_c}}
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <!-- </div> -->
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <p class="p p-13 mb-1"><span class="mr-3">Name :
+                                                                                    </span><span
+                                                                                        class="text-right text-dark" style="word-wrap: break-word;">{{appointmentDetails?.work_order_master_id?.expert_name}}</span>
+                                                                                </p><br>
+                                                                                <p class="p p-13 mb-1"><span class="mr-3">Email
+                                                                                        : </span><span
+                                                                                        class="text-right text-dark" style="word-wrap: break-word;">{{appointmentDetails?.work_order_master_id?.expert_email}}</span>
+                                                                                </p><br>
+                                                                                <p class="p p-13 mb-1"><span
+                                                                                        class="mr-3">Contact No. : </span><span
+                                                                                        class="text-right text-dark" style="word-wrap: break-word;">{{appointmentDetails?.work_order_master_id?.expert_contact_no}}</span>
+                                                                                </p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div><br>
+                                                                    <hr>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane fade" id="nav-timeline" role="tabpanel"
+                                                            aria-labelledby="nav-timeline-tab">
+                                                            <div class="col" *ngIf="showLifeCycle">
+                                                                <div class="timeline-wrap"><br>
+                                                                <div class="media timeline-blk" *ngFor="let item of timeLine">
+                                                                    <button class="btn bttn-sm bttn-grey rounded bttn-billing st">{{item.date | date : 'dd MMM yy'}}</button>
+                                                                    <div class="media-body">
+                                                                        <h4 class="ttl">{{item.title}}</h4> 
+                                                                        <p class="p p-12 time">{{item.time | date : 'shortTime'}}</p>
+                                                                        <p class="p p-13 content">{{item.text}}</p>
+                                                                          <p class="ttl" style="float: right;">  | </p>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer  web-modal-footer">
+                    <div class="row w-100 justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0">
+                            <button class="btn btn-secondary st">Print</button>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+

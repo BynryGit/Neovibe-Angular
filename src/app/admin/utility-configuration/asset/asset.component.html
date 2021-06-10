@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">              
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="asset_category_tab" data-toggle="tab" href="#asset_category"
+                        role="tab" aria-controls="region" aria-selected="true">Asset Category</a>
+                    <a class="nav-item nav-link st" id="asset_subcategory_tab" data-toggle="tab" href="#asset_subcategory" role="tab"
+                        aria-controls="country" aria-selected="false">Asset Subcategory</a>
+                    <a class="nav-item nav-link st" id="asset_insurance_tab" data-toggle="tab" href="#asset_insurance"
+                        role="tab" aria-controls="state" aria-selected="true">Insurance</a>         
+                    <a class="nav-item nav-link st" id="asset_contract_tab" data-toggle="tab" href="#asset_contract"
+                        role="tab" aria-controls="state" aria-selected="true">AMC Contract</a>              
+                </div>
+            </nav>
+        </div>
+    </div>
+</div>
+<app-asset-category [operator]="testing()"></app-asset-category>
+<app-asset-subcategory [operator]="testing()"></app-asset-subcategory>
+<app-asset-insurance [operator]="testing()"></app-asset-insurance>
+<app-asset-contract [operator]="testing()"></app-asset-contract>

@@ -1,0 +1,197 @@
+<div class="tab-pane fade" id="work_details" role="tabpanel" aria-labelledby="work-details-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_holiday">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of dataSet | filter:searchText">
+                            <td>{{item.date}}</td>
+                            <td>{{item.leave_type}}</td>  
+                            <td>{{item.reason}}</td>
+                            <td>{{item.created_by}}</td>
+                            <td>{{item.created_date}}</td>
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_holiday">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                  
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>
+</div>
+<!--Holiday Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_holiday" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add Holidays</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>From</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body" formControlName="transationDateControl">
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="col">
+                                        <label>To</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body" formControlName="transationDateControl">
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="col-auto align-self-center action-col">
+                                        <button class="btn bttn-transparent bttn-add" style="margin-right: 0%;" type="button">Add</button>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Holiday Type</label>
+                                        <ng-select [searchable]="false" [clearable]="false" appendTo="body" [items]="" bindLabel="name" placeholder="Select Holiday Type"  name="add_holiday_type">
+                                        </ng-select>
+                                    </div>  
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Description</label>
+                                        <textarea class="form-control big-textarea" id="exampleFormControlTextarea2"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Holiday Add Ends-->
+
+<!--Work Order Holiday edit start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_holiday" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="editSubTypeModalLabel">Edit Holidays</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>From</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body" formControlName="transationDateControl">
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="col">
+                                        <label>To</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body" formControlName="transationDateControl">
+                                            <div class="input-group-append">
+                                                <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="col-auto align-self-center action-col">
+                                        <button class="btn bttn-transparent bttn-add" style="margin-right: 0%;" type="button">Add</button>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Leave Type</label>
+                                        <ng-select [searchable]="false" [clearable]="false" appendTo="body" [items]="" bindLabel="name" placeholder="Select Service Type"  name="add_service_subtype">
+                                        </ng-select>
+                                    </div>  
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Reason</label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea2"></textarea>
+                                    </div>
+                                </div>
+                            </form>
+                           
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" data-dismiss="modal" aria-label="Close">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Work Order Holiday edit end-->
+
+
+
+

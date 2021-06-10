@@ -1,0 +1,357 @@
+// Icons
+// -------------------------
+
+.icons8-speed:before,
+.icons8-sum:before,
+.icons8-update-left-rotation:before,
+.icons8-folder:before,
+.icons8-male-user:before,
+.icons8-user:before,
+.icons8-profile:before,
+.icons8-alarm:before,
+.icons8-note:before,
+.icons8-notification:before,
+.icons8-alarm-clock:before,
+.icons8-group-message:before,
+.icons8-new-message:before,
+.icons8-envelope:before,
+.icons8-shared-document:before,
+.icons8-check-document:before,
+.icons8-submit-document:before,
+.icons8-add-file:before,
+.icons8-check-file:before,
+.icons8-duplicate:before,
+.icons8-versions:before,
+.icons8-filing-cabinet:before,
+.icons8-downloads:before,
+.icons8-delete-file:before,
+.icons8-opened-folder:before,
+.icons8-download-from-the-cloud:before,
+.icons8-download-from-cloud:before,
+.icons8-downloading-updates:before,
+.icons8-pdf:before,
+.icons8-down-arrow:before,
+.icons8-loader:before,
+.icons8-in-progress:before,
+.icons8-search:before,
+.icons8-search-2:before,
+.icons8-settings:before,
+.icons8-file-settings:before,
+.icons8-admin-settings-male:before,
+.icons8-connected-people:before,
+.icons8-security-pass:before,
+.icons8-group-task:before,
+.icons8-slider:before,
+.icons8-up:before,
+.icons8-place-marker:before,
+.icons8-marker:before,
+.icons8-navigation:before,
+.icons8-highway-sign:before,
+.icons8-near-me:before,
+.icons8-flag-2:before,
+.icons8-globe:before,
+.icons8-signpost-tourist:before,
+.icons8-web-design:before,
+.icons8-goal:before,
+.icons8-tune:before,
+.icons8-no-connection:before,
+.icons8-stacked-organizational-chart-highlighted-parent-node:before,
+.icons8-low-importance:before,
+.icons8-bookmark:before,
+.icons8-plus:before,
+.icons8-trash:before,
+.icons8-document:before,
+.icons8-tinder:before,
+.icons8-support:before,
+.icons8-plus-2:before,
+.icons8-trash-2:before,
+.icons8-picture:before,
+.icons8-share:before,
+.icons8-remove:before,
+.icons8-document-2:before,
+.icons8-trash-can:before,
+.icons8-checked:before,
+.icons8-calendar:before,
+.icons8-ok:before,
+.icons8-loudspeaker:before,
+.icons8-voice:before,
+.icons8-megaphone:before,
+.icons8-eye:before,
+.icons8-hide:before,
+.icons8-view-details:before,
+.icons8-grid-view:before,
+.icons8-eye-2:before,
+.icons8-print:before,
+.icons8-print-2:before,
+.icons8-edit:before,
+.icons8-inspection:before,
+.icons8-survey:before,
+.icons8-lock:before,
+.icons8-clock:before,
+.icons8-about:before,
+.icons8-news:before,
+.icons8-sun:before,
+.icons8-video-call:before,
+.icons8-headset:before,
+.icons8-facebook-messenger:before,
+.icons8-call-of-duty-modern-warfare:before,
+.icons8-audio:before,
+.icons8-whatsapp:before,
+.icons8-iphone:before,
+.icons8-android:before,
+.icons8-mms:before,
+.icons8-sms:before,
+.icons8-accuracy:before,
+.icons8-client-management:before,
+.icons8-conflict:before,
+.icons8-conference:before,
+.icons8-organization-chart-people:before,
+.icons8-speaker-notes:before,
+.icons8-doorbell:before,
+.icons8-stacked-organizational-chart:before,
+.icons8-todo-list:before,
+.icons8-task-planning:before,
+.icons8-unit:before,
+.icons8-organization:before,
+.icons8-information-pyramid:before,
+.icons8-bar-chart:before,
+.icons8-business-building:before,
+.icons8-creative-commons-commercial:before,
+.icons8-brief:before,
+.icons8-briefcase:before,
+.icons8-documents:before,
+.icons8-rules:before,
+.icons8-terms-and-conditions:before,
+.icons8-study:before,
+.icons8-paycheque:before,
+.icons8-badge:before,
+.icons8-financial-dynamic-presentation:before,
+.icons8-idea:before,
+.icons8-flow-chart:before,
+.icons8-comments:before,
+.icons8-presentation:before,
+.icons8-voice-recognition:before,
+.icons8-resume:before,
+.icons8-download-resume:before,
+.icons8-applicant:before,
+.icons8-warranty:before,
+.icons8-cv:before,
+.icons8-delivery:before,
+.icons8-estimate:before,
+.icons8-office-phone:before,
+.icons8-party-balloon:before,
+.icons8-city-railway-station:before,
+.icons8-bar:before,
+.icons8-cafe:before,
+.icons8-cafe-2:before,
+.icons8-bar-2:before,
+.icons8-diamond:before,
+.icons8-iron-medium-temperature:before,
+.icons8-watches-front-view:before,
+.icons8-hanger:before,
+.icons8-cd:before,
+.icons8-shutdown:before,
+.icons8-sleep-mode:before,
+.icons8-star:before,
+.icons8-left:before,
+.icons8-right:before,
+.icons8-up-left:before,
+.icons8-forward:before,
+.icons8-expand-arrow:before,
+.icons8-collapse-arrow:before,
+.icons8-back:before,
+.icons8-back-to:before,
+.icons8-circled-down-right:before,
+.icons8-below:before,
+.icons8-go-back:before,
+.icons8-right-2:before,
+.icons8-u-turn:before,
+.icons8-double-up:before,
+.icons8-drag:before,
+.icons8-compress:before,
+.icons8-right-button:before,
+.icons8-sort-down:before,
+.icons8-sort-down-2:before,
+.icons8-sort-up:before,
+.icons8-sort-right:before,
+.icons8-sort:before,
+[data-icons8]:before {
+  @include icons8-font;
+}
+
+[data-icons8]:before { content: attr(data-icons8); }
+
+.icons8-speed:before {content: $icons8-var-speed;}
+.icons8-sum:before {content: $icons8-var-sum;}
+.icons8-update-left-rotation:before {content: $icons8-var-update-left-rotation;}
+.icons8-folder:before {content: $icons8-var-folder;}
+.icons8-male-user:before {content: $icons8-var-male-user;}
+.icons8-user:before {content: $icons8-var-user;}
+.icons8-profile:before {content: $icons8-var-profile;}
+.icons8-alarm:before {content: $icons8-var-alarm;}
+.icons8-note:before {content: $icons8-var-note;}
+.icons8-notification:before {content: $icons8-var-notification;}
+.icons8-alarm-clock:before {content: $icons8-var-alarm-clock;}
+.icons8-group-message:before {content: $icons8-var-group-message;}
+.icons8-new-message:before {content: $icons8-var-new-message;}
+.icons8-envelope:before {content: $icons8-var-envelope;}
+.icons8-shared-document:before {content: $icons8-var-shared-document;}
+.icons8-check-document:before {content: $icons8-var-check-document;}
+.icons8-submit-document:before {content: $icons8-var-submit-document;}
+.icons8-add-file:before {content: $icons8-var-add-file;}
+.icons8-check-file:before {content: $icons8-var-check-file;}
+.icons8-duplicate:before {content: $icons8-var-duplicate;}
+.icons8-versions:before {content: $icons8-var-versions;}
+.icons8-filing-cabinet:before {content: $icons8-var-filing-cabinet;}
+.icons8-downloads:before {content: $icons8-var-downloads;}
+.icons8-delete-file:before {content: $icons8-var-delete-file;}
+.icons8-opened-folder:before {content: $icons8-var-opened-folder;}
+.icons8-download-from-the-cloud:before {content: $icons8-var-download-from-the-cloud;}
+.icons8-download-from-cloud:before {content: $icons8-var-download-from-cloud;}
+.icons8-downloading-updates:before {content: $icons8-var-downloading-updates;}
+.icons8-pdf:before {content: $icons8-var-pdf;}
+.icons8-down-arrow:before {content: $icons8-var-down-arrow;}
+.icons8-loader:before {content: $icons8-var-loader;}
+.icons8-in-progress:before {content: $icons8-var-in-progress;}
+.icons8-search:before {content: $icons8-var-search;}
+.icons8-search-2:before {content: $icons8-var-search-2;}
+.icons8-settings:before {content: $icons8-var-settings;}
+.icons8-file-settings:before {content: $icons8-var-file-settings;}
+.icons8-admin-settings-male:before {content: $icons8-var-admin-settings-male;}
+.icons8-connected-people:before {content: $icons8-var-connected-people;}
+.icons8-security-pass:before {content: $icons8-var-security-pass;}
+.icons8-group-task:before {content: $icons8-var-group-task;}
+.icons8-slider:before {content: $icons8-var-slider;}
+.icons8-up:before {content: $icons8-var-up;}
+.icons8-place-marker:before {content: $icons8-var-place-marker;}
+.icons8-marker:before {content: $icons8-var-marker;}
+.icons8-navigation:before {content: $icons8-var-navigation;}
+.icons8-highway-sign:before {content: $icons8-var-highway-sign;}
+.icons8-near-me:before {content: $icons8-var-near-me;}
+.icons8-flag-2:before {content: $icons8-var-flag-2;}
+.icons8-globe:before {content: $icons8-var-globe;}
+.icons8-signpost-tourist:before {content: $icons8-var-signpost-tourist;}
+.icons8-web-design:before {content: $icons8-var-web-design;}
+.icons8-goal:before {content: $icons8-var-goal;}
+.icons8-tune:before {content: $icons8-var-tune;}
+.icons8-no-connection:before {content: $icons8-var-no-connection;}
+.icons8-stacked-organizational-chart-highlighted-parent-node:before {content: $icons8-var-stacked-organizational-chart-highlighted-parent-node;}
+.icons8-low-importance:before {content: $icons8-var-low-importance;}
+.icons8-bookmark:before {content: $icons8-var-bookmark;}
+.icons8-plus:before {content: $icons8-var-plus;}
+.icons8-trash:before {content: $icons8-var-trash;}
+.icons8-document:before {content: $icons8-var-document;}
+.icons8-tinder:before {content: $icons8-var-tinder;}
+.icons8-support:before {content: $icons8-var-support;}
+.icons8-plus-2:before {content: $icons8-var-plus-2;}
+.icons8-trash-2:before {content: $icons8-var-trash-2;}
+.icons8-picture:before {content: $icons8-var-picture;}
+.icons8-share:before {content: $icons8-var-share;}
+.icons8-remove:before {content: $icons8-var-remove;}
+.icons8-document-2:before {content: $icons8-var-document-2;}
+.icons8-trash-can:before {content: $icons8-var-trash-can;}
+.icons8-checked:before {content: $icons8-var-checked;}
+.icons8-calendar:before {content: $icons8-var-calendar;}
+.icons8-ok:before {content: $icons8-var-ok;}
+.icons8-loudspeaker:before {content: $icons8-var-loudspeaker;}
+.icons8-voice:before {content: $icons8-var-voice;}
+.icons8-megaphone:before {content: $icons8-var-megaphone;}
+.icons8-eye:before {content: $icons8-var-eye;}
+.icons8-hide:before {content: $icons8-var-hide;}
+.icons8-view-details:before {content: $icons8-var-view-details;}
+.icons8-grid-view:before {content: $icons8-var-grid-view;}
+.icons8-eye-2:before {content: $icons8-var-eye-2;}
+.icons8-print:before {content: $icons8-var-print;}
+.icons8-print-2:before {content: $icons8-var-print-2;}
+.icons8-edit:before {content: $icons8-var-edit;}
+.icons8-inspection:before {content: $icons8-var-inspection;}
+.icons8-survey:before {content: $icons8-var-survey;}
+.icons8-lock:before {content: $icons8-var-lock;}
+.icons8-clock:before {content: $icons8-var-clock;}
+.icons8-about:before {content: $icons8-var-about;}
+.icons8-news:before {content: $icons8-var-news;}
+.icons8-sun:before {content: $icons8-var-sun;}
+.icons8-video-call:before {content: $icons8-var-video-call;}
+.icons8-headset:before {content: $icons8-var-headset;}
+.icons8-facebook-messenger:before {content: $icons8-var-facebook-messenger;}
+.icons8-call-of-duty-modern-warfare:before {content: $icons8-var-call-of-duty-modern-warfare;}
+.icons8-audio:before {content: $icons8-var-audio;}
+.icons8-whatsapp:before {content: $icons8-var-whatsapp;}
+.icons8-iphone:before {content: $icons8-var-iphone;}
+.icons8-android:before {content: $icons8-var-android;}
+.icons8-mms:before {content: $icons8-var-mms;}
+.icons8-sms:before {content: $icons8-var-sms;}
+.icons8-accuracy:before {content: $icons8-var-accuracy;}
+.icons8-client-management:before {content: $icons8-var-client-management;}
+.icons8-conflict:before {content: $icons8-var-conflict;}
+.icons8-conference:before {content: $icons8-var-conference;}
+.icons8-organization-chart-people:before {content: $icons8-var-organization-chart-people;}
+.icons8-speaker-notes:before {content: $icons8-var-speaker-notes;}
+.icons8-doorbell:before {content: $icons8-var-doorbell;}
+.icons8-stacked-organizational-chart:before {content: $icons8-var-stacked-organizational-chart;}
+.icons8-todo-list:before {content: $icons8-var-todo-list;}
+.icons8-task-planning:before {content: $icons8-var-task-planning;}
+.icons8-unit:before {content: $icons8-var-unit;}
+.icons8-organization:before {content: $icons8-var-organization;}
+.icons8-information-pyramid:before {content: $icons8-var-information-pyramid;}
+.icons8-bar-chart:before {content: $icons8-var-bar-chart;}
+.icons8-business-building:before {content: $icons8-var-business-building;}
+.icons8-creative-commons-commercial:before {content: $icons8-var-creative-commons-commercial;}
+.icons8-brief:before {content: $icons8-var-brief;}
+.icons8-briefcase:before {content: $icons8-var-briefcase;}
+.icons8-documents:before {content: $icons8-var-documents;}
+.icons8-rules:before {content: $icons8-var-rules;}
+.icons8-terms-and-conditions:before {content: $icons8-var-terms-and-conditions;}
+.icons8-study:before {content: $icons8-var-study;}
+.icons8-paycheque:before {content: $icons8-var-paycheque;}
+.icons8-badge:before {content: $icons8-var-badge;}
+.icons8-financial-dynamic-presentation:before {content: $icons8-var-financial-dynamic-presentation;}
+.icons8-idea:before {content: $icons8-var-idea;}
+.icons8-flow-chart:before {content: $icons8-var-flow-chart;}
+.icons8-comments:before {content: $icons8-var-comments;}
+.icons8-presentation:before {content: $icons8-var-presentation;}
+.icons8-voice-recognition:before {content: $icons8-var-voice-recognition;}
+.icons8-resume:before {content: $icons8-var-resume;}
+.icons8-download-resume:before {content: $icons8-var-download-resume;}
+.icons8-applicant:before {content: $icons8-var-applicant;}
+.icons8-warranty:before {content: $icons8-var-warranty;}
+.icons8-cv:before {content: $icons8-var-cv;}
+.icons8-delivery:before {content: $icons8-var-delivery;}
+.icons8-estimate:before {content: $icons8-var-estimate;}
+.icons8-office-phone:before {content: $icons8-var-office-phone;}
+.icons8-party-balloon:before {content: $icons8-var-party-balloon;}
+.icons8-city-railway-station:before {content: $icons8-var-city-railway-station;}
+.icons8-bar:before {content: $icons8-var-bar;}
+.icons8-cafe:before {content: $icons8-var-cafe;}
+.icons8-cafe-2:before {content: $icons8-var-cafe-2;}
+.icons8-bar-2:before {content: $icons8-var-bar-2;}
+.icons8-diamond:before {content: $icons8-var-diamond;}
+.icons8-iron-medium-temperature:before {content: $icons8-var-iron-medium-temperature;}
+.icons8-watches-front-view:before {content: $icons8-var-watches-front-view;}
+.icons8-hanger:before {content: $icons8-var-hanger;}
+.icons8-cd:before {content: $icons8-var-cd;}
+.icons8-shutdown:before {content: $icons8-var-shutdown;}
+.icons8-sleep-mode:before {content: $icons8-var-sleep-mode;}
+.icons8-star:before {content: $icons8-var-star;}
+.icons8-left:before {content: $icons8-var-left;}
+.icons8-right:before {content: $icons8-var-right;}
+.icons8-up-left:before {content: $icons8-var-up-left;}
+.icons8-forward:before {content: $icons8-var-forward;}
+.icons8-expand-arrow:before {content: $icons8-var-expand-arrow;}
+.icons8-collapse-arrow:before {content: $icons8-var-collapse-arrow;}
+.icons8-back:before {content: $icons8-var-back;}
+.icons8-back-to:before {content: $icons8-var-back-to;}
+.icons8-circled-down-right:before {content: $icons8-var-circled-down-right;}
+.icons8-below:before {content: $icons8-var-below;}
+.icons8-go-back:before {content: $icons8-var-go-back;}
+.icons8-right-2:before {content: $icons8-var-right-2;}
+.icons8-u-turn:before {content: $icons8-var-u-turn;}
+.icons8-double-up:before {content: $icons8-var-double-up;}
+.icons8-drag:before {content: $icons8-var-drag;}
+.icons8-compress:before {content: $icons8-var-compress;}
+.icons8-right-button:before {content: $icons8-var-right-button;}
+.icons8-sort-down:before {content: $icons8-var-sort-down;}
+.icons8-sort-down-2:before {content: $icons8-var-sort-down-2;}
+.icons8-sort-up:before {content: $icons8-var-sort-up;}
+.icons8-sort-right:before {content: $icons8-var-sort-right;}
+.icons8-sort:before {content: $icons8-var-sort;}

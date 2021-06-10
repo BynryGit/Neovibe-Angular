@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="offer_type_tab" data-toggle="tab" href="#offer_type"
+                        role="tab" aria-controls="channel" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="offer_subtype_tab" data-toggle="tab" href="#offer_subtype"
+                        role="tab" aria-controls="channel" aria-selected="true">SubType</a>
+                    <a class="nav-item nav-link st" id="offer_details_tab" data-toggle="tab" href="#offer_details"
+                        role="tab" aria-controls="channel" aria-selected="true">Offer Details</a>
+                    
+                </div> 
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-offer-type [operator]="testing()"></app-offer-type>
+<app-offer-subtype [operator]="testing()"></app-offer-subtype>
+<app-offer-details [operator]="testing()"></app-offer-details>

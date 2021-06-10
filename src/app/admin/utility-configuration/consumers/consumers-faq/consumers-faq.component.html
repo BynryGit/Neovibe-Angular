@@ -1,0 +1,207 @@
+<div class="tab-pane fade" id="consumer_faq" role="tabpanel" aria-labelledby="consumer_faq_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" placeholder="Search by FAQ." aria-label="Search">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addConsumerFAQModal">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div class="row">
+        <div class="col-12">
+            <div class="listview-table-wrap">  
+                <label class="p p-12">Showing Last 6 month records</label>                                          
+                <table *ngIf="showTable" datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing && dataSet.length != 0">
+                        <tr *ngFor="let item of dataSet | filter:searchText">
+                            <td>{{item.question}}</td>
+                            <td>{{item.answer}}</td>  
+                            <td>Admin</td>
+                            <td>{{item.created_date | date : 'dd MMM yy'}}</td> 
+                            <td class="action">
+                                <ul class="list-group list-group-horizontal action-list">
+                                    <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editConsumerFAQModal" (click)="onCardClickEvent(item)">
+                                        <i class="icons8 icons8-edit"></i>
+                                    </li>
+                                    <div class="col-12">
+                                        <input type="hidden" value="{{item.id_string}}"/>
+                                    </div>
+                                </ul>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                          <td colspan="3" class="no-data-available">No matching records found</td>
+                        </tr>
+                      </tbody>
+                      <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="3"> .....</td>						
+                        </tr>
+                      </tbody>
+                </table>                                        
+            </div>
+        </div>
+    </div>     
+</div>
+<!--Basic Consumer FAQ Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="addConsumerFAQModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add Consumer FAQ</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Question</label>
+                                        <textarea class="form-control big-textarea" name="add_question" formControlName="questionNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.questionNameControl.errors }" placeholder="Enter question" id="add_question"></textarea>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.questionNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.questionNameControl.errors.required">{{message.questionCantBeEmpty}}</div>
+                                        </div>
+                                        <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.questionNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.questionNameControl.errors.whitespace && !ad.questionNameControl.errors.required">{{message.invalidQuestion}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.questionNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.questionNameControl.errors.pattern">{{message.questionShouldbeLetter}}</div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Answer</label>
+                                        <textarea class="form-control big-textarea" name="add_answer" formControlName="answerNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.answerNameControl.errors }" placeholder="Enter Answer" ></textarea>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.answerNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.answerNameControl.errors.required">{{message.answerCantBeEmpty}}</div>
+                                        </div>
+                                        <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.answerNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.answerNameControl.errors.whitespace && !ad.answerNameControl.errors.required">{{message.invalidAnswer}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.answerNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.answerNameControl.errors.pattern">{{message.answerShouldbeLetter}}</div>
+                                        </div> -->
+                                    </div> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddFaq()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Basic Consumer FAQ Add Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>FAQ successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>FAQ Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+
+
+<!--Basic Consumer FAQ Edit Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="editConsumerFAQModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Edit Consumer FAQ</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Question</label>
+                                        <textarea class="form-control big-textarea" name="edit_question" formControlName="questionNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.questionNameControlEdit.errors }"></textarea>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.questionNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.questionNameControlEdit.errors.required">{{message.questionCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.questionNameControlEdit" class="invalid-feedback">
+                                            <div *ngIf="ade.questionNameControlEdit.whitespace && !ade.questionNameControlEdit.required">{{message.invalidQuestion}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.questionNameControlEdit" class="invalid-feedback">
+                                            <div *ngIf="ade.questionNameControlEdit.pattern">{{message.questionShouldbeLetter}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Answer</label>
+                                        <textarea class="form-control big-textarea" name="edit_answer" formControlName="answerNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.answerNameControlEdit.errors }" placeholder="Enter Answer"></textarea>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.answerNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.answerNameControlEdit.errors.required">{{message.answerCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.answerNameControlEdit" class="invalid-feedback">
+                                            <div *ngIf="ade.answerNameControlEdit.pattern">{{message.answerShouldbeLetter}}</div>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditFaq()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Basic Consumer FAQ Edit Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>FAQ successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>FAQ Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+

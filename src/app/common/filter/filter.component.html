@@ -1,0 +1,67 @@
+<div class="row justify-content-end">
+  <div class="col" style="margin-top: -6px;">
+    <form class="pr-search-form d-inline-block">
+      <span class="s-icon"></span>
+      <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Utility Short Name." (keyup)="keypress()" aria-label="Search" [(ngModel)]="searchText">
+      <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
+    </form>
+  </div>
+  <div class="col-auto pr-0" style="margin-top: -2px;" *ngIf="showRecord">
+    <label class="p p-13 mr-3">Records</label>
+    <ng-select  class="filter-select record-select" (change)="recordsChange()" [searchable]="false" [clearable]="false" appendTo="body" [items]="[10,20,50,100,200,500]" bindLabel="name" placeholder="10" [(ngModel)]="selectedPagination" name="name">
+    </ng-select>
+  </div>
+  <div class="col-auto pr-0" *ngIf="showFilter">
+    <button class="btn btn-outline-light3 st bttn-filter" type="button" data-toggle="collapse"
+      data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">Filter</button>
+  </div>
+  <app-tools *ngIf="showTool"></app-tools>
+  <div class="col-auto pl-0">
+    <button class="btn btn-secondary st" [disabled]="disableAdd()" *ngIf="showbutton" (click)="buttonClicked($event)">{{button.name}}</button>
+  </div>
+
+</div>
+
+<!-- Filters start -->
+<div class="row">
+  <div class="col-12">
+    <div class="filters-wrap">
+      <div class="collapse" id="filterCollapse">
+        <div class="filter-wrap-inner">
+          <div class="row">
+            <div class="col-12">
+              <ul class="list-group list-group-horizontal">
+                <li class="list-group-item" *ngFor="let item of filters">
+                  <label>{{item.name}}</label>
+                  <ng-select class="filter-select" [items]="item.options" bindLabel="name" [placeholder]="item.placeholder"
+                    [(ngModel)]="selectedValue" name="name">
+                  </ng-select>
+                </li>
+                <li class="list-group-item">
+                  <label>Date Range</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="btn bttn-transparent bttn-icon" type="button">
+                            <fa-icon [icon]="faCalendarAlt"></fa-icon>
+                        </button>
+                    </div>
+                    <input class="form-control pr-date-range" placeholder="Date Range" type="text" name="daterange" [locale]="{format: 'DD-MM-YYYY'}" ngxDaterangepickerMd [(ngModel)]="selected" />
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <label>&nbsp;&nbsp;</label>
+                  <button class="btn btn-outline-secondary st" style="min-width: 175px;">Apply</button>
+                </li>
+                <li class="list-group-item">
+                  <label>&nbsp;&nbsp;</label>
+                  <button class="btn btn-light2 st" style="min-width: 175px;" data-toggle="collapse" data-target="#filterCollapse" aria-expanded="false" aria-controls="filterCollapse">Cancel</button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Filters end -->

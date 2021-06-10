@@ -1,0 +1,114 @@
+<!-- Upload Table Start -->
+<div class="row">
+    <div class="col">
+      <div class="listview-table-wrap">
+        <label class="p p-12">Showing Last 6 month records</label>
+        <br>
+        <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+          <thead>
+            <tr>
+              <th scope="col" *ngFor="let item of blocks">
+                <span>{{item.name}}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="!processing">
+            <tr *ngFor="let item of dataSet">
+              <td class="showOnHover">{{item.route_detail.schedule_name}}
+                <span class="show">
+                  <span class="enqry-no-blk">{{item.route_detail.schedule_name}}</span>
+                  <span class="enqry-name-blk">{{item.read_cycle_id?.label}}</span>
+                    <div class="enqry-sts-blk" [ngSwitch]="item.route_detail?.upload_route_status">
+                        <div *ngSwitchDefault="'NOT-SENT'">
+                            <div class="badge badge-label-warning">Not Sent</div>
+                        </div>
+                        <div *ngSwitchCase="'FAILED'">
+                            <div class="badge badge-label-pending">Failed</div>
+                        </div>
+                        <div *ngSwitchCase="'NOT-ACCEPTED'">
+                            <div class="badge badge-label-pending">Not Accepted</div>
+                        </div>
+                        <div *ngSwitchCase="'ACCEPTED'">
+                          <div class="badge badge-label-success">Accepted</div>
+                        </div>
+                        <div *ngSwitchCase="'RECEIVED'">
+                          <div class="badge badge-label-unfinished">Received</div>
+                        </div>
+                    </div>
+                    <div class="list-blk">
+                      <p><span>{{item.tenant?.short_name}}</span><span>Tenant</span></p>
+                      <p><span>{{item.utility?.name}}</span><span>Utility</span></p>
+                      <p><span>{{item.route_id?.name}}</span><span>Route</span></p>
+                    </div>
+                </span>
+              </td>
+              <td>{{item.read_cycle_id?.name}} - {{item.read_cycle_id?.label}}</td>
+              <td>{{item.route_id?.name}}</td>
+              <td>{{item.route_detail?.total_consumer}}</td>
+              <td>{{item.route_detail?.normal_reading}}</td>
+              <td>{{item.route_detail?.completed_reading}}</td>
+              <td>{{item.route_detail?.pending_reading}}</td>
+              <td>
+                <div [ngSwitch]="item.route_detail?.upload_route_status">
+                    <div *ngSwitchDefault="'NOT-SENT'">
+                        <div class="badge badge-label-warning">Not Sent</div>
+                    </div>
+                    <div *ngSwitchCase="'FAILED'">
+                        <div class="badge badge-label-pending">Failed</div>
+                    </div>
+                    <div *ngSwitchCase="'NOT-ACCEPTED'">
+                        <div class="badge badge-label-pending">Not Accepted</div>
+                    </div>
+                    <div *ngSwitchCase="'ACCEPTED'">
+                      <div class="badge badge-label-success">Accepted</div>
+                    </div>
+                    <div *ngSwitchCase="'RECEIVED'">
+                      <div class="badge badge-label-unfinished">Received</div>
+                    </div>
+                </div>
+              </td>
+              <td class="action">
+                <ul class="list-group list-group-horizontal action-list" *ngIf="item.route_detail?.upload_flag">
+                  <li class="list-group-item st" ngbTooltip="Upload" (click)="UploadRoute(item.schedule_log_id.id_string, item.read_cycle_id.id_string, item.route_id.id_string)" [openDelay]="200" [closeDelay]="200">
+                    <fa-icon [icon]="faUpload"></fa-icon>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="dataSet?.length == 0">
+            <tr>
+              <td colspan="12" class="no-data-available">No matching records found</td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="processing">
+            <tr >
+                <td colspan="12"> .....</td>						
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+<!-- Upload Table End -->
+
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+  <div class="col">
+    <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+          <div>{{SuccessMessage.RouteUpload}}</div>
+      </ngb-toast>
+  </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+  <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errorttoast = false; autohide = true">
+          <div>{{ErrorMessage.SomeThingWentWrong}}</div>
+      </ngb-toast>
+  </div>
+</div>
+<!-- Error Pop-Up End -->

@@ -1,0 +1,221 @@
+<!-- Offer Change Modal --> 
+<div class="pr-modal">
+    <div class="modal right fade" id="offerChangeModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="offerChangeModalLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="offerChangeModalLabel">Offers</h4>
+                    <button type="button" (click)="formReset()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <form [formGroup]="addOfferForm">
+                                    <ng-container>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Offer Name</label>
+                                                <input type="text" name="name" formControlName="name" class="form-control" [readonly]='true'>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Offer Code</label>
+                                                <input type="text" name="code" formControlName="code" class="form-control" [readonly]='true'>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Offer Type</label>
+                                                <ng-select [items]="types" bindLabel="name" appendTo="body" placeholder="Select type" name="type" [readonly]='true' formControlName="type"></ng-select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Offer Sub Type</label>
+                                                <ng-select [items]="subTypes" bindLabel="name" appendTo="body" placeholder="Select sub type" name="subType" [readonly]='true' formControlName="subType"></ng-select>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+                <div class="modal-footer pr-modal-footer">
+                    <div class="row justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+                                aria-label="Close" (click)="formReset()">Cancel</button>
+                        </div>
+                        <div class="col-auto pl-1 pr-0">
+                            <button class="btn btn-secondary st" (click)="onAddOfferFormSubmit()" [disabled]="hideButton">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Offer Change Modal -->
+
+<!-- Offers Modal -->
+<div class="pr-modal pr-web-modal">
+    <div class="modal right fade" id="offersModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="offersModalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header pr-modal-header web-modal-header">
+	                <h4 class="modal-title" id="offersModalLabel">Offers</h4>
+	                <button type="button" class="close" (click)="formReset()" data-dismiss="modal" aria-label="Close">&times;</button>
+	                <div class="service-card">
+	                    <div class="service-card-body">
+	                        <div class="media">
+	                            <div class="media-body">
+	                              <h4 class="ttl">Fast & secure Offers</h4>
+	                              <p class="p p-13 loc">Available at Your Location</p>
+	                              <p class="p p-13 stj">Starting at Just</p>
+	                            </div>
+	                            <div class="img-blk">
+	                                <img class="st" src="../../assets/images/graphic2.png" alt="img">
+	                            </div>
+	                        </div>
+	                    </div>               
+	                </div>
+	            </div>
+	            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body web-modal-body-wrap no-footer">
+	                <div class="row">
+	                    <div class="col-12">
+	                        <div class="inner-form web-modal-body">
+	                            <div class="row">
+	                                <div class="col-12">
+	                                    <div class="dtls-block">
+                                            <form [formGroup]="addMeterForm">
+                                            <!-- Select Meter Option -->
+                                            <div class="form-row" *ngIf="meter_list.length != 0">
+                                            <div class="col">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <h6 class="sb-ttl" style="margin-left: -10px;margin-bottom: 12px;">Select Product</h6>
+                                                </div>
+                                            </div>
+                                            <ng-select [items]="meter_list"
+                                            bindLabel="product_name"
+                                            placeholder="Select Product"
+                                            appendTo="body"
+                                            name="product_name"
+                                            (change)="fetch_offers_by_id(item)"
+                                            formControlName="meter"
+                                            [clearable]="false">
+                                            </ng-select>
+
+                                            
+                                            </div>
+                                            </div>
+                                            </form>
+                                             <!-- select meter end  -->
+	                                        <div class="info-block">
+	                                            <div class="applicant-data">
+                                                    <div class="row">
+                                                    </div>
+	                                                <div class="row">
+	                                                    <div class="col-12">
+	                                                        <h6 class="sb-ttl">Available Offers</h6>
+	                                                    </div>
+	                                                </div>
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <form class="pr-search-form d-inline-block">
+                                                                <span class="s-icon"></span>
+                                                                <input class="form-control pr-table-search" type="search" placeholder="Search by Product " aria-label="Search">
+                                                            </form>
+                                                        </div>
+                                                    </div>
+	                                                <div class="row">
+	                                                    <div class="col-12">
+	                                                        <div class="avlbl-service-card-wrap">
+	                                                            <div class="row" *ngIf="offers.length != 0">
+	                                                                <div class="col-6" *ngFor="let item of offers">
+	                                                                    <div class="avlbl-service-card colr1" role="button" data-dismiss="modal" data-toggle="modal" data-target="" (click)="offerClicked(item)">
+	                                                                        <div class="avlbl-service-card-img">
+	                                                                            <img class="st" src="../../assets/images/service-card-bg4.png" alt="bg">
+	                                                                        </div>
+	                                                                        <p class="p fw-500 text-dark nm">{{item?.offer_name}}</p>
+                                                                            <br>
+	                                                                    </div>
+	                                                                </div>
+	                                                            </div>
+	                                                        </div>
+	                                                    </div>
+	                                                </div>
+	                                            </div>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </ngx-simplebar>
+	        </div>
+	    </div>
+    </div>
+</div>
+<!-- Offers Modal -->
+
+<!-- offer succesful Modal -->
+<div class="pr-modal pr-web-modal">
+    <div class="modal right fade" id="offersReceiptModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="offersModalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+                <div class="modal-header pr-modal-header web-modal-header">
+	                <h4 class="modal-title" id="offersModalLabel">Offers</h4>
+	                <button type="button" (click)="formReset()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+	                <div class="service-card">
+	                    <div class="service-card-body">
+	                        <div class="media">
+	                            <div class="media-body">
+	                              <h4 class="ttl">Fast & secure Offers</h4>
+	                              <p class="p p-13 loc">Available at Your Location</p>
+	                              <p class="p p-13 stj">Starting at Just</p>
+	                            </div>
+	                            <div class="img-blk">
+	                                <img class="st" src="../../assets/images/graphic2.png" alt="img">
+	                            </div>
+	                        </div>
+	                    </div>               
+	                </div>
+	            </div>
+                <ng-container>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="bill-reciept-wrap">
+                                <div class="img-blk">
+                                    <img src="../../../assets/images/complaint-submitted.png" alt="img" class="img-fluid st">
+                                </div>
+                                <p class="p">Your Offer Request has been Submited</p>
+                                <button class="btn btn-secondary bttn-print st" (click)="printDiv()">View Pdf</button>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+	        </div>
+	    </div>
+    </div>
+</div>
+<!-- offer succesful Modal end -->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showtoast = false; autohide = true">
+            <div>Offer Added Successfully !</div><br>
+        </ngb-toast>
+        <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div>{{ exception_message }}</div><br>
+        </ngb-toast>
+    </div>
+</div>

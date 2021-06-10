@@ -1,0 +1,200 @@
+<!-- View Schedule Model Start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="ScheduleDetailsModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="ScheduleDetailsModal">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title mb-2" id="ScheduleDetailsModalLabel">Schedule Details</h4>
+                    <button type="button" style="border:none;" (click)="DeleteSchedule(schedule_details.id_string)"><fa-icon [icon]="faTrash"></fa-icon>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+                </div>
+
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <!-- Schedule Details Start -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block"> 
+                                            
+                                            <div class="block-body" style="min-height: unset;">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <h4 class="h4 text-primary">Utility : {{schedule_details?.utility?.name}}</h4>
+                                                        <div class="enqry-sts-blk" [ngSwitch]="schedule_details?.schedule_status">
+                                                            <div *ngSwitchCase="'COMPLETED'">
+                                                              <div class="badge badge-label-success">Completed</div>
+                                                            </div>
+                                                            <div *ngSwitchDefault="'PENDING'">
+                                                              <div class="badge badge-label-pending">Pending</div>
+                                                            </div>
+                                                            <div *ngSwitchCase="'INPROGRESS'">
+                                                              <div class="badge badge-label-unfinished">In Progress</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <h4 class="h4 text-primary">Tenant : {{schedule_details?.tenant?.short_name}}</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br>                                        
+                                            
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="title-divider">Schedule Details</div>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="info-block">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Schedule Name</p>
+                                                            <h6 class="h6">{{schedule_details?.name}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Activity Type</p>
+                                                            <h6 class="h6">{{schedule_details?.activity_type_id?.value}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Read Cycle</p>
+                                                            <h6 class="h6">{{schedule_details?.read_cycle_id?.label}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Product</p>
+                                                            <h6 class="h6">{{schedule_details?.utility_product_id?.name}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Start Date</p>
+                                                            <h6 class="h6">{{start_date | date : 'dd MMM yy'}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">End Date</p>
+                                                            <h6 class="h6">{{end_date}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Recurrence</p>
+                                                            <h6 class="h6">{{schedule_details?.recurring_id?.value}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Frequency</p>
+                                                            <h6 class="h6">{{schedule_details?.frequency_id?.value}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Repeat Every</p>
+                                                            <h6 class="h6">{{schedule_details?.repeat_every_id?.value}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Occurs on</p>
+                                                            <h6 class="h6">{{occurs_on}}</h6>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p class="p p-13" style="margin-bottom: 5px;">Description</p>
+                                                            <h6 class="h6">{{description}}</h6>
+                                                        </div>                                                        
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                        </div>
+                    </div>
+                    <!-- Schedule Details End -->
+
+                    <!-- Schedule Log DataTable Start -->
+                    <div class="row">
+                        <div class="col">
+                          <div class="listview-table-wrap">
+                            <!-- <label class="p p-12">Showing Last 6 month records</label> -->
+                            <br>
+                            <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" *ngFor="let item of blocks">
+                                        <span>{{item.name}}</span>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody *ngIf="!processing">
+                                    <tr *ngFor="let item of dataSet">
+                                        <td>{{item.schedule_id?.name}}</td>
+                                        <td>{{item.total_consumer}}</td>
+                                        <td>{{item.date_and_time | date : 'dd MMM yy'}}</td>
+                                        <td>
+                                            <div [ngSwitch]="item.state">
+                                                <div *ngSwitchDefault="'CREATED'">
+                                                    <div class="badge badge-label-unfinished">Created</div>
+                                                </div>
+                                                <div *ngSwitchCase="'NO-DATA'">
+                                                    <div class="badge badge-label-unfinished">No Data</div>
+                                                </div>
+                                                <div *ngSwitchCase="'IN-PROGRESS'">
+                                                    <div class="badge badge-label-pending">In Progress</div>
+                                                </div>
+                                                <div *ngSwitchCase="'PARTIAL'">
+                                                    <div class="badge badge-label-finished">Partial</div>
+                                                </div>
+                                                <div *ngSwitchCase="'COMPLETED'">
+                                                    <div class="badge badge-label-success">Completed</div>
+                                                </div>
+                                                <div *ngSwitchCase="'ARCHIVED'">
+                                                    <div class="badge badge-label-success">Archived</div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="action">
+                                            <ul class="list-group list-group-horizontal action-list">
+                                              <li class="list-group-item st" (click)="DeleteScheduleLog(item.id_string)" ngbTooltip="Delete">
+                                                <fa-icon [icon]="faTrash"></fa-icon>
+                                              </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody *ngIf="dataSet?.length == 0">
+                                    <tr>
+                                      <td colspan="12" class="no-data-available">No matching records found</td>
+                                    </tr>
+                                    </tbody>
+                                    <tbody *ngIf="processing">
+                                    <tr >
+                                      <td colspan="12"> .....</td>						
+                                    </tr>
+                                  </tbody>
+                            </table>
+                          </div>
+                        </div>
+                    </div>
+                    <!-- Schedule Log DataTable End -->
+                </ngx-simplebar>
+            </div> 
+        </div>
+    </div>
+</div>
+<!-- View Schedule Model End -->
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div>{{SuccessMessage.ScheduleDelete}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>{{ErrorMessage.ScheduleCantDelete}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->

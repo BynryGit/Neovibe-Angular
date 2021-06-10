@@ -1,0 +1,506 @@
+<div class="tab-pane fade" id="consumer_service_agreements" role="tabpanel" aria-labelledby="consumer_service_agreements_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Agreement Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_service_agreements">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+            <div class="plan-card" style="width:300px;" *ngFor="let item of service_contractList.results| filter:searchText">
+               <div class="plan-card-header">
+                   <div class="row">
+                       <div class="col-12">
+                           <h4 class="ttl">{{item.name}}</h4>
+                           <div class="row">
+                               <span (click)="onViewClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="View" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#view_service_aggrements"><i class="icons8 icons8-eye"></i></span>
+                           </div>
+                           <div class="row">
+                            <span style="margin-right: 40px;" (click)="onEditClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_service_aggrements"><i class="icons8 icons8-edit"></i></span>
+                           </div>     
+                       </div>
+                       <div class="col-12">
+                           <input type="hidden" value="{{item.id_string}}"/>
+                       </div>
+                       <div class="col-12">
+   
+                       </div>
+                   </div>                                    
+               </div>
+               <div class="plan-card-body">
+                   <div class="row">
+                        <span class="col-6">
+                            <p class="p p-13 mb-1">Services</p>
+                            <span class="h6 mb-3" *ngFor="let services of item.service_obj; let last = last">
+                                {{services.value}}<ng-container *ngIf="!last">,</ng-container>
+                            </span>
+                        </span>
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Category</p>
+                            <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.category.name}}</h6>
+                        </div>
+                   </div>
+                   <div class="row">
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Sub Category</p>
+                            <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.sub_category.name}}</h6>
+                        </div>
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Deposit Amount</p>
+                            <h6 class="h6 mb-3" style="word-wrap: break-word;">{{item.deposite_amount}}</h6>
+                        </div>
+                   </div>                                  
+               </div>
+           </div> 
+       </div>   
+</div>
+</div>
+
+<!--Basic Consumer Category Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_service_agreements" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Add Service Agreements</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" placeholder="Enter Agreement Name" name = "add_service_agreements" formControlName="agreementNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.agreementNameControl.errors }"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.agreementNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.agreementNameControl.errors.required">{{message.agreementCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.agreementNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.agreementNameControl.errors.maxlength">{{message.agreementMaxLength}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.agreementNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.agreementNameControl.errors.whitespace && !ad.agreementNameControl.errors.required">{{message.invalidAgreement}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Deposit Amount</label>
+                                    <input type="number" class="form-control" placeholder="Enter Deposit Amount" name = "add_deposit_amount" formControlName="depositAmountControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.depositAmountControl.errors }"/>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.depositAmountControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.depositAmountControl.errors.required">{{message.depositAmountCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.depositAmountControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.depositAmountControl.errors.whitespace && !ad.depositAmountControl.errors.required">{{message.invalidDepositAmount}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Terms</label>
+                                    <textarea class="form-control big-textarea" name="add_terms" placeholder="Enter Terms" id="add_terms" formControlName="termsControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.termsControl.errors }"></textarea>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.termsControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.termsControl.errors.required">{{message.termsCantBeEmpty}}</div>
+                                    </div>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.termsControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.termsControl.errors.whitespace && !ad.termsControl.errors.required">{{message.invalidTerms}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Duration</label>
+                                    <ng-select [items]="colType" bindLabel="name" bindvalue="id_string" placeholder="Select Duration" appendTo="body" formControlName="durationControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.durationControl.errors }">
+                                    </ng-select>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.durationControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.durationControl.errors.required">{{message.durationCantBeEmpty}}</div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                    <label>Agreement Start Date</label>
+                                    <div class="input-group">
+                                        <input type="text" [(ngModel)]="start_date_Obj.name" class="form-control" (ngModelChange)="select_start(start_date_Obj.name)" placeholder="yyyy--mm--dd" name="dp" ngbDatepicker #d="ngbDatepicker" (click)="d.toggle()" container="body">
+                                        <div class="input-group-append">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="d.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div> -->
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                    <label>Agreement End Date</label>
+                                    <div class="input-group">
+                                        <input type="text" [(ngModel)]="end_date_Obj.name" class="form-control" (ngModelChange)="select_end(end_date_Obj.name)" placeholder="yyyy--mm--dd" name="dp1" ngbDatepicker #d1="ngbDatepicker" (click)="d1.toggle()" container="body">
+                                        <div class="input-group-append">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="d1.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div> -->
+                           
+                            <div class="form-row">
+                                <div class="col">
+                                        <label>Service</label>
+                                        <ng-select [items]="utility_productList.results" [multiple]="true" bindLabel="name" formControlName="service_details" bindvalue="id_string" placeholder="Select Service" appendTo="body" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.service_details.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.service_details.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.service_details.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Consumer Category</label>
+                                    <ng-select (change)="categoryChange()" [items]="consumer_categoryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Category" appendTo="body" formControlName="categoryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.categoryNameControl.errors }">
+                                    </ng-select>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.categoryNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.categoryNameControl.errors.required">{{message.categoryCantBeEmpty}}</div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Consumer Subcategory</label>
+                                    <ng-select [items]="consumer_subcategoryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Sub Category" appendTo="body" formControlName="subCategoryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.subCategoryNameControl.errors }">
+                                    </ng-select>
+                                    <div *ngIf="applicantDetailsFormSubmitted && ad.subCategoryNameControl.errors" class="invalid-feedback">
+                                        <div *ngIf="ad.subCategoryNameControl.errors.required">{{message.consumerSubCategoryCantBeEmpty}}</div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                    <label>Service Contract Template</label>
+                                    <ng-select [(ngModel)]="contract_template_Obj.bindvalue" [items]="serviceContractTemplateList.results" bindLabel="template_name" bindvalue="id_string" placeholder="Select Service Contract Template" appendTo="body">
+                                    </ng-select>
+                                </div>
+                            </div> -->
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddContractData()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Service agreement added successfully!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Contract Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--Edit Contract Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_service_aggrements" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">Edit Service Agreements</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" placeholder="Enter Agreement Name" name = "add_service_agreements" formControlName="agreementNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.agreementNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.agreementNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.agreementNameControlEdit.errors.required">{{message.agreementCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.agreementNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.agreementNameControlEdit.errors.maxlength">{{message.agreementMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.agreementNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.agreementNameControlEdit.errors.whitespace && !ade.agreementNameControlEdit.errors.required">{{message.invalidAgreement}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Deposit Amount</label>
+                                        <input type="number"  class="form-control" placeholder="Enter Deposit Amount" name = "add_deposit_amount" formControlName="depositAmountControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.depositAmountControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.depositAmountControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.depositAmountControlEdit.errors.required">{{message.depositAmountCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.depositAmountControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.depositAmountControlEdit.errors.whitespace && !ade.depositAmountControlEdit.errors.required">{{message.invalidDepositAmount}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Terms</label>
+                                        <textarea class="form-control big-textarea" name="edit_terms"  placeholder="Enter Terms" id="edit_terms" formControlName="termsControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.termsControlEdit.errors }"></textarea>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.termsControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.termsControlEdit.errors.required">{{message.termsCantBeEmpty}}</div>
+                                        </div>
+                                        
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.termsControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.termsControlEdit.errors.whitespace && !ade.termsControlEdit.errors.required">{{message.invalidTerms}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Duration</label>
+                                        <ng-select [items]="colType" bindLabel="name" bindvalue="id_string" placeholder="Select Duration" appendTo="body" formControlName="durationControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.durationControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.durationControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.durationControlEdit.errors.required">{{message.durationCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                    <label>Agreement Start Date</label>
+                                    <div class="input-group">
+                                        <input type="text" [(ngModel)]="start_date_Obj_edit.name" (ngModelChange)="select_start_edit(start_date_Obj_edit.name)" class="form-control" placeholder="mm--yyyy--dd" name="dp2" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()" container="body">
+                                        <div class="input-group-append">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="d2.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div> -->
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                    <label>Agreement End Date</label>
+                                    <div class="input-group">
+                                        <input type="text" [(ngModel)]="end_date_Obj_edit.name" (ngModelChange)="select_end_edit(end_date_Obj_edit.name)" class="form-control" placeholder="yyyy--mm--dd" name="dp3" ngbDatepicker #d3="ngbDatepicker" (click)="d3.toggle()" container="body">
+                                        <div class="input-group-append">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="d3.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div> -->
+                            <div class="form-row">
+                                    <div class="col">
+                                        <label>Service</label>
+                                        <ng-select [items]="utility_productList.results" [multiple]="true" bindLabel="name" formControlName="service_details_edit" bindvalue="id_string" placeholder="Select Service" appendTo="body" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.service_details_edit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.service_details_edit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.service_details_edit.errors.required">{{message.productCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Consumer Category</label>
+                                    <ng-select [items]="consumer_categoryList.results" (change)="categoryEditChange()" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Category" appendTo="body" formControlName="categoryNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors }">
+                                    </ng-select>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.categoryNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.categoryNameControlEdit.errors.required">{{message.categoryCantBeEmpty}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Consumer Subcategory</label>
+                                    <ng-select [items]="consumer_subcategoryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Consumer Sub Category" appendTo="body" formControlName="subCategoryNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.subCategoryNameControlEdit.errors }">
+                                    </ng-select>
+                                    <div *ngIf="applicantDetailsFormEditSubmitted && ade.subCategoryNameControlEdit.errors" class="invalid-feedback">
+                                        <div *ngIf="ade.subCategoryNameControlEdit.errors.required">{{message.consumerSubCategoryCantBeEmpty}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                    <label>Service Contract Template</label>
+                                    <ng-select [(ngModel)]="contract_template_Obj_edit.bindvalue" [items]="serviceContractTemplateList.results" bindLabel="template_name" bindvalue="id_string" placeholder="Select Service Contract Template" appendTo="body">
+                                    </ng-select>
+                                </div>
+                            </div> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditContractData()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Edit Contract Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Agreement Details successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Service agreement Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--View Service Agreement Starts-->
+<div class="pr-modal">
+<div class="modal right fade" id="view_service_aggrements" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addsubTypeModalLabel">
+    <div class="modal-dialog" role="document" style="min-width:900px;">
+        <div class="modal-content"> 
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addRole_subType_Label">View Service Agreement</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="print-wrap" style="margin: 5px 0px 0px 30px;" *ngIf="service_contract_view_List != null">
+                    <div class="print-header">
+                        <div class="row justify-content-end">
+                            <!-- <div class="col-auto">
+                                <div class="logo-blk">
+                                    <img class="st" src="../../assets/images/utility-logo.png" alt="img">
+                                </div>
+                            </div> -->
+                            <div class="col">
+                                <div class="ttl-blk">
+                                    <h4 class="h4">{{name}}</h4>
+                                    <p class="p p-12 fw-500">{{shortname}}</p>
+                                    <span class="p p-12 fw-500" *ngFor="let services of service_contract_view_List.result.service_obj let last = last">{{services.value}}<ng-container *ngIf="!last">,</ng-container></span>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="eml-blk">
+                                    <!-- <p class="p p-12">Website: <span class="text-dark">www.mnglgas.com</span></p> -->
+                                    <p class="p p-12">Email: <span class="text-dark">{{emailid}} </span></p>
+                                </div>
+                            </div>
+                        </div>        
+                    </div><br>
+                    <div class="row">
+                        <div class="col-12" >
+                            <div class="title-divider">
+                                Contract Details
+                            </div>
+                        </div>
+                    </div>
+                    <div class="print-footer">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="ttl text-primary">{{service_contract_view_List.result.name}}</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="meter-listing-blk"  style="margin-right: 5px;">
+                                    <ul class="list-group list-group-horizontal">
+                                        <li class="list-group-item">
+                                            <!-- <div class="bg"><p class="p p-13">Service</p></div>    
+                                            <br>                                        
+                                            <h6 class="ttl">{{service_contract_view_List.result.utility_service.service.service_name}}</h6> -->
+                                            <div class="bg"><p class="p p-13">Services</p></div>
+                                            <hr>
+                                            <span class="ttl" *ngFor="let services of service_contract_view_List.result.service_obj let last = last">
+                                                    {{services.value}}<ng-container *ngIf="!last">,</ng-container>
+                                            </span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="bg"><p class="p p-13">Category</p></div>
+                                            <hr>
+                                            <span class="ttl">{{service_contract_view_List.result.category.name}}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="bg"><p class="p p-13">Sub Category </p></div>
+                                            <hr>
+                                            <span class="ttl">{{service_contract_view_List.result.sub_category.name}}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="bg"><p class="p p-13">Deposit Amount</p></div>
+                                            <hr>
+                                            <span class="ttl">{{service_contract_view_List.result.deposite_amount}}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="bg"><p class="p p-13">Duration</p></div>
+                                            <hr>
+                                            <span class="ttl">{{service_contract_view_List.result.duration}} Years</span>
+                                        </li>
+                                        <!-- <li class="list-group-item">
+                                            <div class="bg"><p class="p p-13">Agreement Start Date</p></div>
+                                            <br>
+                                            <span class="ttl">{{service_contract_view_List.result.start_date| date : 'dd MMM yy'}}</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <div class="bg"><p class="p p-13">Agreement End Date</p></div>
+                                            <br>
+                                            <span class="ttl">{{service_contract_view_List.result.end_date| date : 'dd MMM yy'}}</span>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="print-body">
+                       
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="print-info-wrap">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="ttl text-primary">Terms</h4>
+                                        </div>
+                                    </div>
+                                    <div class="row dtls-row">
+                                        <div class="col-auto">
+                                            <p class="p p-12">{{service_contract_view_List.result.terms}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row justify-content-end">
+                            <div class="col-auto">
+                                <p class="signature p p-13">Customer's Signature</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+                </ngx-simplebar>
+        </div>
+    </div>
+</div>
+</div>
+<!--View Service Agreement Ends-->

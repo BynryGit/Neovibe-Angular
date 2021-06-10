@@ -1,0 +1,380 @@
+<div class="row">
+    <div class="col">
+    <div class="tab-content">
+            <div class="row justify-content-end">
+                <div class="col">
+                    <form class="pr-search-form d-inline-block">
+                        <span class="s-icon"></span>
+                        <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Module, Sub Module" aria-label="Search" [(ngModel)]="searchText">
+                    </form>
+                </div>
+                <div class="col-auto pl-0">
+                    <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_numformat">
+                        <fa-icon [icon]="faPlus"></fa-icon>Add
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="listview-table-wrap">  
+                        <label class="p p-12">Showing Last 6 month records</label>                                          
+                        <!-- <table datatable class="pr-datatable table table-hover" [dtOptions]="dtOptions2">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="sm-col"><span>Module</span></th>
+                                    <th scope="col"><span>Prefix</span></th>
+                                    <th scope="col"><span>Prefix Format</span></th>
+                                    <th scope="col"><span>Starting</span></th>
+                                    <th scope="col"><span>Current</span></th>
+                                    <th scope="col" class="action-col"><span>Action</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of collection.data">
+                                    <td>
+                                        <div [ngSwitch]="item.module">
+                                            <div *ngSwitchCase="'Registration'">Registration</div>
+                                            <div *ngSwitchDefault>Registration</div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div [ngSwitch]="item.prefix">
+                                            <div *ngSwitchCase="'Yes'">Yes</div>
+                                            <div *ngSwitchCase="'No'">No</div>
+                                            
+                                            <div *ngSwitchDefault>Yes</div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div [ngSwitch]="item.format">
+                                            <div *ngSwitchCase="'INFRA'">INFRA</div>
+                                            <div *ngSwitchCase="'BEECH'">BEECH</div> 
+                                            <div *ngSwitchDefault>Infra</div>
+                                        </div>
+                                    </td>
+                                    <th scope="row" class="sb-col">{{item.billId_start}}</th>
+                                    <th scope="row" class="sb-col">{{item.billId_current}}</th>
+                                    <td class="action-col">
+                                        <span class="show">
+                                            <ul class="list-group list-group-horizontal action-list">
+                                                <li class="list-group-item st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="View"
+                                                    [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_numformat">
+                                                <i class="icons8 icons8-edit"></i>                                                                       
+                                                </li>
+                                            </ul>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>   -->
+                        <table datatable *ngIf="showTable" id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col" *ngFor="let item of blocks"><span>{{item.name}}</span></th>
+                                </tr>
+                            </thead>
+                            <tbody *ngIf="!processing && dataSet.length != 0">
+                                <tr *ngFor="let item of dataSet | filter:searchText">
+                                    <td>{{item.module.name}}</td>
+                                    <td>{{item.sub_module.name}}</td>
+                                   
+                                    <td>{{item.prefix}}</td>
+                                    <td>{{item.startingno}}</td>
+                                    <td>{{item.currentno}}</td>
+                                    <td class="action">
+                                        <ul class="list-group list-group-horizontal action-list">
+                                            <li class="list-group-item st"  [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_numformat" (click)="onCardClickEvent(item)">
+                                                <i class="icons8 icons8-edit"></i>
+                                            </li>
+                                            <div class="col-12">
+                                                <input type="hidden" value="{{item.id_string}}"/>
+                                            </div>
+                                          
+                                        </ul>
+                                    </td>
+                                </tr> 
+                            </tbody>
+                            <tbody *ngIf="dataSet?.length == 0">
+                                <tr>
+                                  <td colspan="3" class="no-data-available">No matching records found</td>
+                                </tr>
+                              </tbody>
+                              <tbody *ngIf="processing">
+                                <tr >
+                                    <td colspan="3"> .....</td>						
+                                </tr>
+                              </tbody>
+                        </table>                                             
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+</div>
+
+<!--Basic Num Format Add Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_numformat" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addSubareaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Num Format</h4>
+                <button type="button" class="close" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Module</label>
+                                        <ng-select appendTo="body" (change)="moduleChange()" [items]="moduleList" bindLabel="name" bindvalue="id_string" placeholder="Select Module" formControlName="moduleNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.moduleNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.moduleNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.moduleNameControl.errors.required">{{message.moduleCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                        <div class="col">
+                                            <label class="required"> Sub Module</label>
+                                            <ng-select appendTo="body" [items]="submoduleList" bindLabel="key" bindvalue="id_string" placeholder="Select Sub Module" formControlName="subModuleNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.subModuleNameControl.errors }">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormSubmitted && ad.subModuleNameControl.errors" class="invalid-feedback">
+                                                <div *ngIf="ad.subModuleNameControl.errors.required">{{message.submoduleCantBeEmpty}}</div>
+                                            </div>
+                                        </div>
+                                </div>
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                 <form [formGroup]="adjustbilltype" novalidate >
+                                    <label>Prefix</label>
+                                    <ng-select [searchable]="false" [clearable]="false" formControlName="billtype" appendTo="body" placeholder="Select prefix" name="name">
+                                        <ng-option [value]="'yes'">Yes</ng-option>
+                                        <ng-option [value]="'no'">No</ng-option>
+                                    </ng-select>
+                                </form>
+                                </div>
+                            </div> -->
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Prefix Format</label>
+                                        <input type="text" class="form-control" (keyup)="onPrefixPress($event)" placeholder="Enter Prefix Format" formControlName="prefixNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.prefixNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.prefixNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.prefixNameControl.errors.required">{{message.prefixCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.prefixNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.prefixNameControl.errors.maxlength">{{message.prefixMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.prefixNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.prefixNameControl.errors.whitespace && !ad.prefixNameControl.errors.required">{{message.invalidPrefix}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.prefixNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.prefixNameControl.errors.pattern">{{message.invalidPrefix}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Starting Number</label>
+                                        <input type="number" (keyup)="onKeyPress($event)" class="form-control" placeholder="Enter Starting Number" formControlName="startingNoNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.startingNoNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.startingNoNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.startingNoNameControl.errors.required">{{message.startingNoNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.startingNoNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.startingNoNameControl.errors.maxlength">{{message.startingNoNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.startingNoNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.startingNoNameControl.errors.whitespace && !ad.startingNoNameControl.errors.required">{{message.invalidstartingNoName}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label class="required">Current Number</label>
+                                        <input type="number" [readOnly]="true" class="form-control" placeholder="Enter Currrent Number" formControlName="currentNoNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.currentNoNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.currentNoNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.currentNoNameControl.errors.required">{{message.currentNoNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.currentNoNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.currentNoNameControl.errors.maxlength">{{message.currentNoNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.currentNoNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.currentNoNameControl.errors.whitespace && !ad.currentNoNameControl.errors.required">{{message.invalidcurrentNoName}}</div>
+                                        </div>
+                                        <!-- <div *ngIf="applicantDetailsFormSubmitted && ad.currentNoNameControl._parent.errors" style="font-size: 13px !important;
+                                        color: #e74a3b !important;">
+                                            <div *ngIf="ad.currentNoNameControl._parent.errors">Starting Number Should not be greater than current Number.</div>
+                                        </div> -->
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.currentNoNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.currentNoNameControl.errors.min">Value Cannot be greater than starting number.</div>
+                                        </div>
+                                         <div *ngIf="showError" style="font-size: 13px !important;
+                                        color: #e74a3b !important;">
+                                            Starting Number Should not be greater than current Number.
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onAddNumformatdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Num Format successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Num Format Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<!--Basic Num Add Modals End-->
+
+<!--Basic Num Edit Modals Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_numformat" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addSubareaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Num Format</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <!-- <div class="form-row">
+                                    <div class="col">
+                                        <label>Module</label>
+                                        <ng-select appendTo="body"  [items]="moduleList" bindLabel="name" bindvalue="id_string" placeholder="Select Module" formControlName="moduleNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.moduleNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.moduleNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.moduleNameControlEdit.errors.required">{{message.moduleCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="form-row">
+                                        <div class="col">
+                                            <label> Sub Module</label>
+                                            <ng-select appendTo="body"  [items]="submoduleList" bindLabel="key" bindvalue="id_string" placeholder="Select Sub Module" formControlName="subModuleNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.subModuleNameControlEdit.errors }">
+                                            </ng-select>
+                                            <div *ngIf="applicantDetailsFormEditSubmitted && ade.subModuleNameControlEdit.errors" class="invalid-feedback">
+                                                <div *ngIf="ade.subModuleNameControlEdit.errors.required">{{message.submoduleCantBeEmpty}}</div>
+                                            </div>
+                                        </div>
+                                </div> -->
+                            <!-- <div class="form-row">
+                                <div class="col">
+                                 <form [formGroup]="adjustbilltype" novalidate >
+                                    <label>Prefix</label>
+                                    <ng-select [searchable]="false" [clearable]="false" formControlName="billtype" appendTo="body" placeholder="Select prefix" name="name">
+                                        <ng-option [value]="'yes'">Yes</ng-option>
+                                        <ng-option [value]="'no'">No</ng-option>
+                                    </ng-select>
+                                </form>
+                                </div>
+                            </div> -->
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Prefix Format</label>
+                                        <input type="text" class="form-control" placeholder="Enter Prefix Format" formControlName="prefixNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.prefixNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.prefixNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.prefixNameControlEdit.errors.required">{{message.prefixCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.prefixNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.prefixNameControlEdit.errors.maxlength">{{message.prefixMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.prefixNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.prefixNameControlEdit.errors.whitespace && !ade.prefixNameControlEdit.errors.required">{{message.invalidPrefix}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.prefixNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.prefixNameControlEdit.errors.pattern">{{message.invalidPrefix}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="form-row">
+                                    <div class="col">
+                                        <label>Starting Number</label>
+                                        <input type="number" class="form-control" placeholder="Enter Starting Number" formControlName="startingNoNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.startingNoNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.startingNoNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.startingNoNameControlEdit.errors.required">{{message.startingNoNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.startingNoNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.startingNoNameControlEdit.errors.maxlength">{{message.startingNoNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.startingNoNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.startingNoNameControlEdit.errors.whitespace && !ade.startingNoNameControlEdit.errors.required">{{message.invalidstartingNoName}}</div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <!-- <div class="form-row">
+                                    <div class="col">
+                                        <label>Current Number</label>
+                                        <input type="number" class="form-control" placeholder="Enter Currrent Number" formControlName="currentNoNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.currentNoNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.currentNoNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.currentNoNameControlEdit.errors.required">{{message.currentNoNameCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.currentNoNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.currentNoNameControlEdit.errors.maxlength">{{message.currentNoNameMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.currentNoNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.currentNoNameControlEdit.errors.whitespace && !ade.currentNoNameControlEdit.errors.required">{{message.invalidcurrentNoName}}</div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="onEditNumformatdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<!--Basic Num Edit Modals End-->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Num Format successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Num Format Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

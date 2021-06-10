@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="smart-meter-tab" data-toggle="tab" href="#smart_meter"
+                        role="tab" aria-controls="region" aria-selected="true">Smart Meter</a>
+                    <a class="nav-item nav-link st" id="meter-task-tab" data-toggle="tab" href="#meter_task" role="tab"
+                        aria-controls="country" aria-selected="false">Meter Task</a>
+                    <a class="nav-item nav-link st" id="meter-route-tab" data-toggle="tab" href="#meter_route" role="tab"
+                        aria-controls="country" aria-selected="false">Meter Route</a>
+                    <a class="nav-item nav-link st" id="meter-read-cycle-tab" data-toggle="tab" href="#read_cycle"
+                        role="tab" aria-controls="state" aria-selected="true">Read Cycle</a>       
+                    <a class="nav-item nav-link st" id="meter-validation-tab" data-toggle="tab" href="#meter_validation"
+                        role="tab" aria-controls="state" aria-selected="true">Validation Assignments</a> 
+                    <a class="nav-item nav-link st" id="reader-status-tab" data-toggle="tab" href="#reader-status"
+                        role="tab" aria-controls="state" aria-selected="true">Reader Status</a> 
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-meter-data-smart-meter [operator]="testing()"></app-meter-data-smart-meter>
+<app-meter-data-task-template [operator]="testing()"></app-meter-data-task-template>
+<app-meter-data-admin-route [operator]="testing()"></app-meter-data-admin-route>
+<app-meter-data-read-cycle [operator]="testing()"></app-meter-data-read-cycle>
+<app-meter-data-admin-validation-assignments [operator]="testing()"></app-meter-data-admin-validation-assignments>
+<app-meter-data-admin-reader-status [operator]="testing()"></app-meter-data-admin-reader-status>

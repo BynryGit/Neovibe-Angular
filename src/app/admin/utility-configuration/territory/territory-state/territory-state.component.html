@@ -1,0 +1,204 @@
+<div class="tab-pane fade" id="state" role="tabpanel" aria-labelledby="state-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by State Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#addStateModal" (click)="onAddClick()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:280px;" *ngFor="let item of stateList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span (click)="onCardClickEvent(item)" class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#editStateModal"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Country</p>
+                        <h6 class="h6 mb-3">{{item.country_id.name}}</h6>
+                    </div>
+                        
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Created by</p>
+                            <h6 class="h6 mb-3">Admin</h6>
+                        </div> 
+                </div>
+               
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                    </div>
+                   
+                    
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<!--Add state modal start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="addStateModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addStateModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add State</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Country</label>
+                                        <ng-select appendTo="body" [items]="countryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Country" formControlName="countryNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.countryNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.countryNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.countryNameControl.errors.required">{{message.countryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>State</label>
+                                        <input type="text" class="form-control" placeholder="Enter State"  formControlName="stateNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.stateNameControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.stateNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.stateNameControl.errors.required">{{message.stateCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.stateNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.stateNameControl.errors.maxlength">{{message.stateMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.stateNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.stateNameControl.errors.pattern">{{message.stateShouldbeLetters}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.stateNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.stateNameControl.errors.whitespace && !ad.stateNameControl.errors.required">{{message.invalidState}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddStatedata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>State successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>State Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Add state modal end -->
+
+<!-- edit state modal start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="editStateModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editStateModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit State</h4>
+                <button type="button" class="close" (click)="onCloseClick()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Country</label>
+                                        <ng-select appendTo="body" [items]="countryList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Country" formControlName="countryNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.countryNameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.countryNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.countryNameControlEdit.errors.required">{{message.countryCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>State</label>
+                                        <input type="text" class="form-control" placeholder="Enter State"  formControlName="stateNameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.stateNameControlEdit.errors }"/>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.stateNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.stateNameControlEdit.errors.required">{{message.stateCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.stateNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.stateNameControlEdit.errors.maxlength">{{message.stateMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.stateNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.stateNameControlEdit.errors.pattern">{{message.stateShouldbeLetters}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.stateNameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.stateNameControlEdit.errors.whitespace && !ade.stateNameControlEdit.errors.required">{{message.invalidState}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditStatedata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>State successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>State Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

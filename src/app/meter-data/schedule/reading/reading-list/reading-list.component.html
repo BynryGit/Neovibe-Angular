@@ -1,0 +1,93 @@
+<!-- Schedule Table Start -->
+<div class="row">
+  <div class="col">
+    <div class="listview-table-wrap">
+      <label class="p p-12">Showing Last 6 month records</label>
+      <br>
+      <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+        <thead>
+          <tr>
+            <th scope="col" *ngFor="let item of blocks">
+              <span>{{item.name}}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!processing">
+          <tr *ngFor="let item of dataSet">
+            <td class="showOnHover">{{item.name}}
+              <span class="show">
+                <span class="enqry-no-blk">{{item.name}}</span>
+                <span class="enqry-name-blk">{{item.read_cycle_id?.label}}</span>
+                  <div class="enqry-sts-blk" [ngSwitch]="item.schedule_status">
+                      <div *ngSwitchCase="'COMPLETED'">
+                        <div class="badge badge-label-success">Completed</div>
+                      </div>
+                      <div *ngSwitchDefault="'PENDING'">
+                        <div class="badge badge-label-pending">Pending</div>
+                      </div>
+                      <div *ngSwitchCase="'INPROGRESS'">
+                        <div class="badge badge-label-unfinished">In Progress</div>
+                      </div>
+                  </div>
+                  <div class="list-blk">
+                    <p><span>{{item.tenant?.short_name}}</span><span>Tenant</span></p>
+                    <p><span>{{item.utility?.name}}</span><span>Utility</span></p>
+                    <p><span>{{item.utility_product_id?.name}}</span><span>Product</span></p>
+                  </div>
+              </span>
+            </td>
+            <td>{{item.read_cycle_id?.label}}</td>
+            <td>{{item.utility_product_id?.name}}</td>
+            <td>{{item.start_date | date : 'dd MMM yy'}}</td>
+            <td>{{item.end_date | date : 'dd MMM yy'}}</td>
+            <td>{{item.created_date | date : 'dd MMM yy'}}</td>
+            <td>{{item.recurring_id.value}}</td>
+            <td>{{item.frequency_id?.value}}</td>
+            <td>
+              <div [ngSwitch]="item.schedule_status">
+                <div *ngSwitchCase="'COMPLETED'">
+                    <div class="badge badge-label-success">Completed</div>
+                </div>
+                <div *ngSwitchDefault="'PENDING'">
+                    <div class="badge badge-label-pending">Pending</div>
+                </div>
+                <div *ngSwitchCase="'INPROGRESS'">
+                    <div class="badge badge-label-unfinished">In Progress</div>
+                </div>
+              </div>
+            </td>
+            <td class="action">
+              <ul class="list-group list-group-horizontal action-list" style="margin-right: 30%;">
+                <li class="list-group-item st" (click)="ViewSchedule($event,item.id_string,'VIEW')" ngbTooltip="View" [openDelay]="200" [closeDelay]="200">
+                    <i class="icons8 icons8-eye"></i>
+                </li>
+                <li class="list-group-item st" (click)="EditSchedule($event,item.id_string,'EDIT')" ngbTooltip="Edit" [openDelay]="200" [closeDelay]="200">
+                    <fa-icon [icon]="faPen" ></fa-icon>
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="dataSet?.length == 0">
+          <tr>
+            <td colspan="12" class="no-data-available">No matching records found</td>
+          </tr>
+          </tbody>
+          <tbody *ngIf="processing">
+          <tr >
+            <td colspan="12"> .....</td>						
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<!-- Schedule Table End -->
+
+<!-- Schedule View Component End -->
+<app-reading-view></app-reading-view>
+<!-- Schedule View Component End -->
+
+<!-- Schedule Edit Component End -->
+<app-reading-edit></app-reading-edit>
+<!-- Schedule Edit Component End -->

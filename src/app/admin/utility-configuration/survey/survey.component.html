@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="surveytypetab" data-toggle="tab" href="#surveytype"
+                        role="tab" aria-controls="surveytype" aria-selected="true">Type</a>
+                    <a class="nav-item nav-link st" id="surveysubtypetab" data-toggle="tab" href="#surveysubtype" role="tab"
+                        aria-controls="surveysubtype" aria-selected="true">Sub type</a>
+                    <a class="nav-item nav-link st" id="surveyobjtab" data-toggle="tab" href="#surveyobj"
+                        role="tab" aria-controls="surveyobj" aria-selected="true">Objectives</a>               
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-survey-type [operator]="testing()"></app-survey-type>
+<app-survey-subtype [operator]="testing()"></app-survey-subtype>
+<app-survey-objective [operator]="testing()"></app-survey-objective>

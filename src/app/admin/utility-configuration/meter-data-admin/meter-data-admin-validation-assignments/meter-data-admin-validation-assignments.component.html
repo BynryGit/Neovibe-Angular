@@ -1,0 +1,198 @@
+<div class="tab-pane fade" id="meter_validation" role="tabpanel" aria-labelledby="meter_validation_tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Read Cycle Name." aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" (click)="onAddClick()" role="button" data-toggle="modal" data-target="#add_validation_assignments">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px">
+        <div class="plan-card" style="width:280px;" *ngFor="let item of assignment_list.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.read_cycle.name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                        <span class="edt st" tooltipClass="pr-tooltip" placement="top" ngbTooltip="edit" [openDelay]="300" [closeDelay]="500" role="button" data-toggle="modal" data-target="#edit_validation_assignments" (click)="onCardClickEvent(item)"><i class="icons8 icons8-edit"></i></span>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                   
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Validator 1</p>
+                        <h6 class="h6 mb-3">{{item.validator1.first_name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Validator 2</p>
+                        <h6 class="h6 mb-3">{{item.validator2.first_name}}</h6>
+                    </div>
+                    
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created Date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy' }}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>       
+</div>
+
+<div class="pr-modal">
+    <div class="modal right fade" id="add_validation_assignments" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Validation Assignments</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Read Cycle</label>
+                                        <ng-select appendTo="body" [items]="read_cycle_list.results" bindLabel="name" placeholder="Select Read Cycle" formControlName="readCycleNameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.readCycleNameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.readCycleNameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.readCycleNameControl.errors.required">{{message.readCycleCantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Validator 1</label>
+                                        <ng-select appendTo="body" [items]="user_list.results" bindLabel="email" placeholder="Select Validator 1" formControlName="validator1NameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.validator1NameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.validator1NameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.validator1NameControl.errors.required">{{message.validator1CantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Validator 2</label>
+                                        <ng-select appendTo="body" [items]="user_list.results" bindLabel="email" placeholder="Select Validator 2" formControlName="validator2NameControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.validator2NameControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.validator2NameControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.validator2NameControl.errors.required">{{message.validator2CantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" (click)="onCancelClick()" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddValidationdata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Validation Assignment successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Validation Assignment Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+<div class="pr-modal">
+    <div class="modal right fade" id="edit_validation_assignments" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="editAreaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Edit Validation Assignments</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsFormEdit" autocomplete="chrome-off">
+
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Validator 1</label>
+                                        <ng-select appendTo="body" [items]="user_list.results" bindLabel="email" placeholder="Select Validator 1" formControlName="validator1NameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.validator1NameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.validator1NameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.validator1NameControlEdit.errors.required">{{message.validator1CantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Validator 2</label>
+                                        <ng-select appendTo="body" [items]="user_list.results" bindLabel="email" placeholder="Select Validator 2" formControlName="validator2NameControlEdit" [ngClass]="{ 'is-invalid': applicantDetailsFormEditSubmitted && ade.validator2NameControlEdit.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormEditSubmitted && ade.validator2NameControlEdit.errors" class="invalid-feedback">
+                                            <div *ngIf="ade.validator2NameControlEdit.errors.required">{{message.validator2CantBeEmpty}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onEditValidationdata()">Save</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="editedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="editedSuccessfullyToast = false; autohide = true">
+            <div>Validation Assignment successfully Updated!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Validation Assignment Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>
+
+

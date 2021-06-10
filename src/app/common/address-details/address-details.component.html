@@ -1,0 +1,24 @@
+<div class="block-body">
+    <div class="row">
+        <div class="col-4 pr-1">
+            <div class="applicant-data">
+                <div class="address-blk" *ngFor="let item of address">
+                    <button class="btn bttn-sm bttn-white rounded bttn-billing st">{{item.heading}}</button>
+                    <ul class="list-unstyled address-list">
+                        <li>{{item?.address}}</li>
+                        <li>{{item?.street}}</li>
+                        <li>{{item?.zipcode}}</li>
+                    </ul>
+                    <button (click)="fly_to()" class="btn bttn-sm rounded btn-blue">Show on Map</button>    
+                </div>
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="applicant-data">
+                <div class="map-wrap">
+                    <div id="map" style="width:100%; height: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

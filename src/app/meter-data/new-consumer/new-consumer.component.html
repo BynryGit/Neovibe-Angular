@@ -1,0 +1,50 @@
+<section class="pr-section list-view-section">
+    <!-- New Consumer Table Start -->
+    <div class="row">
+        <div class="col">
+            <div class="listview-table-wrap">
+                <label class="p p-12">Showing Last 6 month records</label>
+                <br>
+                <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+                    <thead>
+                        <tr>
+                        <th scope="col" *ngFor="let item of blocks">
+                            <span>{{item.name}}</span>
+                        </th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="!processing">
+                        <tr *ngFor="let item of dataSet">
+                        <td>{{item.read_cycle_id?.name}}</td>
+                        <td>{{item.route_id?.name}}</td>
+                        <td>{{item.consumer_no}}</td>
+                        <td>{{item.meter_no}}</td>
+                        <td>{{item.meter_reader_id?.first_name}} {{item.meter_reader_id?.last_name}}</td>
+                        <td>{{item.current_meter_reading}}</td>
+                        <td>{{item.created_date | date : 'dd MMM yy'}}</td>
+                        <td class="action">
+                            <ul class="list-group list-group-horizontal action-list" style="margin-right: 50%;">
+                              <li class="list-group-item st" ngbTooltip="Verify" [openDelay]="200" [closeDelay]="200">
+                                  <a [routerLink]="['/meter-data/new-consumer-detail-view/', item.id_string]"><i class="icons8 icons8-eye"></i></a>
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="dataSet?.length == 0">
+                        <tr>
+                        <td colspan="12" class="no-data-available">No matching records found</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="processing">
+                        <tr >
+                            <td colspan="12"> .....</td>						
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- New Consumer Table End -->
+</section>
+  

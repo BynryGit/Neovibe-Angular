@@ -1,0 +1,164 @@
+<div class="tab-pane fade" id="paymentsubtype" role="tabpanel" aria-labelledby="payment-subtype-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Payment Sub Type" aria-label="Search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#add_payment_subtype" (click)="onAddClick()">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+         <div class="plan-card" style="width:280px;" *ngFor="let item of payment_subtypeList.results | filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Payment Type</p>
+                        <h6 class="h6 mb-3" *ngFor="let types of item.payment_type">{{types.name}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Gl Code</p>
+                        <h6 class="h6 mb-3">{{item.gl_code}}</h6>
+                    </div>
+                   
+                </div>       
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Tax</p>
+                        <h6 class="h6 mb-3">{{item.tax}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created by</p>
+                        <h6 class="h6 mb-3">Admin</h6>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Created date</p>
+                        <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM, yyyy'}}</h6>
+                    </div>
+                    <div class="col-6">
+                        <p class="p p-13 mb-1">Active</p>
+                        <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                    </div>
+                </div> 
+                                              
+            </div>
+        </div> 
+    </div>           
+</div>
+
+<!--Add Payment SubType Starts-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_payment_subtype" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addSubareaModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Payment SubType</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="applicantDetailsForm" autocomplete="chrome-off">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Type</label>
+                                        <ng-select [items]="payment_typeList.results" bindLabel="name" bindvalue="id_string" placeholder="Select Type" appendTo="body" formControlName="paymentTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.paymentTypeControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.paymentTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.paymentTypeControl.errors.required">{{message.paymentTypeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.paymentTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.paymentTypeControl.errors.whitespace && !ad.paymentTypeControl.errors.required">{{message.invalidPaymentType}}</div>
+                                        </div>
+                                       </div>    
+                                   
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>SubType</label>
+                                        <ng-select [items]="payment_subtype.results" bindLabel="name" bindvalue="id_string" placeholder="Select SubType" appendTo="body" formControlName="paymentSubTypeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.paymentSubTypeControl.errors }">
+                                        </ng-select>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.paymentSubTypeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.paymentSubTypeControl.errors.required">{{message.paymentSubTypeCantBeEmpty}}</div>
+                                        </div>
+                                    </div>    
+                                  
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>GL Code</label>
+                                        <input type="text" class="form-control" (keypress)="omit_special_char($event)" placeholder="Enter GL Code" name = "addglcode" formControlName="glCodeControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.glCodeControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.glCodeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.glCodeControl.errors.required">{{message.glCodeCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.glCodeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.glCodeControl.errors.maxlength">{{message.glCodeMaxLength}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.glCodeControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.glCodeControl.errors.whitespace && !ad.glCodeControl.errors.required">{{message.invalidGLCode}}</div>
+                                        </div>
+                                    </div>    
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <label>Tax</label>
+                                        <input type="number" class="form-control" placeholder="Enter Tax" name = "addtaxcode" formControlName="taxControl" [ngClass]="{ 'is-invalid': applicantDetailsFormSubmitted && ad.taxControl.errors }"/>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.taxControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.taxControl.errors.required">{{message.taxCantBeEmpty}}</div>
+                                        </div>
+                                        <div *ngIf="applicantDetailsFormSubmitted && ad.taxControl.errors" class="invalid-feedback">
+                                            <div *ngIf="ad.taxControl.errors.whitespace && !ad.taxControl.errors.required">{{message.invalidTax}}</div>
+                                        </div>
+                                       </div>    
+                                   
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddPaymentSubTypedata()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Payment SubType Modal Ends-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Payment Sub Type successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Payment Sub Type Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

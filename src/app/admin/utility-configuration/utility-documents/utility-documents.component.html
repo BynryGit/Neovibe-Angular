@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col">
+        <div class="nav-block mt-4">
+            <nav class="inner-form-tabs">
+                <!--Basic Tab Start-->
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link st active" id="document-type-tab" data-toggle="tab" href="#document_type"
+                        role="tab" aria-controls="region" aria-selected="true">Document Type</a> 
+                    <a class="nav-item nav-link st" id="document-subtype-tab" data-toggle="tab" href="#document_subtype"
+                        role="tab" aria-controls="region" aria-selected="true">Document Subtype</a>           
+                </div>
+            </nav>
+         </div> 
+    </div>
+</div>
+<app-document-type [operator]="testing()"></app-document-type>
+<app-document-subtype [operator]="testing()"></app-document-subtype>
+<!-- <app-document-details [operator]="testing()"></app-document-details> -->
+

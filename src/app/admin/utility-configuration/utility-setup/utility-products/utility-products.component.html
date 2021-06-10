@@ -1,0 +1,115 @@
+<div class="tab-pane fade" id="utility_product" role="tabpanel" aria-labelledby="product-tab">
+    <div class="row justify-content-end">
+        <div class="col">
+            <form class="pr-search-form d-inline-block">
+                <span class="s-icon"></span>
+                <input class="form-control pr-table-search" type="search" name="search" placeholder="Search by Product Name" aria-label="search" [(ngModel)]="searchText">
+            </form>
+        </div>
+        <div class="col-auto pl-0">
+            <button class="btn btn-secondary st" [disabled]="disableAddProduct()" role="button" data-toggle="modal" data-target="#add_utility_products">
+                <fa-icon [icon]="faPlus"></fa-icon>Add
+            </button>
+        </div>
+    </div><br>
+    <div fxLayout="row wrap" fxLayout.xs="column wrap" fxLayoutGap="20px"> 
+        <div class="plan-card" style="width:280px;" *ngFor="let item of utility_productList.results| filter:searchText">
+            <div class="plan-card-header">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="ttl">{{item.name}}</h4>
+                        <!-- <span class="h6">Post Paid</span>&nbsp;|&nbsp;<span class="h6">Variable</span> -->
+                    </div>
+                    <div class="col-12">
+                        <input type="hidden" value="{{item.id_string}}"/>
+                    </div>
+                    <div class="col-12">
+
+                    </div>
+                </div>                                    
+            </div>
+            <div class="plan-card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Created by</p>
+                            <h6 class="h6 mb-3">Admin</h6>
+                        </div>
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Created date</p>
+                            <h6 class="h6 mb-3">{{item.created_date | date : 'dd MMM yy'}}</h6>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="p p-13 mb-1">Active</p>
+                            <h6 class="h6 mb-3">{{item.is_active}}</h6>
+                        </div> 
+                    </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<!--Add Utility Modules Start-->
+<div class="pr-modal">
+    <div class="modal right fade" id="add_utility_products" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="addCountryModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="addPymntsModalLabel">Add Products</h4>
+                <button type="button" (click)="onCloseClick()" class="close" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            <form name="form" [formGroup]="productDetailsForm">
+                                    <div class="form-row">                           
+                                        <div class="col">
+                                            <label>Select product</label>
+                                            <!-- <ng-select [items]="productsList" bindLabel="name" appendTo="body" placeholder="Select product"  name="name" formControlName="productControl">
+                                            </ng-select> -->
+                                            <ng-select appendTo="body" [items]="productsList" bindLabel="name" placeholder="Select Product" name="doctp" formControlName="productControl" [ngClass]="{ 'is-invalid': productDetailsFormSubmitted && pd.productControl.errors }">
+                                            </ng-select>
+                                            <div *ngIf="productDetailsFormSubmitted && pd.productControl.errors" class="invalid-feedback">
+                                                <div *ngIf="pd.productControl.errors.required">Product can't be empty!</div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-auto align-self-center action-col">
+                                            <button class="bttn-transparent bttn-icon" tooltipClass="pr-tooltip" placement="top" ngbTooltip="Remove" [openDelay]="200" [closeDelay]="200" (click)="removeProductRow(i)"><fa-icon [icon]="faTrash"></fa-icon></button> 
+                                        </div>   -->
+                                    </div>
+                                <!-- <div class="form-row">
+                                    <div class="col-6 align-self-end">
+                                        <button class="btn bttn-transparent bttn-add" type="button" (click)="addProductRow()">Add</button>
+                                    </div>
+                                </div> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ngx-simplebar>
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" (click)="onCancelClick()" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" [disabled]="disableAdd" (click)="onAddProductData()">Add</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+      </div>
+    </div>
+</div>
+<!--Add Utility Modules End-->
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="addedSuccessfullyToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="addedSuccessfullyToast = false; autohide = true">
+            <div>Product successfully added!!</div>
+        </ngb-toast>
+        <ngb-toast class="success" *ngIf="exceptionToast" header="dwd" [delay]="2000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="exceptionToast = false; autohide = true">
+            <div>Product Already Exists!!</div>
+        </ngb-toast>
+    </div>
+</div>

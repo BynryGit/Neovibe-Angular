@@ -1,0 +1,187 @@
+<!-- Edit Schedule Model Start -->
+<div class="pr-modal">
+    <div class="modal right fade" id="EditScheduleBillModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="EditScheduleBillModalLabel">
+      <div class="modal-dialog" role="document" style="min-width:570px;">
+        <div class="modal-content"> 
+    
+            <div class="modal-header pr-modal-header">
+                <h4 class="modal-title" id="EditScheduleBillModalLabel">Edit Schedule</h4>
+                <button type="button" class="close" (click)="resetEditForm()" data-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+
+            <div class="modal-body pr-modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="inner-form">
+                            
+                            <input type="hidden" id="schedule_id_string" value="">
+                            
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Name</label>
+                                    <input type="text" id='edit_name' class="form-control" placeholder="Enter Schedule Name" name="name" [(ngModel)]="bill_schedule_name_Obj.name" disabled>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Description</label>
+                                    <textarea class="form-control big-textarea" id="edit_description" placeholder="" name="desc" [(ngModel)]="schedule_desc_obj.description" disabled></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Utility Product</label>
+                                    <ng-select appendTo="body" [items]="utility_product_list" bindLabel="name" placeholder="Select Utility Product" [(ngModel)]="utility_product_obj.utility_product" name="" disabled>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>Billing Cycle</label>
+                                    <ng-select appendTo="body" [items]="bill_cycle_list" bindLabel="label" placeholder="Select Reading Cycle" [(ngModel)]="bill_obj.bill_cycle" name="" disabled>
+                                    </ng-select>
+                                </div>
+                                <div class="col">
+                                    <label>Is Recurring</label>                                    
+                                    <ng-select appendTo="body" [items]="recurrence_list" bindLabel="value" placeholder="Select Recurrence" [(ngModel)]="recurrence_obj.recurrence" (change)='onRecurrenceChange()' name="">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="form-row" *ngIf="showfrequency">
+                                <div class="col">
+                                    <label>Frequency</label>
+                                    <ng-select appendTo="body" [items]="frequency_list" bindLabel="value" placeholder="Select Frequency" [(ngModel)]="frequency_obj.frequency" name="" (change)='onfrequencyChange()'>
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="form-row" *ngIf="showdays">
+                                <div class="col">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_day_list" bindLabel="value" placeholder="Select Day" [(ngModel)]="repeat_day_obj.day" name="">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="form-row" *ngIf="showyear">
+                                <div class="col">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_year_list" bindLabel="value" placeholder="Select Year" [(ngModel)]="repeat_year_obj.year" name="">
+                                    </ng-select>
+                                </div>
+                            </div>
+
+                            <div class="form-row" *ngIf="showweeks">
+                                <div class="col">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_week_list" bindLabel="value" placeholder="Select Week" [(ngModel)]="repeat_week_obj.week" name="">
+                                    </ng-select>
+                                </div>
+                                <div class="col">
+                                    <label>Occurs on</label>
+                                    <ng-select appendTo="body" [multiple]="true" [items]="occur_week_list" bindLabel="value" placeholder="Select Multiple Days" [(ngModel)]="occur_week_obj.week" name="">
+                                    </ng-select>
+                                </div>                       
+                            </div>
+
+                            <div class="form-row" *ngIf="showmonth">
+                                <div class="col">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_month_list" bindLabel="value"  placeholder="Select Month" [(ngModel)]="repeat_month_obj.month" name="">
+                                    </ng-select>
+                                </div>
+                                <div class="col">
+                                    <label>Occurs on</label>
+                                    <ng-select appendTo="body" [items]="occur_month_list" bindLabel="value" placeholder="Select Day" [(ngModel)]="occur_month_obj.month" name="">
+                                    </ng-select>
+                                </div>                                
+                            </div>
+
+                            <!-- <div class="form-row" >
+                                <div class="col" *ngIf="showrepeate">
+                                    <label>Repeat Every</label>
+                                    <ng-select appendTo="body" [items]="repeat_val_list" bindLabel="value" placeholder="Select " [(ngModel)]="repeat_val_obj.data" name="">
+                                    </ng-select>
+                                </div>
+                                <div class="col" *ngIf="showweeks">
+                                    <label>Occurs on</label>
+                                    <ng-select appendTo="body" [multiple]="true" [items]="occur_val_list" bindLabel="value" placeholder="Select Multiple Days" [(ngModel)]="occur_val_obj.week" name="">
+                                    </ng-select>
+                                </div>     
+                                <div class="col" *ngIf="showmonth">
+                                    <label>Occurs on</label>
+                                    <ng-select appendTo="body" [items]="occur_val_list" bindLabel="value" placeholder="Select Day" [(ngModel)]="occur_val_obj.month" name="">
+                                    </ng-select>
+                                </div>                    
+                            </div> -->
+
+                            <div class="form-row">
+                                <div class="col">
+                                <label>Start Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                        <button class="btn bttn-transparent bttn-icon" type="button" (click)="start_date.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                        <input type="text" id="edit_start_date" class="form-control" placeholder="yyyy-mm-dd" name="start_date" [(ngModel)]="start_dte" ngbDatepicker #start_date="ngbDatepicker" (click)="start_date.toggle()" container="body" disabled>                                  
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="col">
+                                    <label>End Date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <button class="btn bttn-transparent bttn-icon" type="button" (click)="end_date.toggle()"><fa-icon [icon]="faCalendarAlt"></fa-icon></button>
+                                        </div>
+                                        <input type="text" id="edit_end_date" class="form-control" placeholder="yyyy-mm-dd" name="end_date" [(ngModel)]="end_dte" ngbDatepicker #end_date="ngbDatepicker" (click)="end_date.toggle()" container="body">                                  
+                                    </div>
+                                </div>
+                            </div>  
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer pr-modal-footer">
+                <div class="row justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-outline-light3 st" data-dismiss="modal" aria-label="Close">Cancel</button>
+                    </div>
+
+                    <div class="col-auto pl-1 pr-0">
+                        <button class="btn btn-secondary st" (click)="edit_schedule()">Submit</button>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Edit Schedule Model End -->
+
+<!-- Success Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="successtoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="successtoast = false; autohide = true">
+            <div>{{SuccessMessage.BillScheduleUpdate}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Success Pop-Up End -->
+
+<!-- Error Pop-Up Start -->
+<div class="row">
+    <div class="col">
+      <ngb-toast *ngIf="errortoast" header="dwd" [delay]="5000" [autohide]="autohide" (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="errortoast = false; autohide = true">
+            <div>{{SuccessMessage.BillScheduleExist}}</div>
+        </ngb-toast>
+    </div>
+</div>
+<!-- Error Pop-Up End -->

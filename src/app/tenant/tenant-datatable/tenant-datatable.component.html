@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col">
+      <div class="listview-table-wrap">
+        <label class="p p-12">Showing Last 6 month records</label>
+        <br>
+        <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+          <thead>
+            <tr>
+                <th scope="col" *ngFor="let item of blocks">
+                  <span>{{item.name}}</span>
+                </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of dataSet">
+              <td class="showOnHover">{{item.tenant_name}}
+                <span class="show">
+                  <span class="enqry-no-blk">{{item.tenant_no}}</span>
+                  <span class="enqry-name-blk">{{item.tenant_name}}</span>
+                    <div class="enqry-sts-blk" [ngSwitch]="item.status">
+                        <div *ngSwitchCase="'success'">
+                          <div class="badge badge-label-finished">Contract</div>
+                        </div>
+                        <div *ngSwitchDefault="'warning'">
+                          <div class="badge badge-label-pending">New</div>
+                        </div>
+                        <div *ngSwitchCase="'rejected'">
+                          <div class="badge badge-label-rejected">Expire</div>
+                        </div>
+                        <div *ngSwitchCase="'unfinished'">
+                          <div class="badge badge-label-unfinished">Discontineud</div>
+                        </div>
+                    </div>
+                    <div class="list-blk">
+                      <p><span>Lorem Ipsum</span><span>Description</span></p>
+                      <p><span>09 Jan 2020</span><span>Created On</span></p>
+                      <p><span>Frank</span><span>Created By</span></p>
+                    </div>
+                </span>
+              </td>
+              <td>{{item.tenant_no}}</td>
+              <td>{{item.subscription}}</td>
+              <td>{{item.utility}}</td>
+              <td>{{item.consumer}}</td>
+              <td>{{item.type}}</td>
+              <td>{{item.country}}</td>
+              <td>
+                <div [ngSwitch]="item.status">
+                  <div *ngSwitchCase="'success'">
+                      <div class="badge badge-label-finished">Contract</div>
+                  </div>
+                  <div *ngSwitchDefault="'warning'">
+                      <div class="badge badge-label-pending">New</div>
+                  </div>
+                  <div *ngSwitchCase="'rejected'">
+                      <div class="badge badge-label-rejected">Expire</div>
+                  </div>
+                  <div *ngSwitchCase="'unfinished'">
+                      <div class="badge badge-label-unfinished">Discontineud</div>
+                  </div>
+                </div>
+              </td>
+              <td>{{item.createdOn| date : 'dd MMM yy'}}</td>
+              <td class="action">
+                <ul class="list-group list-group-horizontal action-list">
+                      <li class="list-group-item st" (click)="view_tenant(item.id)" ngbTooltip="View" [openDelay]="200" [closeDelay]="200">
+                          <i class="icons8 icons8-eye"></i>
+                      </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>

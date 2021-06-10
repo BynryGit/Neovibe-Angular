@@ -1,0 +1,70 @@
+<!-- Validation Schedule Log Table Start -->
+<div class="row">
+    <div class="col">
+      <div class="listview-table-wrap">
+        <label class="p p-12">Showing Last 6 month records</label>
+        <br>
+        <table datatable id="table1" [dtOptions]="dtOptions" class="pr-datatable table table-hover">
+          <thead>
+            <tr>
+              <th scope="col" *ngFor="let item of blocks">
+                <span>{{item.name}}</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody *ngIf="!processing">
+            <tr *ngFor="let item of dataSet">
+              <td class="showOnHover">{{item.schedule_id.name}}
+                <span class="show">
+                  <span class="enqry-no-blk">{{item.schedule_id.name}}</span>
+                  <span class="enqry-name-blk">{{item.read_cycle_id?.label}}</span>
+                    <div class="enqry-sts-blk" [ngSwitch]="item.schedule_log_status">
+                        <div *ngSwitchCase="'COMPLETED'">
+                          <div class="badge badge-label-success">Completed</div>
+                        </div>
+                        <div *ngSwitchDefault="'PENDING'">
+                          <div class="badge badge-label-pending">Pending</div>
+                        </div>
+                        <div *ngSwitchCase="'IN-PROGRESS'">
+                          <div class="badge badge-label-unfinished">In Progress</div>
+                        </div>
+                    </div>
+                    <div class="list-blk">
+                      <p><span>{{item.tenant?.short_name}}</span><span>Tenant</span></p>
+                      <p><span>{{item.utility?.name}}</span><span>Utility</span></p>
+                      <p><span>{{item.utility_product_id?.name}}</span><span>Utility Product</span></p>
+                    </div>
+                </span>
+              </td>
+              <td>{{item.read_cycle_id?.name}}</td>
+              <td>{{item.meter_reading_detail?.total_consumer}}</td>
+              <td>{{item.meter_reading_detail?.received_reading}}</td>
+              <td>{{item.meter_reading_detail?.pending_reading}}</td>
+              <td *ngIf="(item.meter_reading_detail?.v1_flag); else v1"><a [routerLink]="['/meter-data/validation-detail-view/', item.id_string, item.read_cycle_id.id_string, '1', 'null']">{{item.meter_reading_detail?.validation_one}}</a></td>
+              <ng-template #v1><td>{{item.meter_reading_detail?.validation_one}}</td></ng-template>
+              <td *ngIf="(item.meter_reading_detail?.v2_flag); else v2"><a [routerLink]="['/meter-data/validation-detail-view/', item.id_string, item.read_cycle_id.id_string, '1', 'null']">{{item.meter_reading_detail?.validation_two}}</a></td>
+              <ng-template #v2><td>{{item.meter_reading_detail?.validation_two}}</td></ng-template>
+              <td>{{item.meter_reading_detail?.duplicate_reading}}</td>
+              <td><a [routerLink]="['/meter-data/new-consumer-list/', item.id_string]">{{item.meter_reading_detail?.new_consumer}}</a></td>
+              <td>{{item.meter_reading_detail?.rcnt_reading}}</td>
+              <td>{{item.meter_reading_detail?.completed_reading}}</td>
+              <td>{{item.schedule_id.start_date | date : 'dd MMM yy'}}</td>
+              <td>{{item.schedule_id.end_date | date : 'dd MMM yy'}}</td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="dataSet?.length == 0">
+            <tr>
+              <td colspan="12" class="no-data-available">No matching records found</td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="processing">
+            <tr >
+                <td colspan="12"> .....</td>						
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+<!-- Validation Schedule Log Table End -->
+  

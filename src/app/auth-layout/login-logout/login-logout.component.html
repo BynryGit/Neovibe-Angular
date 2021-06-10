@@ -1,0 +1,342 @@
+<section class="pr-section p-0" style="overflow: hidden;">
+    <div class="container-fluid px-0">
+        <div class="row justify-content-center singin-wrap-main singin-wrap">
+            <div class="col-auto cust-col-lt">
+                <div class="singin-wrap-lt">
+					
+                    <h3 class="logo">Smart<span>360</span></h3>
+                    <p class="p p-14 text-center" *ngIf="forgotpwddiv">Please Enter your Email to Reset Password.</p>
+                    <p class="p p-14 text-center" *ngIf="resetpwddiv">Please Enter your New Password</p>
+					<div class="singin-form-wrap">                        
+						<div class="inner-form">
+                            <form name="form" [formGroup]="loginForm">
+                                
+                                <!-- Signup Form -->
+                                <div class="form-row" *ngIf="signupdiv">
+                                    <div class="col-12">
+                                        <label for="">Email ID</label>
+                                        <input type="text" class="form-control" placeholder="Email ID" />
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="signupdiv">
+                                    <div class="col-12">
+                                        <label for="">Chose a Password</label>
+                                        <input [type]="showpwd1 ? 'text' : 'password'" class="form-control form-pwd" placeholder="Password" id="login_pwd1"/>
+                                        <label class="pwd_ico" for="login_pwd1" (click)="showhidepwd1()"><span><i ngClass='{{showpwd1 ? "icons8-eye" : "icons8-eye-2"}}' class="icons8"></i></span></label>
+                                        <span class="p p-13 min-char-pwd">Minimum 8 characters</span>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="signupdiv">
+                                    <div class="col-12 mt-4">
+                                        <button class="btn btn-secondary st text-center sign-in-btn btn-block" *ngIf="signupdiv" (click)="login()">Sign Up</button>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="signupdiv">
+                                    <div class="col-12">
+                                        <div class="terms-codn-blk">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="termschk">
+                                                <label class="custom-control-label" for="termschk">
+                                                    You agree to the  <span class="txt-o-link">Terms and Conditions</span> and <span class="txt-o-link">Privacy Policy</span> of smart360
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Login Form -->
+                                <div class="form-row" *ngIf="logindiv">
+                                    <div class="col-12">
+                                        <label for="">Email ID</label>
+                                        <input type="text" class="form-control" formControlName="username" placeholder="Juile@test.com"  [ngClass]="{ 'is-invalid': submitted }" />
+                                            <span class="invalid-feedback" *ngIf="submitted && loginForm.hasError('required', ['username'])">Email is required</span>
+                                            <span class="invalid-feedback" *ngIf="submitted && loginForm.hasError('email', ['username'])">Email must be a valid email address</span>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="logindiv">
+                                    <div class="col-12">
+                                        <label for="">Password</label>
+                                        <input type="password" [(ngModel)]="pass" [type]="showpwd3 ? 'text' : 'password'" class="form-control form-pwd" placeholder="Password" id="login_pwd3" name="pass"
+                                            formControlName="password" [ngClass]="{ 'is-invalid': submitted }"/>
+                                        <label class="pwd_ico" for="login_pwd3" (click)="showhidepwd3()"><span><i ngClass='{{showpwd3 ? "icons8-eye" : "icons8-hide"}}' class="icons8"></i></span></label>
+                                        <!-- <div *ngIf="submitted && f?.password?.errors" class="invalid-feedback">
+                                            <div *ngIf="f?.password?.errors?.required">Password is required</div>
+                                            <div *ngIf="f?.password?.errors?.minlength">Password must be at least 4 characters</div>
+                                        </div> -->
+                                        <span class="invalid-feedback" *ngIf="submitted && loginForm.hasError('required', ['password'])">Password is required.</span>
+                                        <span class="invalid-feedback" *ngIf="submitted && loginForm.hasError('minlength', ['password'])">Password must be at least 4 characters.</span>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="logindiv">
+                                    <div class="col-12">
+                                        <button class="btn btn-secondary st text-center sign-in-btn btn-block" (click)="loginProcess()" id="resetsidebar">Sign In</button>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="logindiv">
+                                    <div class="col">
+                                        <div class="terms-codn-blk">
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="termschk" (change)="toggleEditable($event)">
+                                                <label class="custom-control-label text-dark mb-0 pt-1 fw-400" for="termschk" id="remember_me">Remember me</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <span class="txt-o-link" (click)="forgotpwd()">Forgot Password</span>
+                                    </div>
+                                </div>
+
+                                <!-- Forgot Password -->
+                                <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+                                    <div class="form-row" *ngIf="forgotpwddiv">
+                                        <div class="col-12">
+                                            <input type="email" class="form-control" placeholder="Julie@test.com" ngModel #email="ngModel" id="resetPasswordEmail" name="email"/>
+                                            <span class="invalid-feedback" *ngIf="submitted && loginForm.hasError('required', ['email'])">Email is required</span>
+                                            <span class="invalid-feedback" *ngIf="submitted && loginForm.hasError('email', ['email'])">Email must be a valid email address</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-row" *ngIf="forgotpwddiv">
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-secondary st text-center sign-in-btn btn-block">Send Password Reset Link</button>
+                                        </div>
+                                    </div>                               
+                                </form>
+
+                                <!-- Reset Password -->
+                                <div class="form-row" *ngIf="resetpwddiv">
+                                    <div class="col-12">
+                                        <!-- <span class="p p-13 forgot-pwd text-dark" (click)="forgotpwd()">Forgot Password</span> -->
+                                        <input [type]="showpwd3 ? 'text' : 'password'" style="margin-top: 16px;" class="form-control form-pwd" placeholder="Password" id="login_pwd3" name="pass"/>
+                                        <label class="pwd_ico" for="login_pwd3" (click)="showhidepwd3()"><span><i ngClass='{{showpwd3 ? "icons8-eye" : "icons8-hide"}}' class="icons8"></i></span></label>
+                                       
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="resetpwddiv">
+                                    <div class="col-12">
+                                        <!-- <span class="p p-13 forgot-pwd text-dark" (click)="forgotpwd()">Forgot Password</span> -->
+                                        <input [type]="showpwd4 ? 'text' : 'password'" class="form-control form-pwd" placeholder="Password" id="login_pwd4" name="pass"/>
+                                        <label class="pwd_ico" for="login_pwd4" (click)="showhidepwd4()"><span><i ngClass='{{showpwd4 ? "icons8-eye" : "icons8-hide"}}' class="icons8"></i></span></label>
+                                       
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="resetpwddiv">
+                                    <div class="col-12">
+                                        <button class="btn btn-secondary st text-center sign-in-btn btn-block" *ngIf="resetpwddiv" (click)="login()">Submit</button>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="singin-wrap-lt-bottom">
+                            <p class="p p-13 d-inline-block" *ngIf="logindiv">Request for Connection?</p>
+                            <p class="p p-13 d-inline-block" *ngIf="signupdiv">Already have an account?</p>
+                            <button class="btn btn-sm btn-outline-light3 st" (click)="signup()" *ngIf="logindiv">Register</button>
+                            <button class="btn btn-sm btn-outline-light3 st" (click)="login()" *ngIf="signupdiv">Sign In</button>
+                        </div>
+                    </div> 
+                </div>
+			</div>
+			<div class="col cust-col-rt">
+				<div class="singin-wrap-rt">
+                    <div class="border"></div>
+                    <div class="icons-ul">
+                        <ul class="list-unstyled">
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-1.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Finance</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-2.png" alt="ico"></span></div>
+                                <p class="p ico-nm">People</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-3.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Field Service</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-4.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Consumer</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-5.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Assets</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-6.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Network</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-7.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Purchase</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="img-blk">
+                        <img class="img-abs st" src="../../assets/images/main-login-bg-light.png.png" alt="img">
+                    </div>
+                    <div class="txt-blk">
+                        <h1 class="ttl-blk">Smart360</h1>
+                        <p class="p">Gain 360 View of your Utility Business</p>
+                    </div>										
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <section class="pr-section p-0">
+    <div class="container-fluid px-0">
+        <div class="row justify-content-center singin-wrap-main singin-wrap">
+            <div class="col-auto cust-col-lt">
+                <div class="singin-wrap-lt">
+				<form name="form" [formGroup]="loginForm" (ngSubmit)="loginProcess()">
+					<h3 class="logo">Smart<span>360</span></h3>
+					<div class="singin-form-wrap">                         -->
+						<!-- <div class="inner-form">                          -->
+                            <!-- Signup Form -->
+                            <!-- <div class="form-row" *ngIf="signupdiv">
+                                <div class="col-12">
+                                    <label for="">Email ID</label>
+                                    <input type="text" class="form-control" placeholder="Email ID" formControlName="email"/>
+                                </div>
+                            </div> -->
+                            <!-- <div class="form-row" *ngIf="signupdiv">
+                                <div class="col-12">
+                                    <label for="">Chose a Password</label>
+                                    <input [type]="showpwd1 ? 'text' : 'password'" class="form-control form-pwd" placeholder="Password" id="login_pwd1" formControlName="password"/>
+                                    <label for="login_pwd1" (click)="showhidepwd1()"><span><i ngClass='{{showpwd1 ? "icons8-eye" : "icons8-eye-2"}}' class="icons8"></i></span></label>
+                                    <span class="p p-13 min-char-pwd">Minimum 8 characters</span>
+                                </div>
+                            </div>
+                            <div class="form-row" *ngIf="signupdiv">
+                                <div class="col-12 mt-4">
+                                    <button class="btn btn-secondary st text-center sign-in-btn btn-block" *ngIf="signupdiv" (click)="login()">Sign Up</button>
+                                </div>
+                            </div>
+                            <div class="form-row" *ngIf="signupdiv">
+                                <div class="col-12">
+                                    <div class="terms-codn-blk">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="termschk">
+                                            <label class="custom-control-label" for="termschk">
+                                                You agree to the  <span class="txt-o-link">Terms and Conditions</span> and <span class="txt-o-link">Privacy Policy</span> of smart360
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                        
+                            <!-- Login Form -->
+                            <!-- <div class="form-row" *ngIf="logindiv">
+                                <div class="col-12">
+                                    <label for="">Email ID</label>
+                                    <input type="text" class="form-control" formControlName="email" placeholder="Juile@test.com"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+                                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                        <div *ngIf="f.email.errors.required">Email is required</div>
+                                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                    </div>                            
+                                </div>
+                            </div>
+                            <div class="form-row" *ngIf="logindiv">
+                                <div class="col-12">
+                                    <label for="">Password</label>
+                                    <input type="password" [(ngModel)]="pass" [type]="showpwd3 ? 'text' : 'password'" class="form-control form-pwd" placeholder="Password" id="login_pwd3" name="pass"
+                                        formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"/>
+                                    <label class="pwd_ico" for="login_pwd3" (click)="showhidepwd3()"><span><i ngClass='{{showpwd3 ? "icons8-eye" : "icons8-hide"}}' class="icons8"></i></span></label>
+                                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                        <div *ngIf="f.password.errors.required">Password is required</div>
+                                        <div *ngIf="f.password.errors.minlength">Password must be at least 4 characters</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row" *ngIf="logindiv">
+                                <div class="col-12">
+                                    <button class="btn btn-secondary st text-center sign-in-btn btn-block" id="resetsidebar">Sign In</button>
+                                </div>
+                            </div>
+                            <div class="form-row" *ngIf="logindiv">
+                                <div class="col">
+                                    <div class="terms-codn-blk">
+                                        <div class="custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" id="termschk">
+                                            <label class="custom-control-label text-dark mb-0 pt-1 fw-400" for="termschk">Remember me</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <span class="txt-o-link">Forgot Password</span>
+                                </div>
+                            </div>
+                            <div class="singin-wrap-lt-bottom">
+                                <p class="p p-13 d-inline-block" *ngIf="logindiv">Don’t have an account?</p>
+                                <button class="btn btn-sm btn-outline-light3 st">Sign In</button>
+                            </div>                             -->
+                        <!-- </div> -->
+                        <!-- <div class="singin-wrap-lt-bottom">
+                            <p class="p p-13 d-inline-block" *ngIf="logindiv">Don’t have an account?</p>
+                            <p class="p p-13 d-inline-block" *ngIf="signupdiv">Already have an account?</p>
+                            <button class="btn btn-sm btn-outline-light3 st" (click)="signup()" *ngIf="logindiv">Sign Up</button>
+                            <button class="btn btn-sm btn-outline-light3 st" (click)="login()" *ngIf="signupdiv">Sign In</button>
+                        </div> -->
+                    <!-- </div> 
+                </form>
+                </div>
+			</div> -->
+			<!-- <div class="col cust-col-rt">
+				<div class="singin-wrap-rt">
+                    <div class="border"></div>
+                    <div class="icons-ul">
+                        <ul class="list-unstyled">
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-1.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Finance</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-2.png" alt="ico"></span></div>
+                                <p class="p ico-nm">People</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-3.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Field Service</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-4.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Consumer</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-5.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Assets</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-6.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Network</p>
+                            </li>
+                            <li>
+                                <div class="ico st"><span><img class="st" src="../../assets/images/icons/main-login-ico-7.png" alt="ico"></span></div>
+                                <p class="p ico-nm">Purchase</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="img-blk">
+                        <img class="img-abs st" src="../../assets/images/main-login-bg-light.png.png" alt="img">
+                    </div>
+                    <div class="txt-blk">
+                        <h1 class="ttl-blk">Smart360</h1>
+                        <p class="p">Gain 360 View of your Utility Business</p>
+                    </div>										
+				</div>
+			</div> -->
+		<!-- </div>
+	</div>
+</section> -->

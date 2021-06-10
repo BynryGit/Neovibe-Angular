@@ -1,0 +1,322 @@
+<!-- <section class="pr-section applicant-details-sec"> 
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <button class="btn bttn-transparent bttn-back d-inline-block"></button>
+            <div class="inner-page-title d-inline-block"><h4 class="h4">Consumer details </h4></div>
+        </div>
+    </div>
+    <div class="row justify-content-center">  -->
+        <!-- Consumer detail block start -->
+        <!-- <div class="col-auto pr-0">
+            <div class="applicant-block-lt inner-wrap" style="height: 100%;">
+                <div class="applicant-block-lt-header">
+                    <div class="row">
+                        <div class="col align-self-center">
+                            <div class="enqry-sts-blk">
+                                <div>
+                                  <div class="badge badge-label-success">Connected</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto align-self-center">
+                            <h4 class="sh-ttl">Crn No: {{consumer.consumer_no}}</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="dtls-block">
+                    <div class="block-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="profile-card st">
+                                    <div class="media">
+                                        <div class="img-blk">
+                                            <img class="img-abs st" src="../../assets/images/john-doe.png" alt="img">
+                                        </div>                                                                      
+                                        <div class="media-body">
+                                            <p class="p">{{consumer.email_id}}</p>
+                                            <p class="p" style="margin-bottom: 0px;">{{consumer.phone_mobile}}</p>
+                                            <p class="p">{{consumer.utility}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="info-block">
+                    <div class="applicant-data">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="bttn-toggle">
+                                    <div class="toggle-button-wrap mt-0">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="summry-tab" data-toggle="tab" href="#summry" role="tab" aria-controls="summry" aria-selected="true">Summary</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="profl-tab" data-toggle="tab" href="#profl" role="tab" aria-controls="profl" aria-selected="false">Profile</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="custom-tab-pane tab-pane fade show active" id="summry" role="tabpanel" aria-labelledby="summry-tab">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="reg-reciept-wrap">
+                                                    <div class="reg-reciept-data">
+                                                        <div class="row">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-tab-pane tab-pane fade" id="profl" role="tabpanel" aria-labelledby="profl-tab">
+                                        <div class="row">
+                                            <div class="col-6" *ngFor="let item of profile">
+                                                <p class="p p-13">{{item.name}}</p>
+                                                <h6 class="h6">{{item.value}}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- Consumer detail block end -->
+        <!-- <div class="col">
+            <div class="applicant-block-gen">                
+                <div class="row justify-content-end mb-3">
+                    <div class="col">
+                        <form class="pr-search-form d-inline-block">
+                            <span class="s-icon"></span>
+                            <input class="form-control pr-table-search" type="search" placeholder="Search by  ID, Type, Sub Type " aria-label="Search">
+                        </form>
+                    </div>
+                    <div class="col-auto pr-0">
+                        <label class="p p-13 mr-3">Records</label>
+                        <ng-select  class="filter-select record-select" [searchable]="false" [clearable]="false"
+                            appendTo="body" bindLabel="name"
+                            placeholder="100" name="name">
+                        </ng-select>
+                    </div>
+                    <div class="col-auto pr-0" style="margin-top: 3px;">
+                        <button class="btn btn-secondary st" role="button" data-toggle="modal" data-target="#complaintsModal"><fa-icon [icon]="faPlus"></fa-icon>Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> -->
+
+<!-- Add complaint Modal -->
+<div class="pr-modal">
+    <div class="modal right fade" id="addComplaintModal" data-backdrop="false" tabindex="-1" role="dialog"
+        aria-labelledby="addComplaintLabel">
+        <div class="modal-dialog" role="document" style="min-width:570px;">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header">
+                    <h4 class="modal-title" id="addComplaintLabel">Add Complaint</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()">&times;</button>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form">
+                                <form [formGroup]="complaintForm">
+                                    <ng-container>
+                                        <div class="form-row" *ngIf="complaints.length != 0">
+                                            <div class="col">
+                                                <label>Complaint</label>
+                                                <ng-select [items]="complaints" bindLabel="name" appendTo="body" placeholder="Select Complaint" name="Complaint" formControlName="complaint" [clearable]="false" [ngClass]="{'is-invalid':complaintFormSubmitted && cd.complaint.errors}" [readonly]='true'></ng-select>
+                                                <div *ngIf="complaintFormSubmitted && cd.complaint.errors" class="invalid-feedback">
+                                                    <div *ngIf="cd.complaint.errors.required">{{message.complaintRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-row" *ngIf="types.length != 0">
+                                            <div class="col">
+                                                <label>Type</label>
+                                                <ng-select [items]="types" bindLabel="name" appendTo="body" placeholder="Select Type" name="type" formControlName="type" [clearable]="false" [ngClass]="{'is-invalid':complaintFormSubmitted && cd.type.errors}" [readonly]='true'></ng-select>
+                                                <div *ngIf="complaintFormSubmitted && cd.type.errors" class="invalid-feedback">
+                                                    <div *ngIf="cd.type.errors.required">{{message.typeRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="subTypes.length != 0">
+                                            <div class="col">
+                                                <label>Sub Type</label>
+                                                <ng-select [items]="subTypes" bindLabel="name" appendTo="body" placeholder="Select Type" name="type" formControlName="subType" [clearable]="false" [ngClass]="{'is-invalid':complaintFormSubmitted && cd.subType.errors}" [readonly]='true'></ng-select>
+                                                <div *ngIf="complaintFormSubmitted && cd.subType.errors" class="invalid-feedback">
+                                                    <div *ngIf="cd.subType.errors.required">{{message.subTypeRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <label>Remark</label>
+                                                <textarea class="form-control" placeholder="Describe your complaint here" rows="3" name="desc" formControlName="desc" [ngClass]="{'is-invalid':complaintFormSubmitted && cd.desc.errors}"></textarea>
+                                                <div *ngIf="complaintFormSubmitted && cd.desc.errors" class="invalid-feedback">
+                                                    <div *ngIf="cd.desc.errors.required">{{message.complaintDescriptionRequired}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    <div class="modal-footer pr-modal-footer">
+					                    <div class="row justify-content-end">
+					                        <div class="col-auto">
+					                            <button class="btn btn-outline-light3 st" data-dismiss="modal"
+					                                aria-label="Close" (click)="onCancelClick()">Cancel</button>
+					                        </div>
+					                        <div class="col-auto pl-1 pr-0">
+					                            <button class="btn btn-secondary st" [disabled]="isDisabled" (click)="onAddComplaintFormSubmit()">Submit</button>
+					                        </div>
+					                    </div>
+					                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Add complaint Modal -->
+
+<!-- Complaints Modal -->
+<div class="pr-modal pr-web-modal">
+    <div class="modal right fade" id="complaintsModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="complaintsModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header pr-modal-header web-modal-header">
+                    <h4 class="modal-title" id="complaintsModalLabel">Complaints</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onCancelClick()">&times;</button>
+                    <div class="service-card">
+                        <div class="service-card-body">
+                            <div class="media">
+                                <div class="media-body">
+                                  <h4 class="ttl">Fast & secure Service</h4>
+                                  <p class="p p-13 loc">Available at Your Location</p>
+                                  <p class="p p-13 stj">Starting at Just</p>
+                                </div>
+                                <div class="img-blk">
+                                    <img class="st" src="../../assets/images/graphic2.png" alt="img">
+                                </div>
+                            </div>
+                        </div>               
+                    </div>
+                </div>
+                <ngx-simplebar [options]="scrollOptions" class="modal-body pr-modal-body web-modal-body-wrap no-footer">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="inner-form web-modal-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="dtls-block">
+
+                                            <form [formGroup]="addMeterForm">
+                                                <!-- Select Meter Option -->
+                                                <div class="form-row" *ngIf="meter_list.length != 0">
+                                                <div class="col">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="sb-ttl" style="margin-left: -10px;margin-bottom: 12px;">Select Product</h6>
+                                                    </div>
+                                                </div>
+                                                <ng-select [items]="meter_list"
+                                                bindLabel="product_name"
+                                                placeholder="Select Product"
+                                                appendTo="body"
+                                                name="product_name"
+                                                (change)="fetch_complaints_by_id()"
+                                                formControlName="meter"
+                                                [clearable]="false">
+                                                </ng-select>
+                                                </div>
+                                                </div>
+                                                </form>
+                                                 <!-- select meter end  -->
+                                                
+                                            <div class="info-block">
+                                                <div class="applicant-data">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <h6 class="sb-ttl">Available Complaints</h6>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <form class="pr-search-form d-inline-block">
+                                                                <span class="s-icon"></span>
+                                                                <input class="form-control pr-table-search" type="search" placeholder="Search by Name" aria-label="Search" (keyup)="onSearch($event.target.value)">
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="avlbl-service-card-wrap">
+                                                                <div class="row" *ngIf="complaints.length != 0">
+                                                                    <div class="col-6" *ngFor="let item of complaints">
+                                                                        <div class="avlbl-service-card colr1" role="button" data-dismiss="modal" data-toggle="modal" data-target="" (click)="complaintClicked(item)">
+                                                                            <div class="avlbl-service-card-img">
+                                                                                <img class="st" src="../../assets/images/service-card-bg4.png" alt="bg">
+                                                                            </div>
+                                                                            <p class="p fw-500 text-dark nm">{{item.name}}</p>
+                                                                            <div class="rtng-blk-wrap">
+                                                                                <div class="rtng-blk">
+                                                                                    <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                    <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                    <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                    <fa-icon class="filled" [icon]="faStar"></fa-icon>
+                                                                                    <fa-icon [icon]="faStar"></fa-icon>
+                                                                                </div>
+                                                                            </div>
+                                                                            <p class="p fw-500 text-dark rt">4.2</p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ngx-simplebar>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Complaints Modal -->
+
+<div class="row">
+    <div class="col">
+        <ngb-toast class="success" *ngIf="showtoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showtoast = false; autohide = true">
+            <div>Complaint Added Successfully!!</div>
+            <div>And Your Complaint no. is {{storeComplaintNumber}}</div><br>
+        </ngb-toast>
+        <ngb-toast class="error" *ngIf="showexceptiontoast" header="dwd" [delay]="4000" [autohide]="autohide"
+            (mouseenter)="autohide = false" (mouseleave)="autohide = true"
+            (hide)="showexceptiontoast = false; autohide = true">
+            <div>{{ exception_message }}</div><br>
+        </ngb-toast>
+    </div>
+</div>
+
