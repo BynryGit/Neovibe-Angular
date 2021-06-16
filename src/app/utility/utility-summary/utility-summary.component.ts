@@ -32,25 +32,6 @@ export class UtilitySummaryComponent implements OnInit {
   buttonUrl
   utility_id_string_admin = this.sessionService.getter("utility_id_string_admin")
 
-  // getImageUrl(){
-  //   AWS.config.update({
-  //     region: 'us-east-1',
-  //     accessKeyId: "AKIARUU5RUAA5CEDIZJG",
-  //     secretAccessKey: "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"
-  //   });
-
-  //   var s4 = new AWS.S3({
-  //     endpoint: new AWS.Endpoint('http://s3.amazonaws.com/'),
-  //     s3ForcePathStyle: true
-  //   });
-
-  //   s4.getSignedUrl('getObject', {
-  //     Bucket: 'smart360-new-bucket',
-  //     Key: 'Development-Files/Meter-Image/logo-sample_3c5c12c0-c73d-4926-a4cb-aaefb13a9e12.jpg'
-  //     }, function (err, url) {
-  //         console.log(err, url);
-  //     });
-  // }
 
   ngOnInit(): void {
     
